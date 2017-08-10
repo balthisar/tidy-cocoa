@@ -1,0 +1,1007 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D06AD6A31F3CED5A00199B88 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06AD6A21F3CED5A00199B88 /* main.swift */; };
+		D06AD6A81F3CF09300199B88 /* libtidy-html5.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0C2D7641F3CE994002551A9 /* libtidy-html5.a */; };
+		D06AD6B31F3CF33E00199B88 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06AD6B21F3CF33E00199B88 /* AppDelegate.swift */; };
+		D06AD6B51F3CF33E00199B88 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06AD6B41F3CF33E00199B88 /* ViewController.swift */; };
+		D06AD6B71F3CF33E00199B88 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D06AD6B61F3CF33E00199B88 /* Assets.xcassets */; };
+		D06AD6BA1F3CF33E00199B88 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D06AD6B81F3CF33E00199B88 /* Main.storyboard */; };
+		D06AD6C11F3CF36500199B88 /* LibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0C3BD091F3CB3680007BB54 /* LibTidy.framework */; };
+		D0C2D88E1F3CEB02002551A9 /* access.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C2D76A1F3CE9EE002551A9 /* access.c */; };
+		D0C2D88F1F3CEB02002551A9 /* alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C2D76C1F3CE9EE002551A9 /* alloc.c */; };
+		D0C2D8901F3CEB02002551A9 /* attrapi.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C2D76D1F3CE9EE002551A9 /* attrapi.c */; };
+		D0C2D8911F3CEB02002551A9 /* attrdict.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C2D76E1F3CE9EE002551A9 /* attrdict.c */; };
+		D0C2D8921F3CEB02002551A9 /* attrs.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C2D7701F3CE9EE002551A9 /* attrs.c */; };
+		D0C2D8931F3CEB02002551A9 /* buffio.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C2D7721F3CE9EE002551A9 /* buffio.c */; };
+		D0C2D8941F3CEB02002551A9 /* charsets.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C2D7731F3CE9EE002551A9 /* charsets.c */; };
+		D0C2D8951F3CEB02002551A9 /* clean.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C2D7751F3CE9EE002551A9 /* clean.c */; };
+		D0C2D8961F3CEB02002551A9 /* config.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C2D7771F3CE9EE002551A9 /* config.c */; };
+		D0C2D8971F3CEB02002551A9 /* entities.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C2D7791F3CE9EE002551A9 /* entities.c */; };
+		D0C2D8981F3CEB02002551A9 /* fileio.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C2D77B1F3CE9EE002551A9 /* fileio.c */; };
+		D0C2D8991F3CEB02002551A9 /* gdoc.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C2D77E1F3CE9EE002551A9 /* gdoc.c */; };
+		D0C2D89A1F3CEB02002551A9 /* iconvtc.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C2D7801F3CE9EE002551A9 /* iconvtc.c */; };
+		D0C2D89B1F3CEB02002551A9 /* istack.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C2D7821F3CE9EE002551A9 /* istack.c */; };
+		D0C2D89C1F3CEB02002551A9 /* language.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C2D7831F3CE9EE002551A9 /* language.c */; };
+		D0C2D89D1F3CEB02002551A9 /* lexer.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C2D78B1F3CE9EE002551A9 /* lexer.c */; };
+		D0C2D89E1F3CEB02002551A9 /* mappedio.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C2D78D1F3CE9EE002551A9 /* mappedio.c */; };
+		D0C2D89F1F3CEB02002551A9 /* message.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C2D78F1F3CE9EE002551A9 /* message.c */; };
+		D0C2D8A01F3CEB02002551A9 /* messageobj.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C2D7911F3CE9EE002551A9 /* messageobj.c */; };
+		D0C2D8A11F3CEB02002551A9 /* parser.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C2D7931F3CE9EE002551A9 /* parser.c */; };
+		D0C2D8A21F3CEB02002551A9 /* pprint.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C2D7951F3CE9EE002551A9 /* pprint.c */; };
+		D0C2D8A31F3CEB02002551A9 /* sprtf.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C2D7971F3CE9EE002551A9 /* sprtf.c */; };
+		D0C2D8A41F3CEB02002551A9 /* streamio.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C2D7991F3CE9EE002551A9 /* streamio.c */; };
+		D0C2D8A51F3CEB02002551A9 /* tagask.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C2D79B1F3CE9EE002551A9 /* tagask.c */; };
+		D0C2D8A61F3CEB02002551A9 /* tags.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C2D79C1F3CE9EE002551A9 /* tags.c */; };
+		D0C2D8A71F3CEB02002551A9 /* tidylib.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C2D79F1F3CE9EE002551A9 /* tidylib.c */; };
+		D0C2D8A81F3CEB02002551A9 /* tmbstr.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C2D7A01F3CE9EE002551A9 /* tmbstr.c */; };
+		D0C2D8A91F3CEB02002551A9 /* utf8.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C2D7A21F3CE9EE002551A9 /* utf8.c */; };
+		D0C2D8AA1F3CEB02002551A9 /* win32tc.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C2D7A51F3CE9EE002551A9 /* win32tc.c */; };
+		D0C2D8AB1F3CEB3A002551A9 /* buffio.h in Headers */ = {isa = PBXBuildFile; fileRef = D0C2D7C51F3CEA01002551A9 /* buffio.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D0C2D8AC1F3CEB3C002551A9 /* platform.h in Headers */ = {isa = PBXBuildFile; fileRef = D0C2D7C61F3CEA01002551A9 /* platform.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D0C2D8AD1F3CEB3E002551A9 /* tidy.h in Headers */ = {isa = PBXBuildFile; fileRef = D0C2D7C71F3CEA01002551A9 /* tidy.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D0C2D8AE1F3CEB41002551A9 /* tidybuffio.h in Headers */ = {isa = PBXBuildFile; fileRef = D0C2D7C81F3CEA01002551A9 /* tidybuffio.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D0C2D8AF1F3CEB44002551A9 /* tidyenum.h in Headers */ = {isa = PBXBuildFile; fileRef = D0C2D7C91F3CEA01002551A9 /* tidyenum.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D0C2D8B01F3CEB47002551A9 /* tidyplatform.h in Headers */ = {isa = PBXBuildFile; fileRef = D0C2D7CA1F3CEA01002551A9 /* tidyplatform.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D0C2D8B11F3CEBAE002551A9 /* libtidy-html5.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0C2D7641F3CE994002551A9 /* libtidy-html5.a */; };
+		D0C3BD131F3CB3690007BB54 /* LibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0C3BD091F3CB3680007BB54 /* LibTidy.framework */; };
+		D0C3BD181F3CB3690007BB54 /* LibTidyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C3BD171F3CB3690007BB54 /* LibTidyTests.swift */; };
+		D0C3BD1A1F3CB3690007BB54 /* LibTidy.h in Headers */ = {isa = PBXBuildFile; fileRef = D0C3BD0C1F3CB3680007BB54 /* LibTidy.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D0C3BDCD1F3CC31D0007BB54 /* LibTidy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C3BDCC1F3CC31D0007BB54 /* LibTidy.swift */; };
+		D0C3BDCE1F3CC31D0007BB54 /* LibTidy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C3BDCC1F3CC31D0007BB54 /* LibTidy.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D06AD6A41F3CEDDE00199B88 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D0C3BD001F3CB3680007BB54 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D0C2D7631F3CE994002551A9;
+			remoteInfo = "tidy-html5";
+		};
+		D06AD6A61F3CF08A00199B88 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D0C3BD001F3CB3680007BB54 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D0C2D7631F3CE994002551A9;
+			remoteInfo = "tidy-html5";
+		};
+		D06AD6BF1F3CF36000199B88 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D0C3BD001F3CB3680007BB54 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D0C3BD081F3CB3680007BB54;
+			remoteInfo = LibTidy;
+		};
+		D0C3BD141F3CB3690007BB54 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D0C3BD001F3CB3680007BB54 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D0C3BD081F3CB3680007BB54;
+			remoteInfo = LibTidy;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D0692FC81F3CE4DE0045AB69 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		D0692FC91F3CE8930045AB69 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = console/README.md; sourceTree = SOURCE_ROOT; };
+		D06AD6A11F3CED5A00199B88 /* console-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "console-Bridging-Header.h"; sourceTree = "<group>"; };
+		D06AD6A21F3CED5A00199B88 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		D06AD6B01F3CF33E00199B88 /* gui.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gui.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D06AD6B21F3CF33E00199B88 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D06AD6B41F3CF33E00199B88 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D06AD6B61F3CF33E00199B88 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D06AD6B91F3CF33E00199B88 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D06AD6BB1F3CF33E00199B88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D0C2D7641F3CE994002551A9 /* libtidy-html5.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libtidy-html5.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0C2D76A1F3CE9EE002551A9 /* access.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = access.c; sourceTree = "<group>"; };
+		D0C2D76B1F3CE9EE002551A9 /* access.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = access.h; sourceTree = "<group>"; };
+		D0C2D76C1F3CE9EE002551A9 /* alloc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alloc.c; sourceTree = "<group>"; };
+		D0C2D76D1F3CE9EE002551A9 /* attrapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = attrapi.c; sourceTree = "<group>"; };
+		D0C2D76E1F3CE9EE002551A9 /* attrdict.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = attrdict.c; sourceTree = "<group>"; };
+		D0C2D76F1F3CE9EE002551A9 /* attrdict.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = attrdict.h; sourceTree = "<group>"; };
+		D0C2D7701F3CE9EE002551A9 /* attrs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = attrs.c; sourceTree = "<group>"; };
+		D0C2D7711F3CE9EE002551A9 /* attrs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = attrs.h; sourceTree = "<group>"; };
+		D0C2D7721F3CE9EE002551A9 /* buffio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = buffio.c; sourceTree = "<group>"; };
+		D0C2D7731F3CE9EE002551A9 /* charsets.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = charsets.c; sourceTree = "<group>"; };
+		D0C2D7741F3CE9EE002551A9 /* charsets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = charsets.h; sourceTree = "<group>"; };
+		D0C2D7751F3CE9EE002551A9 /* clean.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = clean.c; sourceTree = "<group>"; };
+		D0C2D7761F3CE9EE002551A9 /* clean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = clean.h; sourceTree = "<group>"; };
+		D0C2D7771F3CE9EE002551A9 /* config.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = config.c; sourceTree = "<group>"; };
+		D0C2D7781F3CE9EE002551A9 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
+		D0C2D7791F3CE9EE002551A9 /* entities.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = entities.c; sourceTree = "<group>"; };
+		D0C2D77A1F3CE9EE002551A9 /* entities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = entities.h; sourceTree = "<group>"; };
+		D0C2D77B1F3CE9EE002551A9 /* fileio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fileio.c; sourceTree = "<group>"; };
+		D0C2D77C1F3CE9EE002551A9 /* fileio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fileio.h; sourceTree = "<group>"; };
+		D0C2D77D1F3CE9EE002551A9 /* forward.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = forward.h; sourceTree = "<group>"; };
+		D0C2D77E1F3CE9EE002551A9 /* gdoc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gdoc.c; sourceTree = "<group>"; };
+		D0C2D77F1F3CE9EE002551A9 /* gdoc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gdoc.h; sourceTree = "<group>"; };
+		D0C2D7801F3CE9EE002551A9 /* iconvtc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = iconvtc.c; sourceTree = "<group>"; };
+		D0C2D7811F3CE9EE002551A9 /* iconvtc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iconvtc.h; sourceTree = "<group>"; };
+		D0C2D7821F3CE9EE002551A9 /* istack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = istack.c; sourceTree = "<group>"; };
+		D0C2D7831F3CE9EE002551A9 /* language.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = language.c; sourceTree = "<group>"; };
+		D0C2D7841F3CE9EE002551A9 /* language.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = language.h; sourceTree = "<group>"; };
+		D0C2D7851F3CE9EE002551A9 /* language_en.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = language_en.h; sourceTree = "<group>"; };
+		D0C2D7861F3CE9EE002551A9 /* language_en_gb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = language_en_gb.h; sourceTree = "<group>"; };
+		D0C2D7871F3CE9EE002551A9 /* language_es.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = language_es.h; sourceTree = "<group>"; };
+		D0C2D7881F3CE9EE002551A9 /* language_es_mx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = language_es_mx.h; sourceTree = "<group>"; };
+		D0C2D7891F3CE9EE002551A9 /* language_fr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = language_fr.h; sourceTree = "<group>"; };
+		D0C2D78A1F3CE9EE002551A9 /* language_zh_cn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = language_zh_cn.h; sourceTree = "<group>"; };
+		D0C2D78B1F3CE9EE002551A9 /* lexer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lexer.c; sourceTree = "<group>"; };
+		D0C2D78C1F3CE9EE002551A9 /* lexer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lexer.h; sourceTree = "<group>"; };
+		D0C2D78D1F3CE9EE002551A9 /* mappedio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mappedio.c; sourceTree = "<group>"; };
+		D0C2D78E1F3CE9EE002551A9 /* mappedio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mappedio.h; sourceTree = "<group>"; };
+		D0C2D78F1F3CE9EE002551A9 /* message.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = message.c; sourceTree = "<group>"; };
+		D0C2D7901F3CE9EE002551A9 /* message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = message.h; sourceTree = "<group>"; };
+		D0C2D7911F3CE9EE002551A9 /* messageobj.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = messageobj.c; sourceTree = "<group>"; };
+		D0C2D7921F3CE9EE002551A9 /* messageobj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = messageobj.h; sourceTree = "<group>"; };
+		D0C2D7931F3CE9EE002551A9 /* parser.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = parser.c; sourceTree = "<group>"; };
+		D0C2D7941F3CE9EE002551A9 /* parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = parser.h; sourceTree = "<group>"; };
+		D0C2D7951F3CE9EE002551A9 /* pprint.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pprint.c; sourceTree = "<group>"; };
+		D0C2D7961F3CE9EE002551A9 /* pprint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pprint.h; sourceTree = "<group>"; };
+		D0C2D7971F3CE9EE002551A9 /* sprtf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sprtf.c; sourceTree = "<group>"; };
+		D0C2D7981F3CE9EE002551A9 /* sprtf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sprtf.h; sourceTree = "<group>"; };
+		D0C2D7991F3CE9EE002551A9 /* streamio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = streamio.c; sourceTree = "<group>"; };
+		D0C2D79A1F3CE9EE002551A9 /* streamio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = streamio.h; sourceTree = "<group>"; };
+		D0C2D79B1F3CE9EE002551A9 /* tagask.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tagask.c; sourceTree = "<group>"; };
+		D0C2D79C1F3CE9EE002551A9 /* tags.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tags.c; sourceTree = "<group>"; };
+		D0C2D79D1F3CE9EE002551A9 /* tags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tags.h; sourceTree = "<group>"; };
+		D0C2D79E1F3CE9EE002551A9 /* tidy-int.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "tidy-int.h"; sourceTree = "<group>"; };
+		D0C2D79F1F3CE9EE002551A9 /* tidylib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tidylib.c; sourceTree = "<group>"; };
+		D0C2D7A01F3CE9EE002551A9 /* tmbstr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tmbstr.c; sourceTree = "<group>"; };
+		D0C2D7A11F3CE9EE002551A9 /* tmbstr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tmbstr.h; sourceTree = "<group>"; };
+		D0C2D7A21F3CE9EE002551A9 /* utf8.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = utf8.c; sourceTree = "<group>"; };
+		D0C2D7A31F3CE9EE002551A9 /* utf8.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utf8.h; sourceTree = "<group>"; };
+		D0C2D7A41F3CE9EE002551A9 /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
+		D0C2D7A51F3CE9EE002551A9 /* win32tc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = win32tc.c; sourceTree = "<group>"; };
+		D0C2D7A61F3CE9EE002551A9 /* win32tc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = win32tc.h; sourceTree = "<group>"; };
+		D0C2D7C51F3CEA01002551A9 /* buffio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = buffio.h; sourceTree = "<group>"; };
+		D0C2D7C61F3CEA01002551A9 /* platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = platform.h; sourceTree = "<group>"; };
+		D0C2D7C71F3CEA01002551A9 /* tidy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tidy.h; sourceTree = "<group>"; };
+		D0C2D7C81F3CEA01002551A9 /* tidybuffio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tidybuffio.h; sourceTree = "<group>"; };
+		D0C2D7C91F3CEA01002551A9 /* tidyenum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tidyenum.h; sourceTree = "<group>"; };
+		D0C2D7CA1F3CEA01002551A9 /* tidyplatform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tidyplatform.h; sourceTree = "<group>"; };
+		D0C3BD091F3CB3680007BB54 /* LibTidy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LibTidy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0C3BD0C1F3CB3680007BB54 /* LibTidy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LibTidy.h; sourceTree = "<group>"; };
+		D0C3BD0D1F3CB3680007BB54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D0C3BD121F3CB3690007BB54 /* LibTidyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LibTidyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0C3BD171F3CB3690007BB54 /* LibTidyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibTidyTests.swift; sourceTree = "<group>"; };
+		D0C3BD191F3CB3690007BB54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D0C3BDC41F3CC0510007BB54 /* console */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = console; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0C3BDCC1F3CC31D0007BB54 /* LibTidy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibTidy.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D06AD6AD1F3CF33E00199B88 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D06AD6C11F3CF36500199B88 /* LibTidy.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0C2D7611F3CE994002551A9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0C3BD051F3CB3680007BB54 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D06AD6A81F3CF09300199B88 /* libtidy-html5.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0C3BD0F1F3CB3690007BB54 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0C3BD131F3CB3690007BB54 /* LibTidy.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0C3BDC11F3CC0510007BB54 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0C2D8B11F3CEBAE002551A9 /* libtidy-html5.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D06AD6B11F3CF33E00199B88 /* gui */ = {
+			isa = PBXGroup;
+			children = (
+				D06AD6B21F3CF33E00199B88 /* AppDelegate.swift */,
+				D06AD6B41F3CF33E00199B88 /* ViewController.swift */,
+				D06AD6B61F3CF33E00199B88 /* Assets.xcassets */,
+				D06AD6B81F3CF33E00199B88 /* Main.storyboard */,
+				D06AD6BB1F3CF33E00199B88 /* Info.plist */,
+			);
+			path = gui;
+			sourceTree = "<group>";
+		};
+		D0C2D7681F3CE9A8002551A9 /* tidy-html5 */ = {
+			isa = PBXGroup;
+			children = (
+				D0C2D7C41F3CEA01002551A9 /* include */,
+				D0C2D7691F3CE9EE002551A9 /* src */,
+			);
+			name = "tidy-html5";
+			sourceTree = "<group>";
+		};
+		D0C2D7691F3CE9EE002551A9 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				D0C2D76A1F3CE9EE002551A9 /* access.c */,
+				D0C2D76B1F3CE9EE002551A9 /* access.h */,
+				D0C2D76C1F3CE9EE002551A9 /* alloc.c */,
+				D0C2D76D1F3CE9EE002551A9 /* attrapi.c */,
+				D0C2D76E1F3CE9EE002551A9 /* attrdict.c */,
+				D0C2D76F1F3CE9EE002551A9 /* attrdict.h */,
+				D0C2D7701F3CE9EE002551A9 /* attrs.c */,
+				D0C2D7711F3CE9EE002551A9 /* attrs.h */,
+				D0C2D7721F3CE9EE002551A9 /* buffio.c */,
+				D0C2D7731F3CE9EE002551A9 /* charsets.c */,
+				D0C2D7741F3CE9EE002551A9 /* charsets.h */,
+				D0C2D7751F3CE9EE002551A9 /* clean.c */,
+				D0C2D7761F3CE9EE002551A9 /* clean.h */,
+				D0C2D7771F3CE9EE002551A9 /* config.c */,
+				D0C2D7781F3CE9EE002551A9 /* config.h */,
+				D0C2D7791F3CE9EE002551A9 /* entities.c */,
+				D0C2D77A1F3CE9EE002551A9 /* entities.h */,
+				D0C2D77B1F3CE9EE002551A9 /* fileio.c */,
+				D0C2D77C1F3CE9EE002551A9 /* fileio.h */,
+				D0C2D77D1F3CE9EE002551A9 /* forward.h */,
+				D0C2D77E1F3CE9EE002551A9 /* gdoc.c */,
+				D0C2D77F1F3CE9EE002551A9 /* gdoc.h */,
+				D0C2D7801F3CE9EE002551A9 /* iconvtc.c */,
+				D0C2D7811F3CE9EE002551A9 /* iconvtc.h */,
+				D0C2D7821F3CE9EE002551A9 /* istack.c */,
+				D0C2D7831F3CE9EE002551A9 /* language.c */,
+				D0C2D7841F3CE9EE002551A9 /* language.h */,
+				D0C2D7851F3CE9EE002551A9 /* language_en.h */,
+				D0C2D7861F3CE9EE002551A9 /* language_en_gb.h */,
+				D0C2D7871F3CE9EE002551A9 /* language_es.h */,
+				D0C2D7881F3CE9EE002551A9 /* language_es_mx.h */,
+				D0C2D7891F3CE9EE002551A9 /* language_fr.h */,
+				D0C2D78A1F3CE9EE002551A9 /* language_zh_cn.h */,
+				D0C2D78B1F3CE9EE002551A9 /* lexer.c */,
+				D0C2D78C1F3CE9EE002551A9 /* lexer.h */,
+				D0C2D78D1F3CE9EE002551A9 /* mappedio.c */,
+				D0C2D78E1F3CE9EE002551A9 /* mappedio.h */,
+				D0C2D78F1F3CE9EE002551A9 /* message.c */,
+				D0C2D7901F3CE9EE002551A9 /* message.h */,
+				D0C2D7911F3CE9EE002551A9 /* messageobj.c */,
+				D0C2D7921F3CE9EE002551A9 /* messageobj.h */,
+				D0C2D7931F3CE9EE002551A9 /* parser.c */,
+				D0C2D7941F3CE9EE002551A9 /* parser.h */,
+				D0C2D7951F3CE9EE002551A9 /* pprint.c */,
+				D0C2D7961F3CE9EE002551A9 /* pprint.h */,
+				D0C2D7971F3CE9EE002551A9 /* sprtf.c */,
+				D0C2D7981F3CE9EE002551A9 /* sprtf.h */,
+				D0C2D7991F3CE9EE002551A9 /* streamio.c */,
+				D0C2D79A1F3CE9EE002551A9 /* streamio.h */,
+				D0C2D79B1F3CE9EE002551A9 /* tagask.c */,
+				D0C2D79C1F3CE9EE002551A9 /* tags.c */,
+				D0C2D79D1F3CE9EE002551A9 /* tags.h */,
+				D0C2D79E1F3CE9EE002551A9 /* tidy-int.h */,
+				D0C2D79F1F3CE9EE002551A9 /* tidylib.c */,
+				D0C2D7A01F3CE9EE002551A9 /* tmbstr.c */,
+				D0C2D7A11F3CE9EE002551A9 /* tmbstr.h */,
+				D0C2D7A21F3CE9EE002551A9 /* utf8.c */,
+				D0C2D7A31F3CE9EE002551A9 /* utf8.h */,
+				D0C2D7A41F3CE9EE002551A9 /* version.h */,
+				D0C2D7A51F3CE9EE002551A9 /* win32tc.c */,
+				D0C2D7A61F3CE9EE002551A9 /* win32tc.h */,
+			);
+			name = src;
+			path = "vendor/tidy-html5/src";
+			sourceTree = "<group>";
+		};
+		D0C2D7C41F3CEA01002551A9 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				D0C2D7C51F3CEA01002551A9 /* buffio.h */,
+				D0C2D7C61F3CEA01002551A9 /* platform.h */,
+				D0C2D7C71F3CEA01002551A9 /* tidy.h */,
+				D0C2D7C81F3CEA01002551A9 /* tidybuffio.h */,
+				D0C2D7C91F3CEA01002551A9 /* tidyenum.h */,
+				D0C2D7CA1F3CEA01002551A9 /* tidyplatform.h */,
+			);
+			name = include;
+			path = "vendor/tidy-html5/include";
+			sourceTree = "<group>";
+		};
+		D0C3BCFF1F3CB3680007BB54 = {
+			isa = PBXGroup;
+			children = (
+				D0C3BDC51F3CC0510007BB54 /* console */,
+				D06AD6B11F3CF33E00199B88 /* gui */,
+				D0C3BD0B1F3CB3680007BB54 /* LibTidy */,
+				D0C2D7681F3CE9A8002551A9 /* tidy-html5 */,
+				D0C3BD161F3CB3690007BB54 /* LibTidyTests */,
+				D0C3BD0A1F3CB3680007BB54 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D0C3BD0A1F3CB3680007BB54 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D0C3BD091F3CB3680007BB54 /* LibTidy.framework */,
+				D0C3BD121F3CB3690007BB54 /* LibTidyTests.xctest */,
+				D0C3BDC41F3CC0510007BB54 /* console */,
+				D0C2D7641F3CE994002551A9 /* libtidy-html5.a */,
+				D06AD6B01F3CF33E00199B88 /* gui.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D0C3BD0B1F3CB3680007BB54 /* LibTidy */ = {
+			isa = PBXGroup;
+			children = (
+				D0C3BD0C1F3CB3680007BB54 /* LibTidy.h */,
+				D0C3BDCC1F3CC31D0007BB54 /* LibTidy.swift */,
+				D0C3BD0D1F3CB3680007BB54 /* Info.plist */,
+			);
+			path = LibTidy;
+			sourceTree = "<group>";
+		};
+		D0C3BD161F3CB3690007BB54 /* LibTidyTests */ = {
+			isa = PBXGroup;
+			children = (
+				D0C3BD171F3CB3690007BB54 /* LibTidyTests.swift */,
+				D0C3BD191F3CB3690007BB54 /* Info.plist */,
+			);
+			path = LibTidyTests;
+			sourceTree = "<group>";
+		};
+		D0C3BDC51F3CC0510007BB54 /* console */ = {
+			isa = PBXGroup;
+			children = (
+				D06AD6A21F3CED5A00199B88 /* main.swift */,
+				D0692FC91F3CE8930045AB69 /* README.md */,
+				D06AD6A11F3CED5A00199B88 /* console-Bridging-Header.h */,
+			);
+			path = console;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		D0C2D7621F3CE994002551A9 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0C2D8AB1F3CEB3A002551A9 /* buffio.h in Headers */,
+				D0C2D8AC1F3CEB3C002551A9 /* platform.h in Headers */,
+				D0C2D8AD1F3CEB3E002551A9 /* tidy.h in Headers */,
+				D0C2D8AE1F3CEB41002551A9 /* tidybuffio.h in Headers */,
+				D0C2D8AF1F3CEB44002551A9 /* tidyenum.h in Headers */,
+				D0C2D8B01F3CEB47002551A9 /* tidyplatform.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0C3BD061F3CB3680007BB54 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0C3BD1A1F3CB3690007BB54 /* LibTidy.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		D06AD6AF1F3CF33E00199B88 /* gui */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D06AD6BC1F3CF33E00199B88 /* Build configuration list for PBXNativeTarget "gui" */;
+			buildPhases = (
+				D06AD6AC1F3CF33E00199B88 /* Sources */,
+				D06AD6AD1F3CF33E00199B88 /* Frameworks */,
+				D06AD6AE1F3CF33E00199B88 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D06AD6C01F3CF36000199B88 /* PBXTargetDependency */,
+			);
+			name = gui;
+			productName = gui;
+			productReference = D06AD6B01F3CF33E00199B88 /* gui.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D0C2D7631F3CE994002551A9 /* tidy-html5 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D0C2D7651F3CE995002551A9 /* Build configuration list for PBXNativeTarget "tidy-html5" */;
+			buildPhases = (
+				D0C2D7601F3CE994002551A9 /* Sources */,
+				D0C2D7611F3CE994002551A9 /* Frameworks */,
+				D0C2D7621F3CE994002551A9 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "tidy-html5";
+			productName = "tidy-html5";
+			productReference = D0C2D7641F3CE994002551A9 /* libtidy-html5.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		D0C3BD081F3CB3680007BB54 /* LibTidy */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D0C3BD1D1F3CB3690007BB54 /* Build configuration list for PBXNativeTarget "LibTidy" */;
+			buildPhases = (
+				D0C3BD041F3CB3680007BB54 /* Sources */,
+				D0C3BD051F3CB3680007BB54 /* Frameworks */,
+				D0C3BD061F3CB3680007BB54 /* Headers */,
+				D0C3BD071F3CB3680007BB54 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D06AD6A71F3CF08A00199B88 /* PBXTargetDependency */,
+			);
+			name = LibTidy;
+			productName = LibTidy;
+			productReference = D0C3BD091F3CB3680007BB54 /* LibTidy.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		D0C3BD111F3CB3690007BB54 /* LibTidyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D0C3BD201F3CB3690007BB54 /* Build configuration list for PBXNativeTarget "LibTidyTests" */;
+			buildPhases = (
+				D0C3BD0E1F3CB3690007BB54 /* Sources */,
+				D0C3BD0F1F3CB3690007BB54 /* Frameworks */,
+				D0C3BD101F3CB3690007BB54 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D0C3BD151F3CB3690007BB54 /* PBXTargetDependency */,
+			);
+			name = LibTidyTests;
+			productName = LibTidyTests;
+			productReference = D0C3BD121F3CB3690007BB54 /* LibTidyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D0C3BDC31F3CC0510007BB54 /* console */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D0C3BDC81F3CC0510007BB54 /* Build configuration list for PBXNativeTarget "console" */;
+			buildPhases = (
+				D0C3BDC01F3CC0510007BB54 /* Sources */,
+				D0C3BDC11F3CC0510007BB54 /* Frameworks */,
+				D0692FC81F3CE4DE0045AB69 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D06AD6A51F3CEDDE00199B88 /* PBXTargetDependency */,
+			);
+			name = console;
+			productName = tidy;
+			productReference = D0C3BDC41F3CC0510007BB54 /* console */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D0C3BD001F3CB3680007BB54 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0830;
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = "Jim Derry";
+				TargetAttributes = {
+					D06AD6AF1F3CF33E00199B88 = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+					};
+					D0C2D7631F3CE994002551A9 = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+					};
+					D0C3BD081F3CB3680007BB54 = {
+						CreatedOnToolsVersion = 8.3.3;
+						LastSwiftMigration = 0830;
+						ProvisioningStyle = Automatic;
+					};
+					D0C3BD111F3CB3690007BB54 = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+					};
+					D0C3BDC31F3CC0510007BB54 = {
+						CreatedOnToolsVersion = 8.3.3;
+						LastSwiftMigration = 0830;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = D0C3BD031F3CB3680007BB54 /* Build configuration list for PBXProject "LibTidy" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D0C3BCFF1F3CB3680007BB54;
+			productRefGroup = D0C3BD0A1F3CB3680007BB54 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D0C3BDC31F3CC0510007BB54 /* console */,
+				D06AD6AF1F3CF33E00199B88 /* gui */,
+				D0C3BD081F3CB3680007BB54 /* LibTidy */,
+				D0C2D7631F3CE994002551A9 /* tidy-html5 */,
+				D0C3BD111F3CB3690007BB54 /* LibTidyTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D06AD6AE1F3CF33E00199B88 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D06AD6B71F3CF33E00199B88 /* Assets.xcassets in Resources */,
+				D06AD6BA1F3CF33E00199B88 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0C3BD071F3CB3680007BB54 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0C3BD101F3CB3690007BB54 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D06AD6AC1F3CF33E00199B88 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D06AD6B51F3CF33E00199B88 /* ViewController.swift in Sources */,
+				D06AD6B31F3CF33E00199B88 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0C2D7601F3CE994002551A9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0C2D89B1F3CEB02002551A9 /* istack.c in Sources */,
+				D0C2D8971F3CEB02002551A9 /* entities.c in Sources */,
+				D0C2D88E1F3CEB02002551A9 /* access.c in Sources */,
+				D0C2D8921F3CEB02002551A9 /* attrs.c in Sources */,
+				D0C2D8A51F3CEB02002551A9 /* tagask.c in Sources */,
+				D0C2D8931F3CEB02002551A9 /* buffio.c in Sources */,
+				D0C2D8991F3CEB02002551A9 /* gdoc.c in Sources */,
+				D0C2D8A41F3CEB02002551A9 /* streamio.c in Sources */,
+				D0C2D89C1F3CEB02002551A9 /* language.c in Sources */,
+				D0C2D8951F3CEB02002551A9 /* clean.c in Sources */,
+				D0C2D8A61F3CEB02002551A9 /* tags.c in Sources */,
+				D0C2D89D1F3CEB02002551A9 /* lexer.c in Sources */,
+				D0C2D8A01F3CEB02002551A9 /* messageobj.c in Sources */,
+				D0C2D8A71F3CEB02002551A9 /* tidylib.c in Sources */,
+				D0C2D89F1F3CEB02002551A9 /* message.c in Sources */,
+				D0C2D8961F3CEB02002551A9 /* config.c in Sources */,
+				D0C2D8901F3CEB02002551A9 /* attrapi.c in Sources */,
+				D0C2D8911F3CEB02002551A9 /* attrdict.c in Sources */,
+				D0C2D89E1F3CEB02002551A9 /* mappedio.c in Sources */,
+				D0C2D8A81F3CEB02002551A9 /* tmbstr.c in Sources */,
+				D0C2D8941F3CEB02002551A9 /* charsets.c in Sources */,
+				D0C2D8981F3CEB02002551A9 /* fileio.c in Sources */,
+				D0C2D8AA1F3CEB02002551A9 /* win32tc.c in Sources */,
+				D0C2D88F1F3CEB02002551A9 /* alloc.c in Sources */,
+				D0C2D8A11F3CEB02002551A9 /* parser.c in Sources */,
+				D0C2D89A1F3CEB02002551A9 /* iconvtc.c in Sources */,
+				D0C2D8A21F3CEB02002551A9 /* pprint.c in Sources */,
+				D0C2D8A91F3CEB02002551A9 /* utf8.c in Sources */,
+				D0C2D8A31F3CEB02002551A9 /* sprtf.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0C3BD041F3CB3680007BB54 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0C3BDCD1F3CC31D0007BB54 /* LibTidy.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0C3BD0E1F3CB3690007BB54 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0C3BD181F3CB3690007BB54 /* LibTidyTests.swift in Sources */,
+				D0C3BDCE1F3CC31D0007BB54 /* LibTidy.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0C3BDC01F3CC0510007BB54 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D06AD6A31F3CED5A00199B88 /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D06AD6A51F3CEDDE00199B88 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D0C2D7631F3CE994002551A9 /* tidy-html5 */;
+			targetProxy = D06AD6A41F3CEDDE00199B88 /* PBXContainerItemProxy */;
+		};
+		D06AD6A71F3CF08A00199B88 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D0C2D7631F3CE994002551A9 /* tidy-html5 */;
+			targetProxy = D06AD6A61F3CF08A00199B88 /* PBXContainerItemProxy */;
+		};
+		D06AD6C01F3CF36000199B88 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D0C3BD081F3CB3680007BB54 /* LibTidy */;
+			targetProxy = D06AD6BF1F3CF36000199B88 /* PBXContainerItemProxy */;
+		};
+		D0C3BD151F3CB3690007BB54 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D0C3BD081F3CB3680007BB54 /* LibTidy */;
+			targetProxy = D0C3BD141F3CB3690007BB54 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		D06AD6B81F3CF33E00199B88 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D06AD6B91F3CF33E00199B88 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D06AD6BD1F3CF33E00199B88 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = gui/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.gui;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		D06AD6BE1F3CF33E00199B88 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = gui/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.gui;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		D0C2D7661F3CE995002551A9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D0C2D7671F3CE995002551A9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		D0C3BD1B1F3CB3690007BB54 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_INCLUDE_PATHS = "${SRCROOT}/LibTidy/vendor";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		D0C3BD1C1F3CB3690007BB54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+				SWIFT_INCLUDE_PATHS = "${SRCROOT}/LibTidy/vendor";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		D0C3BD1E1F3CB3690007BB54 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = LibTidy/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.LibTidy;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = "${SRCROOT}";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		D0C3BD1F1F3CB3690007BB54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = LibTidy/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.LibTidy;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = "${SRCROOT}";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		D0C3BD211F3CB3690007BB54 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = LibTidyTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.LibTidyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		D0C3BD221F3CB3690007BB54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = LibTidyTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.LibTidyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		D0C3BDC91F3CC0510007BB54 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/gui/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "console/console-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		D0C3BDCA1F3CC0510007BB54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/gui/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "console/console-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D06AD6BC1F3CF33E00199B88 /* Build configuration list for PBXNativeTarget "gui" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D06AD6BD1F3CF33E00199B88 /* Debug */,
+				D06AD6BE1F3CF33E00199B88 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		D0C2D7651F3CE995002551A9 /* Build configuration list for PBXNativeTarget "tidy-html5" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0C2D7661F3CE995002551A9 /* Debug */,
+				D0C2D7671F3CE995002551A9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D0C3BD031F3CB3680007BB54 /* Build configuration list for PBXProject "LibTidy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0C3BD1B1F3CB3690007BB54 /* Debug */,
+				D0C3BD1C1F3CB3690007BB54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D0C3BD1D1F3CB3690007BB54 /* Build configuration list for PBXNativeTarget "LibTidy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0C3BD1E1F3CB3690007BB54 /* Debug */,
+				D0C3BD1F1F3CB3690007BB54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D0C3BD201F3CB3690007BB54 /* Build configuration list for PBXNativeTarget "LibTidyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0C3BD211F3CB3690007BB54 /* Debug */,
+				D0C3BD221F3CB3690007BB54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D0C3BDC81F3CC0510007BB54 /* Build configuration list for PBXNativeTarget "console" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0C3BDC91F3CC0510007BB54 /* Debug */,
+				D0C3BDCA1F3CC0510007BB54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D0C3BD001F3CB3680007BB54 /* Project object */;
+}
