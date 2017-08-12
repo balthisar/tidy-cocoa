@@ -55,6 +55,7 @@
 		D0C3BD1A1F3CB3690007BB54 /* LibTidy.h in Headers */ = {isa = PBXBuildFile; fileRef = D0C3BD0C1F3CB3680007BB54 /* LibTidy.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0C3BDCD1F3CC31D0007BB54 /* LibTidy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C3BDCC1F3CC31D0007BB54 /* LibTidy.swift */; };
 		D0C3BDCE1F3CC31D0007BB54 /* LibTidy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C3BDCC1F3CC31D0007BB54 /* LibTidy.swift */; };
+		D0DEFE1B1F3E7A280034C732 /* LibTidy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C3BDCC1F3CC31D0007BB54 /* LibTidy.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,7 +103,6 @@
 
 /* Begin PBXFileReference section */
 		D0692FC91F3CE8930045AB69 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = console/README.md; sourceTree = SOURCE_ROOT; };
-		D06AD6A11F3CED5A00199B88 /* console-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "console-Bridging-Header.h"; sourceTree = "<group>"; };
 		D06AD6A21F3CED5A00199B88 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D06AD6B01F3CF33E00199B88 /* gui.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gui.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D06AD6B21F3CF33E00199B88 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -383,7 +383,6 @@
 			children = (
 				D06AD6A21F3CED5A00199B88 /* main.swift */,
 				D0692FC91F3CE8930045AB69 /* README.md */,
-				D06AD6A11F3CED5A00199B88 /* console-Bridging-Header.h */,
 			);
 			path = console;
 			sourceTree = SOURCE_ROOT;
@@ -655,6 +654,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D06AD6A31F3CED5A00199B88 /* main.swift in Sources */,
+				D0DEFE1B1F3E7A280034C732 /* LibTidy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -790,7 +790,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_INCLUDE_PATHS = "${SRCROOT}/LibTidy/vendor";
+				SWIFT_INCLUDE_PATHS = "${SRCROOT}";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -837,7 +837,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
-				SWIFT_INCLUDE_PATHS = "${SRCROOT}/LibTidy/vendor";
+				SWIFT_INCLUDE_PATHS = "${SRCROOT}";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -862,7 +862,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.LibTidy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = "${SRCROOT}";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
@@ -885,7 +884,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.LibTidy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = "${SRCROOT}";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -925,7 +923,6 @@
 				INFOPLIST_FILE = "$(SRCROOT)/gui/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "console/console-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
@@ -940,7 +937,6 @@
 				INFOPLIST_FILE = "$(SRCROOT)/gui/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "console/console-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -955,6 +951,7 @@
 				D06AD6BE1F3CF33E00199B88 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D0C2D7651F3CE995002551A9 /* Build configuration list for PBXNativeTarget "tidy-html5" */ = {
 			isa = XCConfigurationList;
