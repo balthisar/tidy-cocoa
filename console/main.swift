@@ -21,14 +21,46 @@ import Foundation
     frameworks elsewhere.
  */
 
+class TidyRunner {
+
+    func printHello() {
+        print("Hello")
+    }
+
+    func RunTidy() {
+        print( tidyLibraryVersion() )
+        print( tidyReleaseDate() )
+
+        // Create a TidyDoc
+        let myTidy : TidyDoc = tidyCreate()
+
+        // Store a reference to self here, so that we can fetch it later.
+        tidySetAppData(myTidy, self)
+
+        // Ensure that the stored reference survives the round trip.
+        if let myInstance = tidyGetAppData(myTidy) as? TidyRunner {
+            myInstance.printHello()
+        }
+
+        // Try out tidyStatus()
+        print("tidyStatus is \(tidyStatus(myTidy))")
+
+        // Try out tidyDetectedXhtml -- NEED TO PROCESS A DOCUMENT FIRST.
+//        print("tidyDetectedXhtml is \(tidyDetectedXhtml(myTidy))")
+
+        tidyErrorSummary(myTidy)
+        tidyGeneralInfo(myTidy)
+        
+
+        tidyRelease( myTidy )
+    }
+
+
+}
+
 print("Hello, World!")
 
-//var tidyDoc : TidyDoc
-//
-//tidyDoc = tidyCreate()
+let myClass = TidyRunner.init()
 
+myClass.RunTidy()
 
-//let s = String( cString: tidyLibraryVersion() )
-//print(s)
-
-print( tidyLibraryVersion() )

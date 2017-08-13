@@ -56,7 +56,22 @@
 		D0C3BDCD1F3CC31D0007BB54 /* LibTidy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C3BDCC1F3CC31D0007BB54 /* LibTidy.swift */; };
 		D0C3BDCE1F3CC31D0007BB54 /* LibTidy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C3BDCC1F3CC31D0007BB54 /* LibTidy.swift */; };
 		D0DEFE1B1F3E7A280034C732 /* LibTidy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C3BDCC1F3CC31D0007BB54 /* LibTidy.swift */; };
+		D0DEFE1F1F3F54600034C732 /* version.txt in Sources */ = {isa = PBXBuildFile; fileRef = D0DEFE1C1F3F51880034C732 /* version.txt */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXBuildRule section */
+		D0DEFE1D1F3F51C40034C732 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.txt";
+			fileType = pattern.proxy;
+			isEditable = 1;
+			outputFiles = (
+				"$(SRCROOT)/vendor/tidy-html5-version.h",
+			);
+			script = "#!/usr/bin/env bash\necho \"Processing the date and version file to build a dynamic header.\"\nHEADER=\"${SRCROOT}/vendor/tidy-html5-version.h\"\ncd \"${SRCROOT}/vendor\"\necho \"// This file is generated automatically. Do not edit. Edit version.txt instead.\" > $HEADER\necho \"// The tidy target Build Rules for *.txt files has produced this file.\" >> $HEADER\necho \"// Make sure you include this file as the tidy target prefix header.\" >> $HEADER\n\nIFS=$'\\n' read -d '' -r -a LINES < \"${INPUT_FILE_PATH}\"\n\ncat << EOF >> $HEADER\n#ifdef LIBTIDY_VERSION\n#undef LIBTIDY_VERSION\n#endif\n#ifdef RELEASE_DATE\n#undef RELEASE_DATE\n#endif\nEOF\n\necho \"#define LIBTIDY_VERSION \\\"${LINES[0]}\\\"\" >> $HEADER\necho \"#define RELEASE_DATE \\\"${LINES[1]}\\\"\" >> $HEADER\n\necho \"// Updated on \"`date` >> $HEADER\n";
+		};
+/* End PBXBuildRule section */
 
 /* Begin PBXContainerItemProxy section */
 		D06AD6A41F3CEDDE00199B88 /* PBXContainerItemProxy */ = {
@@ -186,6 +201,7 @@
 		D0C3BD191F3CB3690007BB54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D0C3BDC41F3CC0510007BB54 /* console */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = console; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0C3BDCC1F3CC31D0007BB54 /* LibTidy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibTidy.swift; sourceTree = "<group>"; };
+		D0DEFE1C1F3F51880034C732 /* version.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = version.txt; path = "vendor/tidy-html5/version.txt"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -248,6 +264,7 @@
 			children = (
 				D0C2D7C41F3CEA01002551A9 /* include */,
 				D0C2D7691F3CE9EE002551A9 /* src */,
+				D0DEFE1C1F3F51880034C732 /* version.txt */,
 			);
 			name = "tidy-html5";
 			sourceTree = "<group>";
@@ -441,6 +458,7 @@
 				D0C2D7621F3CE994002551A9 /* Headers */,
 			);
 			buildRules = (
+				D0DEFE1D1F3F51C40034C732 /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
@@ -600,6 +618,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0DEFE1F1F3F54600034C732 /* version.txt in Sources */,
 				D0C2D89B1F3CEB02002551A9 /* istack.c in Sources */,
 				D0C2D8971F3CEB02002551A9 /* entities.c in Sources */,
 				D0C2D88E1F3CEB02002551A9 /* access.c in Sources */,
@@ -730,6 +749,7 @@
 			buildSettings = {
 				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				EXECUTABLE_PREFIX = lib;
+				GCC_PREFIX_HEADER = "${SRCROOT}/vendor/tidy-html5-version.h";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -739,6 +759,7 @@
 			buildSettings = {
 				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				EXECUTABLE_PREFIX = lib;
+				GCC_PREFIX_HEADER = "${SRCROOT}/vendor/tidy-html5-version.h";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
