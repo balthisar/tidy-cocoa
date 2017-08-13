@@ -21,6 +21,11 @@ import Foundation
     frameworks elsewhere.
  */
 
+
+public func someFunc( s1: String, s2: String) -> Swift.Bool {
+    return true
+}
+
 class TidyRunner {
 
     func printHello() {
@@ -28,31 +33,45 @@ class TidyRunner {
     }
 
     func RunTidy() {
+
         print( tidyLibraryVersion() )
         print( tidyReleaseDate() )
 
         // Create a TidyDoc
-        let myTidy : TidyDoc = tidyCreate()
+        let tdoc : TidyDoc = tidyCreate()
 
         // Store a reference to self here, so that we can fetch it later.
-        tidySetAppData(myTidy, self)
+        tidySetAppData(tdoc, self)
 
         // Ensure that the stored reference survives the round trip.
-        if let myInstance = tidyGetAppData(myTidy) as? TidyRunner {
+        if let myInstance = tidyGetAppData(tdoc) as? TidyRunner {
             myInstance.printHello()
         }
 
+        // Let's load a configuration file. Note, eventually copy these to
+        // the bundle and load them from there.
+        let _ = tidySetOptionCallback(tdoc, someFunc)
+        let configFile = "~/Development/tidy-cocoa/_test_files/sample_01.cfg"
+        if tidyLoadConfig(tdoc, configFile) == 0 {
+            print("Loaded \(configFile).")
+        } else
+        {
+            print("Could not load \(configFile).")
+        }
+
+
+
         // Try out tidyStatus()
-        print("tidyStatus is \(tidyStatus(myTidy))")
+        print("tidyStatus is \(tidyStatus(tdoc))")
 
         // Try out tidyDetectedXhtml -- NEED TO PROCESS A DOCUMENT FIRST.
 //        print("tidyDetectedXhtml is \(tidyDetectedXhtml(myTidy))")
 
-        tidyErrorSummary(myTidy)
-        tidyGeneralInfo(myTidy)
+        tidyErrorSummary(tdoc)
+        tidyGeneralInfo(tdoc)
         
 
-        tidyRelease( myTidy )
+        tidyRelease( tdoc )
     }
 
 
