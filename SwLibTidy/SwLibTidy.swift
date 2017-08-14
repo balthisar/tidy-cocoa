@@ -179,6 +179,7 @@ public func tidySetAppData( _ tdoc: TidyDoc, _ appData: AnyObject ) {
     let ptrAppData = UnsafeMutableRawPointer( Unmanaged.passUnretained(appData).toOpaque() )
     
     // Finally, let's store the prtAppData into our instance.
+    // HEY! The second time this is used, it creates a new Tidy!!!
     storage.appData = ptrAppData
     
     CLibTidy.tidySetAppData( tdoc, ptrAppData )

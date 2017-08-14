@@ -42,6 +42,7 @@ class TidyRunner {
 
         // Store a reference to self here, so that we can fetch it later.
         tidySetAppData(tdoc, self)
+        tidySetAppData(tdoc, self)
 
         // Ensure that the stored reference survives the round trip.
         if let myInstance = tidyGetAppData(tdoc) as? TidyRunner {
