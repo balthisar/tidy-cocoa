@@ -105,10 +105,6 @@ public typealias TidyMessage = CLibTidy.TidyMessage
 public typealias TidyMessageArgument = CLibTidy.TidyMessageArgument
 
 
-public typealias ctmbstr = CLibTidy.ctmbstr
-public typealias tidybool = CLibTidy.Bool
-
-
 // MARK: - Basic Operations
 
 // MARK: - Instantiation and Destruction
@@ -122,13 +118,16 @@ public typealias tidybool = CLibTidy.Bool
  - returns: Returns a TidyDoc instance.
 */
 public func tidyCreate() -> TidyDoc {
-
-    // Let's create a data structure that we can store in Tidy's AppData
-    // structure, so that we can (a) store the App Data, but also store
-    // (b) pointers to other things that we want to abstract for Swift.
     
+    let tdoc: TidyDoc! = CLibTidy.tidyCreate()
 
-    return CLibTidy.tidyCreate()
+    // Create a data structure that we can store in Tidy's AppData storage, so that we
+    // can store additional pointers that CLibTidy isn't really designed to store.
+    let appData: ApplicationData = ApplicationData.init()
+    let ptr = UnsafeMutableRawPointer( Unmanaged.passRetained(appData).toOpaque() )
+    CLibTidy.tidySetAppData(tdoc, ptr)
+    
+    return tdoc
 }
 
 /**
@@ -138,6 +137,12 @@ public func tidyCreate() -> TidyDoc {
 */
 
 public func tidyRelease( _ tdoc: TidyDoc ) {
+    
+    // Release our auxilliary structure.
+    if let ptr = CLibTidy.tidyGetAppData(tdoc) {
+        let _: ApplicationData = Unmanaged.fromOpaque(ptr).takeRetainedValue()
+    }
+    
     return CLibTidy.tidyRelease( tdoc )
 }
 
@@ -156,8 +161,20 @@ public func tidyRelease( _ tdoc: TidyDoc ) {
  - parameter appData: A reference to self.
 */
 public func tidySetAppData( _ tdoc: TidyDoc, _ appData: AnyObject ) {
-    let obj = UnsafeMutableRawPointer( Unmanaged.passUnretained(appData).toOpaque() )
-    return CLibTidy.tidySetAppData( tdoc, obj )
+    
+    // Transmorgify the nice, managed Swift reference into something C can use.
+    let ptrAppData = UnsafeMutableRawPointer( Unmanaged.passUnretained(appData).toOpaque() )
+    
+    // Let's turn our opaque reference to an ApplicationData instance into an instance.
+    guard let ptrStorage = CLibTidy.tidyGetAppData(tdoc) else {
+        return
+    }
+    let storage: ApplicationData = Unmanaged.fromOpaque(ptrStorage).takeUnretainedValue()
+
+    // Finally, let's store the prtAppData into our instance.
+    storage.appData = ptrAppData
+    
+    return CLibTidy.tidySetAppData( tdoc, ptrAppData )
 }
 
 /**
@@ -166,11 +183,26 @@ public func tidySetAppData( _ tdoc: TidyDoc, _ appData: AnyObject ) {
  - returns: The reference to the object previously stored.
 */
 public func tidyGetAppData( _ tdoc: TidyDoc ) -> AnyObject? {
-    if let ptr = CLibTidy.tidyGetAppData(tdoc) {
-        return Unmanaged.fromOpaque(ptr).takeUnretainedValue()
-    } else {
+    
+    // Let's turn our opaque reference to an ApplicationData instance into an instance.
+    guard let ptrStorage = CLibTidy.tidyGetAppData(tdoc) else {
         return nil
     }
+    let storage: ApplicationData = Unmanaged.fromOpaque(ptrStorage).takeUnretainedValue()
+    
+    // Turn our ugly C reference into something Swift can use.
+    if let ptrAppData = storage.appData {
+        return Unmanaged.fromOpaque(ptrAppData).takeUnretainedValue()
+    }
+    
+    return nil
+//    
+//
+//    if let ptr = CLibTidy.tidyGetAppData(tdoc) {
+//        return Unmanaged.fromOpaque(ptr).takeUnretainedValue()
+//    } else {
+//        return nil
+//    }
 }
 
 
@@ -1807,6 +1839,26 @@ TIDY_EXPORT ctmbstr TIDY_CALL getNextInstalledLanguage( TidyIterator* iter );
  ** Private Stuff
  **************************************************************************** */
 // MARK: - Private:
+
+
+/**
+ An instance of this class is retained by CLibTidy's AppData, and is used to store 
+ additional pointers that we cannot store in CLibTidy directly.
+ - appData: Contains the pointer used by `tidySetAppData()`.
+ - optionCallback: Contains the pointer used by `tidySetOptionCallback()`.
+ - tidyMessageCallback: Contains the pointer used by `tidySetMessageCallback`.
+*/
+class ApplicationData {
+    var appData: UnsafeMutableRawPointer?
+    var optionCallback: UnsafeMutableRawPointer?
+    var tidyMessageCallback: UnsafeMutableRawPointer?
+    
+    init() {
+        self.appData = nil
+        self.optionCallback = nil
+        self.tidyMessageCallback = nil
+    }
+}
 
 /**
  CLibTidy bools are enum { no = 0, yes }, but get referenced by Swift as some

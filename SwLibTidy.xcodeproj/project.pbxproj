@@ -18,7 +18,6 @@
 		D0A8A9D01F41C69600A2DB63 /* SwLibTidy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A8A9CE1F41C69000A2DB63 /* SwLibTidy.swift */; };
 		D0A8A9D11F41C69700A2DB63 /* SwLibTidy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A8A9CE1F41C69000A2DB63 /* SwLibTidy.swift */; };
 		D0A8A9DA1F41F65700A2DB63 /* SwLibTidy.h in Headers */ = {isa = PBXBuildFile; fileRef = D0A8A9D91F41F65400A2DB63 /* SwLibTidy.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D0A8A9DE1F41F74500A2DB63 /* SwLibTidyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A8A9DD1F41F74500A2DB63 /* SwLibTidyTests.swift */; };
 		D0A8A9DF1F41F74E00A2DB63 /* SwLibTidyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A8A9DD1F41F74500A2DB63 /* SwLibTidyTests.swift */; };
 		D0C2D88E1F3CEB02002551A9 /* access.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C2D76A1F3CE9EE002551A9 /* access.c */; };
 		D0C2D88F1F3CEB02002551A9 /* alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = D0C2D76C1F3CE9EE002551A9 /* alloc.c */; };
@@ -677,7 +676,6 @@
 			files = (
 				D06AD6A31F3CED5A00199B88 /* main.swift in Sources */,
 				D0A8A9CF1F41C69000A2DB63 /* SwLibTidy.swift in Sources */,
-				D0A8A9DE1F41F74500A2DB63 /* SwLibTidyTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
