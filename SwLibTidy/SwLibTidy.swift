@@ -1,7 +1,7 @@
 /******************************************************************************
 
-	LibTidy.swift
-    Part of the LibTidy wrapper library for tidy-html5 ("CLibTidy").
+	SwLibTidy.swift
+    Part of the SwLibTidy wrapper library for tidy-html5 ("CLibTidy").
     See https://github.com/htacg/tidy-html5
 
     Copyright © 2107 by HTACG. All rights reserved.
@@ -9,9 +9,15 @@
     this source code per the W3C Software Notice and License:
     https://www.w3.org/Consortium/Legal/2002/copyright-software-20021231
 
-    Provide a mostly-pure wrapper to CLibTidy using Swift-native types, and by
-    providing arrays instead of forcing the use of iterators. Fully compatible
-    with Objective-C.
+    Provides a strictly procedural wrapper to CLibTidy in order to simplify
+    the use of CLibTidy in Swift console and GUI applications. Chiefly among
+    its goals is to:
+      - Use Swift-native types whereever possible.
+      - Provide arrays or structures of information instead of depending on
+        CLibTidy's iterators.
+      - Simplify callbacks and appdata by abstracting C implementation details
+        into Swift-friendly form.
+      - Maintain full compatibility with Objective-C.
  
     Unsupported APIs
       Support for custom memory allocators is currently missing; CLibTidy will
@@ -121,8 +127,9 @@ public func tidyCreate() -> TidyDoc {
     
     let tdoc: TidyDoc! = CLibTidy.tidyCreate()
 
-    // Create a data structure that we can store in Tidy's AppData storage, so that we
-    // can store additional pointers that CLibTidy isn't really designed to store.
+    // Create a data structure that we can store in Tidy's AppData storage, so
+    // that we can store additional pointers that CLibTidy hasn't really been
+    // designed to store.
     let appData: ApplicationData = ApplicationData.init()
     let ptr = UnsafeMutableRawPointer( Unmanaged.passRetained(appData).toOpaque() )
     CLibTidy.tidySetAppData(tdoc, ptr)
@@ -143,7 +150,7 @@ public func tidyRelease( _ tdoc: TidyDoc ) {
         let _: ApplicationData = Unmanaged.fromOpaque(ptr).takeRetainedValue()
     }
     
-    return CLibTidy.tidyRelease( tdoc )
+    CLibTidy.tidyRelease( tdoc )
 }
 
 
@@ -162,19 +169,19 @@ public func tidyRelease( _ tdoc: TidyDoc ) {
 */
 public func tidySetAppData( _ tdoc: TidyDoc, _ appData: AnyObject ) {
     
-    // Transmorgify the nice, managed Swift reference into something C can use.
-    let ptrAppData = UnsafeMutableRawPointer( Unmanaged.passUnretained(appData).toOpaque() )
-    
-    // Let's turn our opaque reference to an ApplicationData instance into an instance.
+    // Turn our opaque reference to an ApplicationData into an instance.
     guard let ptrStorage = CLibTidy.tidyGetAppData(tdoc) else {
         return
     }
     let storage: ApplicationData = Unmanaged.fromOpaque(ptrStorage).takeUnretainedValue()
 
+    // Transmorgify the nice, managed Swift reference into something C can use.
+    let ptrAppData = UnsafeMutableRawPointer( Unmanaged.passUnretained(appData).toOpaque() )
+    
     // Finally, let's store the prtAppData into our instance.
     storage.appData = ptrAppData
     
-    return CLibTidy.tidySetAppData( tdoc, ptrAppData )
+    CLibTidy.tidySetAppData( tdoc, ptrAppData )
 }
 
 /**
@@ -184,7 +191,7 @@ public func tidySetAppData( _ tdoc: TidyDoc, _ appData: AnyObject ) {
 */
 public func tidyGetAppData( _ tdoc: TidyDoc ) -> AnyObject? {
     
-    // Let's turn our opaque reference to an ApplicationData instance into an instance.
+    // Let's turn our opaque reference to an ApplicationData into an instance.
     guard let ptrStorage = CLibTidy.tidyGetAppData(tdoc) else {
         return nil
     }
@@ -196,13 +203,6 @@ public func tidyGetAppData( _ tdoc: TidyDoc ) -> AnyObject? {
     }
     
     return nil
-//    
-//
-//    if let ptr = CLibTidy.tidyGetAppData(tdoc) {
-//        return Unmanaged.fromOpaque(ptr).takeUnretainedValue()
-//    } else {
-//        return nil
-//    }
 }
 
 
@@ -214,6 +214,7 @@ public func tidyGetAppData( _ tdoc: TidyDoc ) -> AnyObject? {
  - returns: The string representing the release date.
 */
 public func tidyReleaseDate() -> String {
+    
     let result = String( cString: CLibTidy.tidyReleaseDate() )
     return result
 }
@@ -223,6 +224,7 @@ public func tidyReleaseDate() -> String {
  - returns: The string representing the version number.
 */
 public func tidyLibraryVersion() -> String {
+    
     let result = String( cString: CLibTidy.tidyLibraryVersion() )
     return result
 }
@@ -238,6 +240,7 @@ public func tidyLibraryVersion() -> String {
             everything being okay.
 */
 public func tidyStatus( _ tdoc: TidyDoc ) -> Int {
+    
     return Int(CLibTidy.tidyStatus( tdoc ))
 }
 
@@ -248,6 +251,7 @@ public func tidyStatus( _ tdoc: TidyDoc ) -> Int {
  - returns:  eturns the HTML version number (x100).
 */
 public func tidyDetectedHtmlVersion( _ tdoc: TidyDoc ) -> Int {
+    
     return Int(CLibTidy.tidyDetectedHtmlVersion( tdoc ))
 }
 
@@ -258,6 +262,7 @@ public func tidyDetectedHtmlVersion( _ tdoc: TidyDoc ) -> Int {
  - returns: Returns `yes` if the document is an XHTML type.
 */
 public func tidyDetectedXhtml( _ tdoc: TidyDoc ) -> Swift.Bool {
+    
     let tidyBool: CLibTidy.Bool = CLibTidy.tidyDetectedXhtml( tdoc )
     return convertTidyToSwiftType( tidyBool: tidyBool )
 }
@@ -271,6 +276,7 @@ public func tidyDetectedXhtml( _ tdoc: TidyDoc ) -> Swift.Bool {
  - returns: Returns `yes` if the input document was XML.
 */
 public func tidyDetectedGenericXml( _ tdoc: TidyDoc ) -> Swift.Bool {
+    
     let tidyBool: CLibTidy.Bool = CLibTidy.tidyDetectedGenericXml( tdoc )
     return convertTidyToSwiftType( tidyBool: tidyBool )
 }
@@ -283,6 +289,7 @@ public func tidyDetectedGenericXml( _ tdoc: TidyDoc ) -> Swift.Bool {
  - returns: Returns the number of TidyError messages that were generated.
 */
 public func tidyErrorCount( _ tdoc: TidyDoc ) -> UInt {
+    
     return UInt(CLibTidy.tidyErrorCount( tdoc ))
 }
 
@@ -292,6 +299,7 @@ public func tidyErrorCount( _ tdoc: TidyDoc ) -> UInt {
  - returns: Returns the number of TidyWarning messages that were generated.
 */
 public func tidyWarningCount( _ tdoc: TidyDoc ) -> UInt {
+    
     return UInt(CLibTidy.tidyWarningCount( tdoc ))
 }
 
@@ -302,6 +310,7 @@ public func tidyWarningCount( _ tdoc: TidyDoc ) -> UInt {
  - returns: Returns the number of TidyAccess messages that were generated.
 */
 public func tidyAccessWarningCount( _ tdoc: TidyDoc ) -> UInt {
+    
     return UInt(CLibTidy.tidyAccessWarningCount( tdoc ))
 }
 
@@ -313,6 +322,7 @@ public func tidyAccessWarningCount( _ tdoc: TidyDoc ) -> UInt {
             generated.
 */
 public func tidyConfigErrorCount( _ tdoc: TidyDoc ) -> UInt {
+    
     return UInt(CLibTidy.tidyConfigErrorCount( tdoc ))
 }
 
@@ -322,6 +332,7 @@ public func tidyConfigErrorCount( _ tdoc: TidyDoc ) -> UInt {
  - parameter tdoc: An instance of a TidyDoc to query.
 */
 public func tidyErrorSummary( _ tdoc: TidyDoc ) {
+    
     CLibTidy.tidyErrorSummary( tdoc )
 }
 
@@ -331,6 +342,7 @@ public func tidyErrorSummary( _ tdoc: TidyDoc ) {
  - parameter tdoc: An instance of a TidyDoc to query.
 */
 public func tidyGeneralInfo( _ tdoc: TidyDoc ) {
+    
     CLibTidy.tidyGeneralInfo( tdoc )
 }
 
@@ -343,6 +355,7 @@ public func tidyGeneralInfo( _ tdoc: TidyDoc ) {
  - returns: Returns 0 upon success, or any other value if there was an error.
 */
 public func tidyLoadConfig( _ tdoc: TidyDoc, _ configFile: String ) -> Int {
+    
     let result = CLibTidy.tidyLoadConfig( tdoc, configFile )
     return Int(result)
 }
@@ -358,6 +371,7 @@ public func tidyLoadConfig( _ tdoc: TidyDoc, _ configFile: String ) -> Int {
  - returns: Returns 0 upon success, or any other value if there was an error.
 */
 public func tidyLoadConfigEnc( _ tdoc: TidyDoc, _ configFile: String, _ charenc: String ) -> Int {
+    
     let result = CLibTidy.tidyLoadConfigEnc( tdoc, configFile, charenc )
     return Int(result)
 }
@@ -371,6 +385,7 @@ public func tidyLoadConfigEnc( _ tdoc: TidyDoc, _ configFile: String, _ charenc:
  - returns: Returns `yes` or `no`, indicating whether or not the file exists.
 */
 public func tidyFileExists( _ tdoc: TidyDoc, _ filename: String ) -> Swift.Bool {
+    
     let tidyBool: CLibTidy.Bool = CLibTidy.tidyFileExists( tdoc, filename )
     return convertTidyToSwiftType( tidyBool: tidyBool )
 }
@@ -392,6 +407,7 @@ public func tidyFileExists( _ tdoc: TidyDoc, _ filename: String ) -> Swift.Bool 
  - returns: Returns 0 upon success, or a system standard error number `EINVAL`.
 */
 public func tidySetCharEncoding( _ tdoc: TidyDoc, _ encnam: String ) -> Int {
+    
     let result = CLibTidy.tidySetCharEncoding( tdoc, encnam )
     return Int(result)
 }
@@ -406,6 +422,7 @@ public func tidySetCharEncoding( _ tdoc: TidyDoc, _ encnam: String ) -> Int {
  - returns: Returns 0 upon success, or a system standard error number `EINVAL`.
 */
 public func tidySetInCharEncoding( _ tdoc: TidyDoc, _ encnam: String ) -> Int {
+    
     let result = CLibTidy.tidySetInCharEncoding( tdoc, encnam )
     return Int(result)
 }
@@ -421,6 +438,7 @@ public func tidySetInCharEncoding( _ tdoc: TidyDoc, _ encnam: String ) -> Int {
  - returns: Returns 0 upon success, or a system standard error number `EINVAL`.
 */
 public func tidySetOutCharEncoding( _ tdoc: TidyDoc, _ encnam: String ) -> Int {
+    
     let result = CLibTidy.tidySetOutCharEncoding( tdoc, encnam )
     return Int(result)
 }
@@ -430,12 +448,11 @@ public func tidySetOutCharEncoding( _ tdoc: TidyDoc, _ encnam: String ) -> Int {
 
 
 /** 
- This typedef represents the required signature for your provided callback
- function should you wish to register one with tidySetOptionCallback().
- Your callback function will be provided with the following parameters.
- Note that CLibTidy does not provide the TidyDocument as a parameter to this
- callback, and so there is no means to know which of your instances led to
- this callback.
+ This typealias represents the required signature for your provided callback
+ function should you wish to register one with tidySetOptionCallback(). Your
+ callback function will be provided with the following parameters. Note that
+ CLibTidy does not provide the TidyDocument as a parameter to this callback,
+ and so there is no means to know which of your instances led to this callback.
  - parameter option: The option name that was provided.
  - parameter value: The option value that was provided
  - returns: Your callback function will return `yes` if it handles the
@@ -455,6 +472,19 @@ public typealias TidyOptCallback = (String, String) -> Swift.Bool
  - returns: Returns `yes` upon success.
 */
 public func tidySetOptionCallback( _ tdoc: TidyDoc, _ swiftCallback: TidyOptCallback ) -> Swift.Bool {
+
+    // Turn our opaque reference to an ApplicationData into an instance.
+    guard let ptrStorage = CLibTidy.tidyGetAppData(tdoc) else {
+        return false
+    }
+    let storage: ApplicationData = Unmanaged.fromOpaque(ptrStorage).takeUnretainedValue()
+    
+    // Transmorgify the nice, managed Swift reference into something C can use.
+    let ptrCallback = UnsafeMutableRawPointer( Unmanaged.passUnretained(swiftCallback).toOpaque() )
+    
+    // Finally, let's store the callback into our instance.
+    storage.optionCallback = ptrCallback
+
     // TODO: Where can I stash the real callback address? We're already using
     // AppData. We can't use a static; I don't want to make this a class and
     // implement my own storage.
