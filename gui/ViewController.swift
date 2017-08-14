@@ -7,7 +7,7 @@
 //
 
 import Cocoa
-import LibTidy
+import SwLibTidy
 
 /* In the GUI app we don't want to statically bind like we do in the console
    app, although presumably we could. In this case we simply want to link to

@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import LibTidy
+@testable import SwLibTidy
 
 class LibTidyTests: XCTestCase {
     
