@@ -22,7 +22,7 @@ import Foundation
  */
 
 
-public func someFunc( s1: String, s2: String) -> Swift.Bool {
+public func someFunc( tdoc: TidyDoc, s1: String, s2: String) -> Swift.Bool {
     return true
 }
 
@@ -50,7 +50,7 @@ class TidyRunner {
 
         // Let's load a configuration file. Note, eventually copy these to
         // the bundle and load them from there.
-        let _ = tidySetOptionCallback(tdoc, someFunc)
+        let _ = tidySetConfigCallback(tdoc, someFunc)
         let configFile = "~/Development/tidy-cocoa/_test_files/sample_01.cfg"
         if tidyLoadConfig(tdoc, configFile) == 0 {
             print("Loaded \(configFile).")

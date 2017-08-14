@@ -444,22 +444,21 @@ public func tidySetOutCharEncoding( _ tdoc: TidyDoc, _ encnam: String ) -> Int {
 }
 
  
-// MARK: Option Callback Functions
+// MARK: Configuration Callback Functions
 
 
 /** 
  This typealias represents the required signature for your provided callback
- function should you wish to register one with tidySetOptionCallback(). Your
- callback function will be provided with the following parameters. Note that
- CLibTidy does not provide the TidyDocument as a parameter to this callback,
- and so there is no means to know which of your instances led to this callback.
+ function should you wish to register one with tidySetConfigCallback(). Your
+ callback function will be provided with the following parameters.
+ - parameter tdoc: The TidyDoc trying to set a configuration.
  - parameter option: The option name that was provided.
  - parameter value: The option value that was provided
  - returns: Your callback function will return `yes` if it handles the
             provided option, or `no` if it does not. In the latter case, Tidy 
             will issue an unknown configuration option error.
 */
-public typealias TidyOptCallback = (String, String) -> Swift.Bool
+public typealias SwTidyConfigCallback = (TidyDoc, String, String) -> Swift.Bool
 
 /**
  Applications using TidyLib may want to augment command-line and configuration 
@@ -471,7 +470,7 @@ public typealias TidyOptCallback = (String, String) -> Swift.Bool
                             serve as your callback.
  - returns: Returns `yes` upon success.
 */
-public func tidySetOptionCallback( _ tdoc: TidyDoc, _ swiftCallback: TidyOptCallback ) -> Swift.Bool {
+public func tidySetConfigCallback( _ tdoc: TidyDoc, _ swiftCallback: SwTidyConfigCallback ) -> Swift.Bool {
 
     // Turn our opaque reference to an ApplicationData into an instance.
     guard let ptrStorage = CLibTidy.tidyGetAppData(tdoc) else {
@@ -480,15 +479,15 @@ public func tidySetOptionCallback( _ tdoc: TidyDoc, _ swiftCallback: TidyOptCall
     let storage: ApplicationData = Unmanaged.fromOpaque(ptrStorage).takeUnretainedValue()
     
     // Transmorgify the nice, managed Swift reference into something C can use.
-    let ptrCallback = UnsafeMutableRawPointer( Unmanaged.passUnretained(swiftCallback).toOpaque() )
+    let ptrCallback = UnsafeMutableRawPointer( Unmanaged.passUnretained(swiftCallback as AnyObject).toOpaque() )
     
     // Finally, let's store the callback into our instance.
     storage.optionCallback = ptrCallback
 
-    // TODO: Where can I stash the real callback address? We're already using
-    // AppData. We can't use a static; I don't want to make this a class and
-    // implement my own storage.
-    let tidyBool: CLibTidy.Bool = CLibTidy.tidySetOptionCallback( tdoc, tidyOptionCallbackResponder )
+    // CLibTidy's callback will call into SwLibTidy, where we'll retrieve the
+    // value we just save above, thus abstracting all of this pointer crap.
+    let tidyBool: CLibTidy.Bool = CLibTidy.tidySetConfigCallback( tdoc, tidyConfigCallbackResponder)
+    
     return convertTidyToSwiftType( tidyBool: tidyBool )
 }
 
@@ -1909,7 +1908,13 @@ private func convertTidyToSwiftType( tidyBool: CLibTidy.Bool ) -> Swift.Bool {
  set this function as the callback instead of the user's choice, and when the
  callback is made, this function will call the user's function instead.
 */
-private func tidyOptionCallbackResponder( option: Optional<UnsafePointer<Int8>>, value: Optional<UnsafePointer<Int8>> ) -> CLibTidy.Bool {
+private func tidyConfigCallbackResponder( tdoc: Optional<UnsafePointer<_TidyDoc>>, option: Optional<UnsafePointer<Int8>>, value: Optional<UnsafePointer<Int8>> ) -> CLibTidy.Bool {
+
+//    // Turn our opaque reference to an ApplicationData into an instance.
+//    guard let ptrStorage = CLibTidy.tidyGetAppData(tdoc) else {
+//        return false
+//    }
+//    let storage: ApplicationData = Unmanaged.fromOpaque(ptrStorage).takeUnretainedValue()
     print("We are in the callback responder -- now we call real responder.")
     let result: CLibTidy.Bool = CLibTidy.Bool.init(0)
     return result
