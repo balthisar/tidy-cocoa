@@ -35,19 +35,11 @@ class TidyRunner {
 
     func RunTidy() {
 
-//        print( tidyLibraryVersion() )
-//        print( tidyReleaseDate() )
-
         // Create a TidyDoc
         let tdoc : TidyDoc = tidyCreate()
 
         // Store a reference to self here, so that we can fetch it later.
         tidySetAppData(tdoc, self)
-
-        // Ensure that the stored reference survives the round trip.
-        if let myInstance = tidyGetAppData(tdoc) as? TidyRunner {
-            myInstance.printHello()
-        }
 
         // Let's load a configuration file. 
         // Note, eventually copy these to the bundle and load them from there.
@@ -62,9 +54,6 @@ class TidyRunner {
 
         _ = tidyParseString( tdoc, "Hello, world")
         
-        
-
-
         // Try out tidyStatus()
         print("tidyStatus is \(tidyStatus(tdoc))")
 

@@ -1,16 +1,15 @@
 //
-//  LibTidyTests.swift
-//  LibTidyTests
+//  SwLibTidyTests_Advanced.swift
+//  SwLibTidy
 //
-//  Created by Jim Derry on 8/10/17.
+//  Created by Jim Derry on 8/15/17.
 //  Copyright © 2017 Jim Derry. All rights reserved.
 //
 
 import XCTest
-@testable import SwLibTidy
 
-class LibTidyTests: XCTestCase {
-    
+class SwLibTidyTests_Advanced: XCTestCase {
+
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -20,17 +19,17 @@ class LibTidyTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
+
     func testExample() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
-    
-    func testPerformanceExample() {
+
+    func testPerformanceExample2() {
         // This is an example of a performance test case.
         self.measure {
             // Put the code you want to measure the time of here.
         }
     }
-    
+
 }
