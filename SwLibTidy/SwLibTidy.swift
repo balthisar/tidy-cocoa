@@ -492,29 +492,59 @@ public func tidySetConfigCallback( _ tdoc: TidyDoc, _ swiftCallback: @escaping T
 
 
 // MARK: Option ID Discovery
-/*
 
 
-/** Get ID of given Option
- ** - parameter opt An instance of a TidyOption to query.
- ** - returns: The TidyOptionId of the given option.
+/**
+ Get ID of given Option
+ - parameter opt: An instance of a TidyOption to query.
+ - returns: The TidyOptionId of the given option.
 */
-TIDY_EXPORT TidyOptionId TIDY_CALL  tidyOptGetId( TidyOption opt ) -> TidyOptionId {
- 
+public func tidyOptGetId( opt: TidyOption ) -> TidyOptionId {
+    return CLibTidy.tidyOptGetId( opt )
 }
 
-/** Returns the TidyOptionId (enum value) by providing the name of a Tidy
- ** configuration option.
- ** - parameter optnam The name of the option ID to retrieve.
- ** - returns: The TidyOptionId of the given `optname`.
+/**
+ Returns the TidyOptionId (enum value) by providing the name of a Tidy
+ configuration option.
+ - parameter optnam: The name of the option ID to retrieve.
+ - returns: The TidyOptionId of the given `optname`.
 */
-TIDY_EXPORT TidyOptionId TIDY_CALL  tidyOptGetIdForName(ctmbstr optnam) -> TidyOptionId {
- 
+public func tidyOptGetIdForName( optnam: String) -> TidyOptionId {
+    return CLibTidy.tidyOptGetIdForName( optnam )
 }
 
 
-*/
 // MARK: Getting Instances of Tidy Options
+
+
+/**
+ Returns an array of TidyOption tokens containing each publicly available
+ tidy option. Each option is an opaque type that can be interrogated with
+ other LibTidy functions.
+ - Note: This Swift array replaces the CLibTidy functions `tidyGetOptionList()`
+     and `TidyGetNextOption`, as it is much more natural to deal with Swift
+     array types.
+ - parameter tdoc: The tidy document for which to retrieve options.
+ - returns: Returns an array of TidyOption opaque tokens.
+*/
+public func tidyGetOptions( _ tdoc: TidyDoc ) -> [TidyOption] {
+    
+    var itOpt: TidyIterator? = tidyGetOptionList( tdoc )
+    
+    var result : [TidyOption] = []
+    
+    repeat {
+        
+        if let opt = tidyGetNextOption(tdoc, &itOpt) {
+            result.append(opt)
+        }
+        
+    } while itOpt != nil
+    
+    return result
+}
+
+
 /*
 
 

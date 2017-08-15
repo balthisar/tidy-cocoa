@@ -63,6 +63,8 @@ class TidyRunner {
         tidyErrorSummary(tdoc)
         tidyGeneralInfo(tdoc)
         
+        let myarray = tidyGetOptions( tdoc )
+        
 
         tidyRelease( tdoc )
     }
