@@ -29,19 +29,18 @@ public func someFunc( tdoc: TidyDoc, s1: String, s2: String) -> Swift.Bool {
 class TidyRunner {
 
     func printHello() {
-        print("Hello")
+        print("Hello, says the printHello function.")
     }
 
     func RunTidy() {
 
-        print( tidyLibraryVersion() )
-        print( tidyReleaseDate() )
+//        print( tidyLibraryVersion() )
+//        print( tidyReleaseDate() )
 
         // Create a TidyDoc
         let tdoc : TidyDoc = tidyCreate()
 
         // Store a reference to self here, so that we can fetch it later.
-        tidySetAppData(tdoc, self)
         tidySetAppData(tdoc, self)
 
         // Ensure that the stored reference survives the round trip.
@@ -51,25 +50,25 @@ class TidyRunner {
 
         // Let's load a configuration file. Note, eventually copy these to
         // the bundle and load them from there.
-        let _ = tidySetConfigCallback(tdoc, someFunc)
-        let configFile = "~/Development/tidy-cocoa/_test_files/sample_01.cfg"
-        if tidyLoadConfig(tdoc, configFile) == 0 {
-            print("Loaded \(configFile).")
-        } else
-        {
-            print("Could not load \(configFile).")
-        }
+//        let _ = tidySetConfigCallback(tdoc, someFunc)
+//        let configFile = "~/Development/tidy-cocoa/_test_files/sample_01.cfg"
+//        if tidyLoadConfig(tdoc, configFile) == 0 {
+//            print("Loaded \(configFile).")
+//        } else
+//        {
+//            print("Could not load \(configFile).")
+//        }
 
 
 
         // Try out tidyStatus()
-        print("tidyStatus is \(tidyStatus(tdoc))")
+//        print("tidyStatus is \(tidyStatus(tdoc))")
 
         // Try out tidyDetectedXhtml -- NEED TO PROCESS A DOCUMENT FIRST.
 //        print("tidyDetectedXhtml is \(tidyDetectedXhtml(myTidy))")
 
-        tidyErrorSummary(tdoc)
-        tidyGeneralInfo(tdoc)
+//        tidyErrorSummary(tdoc)
+//        tidyGeneralInfo(tdoc)
         
 
         tidyRelease( tdoc )
@@ -78,7 +77,7 @@ class TidyRunner {
 
 }
 
-print("Hello, World!")
+print("Hello, Tidy Tester!")
 
 let myClass = TidyRunner.init()
 

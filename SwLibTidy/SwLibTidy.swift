@@ -127,18 +127,20 @@ public func tidyCreate() -> TidyDoc {
     
     let tdoc: TidyDoc! = CLibTidy.tidyCreate()
 
-    // Create a data structure that we can store in Tidy's AppData storage, so
-    // that we can store additional pointers that CLibTidy hasn't really been
-    // designed to store.
+    // Create some extra storage to attach to Tidy's AppData.
     let appData: ApplicationData = ApplicationData.init()
+
+    // Convert it to a pointer that we can store, increasing the retain count.
     let ptr = UnsafeMutableRawPointer( Unmanaged.passRetained(appData).toOpaque() )
+
+    // Now attach it to Tidy's AppData.
     CLibTidy.tidySetAppData(tdoc, ptr)
     
     return tdoc
 }
 
 /**
- Free all memory and release the TidyDoc. The TidyDoc can not be used after
+ Free all memory and release the TidyDoc. The TidyDoc cannot be used after
  this call.
  - parameter tdoc: The TidyDoc to free.
 */
@@ -147,9 +149,12 @@ public func tidyRelease( _ tdoc: TidyDoc ) {
     
     // Release our auxilliary structure.
     if let ptr = CLibTidy.tidyGetAppData(tdoc) {
-        let _: ApplicationData = Unmanaged.fromOpaque(ptr).takeRetainedValue()
+        // Decreasing the retain count will cause it to dealloc.
+        let _: ApplicationData = Unmanaged<ApplicationData>
+            .fromOpaque(ptr)
+            .takeRetainedValue()
     }
-    
+
     CLibTidy.tidyRelease( tdoc )
 }
 
@@ -169,20 +174,19 @@ public func tidyRelease( _ tdoc: TidyDoc ) {
 */
 public func tidySetAppData( _ tdoc: TidyDoc, _ appData: AnyObject ) {
     
-    // Turn our opaque reference to an ApplicationData into an instance.
+    // Turn our opaque reference to an ApplicationData into a real instance.
     guard let ptrStorage = CLibTidy.tidyGetAppData(tdoc) else {
         return
     }
-    let storage: ApplicationData = Unmanaged.fromOpaque(ptrStorage).takeUnretainedValue()
+    let storage: ApplicationData = Unmanaged<ApplicationData>
+        .fromOpaque(ptrStorage)
+        .takeUnretainedValue()
 
     // Transmorgify the nice, managed Swift reference into something C can use.
     let ptrAppData = UnsafeMutableRawPointer( Unmanaged.passUnretained(appData).toOpaque() )
     
-    // Finally, let's store the prtAppData into our instance.
-    // HEY! The second time this is used, it creates a new Tidy!!!
-    storage.appData = ptrAppData
-    
-    CLibTidy.tidySetAppData( tdoc, ptrAppData )
+    // Finally, let's store the ptrAppData into our instance.
+    storage.setAppData( appData: ptrAppData )
 }
 
 /**
@@ -196,11 +200,15 @@ public func tidyGetAppData( _ tdoc: TidyDoc ) -> AnyObject? {
     guard let ptrStorage = CLibTidy.tidyGetAppData(tdoc) else {
         return nil
     }
-    let storage: ApplicationData = Unmanaged.fromOpaque(ptrStorage).takeUnretainedValue()
+    let storage: ApplicationData = Unmanaged<ApplicationData>
+        .fromOpaque(ptrStorage)
+        .takeUnretainedValue()
     
     // Turn our ugly C reference into something Swift can use.
     if let ptrAppData = storage.appData {
-        return Unmanaged.fromOpaque(ptrAppData).takeUnretainedValue()
+        return Unmanaged<AnyObject>
+            .fromOpaque(ptrAppData)
+            .takeUnretainedValue()
     }
     
     return nil
@@ -1872,8 +1880,8 @@ TIDY_EXPORT ctmbstr TIDY_CALL getNextInstalledLanguage( TidyIterator* iter );
 
 
 /**
- An instance of this class is retained by CLibTidy's AppData, and is used to store 
- additional pointers that we cannot store in CLibTidy directly.
+ An instance of this class is retained by CLibTidy's AppData, and is used to
+ store additional pointers that we cannot store in CLibTidy directly.
  - appData: Contains the pointer used by `tidySetAppData()`.
  - optionCallback: Contains the pointer used by `tidySetOptionCallback()`.
  - tidyMessageCallback: Contains the pointer used by `tidySetMessageCallback`.
@@ -1887,6 +1895,10 @@ class ApplicationData {
         self.appData = nil
         self.optionCallback = nil
         self.tidyMessageCallback = nil
+    }
+    
+    func setAppData( appData: UnsafeMutableRawPointer ) {
+        self.appData = appData
     }
 }
 
