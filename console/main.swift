@@ -22,8 +22,9 @@ import Foundation
  */
 
 
-public func someFunc( tdoc: TidyDoc, s1: String, s2: String) -> Swift.Bool {
-    return true
+public func someFunc( tdoc: TidyDoc, option: String, value: String) -> Swift.Bool {
+    print("\(option) \(value)")
+    return false
 }
 
 class TidyRunner {
@@ -65,7 +66,7 @@ class TidyRunner {
 //        print("tidyStatus is \(tidyStatus(tdoc))")
 
         // Try out tidyDetectedXhtml -- NEED TO PROCESS A DOCUMENT FIRST.
-//        print("tidyDetectedXhtml is \(tidyDetectedXhtml(myTidy))")
+//        print("tidyDetectedXhtml is \(tidyDetectedXhtml(tdoc))")
 
 //        tidyErrorSummary(tdoc)
 //        tidyGeneralInfo(tdoc)

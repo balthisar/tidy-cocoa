@@ -149,7 +149,8 @@ public func tidyRelease( _ tdoc: TidyDoc ) {
     
     // Release our auxilliary structure.
     if let ptr = CLibTidy.tidyGetAppData(tdoc) {
-        // Decreasing the retain count will cause it to dealloc.
+        
+        // Decreasing the retain count should cause it to dealloc.
         let _: ApplicationData = Unmanaged<ApplicationData>
             .fromOpaque(ptr)
             .takeRetainedValue()
@@ -175,18 +176,13 @@ public func tidyRelease( _ tdoc: TidyDoc ) {
 public func tidySetAppData( _ tdoc: TidyDoc, _ appData: AnyObject ) {
     
     // Turn our opaque reference to an ApplicationData into a real instance.
-    guard let ptrStorage = CLibTidy.tidyGetAppData(tdoc) else {
-        return
-    }
+    guard let ptrStorage = CLibTidy.tidyGetAppData(tdoc) else { return }
+    
     let storage: ApplicationData = Unmanaged<ApplicationData>
         .fromOpaque(ptrStorage)
         .takeUnretainedValue()
 
-    // Transmorgify the nice, managed Swift reference into something C can use.
-    let ptrAppData = UnsafeMutableRawPointer( Unmanaged.passUnretained(appData).toOpaque() )
-    
-    // Finally, let's store the ptrAppData into our instance.
-    storage.appData = ptrAppData
+    storage.appData = appData
 }
 
 /**
@@ -197,21 +193,13 @@ public func tidySetAppData( _ tdoc: TidyDoc, _ appData: AnyObject ) {
 public func tidyGetAppData( _ tdoc: TidyDoc ) -> AnyObject? {
     
     // Let's turn our opaque reference to an ApplicationData into an instance.
-    guard let ptrStorage = CLibTidy.tidyGetAppData(tdoc) else {
-        return nil
-    }
+    guard let ptrStorage = CLibTidy.tidyGetAppData(tdoc) else { return nil }
+    
     let storage: ApplicationData = Unmanaged<ApplicationData>
         .fromOpaque(ptrStorage)
         .takeUnretainedValue()
     
-    // Turn our ugly C reference into something Swift can use.
-    if let ptrAppData = storage.appData {
-        return Unmanaged<AnyObject>
-            .fromOpaque(ptrAppData)
-            .takeUnretainedValue()
-    }
-    
-    return nil
+    return storage.appData
 }
 
 
@@ -224,8 +212,7 @@ public func tidyGetAppData( _ tdoc: TidyDoc ) -> AnyObject? {
 */
 public func tidyReleaseDate() -> String {
     
-    let result = String( cString: CLibTidy.tidyReleaseDate() )
-    return result
+    return String( cString: CLibTidy.tidyReleaseDate() )
 }
 
 /** 
@@ -234,8 +221,7 @@ public func tidyReleaseDate() -> String {
 */
 public func tidyLibraryVersion() -> String {
     
-    let result = String( cString: CLibTidy.tidyLibraryVersion() )
-    return result
+    return String( cString: CLibTidy.tidyLibraryVersion() )
 }
 
 
@@ -271,9 +257,11 @@ public func tidyDetectedHtmlVersion( _ tdoc: TidyDoc ) -> Int {
  - returns: Returns `yes` if the document is an XHTML type.
 */
 public func tidyDetectedXhtml( _ tdoc: TidyDoc ) -> Swift.Bool {
+
+    return CLibTidy.tidyDetectedXhtml( tdoc ) == yes ? true : false
     
-    let tidyBool: CLibTidy.Bool = CLibTidy.tidyDetectedXhtml( tdoc )
-    return convertTidyToSwiftType( tidyBool: tidyBool )
+//    let tidyBool: CLibTidy.Bool = CLibTidy.tidyDetectedXhtml( tdoc )
+//    return convertTidyToSwiftType( tidyBool: tidyBool )
 }
 
 
@@ -286,8 +274,10 @@ public func tidyDetectedXhtml( _ tdoc: TidyDoc ) -> Swift.Bool {
 */
 public func tidyDetectedGenericXml( _ tdoc: TidyDoc ) -> Swift.Bool {
     
-    let tidyBool: CLibTidy.Bool = CLibTidy.tidyDetectedGenericXml( tdoc )
-    return convertTidyToSwiftType( tidyBool: tidyBool )
+    return CLibTidy.tidyDetectedGenericXml( tdoc ) == yes ? true : false
+    
+//    let tidyBool: CLibTidy.Bool = CLibTidy.tidyDetectedGenericXml( tdoc )
+//    return convertTidyToSwiftType( tidyBool: tidyBool )
 }
 
 
@@ -365,8 +355,7 @@ public func tidyGeneralInfo( _ tdoc: TidyDoc ) {
 */
 public func tidyLoadConfig( _ tdoc: TidyDoc, _ configFile: String ) -> Int {
     
-    let result = CLibTidy.tidyLoadConfig( tdoc, configFile )
-    return Int(result)
+    return Int( CLibTidy.tidyLoadConfig( tdoc, configFile ) )
 }
 
 
@@ -381,8 +370,7 @@ public func tidyLoadConfig( _ tdoc: TidyDoc, _ configFile: String ) -> Int {
 */
 public func tidyLoadConfigEnc( _ tdoc: TidyDoc, _ configFile: String, _ charenc: String ) -> Int {
     
-    let result = CLibTidy.tidyLoadConfigEnc( tdoc, configFile, charenc )
-    return Int(result)
+    return Int( CLibTidy.tidyLoadConfigEnc( tdoc, configFile, charenc ) )
 }
 
 
@@ -395,8 +383,10 @@ public func tidyLoadConfigEnc( _ tdoc: TidyDoc, _ configFile: String, _ charenc:
 */
 public func tidyFileExists( _ tdoc: TidyDoc, _ filename: String ) -> Swift.Bool {
     
-    let tidyBool: CLibTidy.Bool = CLibTidy.tidyFileExists( tdoc, filename )
-    return convertTidyToSwiftType( tidyBool: tidyBool )
+    return CLibTidy.tidyFileExists( tdoc, filename ) == yes ? true : false
+    
+//    let tidyBool: CLibTidy.Bool = CLibTidy.tidyFileExists( tdoc, filename )
+//    return convertTidyToSwiftType( tidyBool: tidyBool )
 }
 
 
@@ -417,8 +407,7 @@ public func tidyFileExists( _ tdoc: TidyDoc, _ filename: String ) -> Swift.Bool 
 */
 public func tidySetCharEncoding( _ tdoc: TidyDoc, _ encnam: String ) -> Int {
     
-    let result = CLibTidy.tidySetCharEncoding( tdoc, encnam )
-    return Int(result)
+    return Int( CLibTidy.tidySetCharEncoding( tdoc, encnam ) )
 }
 
 
@@ -432,10 +421,8 @@ public func tidySetCharEncoding( _ tdoc: TidyDoc, _ encnam: String ) -> Int {
 */
 public func tidySetInCharEncoding( _ tdoc: TidyDoc, _ encnam: String ) -> Int {
     
-    let result = CLibTidy.tidySetInCharEncoding( tdoc, encnam )
-    return Int(result)
+    return Int( CLibTidy.tidySetInCharEncoding( tdoc, encnam ) )
 }
-
 
 
 /**
@@ -448,8 +435,7 @@ public func tidySetInCharEncoding( _ tdoc: TidyDoc, _ encnam: String ) -> Int {
 */
 public func tidySetOutCharEncoding( _ tdoc: TidyDoc, _ encnam: String ) -> Int {
     
-    let result = CLibTidy.tidySetOutCharEncoding( tdoc, encnam )
-    return Int(result)
+    return Int( CLibTidy.tidySetOutCharEncoding( tdoc, encnam ) )
 }
 
  
@@ -467,7 +453,8 @@ public func tidySetOutCharEncoding( _ tdoc: TidyDoc, _ encnam: String ) -> Int {
             provided option, or `no` if it does not. In the latter case, Tidy 
             will issue an unknown configuration option error.
 */
-public typealias SwTidyConfigCallback = (TidyDoc, String, String) -> Swift.Bool
+public typealias TidyConfigCallback = ( _ tdoc: TidyDoc, _ option: String, _ value: String ) -> Swift.Bool
+
 
 /**
  Applications using TidyLib may want to augment command-line and configuration 
@@ -479,53 +466,38 @@ public typealias SwTidyConfigCallback = (TidyDoc, String, String) -> Swift.Bool
                             serve as your callback.
  - returns: Returns `yes` upon success.
 */
-public func tidySetConfigCallback( _ tdoc: TidyDoc, _ swiftCallback: SwTidyConfigCallback ) -> Swift.Bool {
+public func tidySetConfigCallback( _ tdoc: TidyDoc, _ swiftCallback: @escaping TidyConfigCallback ) -> Swift.Bool {
 
     // Let's turn our opaque reference to an ApplicationData into an instance.
-    guard let ptrStorage = CLibTidy.tidyGetAppData(tdoc) else {
-        return false
-    }
+    guard let ptrStorage = CLibTidy.tidyGetAppData(tdoc) else { return false }
+    
     let storage: ApplicationData = Unmanaged<ApplicationData>
         .fromOpaque(ptrStorage)
         .takeUnretainedValue()
     
-    // Transmorgify the nice, managed Swift reference into something C can use.
-    let ptrCallback = UnsafeMutableRawPointer( Unmanaged.passUnretained(swiftCallback as AnyObject).toOpaque() )
-
-    // Finally, let's store the callback into our instance.
-    storage.optionCallback = ptrCallback
+    storage.optionCallback = swiftCallback;
 
     // CLibTidy's callback will call into this closure.
     let localCallback: CLibTidy.TidyConfigCallback = { tdoc, option, value in
-        if let option = option, let value = value {
-            print("option=\(String(cString: option)) value=\(String(cString: value)).")
-        }
-        return yes
+        
+        guard let option = option,
+            let value = value,
+            let ptrStorage = CLibTidy.tidyGetAppData(tdoc)
+        else { return no }
+        
+        let storage: ApplicationData = Unmanaged<ApplicationData>
+            .fromOpaque(ptrStorage)
+            .takeUnretainedValue()
+        
+        let result = storage.optionCallback!(tdoc!,
+                                             String(cString: option),
+                                             String(cString: value))
+        
+        return result ? yes : no
     }
-    let tidyBool: CLibTidy.Bool = CLibTidy.tidySetConfigCallback( tdoc, localCallback )
     
-    
-    
-    return convertTidyToSwiftType( tidyBool: tidyBool )
+    return CLibTidy.tidySetConfigCallback( tdoc, localCallback ) == yes ? true : false
 }
-
-
-
-/**
- Applications using TidyLib may want to augment command-line and configuration 
- file options. Setting this callback allows a LibTidy application developer to 
- examine command-line and configuration file options after LibTidy has examined
- them and failed to recognize them.
- - parameter tdoc: The document to apply the callback to.
- - parameter pOptCallback: The name of a function of type TidyOptCallback() to 
-                           serve as your callback.
- - returns: Returns `yes` upon success.
-*/
-//public func tidySetOptionCallback( _ tdoc: TidyDoc, _ pOptCallback: @escaping TidyOptCallback) -> Swift.Bool {
-//    let tidyBool: CLibTidy.Bool = CLibTidy.tidySetOptionCallback( tdoc, pOptCallback )
-//    return convertTidyToSwiftType( tidyBool: tidyBool )
-//
-//}
 
 
 // MARK: Option ID Discovery
@@ -1896,8 +1868,8 @@ TIDY_EXPORT ctmbstr TIDY_CALL getNextInstalledLanguage( TidyIterator* iter );
  - tidyMessageCallback: Contains the pointer used by `tidySetMessageCallback`.
 */
 class ApplicationData {
-    var appData: UnsafeMutableRawPointer? // this can be swift native!
-    var optionCallback: UnsafeMutableRawPointer? // this is swift native!
+    var appData: AnyObject?
+    var optionCallback: TidyConfigCallback?
     var tidyMessageCallback: UnsafeMutableRawPointer? // this is swift native!
     
     init() {
