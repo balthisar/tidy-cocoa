@@ -231,8 +231,8 @@ public func tidyLibraryVersion() -> String {
  Get status of current document.
  - parameter tdoc: An instance of a TidyDoc to query.
  - returns: Returns the highest of `2` indicating that errors were present in
-            the docment, `1` indicating warnings, and `0` in the case of
-            everything being okay.
+     the docment, `1` indicating warnings, and `0` in the case of everything
+     being okay.
 */
 public func tidyStatus( _ tdoc: TidyDoc ) -> Int {
     
@@ -259,9 +259,6 @@ public func tidyDetectedHtmlVersion( _ tdoc: TidyDoc ) -> Int {
 public func tidyDetectedXhtml( _ tdoc: TidyDoc ) -> Swift.Bool {
 
     return CLibTidy.tidyDetectedXhtml( tdoc ) == yes ? true : false
-    
-//    let tidyBool: CLibTidy.Bool = CLibTidy.tidyDetectedXhtml( tdoc )
-//    return convertTidyToSwiftType( tidyBool: tidyBool )
 }
 
 
@@ -275,9 +272,6 @@ public func tidyDetectedXhtml( _ tdoc: TidyDoc ) -> Swift.Bool {
 public func tidyDetectedGenericXml( _ tdoc: TidyDoc ) -> Swift.Bool {
     
     return CLibTidy.tidyDetectedGenericXml( tdoc ) == yes ? true : false
-    
-//    let tidyBool: CLibTidy.Bool = CLibTidy.tidyDetectedGenericXml( tdoc )
-//    return convertTidyToSwiftType( tidyBool: tidyBool )
 }
 
 
@@ -318,7 +312,7 @@ public func tidyAccessWarningCount( _ tdoc: TidyDoc ) -> UInt {
  Indicates the number of configuration error messages that were generated.
  - parameter tdoc: An instance of a TidyDoc to query.
  - returns: Returns the number of configuration error messages that were
-            generated.
+     generated.
 */
 public func tidyConfigErrorCount( _ tdoc: TidyDoc ) -> UInt {
     
@@ -365,7 +359,7 @@ public func tidyLoadConfig( _ tdoc: TidyDoc, _ configFile: String ) -> Int {
  - parameter tdoc: The TidyDoc to which to apply the configuration.
  - parameter configFile: The complete path to the file to load.
  - parameter charenc: The encoding to use. See struct `_enc2iana` for valid
-                      values.
+     values.
  - returns: Returns 0 upon success, or any other value if there was an error.
 */
 public func tidyLoadConfigEnc( _ tdoc: TidyDoc, _ configFile: String, _ charenc: String ) -> Int {
@@ -384,9 +378,6 @@ public func tidyLoadConfigEnc( _ tdoc: TidyDoc, _ configFile: String, _ charenc:
 public func tidyFileExists( _ tdoc: TidyDoc, _ filename: String ) -> Swift.Bool {
     
     return CLibTidy.tidyFileExists( tdoc, filename ) == yes ? true : false
-    
-//    let tidyBool: CLibTidy.Bool = CLibTidy.tidyFileExists( tdoc, filename )
-//    return convertTidyToSwiftType( tidyBool: tidyBool )
 }
 
 
@@ -399,8 +390,8 @@ public func tidyFileExists( _ tdoc: TidyDoc, _ filename: String ) -> Swift.Bool 
  include `ascii`, `latin1`, `raw`, `utf8`, `iso2022`, `mac`, `win1252`,
  `utf16le`, `utf16be`, `utf16`, `big5`, and `shiftjis`. These values are not
  case sensitive.
- @note This is the same as using TidySetInCharEncoding() and
-       TidySetOutCharEncoding() to set the same value.
+ - Note: This is the same as using TidySetInCharEncoding() and 
+     TidySetOutCharEncoding() to set the same value.
  - parameter tdoc: The TidyDoc for which you are setting the encoding.
  - parameter encnam: The encoding name as described above.
  - returns: Returns 0 upon success, or a system standard error number `EINVAL`.
@@ -1219,14 +1210,22 @@ TIDY_EXPORT int TIDY_CALL         tidyParseFile(TidyDoc tdoc,    /**< The tidy d
 */
 TIDY_EXPORT int TIDY_CALL         tidyParseStdin( TidyDoc tdoc );
 
-/** Parse markup in given string.
- ** - returns: Returns the highest of `2` indicating that errors were present in
- **         the docment, `1` indicating warnings, and `0` in the case of
- **         everything being okay.
 */
-TIDY_EXPORT int TIDY_CALL         tidyParseString(TidyDoc tdoc,   /**< The tidy document to use for parsing. */
-    ctmbstr content /**< The string to parse. */
-);
+
+
+/**
+ Parse markup in given string.
+ - returns: Returns the highest of `2` indicating that errors were present in
+     the docment, `1` indicating warnings, and `0` in the case of
+     everything being okay.
+*/
+public func tidyParseString( _ tdoc: TidyDoc, _ content: String ) -> Int {
+    
+    return Int( CLibTidy.tidyParseString(tdoc, content) )
+}
+
+
+/*
 
 /** Parse markup in given buffer.
  ** - returns: Returns the highest of `2` indicating that errors were present in

@@ -60,16 +60,19 @@ class TidyRunner {
             print("Could not load \(configFile).")
         }
 
+        _ = tidyParseString( tdoc, "Hello, world")
+        
+        
 
 
         // Try out tidyStatus()
-//        print("tidyStatus is \(tidyStatus(tdoc))")
+        print("tidyStatus is \(tidyStatus(tdoc))")
 
         // Try out tidyDetectedXhtml -- NEED TO PROCESS A DOCUMENT FIRST.
-//        print("tidyDetectedXhtml is \(tidyDetectedXhtml(tdoc))")
+        print("tidyDetectedXhtml is \(tidyDetectedXhtml(tdoc))")
 
-//        tidyErrorSummary(tdoc)
-//        tidyGeneralInfo(tdoc)
+        tidyErrorSummary(tdoc)
+        tidyGeneralInfo(tdoc)
         
 
         tidyRelease( tdoc )

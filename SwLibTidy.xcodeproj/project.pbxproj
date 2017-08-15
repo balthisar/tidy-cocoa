@@ -117,6 +117,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D04034871F43659C00A2A9DC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		D04034891F4365B300A2A9DC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = SwLibTidy/README.md; sourceTree = SOURCE_ROOT; };
+		D040348B1F4365EB00A2A9DC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = vendor/README.md; sourceTree = "<group>"; };
 		D0692FC91F3CE8930045AB69 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = console/README.md; sourceTree = SOURCE_ROOT; };
 		D06AD6A21F3CED5A00199B88 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D06AD6B01F3CF33E00199B88 /* gui.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gui.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -250,6 +253,7 @@
 		D06AD6B11F3CF33E00199B88 /* gui */ = {
 			isa = PBXGroup;
 			children = (
+				D04034871F43659C00A2A9DC /* README.md */,
 				D06AD6B21F3CF33E00199B88 /* AppDelegate.swift */,
 				D06AD6B41F3CF33E00199B88 /* ViewController.swift */,
 				D06AD6B61F3CF33E00199B88 /* Assets.xcassets */,
@@ -262,6 +266,7 @@
 		D0C2D7681F3CE9A8002551A9 /* tidy-html5 */ = {
 			isa = PBXGroup;
 			children = (
+				D040348B1F4365EB00A2A9DC /* README.md */,
 				D0C2D7C41F3CEA01002551A9 /* include */,
 				D0C2D7691F3CE9EE002551A9 /* src */,
 				D0DEFE1C1F3F51880034C732 /* version.txt */,
@@ -379,6 +384,7 @@
 		D0C3BD0B1F3CB3680007BB54 /* SwLibTidy */ = {
 			isa = PBXGroup;
 			children = (
+				D04034891F4365B300A2A9DC /* README.md */,
 				D0A8A9D91F41F65400A2DB63 /* SwLibTidy.h */,
 				D0A8A9CE1F41C69000A2DB63 /* SwLibTidy.swift */,
 				D0A8A9D51F41E22300A2DB63 /* Info.plist */,
@@ -400,8 +406,8 @@
 		D0C3BDC51F3CC0510007BB54 /* console */ = {
 			isa = PBXGroup;
 			children = (
-				D06AD6A21F3CED5A00199B88 /* main.swift */,
 				D0692FC91F3CE8930045AB69 /* README.md */,
+				D06AD6A21F3CED5A00199B88 /* main.swift */,
 			);
 			path = console;
 			sourceTree = SOURCE_ROOT;
