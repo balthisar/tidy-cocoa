@@ -48,16 +48,16 @@ class TidyRunner {
             myInstance.printHello()
         }
 
-        // Let's load a configuration file. Note, eventually copy these to
-        // the bundle and load them from there.
-//        let _ = tidySetConfigCallback(tdoc, someFunc)
-//        let configFile = "~/Development/tidy-cocoa/_test_files/sample_01.cfg"
-//        if tidyLoadConfig(tdoc, configFile) == 0 {
-//            print("Loaded \(configFile).")
-//        } else
-//        {
-//            print("Could not load \(configFile).")
-//        }
+        // Let's load a configuration file. 
+        // Note, eventually copy these to the bundle and load them from there.
+        let _ = tidySetConfigCallback(tdoc, someFunc)
+        let configFile = "~/Development/tidy-cocoa/_test_files/sample_01.cfg"
+        if tidyLoadConfig(tdoc, configFile) == 0 {
+            print("Loaded \(configFile).")
+        } else
+        {
+            print("Could not load \(configFile).")
+        }
 
 
 

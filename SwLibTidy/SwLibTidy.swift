@@ -186,7 +186,7 @@ public func tidySetAppData( _ tdoc: TidyDoc, _ appData: AnyObject ) {
     let ptrAppData = UnsafeMutableRawPointer( Unmanaged.passUnretained(appData).toOpaque() )
     
     // Finally, let's store the ptrAppData into our instance.
-    storage.setAppData( appData: ptrAppData )
+    storage.appData = ptrAppData
 }
 
 /**
@@ -481,21 +481,30 @@ public typealias SwTidyConfigCallback = (TidyDoc, String, String) -> Swift.Bool
 */
 public func tidySetConfigCallback( _ tdoc: TidyDoc, _ swiftCallback: SwTidyConfigCallback ) -> Swift.Bool {
 
-    // Turn our opaque reference to an ApplicationData into an instance.
+    // Let's turn our opaque reference to an ApplicationData into an instance.
     guard let ptrStorage = CLibTidy.tidyGetAppData(tdoc) else {
         return false
     }
-    let storage: ApplicationData = Unmanaged.fromOpaque(ptrStorage).takeUnretainedValue()
+    let storage: ApplicationData = Unmanaged<ApplicationData>
+        .fromOpaque(ptrStorage)
+        .takeUnretainedValue()
     
     // Transmorgify the nice, managed Swift reference into something C can use.
     let ptrCallback = UnsafeMutableRawPointer( Unmanaged.passUnretained(swiftCallback as AnyObject).toOpaque() )
-    
+
     // Finally, let's store the callback into our instance.
     storage.optionCallback = ptrCallback
 
-    // CLibTidy's callback will call into SwLibTidy, where we'll retrieve the
-    // value we just save above, thus abstracting all of this pointer crap.
-    let tidyBool: CLibTidy.Bool = CLibTidy.tidySetConfigCallback( tdoc, tidyConfigCallbackResponder)
+    // CLibTidy's callback will call into this closure.
+    let localCallback: CLibTidy.TidyConfigCallback = { tdoc, option, value in
+        if let option = option, let value = value {
+            print("option=\(String(cString: option)) value=\(String(cString: value)).")
+        }
+        return yes
+    }
+    let tidyBool: CLibTidy.Bool = CLibTidy.tidySetConfigCallback( tdoc, localCallback )
+    
+    
     
     return convertTidyToSwiftType( tidyBool: tidyBool )
 }
@@ -1887,18 +1896,14 @@ TIDY_EXPORT ctmbstr TIDY_CALL getNextInstalledLanguage( TidyIterator* iter );
  - tidyMessageCallback: Contains the pointer used by `tidySetMessageCallback`.
 */
 class ApplicationData {
-    var appData: UnsafeMutableRawPointer?
-    var optionCallback: UnsafeMutableRawPointer?
-    var tidyMessageCallback: UnsafeMutableRawPointer?
+    var appData: UnsafeMutableRawPointer? // this can be swift native!
+    var optionCallback: UnsafeMutableRawPointer? // this is swift native!
+    var tidyMessageCallback: UnsafeMutableRawPointer? // this is swift native!
     
     init() {
         self.appData = nil
         self.optionCallback = nil
         self.tidyMessageCallback = nil
-    }
-    
-    func setAppData( appData: UnsafeMutableRawPointer ) {
-        self.appData = appData
     }
 }
 
@@ -1911,25 +1916,5 @@ class ApplicationData {
 */
 private func convertTidyToSwiftType( tidyBool: CLibTidy.Bool ) -> Swift.Bool {
     return tidyBool.rawValue == 1
-}
-
-
-/**
- This function abstracts the TidyOptCallback mechanism so that we can setup the
- callback to a Swift function with Swift native types and without all of the
- ugliness of `Optional<UnsafePointer<Int8>>`, etc. This library will always
- set this function as the callback instead of the user's choice, and when the
- callback is made, this function will call the user's function instead.
-*/
-private func tidyConfigCallbackResponder( tdoc: Optional<UnsafePointer<_TidyDoc>>, option: Optional<UnsafePointer<Int8>>, value: Optional<UnsafePointer<Int8>> ) -> CLibTidy.Bool {
-
-//    // Turn our opaque reference to an ApplicationData into an instance.
-//    guard let ptrStorage = CLibTidy.tidyGetAppData(tdoc) else {
-//        return false
-//    }
-//    let storage: ApplicationData = Unmanaged.fromOpaque(ptrStorage).takeUnretainedValue()
-    print("We are in the callback responder -- now we call real responder.")
-    let result: CLibTidy.Bool = CLibTidy.Bool.init(0)
-    return result
 }
 
