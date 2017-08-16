@@ -1055,7 +1055,7 @@ public func tidyOptGetCurrPick( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> Stri
      deal with Swift array types when using Swift.
  
  - parameters
-   - tdoc: The TidyDoc for which to get user-declared tags.
+   - tdoc: The `TidyDoc` for which to get user-declared tags.
    - optId: The option ID matching the type of tag to retrieve. This
        limits the scope of the tags to one of `TidyInlineTags`, `TidyBlockTags`,
        `TidyEmptyTags`, `TidyPreTags`. Note that autonomous custom tags (if
@@ -1082,48 +1082,54 @@ public func tidyOptGetDeclTagList( _ tdoc: TidyDoc, forOptionId optId: TidyOptio
 
  
 // MARK: Option Documentation
-/*
 
 
 /** 
  Get the description of the specified option.
  
- - returns: Returns a string containing a description of the given option.
+ - parameters:
+   - tdoc: The tidy document to query.
+   - opt: The option ID of the option.
+ - returns: 
+     Returns a string containing a description of the given option.
 */
-TIDY_EXPORT ctmbstr TIDY_CALL       tidyOptGetDoc(TidyDoc tdoc,  /**< The tidy document to query. */
-TidyOption opt /**< The option ID of the option. */
-);
+public func tidyOptGetDoc( _ tdoc: TidyDoc, _ opt: TidyOption ) -> String {
+    
+    return String( cString: CLibTidy.tidyOptGetDoc( tdoc, opt ) )
+}
 
+
+/**
+ Returns on array of `TidyOption`, where array element consists of options
+ related to the given option ID.
  
-/** Initiates an iterator for a list of options related to a given option. This
- ** iterator allows you to iterate through all of the related options, if any.
- ** In order to iterate through the options, initiate the iterator with this
- ** function, and then use tidyOptGetNextDocLinks() to retrieve the first and
- ** subsequent options. For example:
- ** @code{.c}
- **   TidyIterator itOpt = tidyOptGetDocLinksList( tdoc, TidyJoinStyles );
- **   while ( itOpt ) {
- **     TidyOption my_option = tidyOptGetNextDocLinks( tdoc, &itOpt );
- **     // do something with my_option
- **   }
- ** @endcode
- ** - returns: Returns a TidyIterator, which is a token used to represent the
- **         current position in a list within LibTidy.
+ - Note: This Swift array replaces the CLibTidy `tidyOptGetDocLinksList()`
+     and `tidyOptGetNextDocLinks()` functions, as it is much more natural to
+     deal with Swift array types when using Swift.
+ 
+ - parameters
+   - tdoc: The `TidyDoc` for which to get user-declared tags.
+   - optId: The option ID for which to retrieve related options.
+ - returns: 
+     An array of `TidyOption` instances, if any.
 */
-TIDY_EXPORT TidyIterator TIDY_CALL  tidyOptGetDocLinksList(TidyDoc tdoc,  /**< The tidy document to query. */
-TidyOption opt /**< The option whose related options you wish to find. */
-);
+public func tidyOptGetDocLinksList( _ tdoc: TidyDoc, _ opt: TidyOption ) -> [TidyOption] {
+    
+    var itOpt: TidyIterator? = CLibTidy.tidyOptGetDocLinksList( tdoc, opt )
+    
+    var result : [TidyOption] = []
+    
+    while ( itOpt != nil ) {
+        
+        if let opt = CLibTidy.tidyOptGetNextDocLinks( tdoc, &itOpt) {
+            result.append( opt )
+        }
+    }
+    
+    return result
+}
 
-/** Given a valid TidyIterator initiated with tidyOptGetDocLinksList(), returns
- ** a TidyOption instance.
- ** - returns: Returns in instane of TidyOption.
-*/
-TIDY_EXPORT TidyOption TIDY_CALL    tidyOptGetNextDocLinks(TidyDoc tdoc,     /**< The tidy document to query. */
-TidyIterator* pos /**< The TidyIterator (initiated with tidyOptGetDocLinksList()) token. */
-);
 
-
-*/
 // MARK: - I/O and Messages
 /*
      
