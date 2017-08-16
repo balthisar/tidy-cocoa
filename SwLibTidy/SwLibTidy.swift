@@ -55,6 +55,11 @@
       target in this project "compiles" `version.txt` using a build rule that
       generates `tidy-html5-version.h` with the correct version number and
       release date, which is then used via Build Settings -> Prefix Target.
+ 
+    Reference Notes
+      There's no substitute for reading the source code, particularly CLibTidy
+      public header files in order to understand all of the possible C enum
+      values and their meanings.
 
  ******************************************************************************/
 
@@ -111,18 +116,19 @@ public typealias TidyMessage = CLibTidy.TidyMessage
 public typealias TidyMessageArgument = CLibTidy.TidyMessageArgument
 
 
-// MARK: - Basic Operations
+// MARK: - Basic Operations -
 
-// MARK: - Instantiation and Destruction
+// MARK: Instantiation and Destruction
 
 
 /**
- The primary creation of a document instance. Instances of a TidyDoc are used
+ The primary creation of a document instance. Instances of a `TidyDoc` are used
  throughout the API as a token to represent a particular document. When done
- using a TidyDoc instance, be sure to `tidyRelease(myTidyDoc)` in order
+ using a `TidyDoc` instance, be sure to `tidyRelease(myTidyDoc)` in order
  to free related memory.
  
- - returns: Returns a TidyDoc instance.
+ - returns:
+     Returns a `TidyDoc` instance.
 */
 public func tidyCreate() -> TidyDoc {
     
@@ -141,10 +147,11 @@ public func tidyCreate() -> TidyDoc {
 }
 
 /**
- Free all memory and release the TidyDoc. The TidyDoc cannot be used after
+ Free all memory and release the `TidyDoc`. The `TidyDoc` cannot be used after
  this call.
  
- - parameter tdoc: The TidyDoc to free.
+ - parameters:
+   - tdoc: The `TidyDoc` to free.
 */
 
 public func tidyRelease( _ tdoc: TidyDoc ) {
@@ -167,14 +174,15 @@ public func tidyRelease( _ tdoc: TidyDoc ) {
 
 /**
  Allows the host application to store a reference to an object instance with
- each TidyDoc instance. This can be useful for callbacks, such as saving a 
+ each `TidyDoc` instance. This can be useful for callbacks, such as saving a
  reference to `self` within the Tidy document. Because callbacks in Swift can
  only call back to a global function (not an instance method), it will be
  useful to know (in your callback) which instance of your class generated the
  callback.
  
- - parameter tdoc: The TidyDoc for which you are setting the reference.
- - parameter appData: A reference to self.
+ - parameters:
+   - tdoc: The `TidyDoc` for which you are setting the reference.
+   - appData: A reference to self.
 */
 public func tidySetAppData( _ tdoc: TidyDoc, _ appData: AnyObject ) {
     
@@ -191,8 +199,10 @@ public func tidySetAppData( _ tdoc: TidyDoc, _ appData: AnyObject ) {
 /**
  Returns the reference previously stored with `tidySetAppData()`.
  
- - parameter tdoc: document where data has been stored.
- - returns: The reference to the object previously stored.
+ - parameters:
+   - tdoc: document where data has been stored.
+ - returns:
+     The reference to the object previously stored.
 */
 public func tidyGetAppData( _ tdoc: TidyDoc ) -> AnyObject? {
     
@@ -213,7 +223,8 @@ public func tidyGetAppData( _ tdoc: TidyDoc ) -> AnyObject? {
 /** 
  Get the release date for the current library.
  
- - returns: The string representing the release date.
+ - returns: 
+     The string representing the release date.
 */
 public func tidyReleaseDate() -> String {
     
@@ -223,7 +234,8 @@ public func tidyReleaseDate() -> String {
 /** 
  Get the version number for the current library.
  
- - returns: The string representing the version number.
+ - returns:
+     The string representing the version number.
 */
 public func tidyLibraryVersion() -> String {
     
@@ -233,12 +245,14 @@ public func tidyLibraryVersion() -> String {
 
 // MARK: - Diagnostics and Repair Status
 
-/** 
+/**
  Get status of current document.
  
- - parameter tdoc: An instance of a TidyDoc to query.
- - returns: Returns the highest of `2` indicating that errors were present in
-     the docment, `1` indicating warnings, and `0` in the case of everything
+ - parameters:
+   - tdoc: An instance of a `TidyDoc` to query.
+ - returns: 
+     Returns the highest of `2` indicating that errors were present in the
+     docment, `1` indicating warnings, and `0` in the case of everything
      being okay.
 */
 public func tidyStatus( _ tdoc: TidyDoc ) -> Int {
@@ -250,8 +264,10 @@ public func tidyStatus( _ tdoc: TidyDoc ) -> Int {
  Gets the version of HTML that was output, as an integer, times 100. For
  example, HTML5 will return 500; HTML4.0.1 will return 401.
  
- - parameter tdoc: An instance of a TidyDoc to query.
- - returns:  eturns the HTML version number (x100).
+ - parameters:
+   - tdoc: An instance of a `TidyDoc` to query.
+ - returns:
+     Returns the HTML version number (x100).
 */
 public func tidyDetectedHtmlVersion( _ tdoc: TidyDoc ) -> Int {
     
@@ -262,8 +278,10 @@ public func tidyDetectedHtmlVersion( _ tdoc: TidyDoc ) -> Int {
 /**
  Indicates whether the output document is or isn't XHTML.
  
- - parameter tdoc: An instance of a TidyDoc to query.
- - returns: Returns `yes` if the document is an XHTML type.
+ - parameters:
+   - tdoc: An instance of a `TidyDoc` to query.
+ - returns:
+     Returns `true` if the document is an XHTML type.
 */
 public func tidyDetectedXhtml( _ tdoc: TidyDoc ) -> Swift.Bool {
 
@@ -272,12 +290,14 @@ public func tidyDetectedXhtml( _ tdoc: TidyDoc ) -> Swift.Bool {
 
 
 /**
- Indicates whether or not the input document was XML. If TidyXml tags is
+ Indicates whether or not the input document was XML. If `TidyXml` tags is
  true, or there was an XML declaration in the input document, then this
- function will return yes.
+ function will return `true`.
  
- - parameter tdoc: An instance of a TidyDoc to query.
- - returns: Returns `yes` if the input document was XML.
+ - parameters:
+   - tdoc: An instance of a `TidyDoc` to query.
+ - returns:
+     Returns `true` if the input document was XML.
 */
 public func tidyDetectedGenericXml( _ tdoc: TidyDoc ) -> Swift.Bool {
     
@@ -286,11 +306,13 @@ public func tidyDetectedGenericXml( _ tdoc: TidyDoc ) -> Swift.Bool {
 
 
 /**
- Indicates the number of TidyError messages that were generated. For any
- value greater than `0`, output is suppressed unless TidyForceOutput is set.
+ Indicates the number of `TidyError` messages that were generated. For any
+ value greater than `0`, output is suppressed unless `TidyForceOutput` is set.
  
- - parameter tdoc: An instance of a TidyDoc to query.
- - returns: Returns the number of TidyError messages that were generated.
+ - parameters
+   - tdoc: An instance of a `TidyDoc` to query.
+ - returns:
+     Returns the number of `TidyError` messages that were generated.
 */
 public func tidyErrorCount( _ tdoc: TidyDoc ) -> UInt {
     
@@ -298,10 +320,12 @@ public func tidyErrorCount( _ tdoc: TidyDoc ) -> UInt {
 }
 
 /**
- Indicates the number of TidyWarning messages that were generated.
+ Indicates the number of `TidyWarning` messages that were generated.
  
- - parameter tdoc: An instance of a TidyDoc to query.
- - returns: Returns the number of TidyWarning messages that were generated.
+ - parameters:
+   - tdoc: An instance of a `TidyDoc` to query.
+ - returns: 
+     Returns the number of `TidyWarning` messages that were generated.
 */
 public func tidyWarningCount( _ tdoc: TidyDoc ) -> UInt {
     
@@ -310,10 +334,12 @@ public func tidyWarningCount( _ tdoc: TidyDoc ) -> UInt {
 
 
 /**
- Indicates the number of TidyAccess messages that were generated.
+ Indicates the number of `TidyAccess` messages that were generated.
  
- - parameter tdoc: An instance of a TidyDoc to query.
- - returns: Returns the number of TidyAccess messages that were generated.
+ - parameters:
+   - tdoc: An instance of a `TidyDoc` to query.
+ - returns:
+     Returns the number of `TidyAccess` messages that were generated.
 */
 public func tidyAccessWarningCount( _ tdoc: TidyDoc ) -> UInt {
     
@@ -324,9 +350,10 @@ public func tidyAccessWarningCount( _ tdoc: TidyDoc ) -> UInt {
 /**
  Indicates the number of configuration error messages that were generated.
  
- - parameter tdoc: An instance of a TidyDoc to query.
- - returns: Returns the number of configuration error messages that were
-     generated.
+ - parameters:
+   - tdoc: An instance of a `TidyDoc` to query.
+ - returns:
+     Returns the number of configuration error messages that were generated.
 */
 public func tidyConfigErrorCount( _ tdoc: TidyDoc ) -> UInt {
     
@@ -337,7 +364,8 @@ public func tidyConfigErrorCount( _ tdoc: TidyDoc ) -> UInt {
 /**
  Write more complete information about errors to current error sink.
  
- - parameter tdoc: An instance of a TidyDoc to query.
+ - parameters:
+   - tdoc: An instance of a `TidyDoc` to query.
 */
 public func tidyErrorSummary( _ tdoc: TidyDoc ) {
     
@@ -348,7 +376,8 @@ public func tidyErrorSummary( _ tdoc: TidyDoc ) {
 /**
  Write more general information about markup to current error sink.
  
- - parameter tdoc: An instance of a TidyDoc to query.
+ - parameters:
+   - tdoc: An instance of a `TidyDoc` to query.
 */
 public func tidyGeneralInfo( _ tdoc: TidyDoc ) {
     
@@ -360,9 +389,11 @@ public func tidyGeneralInfo( _ tdoc: TidyDoc ) {
  Load an ASCII Tidy configuration file and set the configuration per its
  contents.
  
- - parameter tdoc: The TidyDoc to which to apply the configuration.
- - parameter configFile: The complete path to the file to load.
- - returns: Returns 0 upon success, or any other value if there was an error.
+ - parameters:
+   - tdoc: The `TidyDoc` to which to apply the configuration.
+   - configFile: The complete path to the file to load.
+ - returns: 
+     Returns `0` upon success, or any other value if there was an error.
 */
 public func tidyLoadConfig( _ tdoc: TidyDoc, _ configFile: String ) -> Int {
     
@@ -374,11 +405,12 @@ public func tidyLoadConfig( _ tdoc: TidyDoc, _ configFile: String ) -> Int {
  Load a Tidy configuration file with the specified character encoding, and
  set the configuration per its contents.
  
- - parameter tdoc: The TidyDoc to which to apply the configuration.
- - parameter configFile: The complete path to the file to load.
- - parameter charenc: The encoding to use. See struct `_enc2iana` for valid
-     values.
- - returns: Returns 0 upon success, or any other value if there was an error.
+ - parameters:
+   - tdoc: The `TidyDoc` to which to apply the configuration.
+   - configFile: The complete path to the file to load.
+   - charenc: The encoding to use. See struct `_enc2iana` for valid values.
+ - returns: 
+     Returns `0` upon success, or any other value if there was an error.
 */
 public func tidyLoadConfigEnc( _ tdoc: TidyDoc, _ configFile: String, _ charenc: String ) -> Int {
     
@@ -390,9 +422,11 @@ public func tidyLoadConfigEnc( _ tdoc: TidyDoc, _ configFile: String, _ charenc:
  Determine whether or not a particular file exists. On Unix systems, the use
  of the tilde to represent the user's home directory is supported.
  
- - parameter tdoc: The TidyDoc on whose behalf you are checking.
- - parameter filename: The path to the file whose existence you wish to check.
- - returns: Returns `yes` or `no`, indicating whether or not the file exists.
+ - parameters:
+   - tdoc: The `TidyDoc` on whose behalf you are checking.
+   - filename: The path to the file whose existence you wish to check.
+ - returns: 
+     Returns `true` or `false`, indicating whether or not the file exists.
 */
 public func tidyFileExists( _ tdoc: TidyDoc, _ filename: String ) -> Swift.Bool {
     
@@ -410,12 +444,14 @@ public func tidyFileExists( _ tdoc: TidyDoc, _ filename: String ) -> Swift.Bool 
  `utf16le`, `utf16be`, `utf16`, `big5`, and `shiftjis`. These values are not
  case sensitive.
  
- - Note: This is the same as using TidySetInCharEncoding() and 
-     TidySetOutCharEncoding() to set the same value.
+ - Note: This is the same as using `TidySetInCharEncoding()` and
+     `TidySetOutCharEncoding()` to set the same value.
  
- - parameter tdoc: The TidyDoc for which you are setting the encoding.
- - parameter encnam: The encoding name as described above.
- - returns: Returns 0 upon success, or a system standard error number `EINVAL`.
+ - parameters:
+   - tdoc: The `TidyDoc` for which you are setting the encoding.
+   - encnam: The encoding name as described above.
+ - returns:
+     Returns `0` upon success, or a system standard error number `EINVAL`.
 */
 public func tidySetCharEncoding( _ tdoc: TidyDoc, _ encnam: String ) -> Int {
     
@@ -428,9 +464,11 @@ public func tidySetCharEncoding( _ tdoc: TidyDoc, _ encnam: String ) -> Int {
  `latin1`, `raw`, `utf8`, `iso2022`, `mac`, `win1252`, `utf16le`, `utf16be`,
  `utf16`, `big5`, and `shiftjis`. These values are not case sensitive.
  
- - parameter tdoc: The TidyDoc for which you are setting the encoding.
- - parameter encnam: The encoding name as described above.
- - returns: Returns 0 upon success, or a system standard error number `EINVAL`.
+ - parameters:
+   - tdoc: The `TidyDoc` for which you are setting the encoding.
+   - encnam: The encoding name as described above.
+ - returns:
+     Returns `0` upon success, or a system standard error number `EINVAL`.
 */
 public func tidySetInCharEncoding( _ tdoc: TidyDoc, _ encnam: String ) -> Int {
     
@@ -443,9 +481,11 @@ public func tidySetInCharEncoding( _ tdoc: TidyDoc, _ encnam: String ) -> Int {
  `latin1`, `raw`, `utf8`, `iso2022`, `mac`, `win1252`, `utf16le`, `utf16be`,
  `utf16`, `big5`, and `shiftjis`. These values are not case sensitive.
  
- - parameter tdoc: The TidyDoc for which you are setting the encoding.
- - parameter encnam: The encoding name as described above.
- - returns: Returns 0 upon success, or a system standard error number `EINVAL`.
+ - parameters:
+   - tdoc: The `TidyDoc` for which you are setting the encoding.
+   - encnam: The encoding name as described above.
+ - returns:
+     Returns `0` upon success, or a system standard error number `EINVAL`.
 */
 public func tidySetOutCharEncoding( _ tdoc: TidyDoc, _ encnam: String ) -> Int {
     
@@ -458,15 +498,17 @@ public func tidySetOutCharEncoding( _ tdoc: TidyDoc, _ encnam: String ) -> Int {
 
 /** 
  This typealias represents the required signature for your provided callback
- function should you wish to register one with tidySetConfigCallback(). Your
+ function should you wish to register one with `tidySetConfigCallback()`. Your
  callback function will be provided with the following parameters.
  
- - parameter tdoc: The TidyDoc trying to set a configuration.
- - parameter option: The option name that was provided.
- - parameter value: The option value that was provided
- - returns: Your callback function will return `yes` if it handles the
-     provided option, or `no` if it does not. In the latter case, Tidy will
-     issue an unknown configuration option error.
+ - parameters:
+   - tdoc: The `TidyDoc` trying to set a configuration.
+   - option: The option name that was provided.
+   - value: The option value that was provided
+ - returns: 
+     Your callback function will return `true` if it handles the provided
+     option, or `false` if it does not. In the latter case, Tidy will issue an 
+     error indicating the unknown configuration option.
 */
 public typealias TidyConfigCallback = ( _ tdoc: TidyDoc, _ option: String, _ value: String ) -> Swift.Bool
 
@@ -477,10 +519,12 @@ public typealias TidyConfigCallback = ( _ tdoc: TidyDoc, _ option: String, _ val
  examine command-line and configuration file options after LibTidy has examined
  them and failed to recognize them.
  
- - parameter tdoc: The document to apply the callback to.
- - parameter swiftCallback: The name of a function of type `TidyOptCallback` to
-     serve as your callback.
- - returns: Returns `yes` upon success.
+ - parameters:
+   - tdoc: The document to apply the callback to.
+   - swiftCallback: The name of a function of type `TidyConfigCallback` to
+       serve as your callback.
+ - returns:
+     Returns `true` upon success.
 */
 public func tidySetConfigCallback( _ tdoc: TidyDoc, _ swiftCallback: @escaping TidyConfigCallback ) -> Swift.Bool {
 
@@ -522,19 +566,24 @@ public func tidySetConfigCallback( _ tdoc: TidyDoc, _ swiftCallback: @escaping T
 /**
  Get ID of given Option
  
- - parameter opt: An instance of a TidyOption to query.
- - returns: The TidyOptionId of the given option.
+ - parameters:
+   - opt: An instance of a `TidyOption` to query.
+ - returns:
+     The `TidyOptionId` of the given option.
 */
 public func tidyOptGetId( _ opt: TidyOption ) -> TidyOptionId {
     return CLibTidy.tidyOptGetId( opt )
 }
 
+
 /**
- Returns the TidyOptionId (enum value) by providing the name of a Tidy
+ Returns the `TidyOptionId` (C enum value) by providing the name of a Tidy
  configuration option.
  
- - parameter optnam: The name of the option ID to retrieve.
- - returns: The TidyOptionId of the given `optname`.
+ - parameters:
+   - optnam: The name of the option ID to retrieve.
+ - returns: 
+     The `TidyOptionId` of the given `optname`.
 */
 public func tidyOptGetIdForName( _ optnam: String) -> TidyOptionId {
     return CLibTidy.tidyOptGetIdForName( optnam )
@@ -545,7 +594,7 @@ public func tidyOptGetIdForName( _ optnam: String) -> TidyOptionId {
 
 
 /**
- Returns an array of TidyOption tokens containing each Tidy option, which are
+ Returns an array of `TidyOption` tokens containing each Tidy option, which are
  an opaque type that can be interrogated with other LibTidy functions.
  
  - Note: This function will return internal-only option types including
@@ -557,8 +606,10 @@ public func tidyOptGetIdForName( _ optnam: String) -> TidyOptionId {
      and `TidyGetNextOption()`, as it is much more natural to deal with Swift
      array types when using Swift.
  
- - parameter tdoc: The tidy document for which to retrieve options.
- - returns: Returns an array of TidyOption opaque tokens.
+ - parameters:
+   - tdoc: The tidy document for which to retrieve options.
+ - returns:
+     Returns an array of `TidyOption` opaque tokens.
 */
 public func tidyGetOptionList( _ tdoc: TidyDoc ) -> [TidyOption] {
     
@@ -578,11 +629,13 @@ public func tidyGetOptionList( _ tdoc: TidyDoc ) -> [TidyOption] {
 
 
 /**
- Retrieves an instance of TidyOption given a valid TidyOptionId.
+ Retrieves an instance of `TidyOption` given a valid `TidyOptionId`.
  
- - parameter tdoc: The document for which you are retrieving the option.
- - parameter optId: The TidyOptionId to retrieve.
- - returns: An instance of TidyOption matching the provided TidyOptionId.
+ - parameters:
+   - tdoc: The document for which you are retrieving the option.
+   - optId: The `TidyOptionId` to retrieve.
+ - returns:
+     An instance of `TidyOption` matching the provided `TidyOptionId`.
 */
 public func tidyGetOption( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> TidyOption {
 
@@ -591,12 +644,14 @@ public func tidyGetOption( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> TidyOptio
 
  
 /**
- Returns an instance of TidyOption by providing the name of a Tidy
+ Returns an instance of `TidyOption` by providing the name of a Tidy
  configuration option.
  
- - parameter tdoc: The document for which you are retrieving the option.
- - parameter optnam: The name of the Tidy configuration option.
- - returns: The TidyOption of the given `optname`.
+ - parameters:
+   - tdoc: The document for which you are retrieving the option.
+   - optnam: The name of the Tidy configuration option.
+ - returns: 
+     The `TidyOption` of the given `optname`.
 */
 public func tidyGetOptionByName( _ tdoc: TidyDoc, _ optnam: String ) -> TidyOption {
 
@@ -608,10 +663,12 @@ public func tidyGetOptionByName( _ tdoc: TidyDoc, _ optnam: String ) -> TidyOpti
 
 
 /**
- Get name of given Option
+ Get name of given option
  
- - parameter opt: An instance of a TidyOption to query.
- - returns: The name of the given option.
+ - parameters:
+   - opt: An instance of a `TidyOption` to query.
+ - returns:
+     The name of the given option.
 */
 public func tidyOptGetName( _ opt: TidyOption ) -> String {
  
@@ -620,10 +677,12 @@ public func tidyOptGetName( _ opt: TidyOption ) -> String {
 
  
 /**
- Get datatype of given Option
+ Get datatype of given option
  
- - parameter opt: An instance of a TidyOption to query.
- - returns: the TidyOptionType of the given option.
+ - parameters:
+   - opt: An instance of a TidyOption to query.
+ - returns: 
+     The `TidyOptionType` of the given option.
 */
 public func tidyOptGetType( _ opt: TidyOption ) -> TidyOptionType {
  
@@ -635,8 +694,10 @@ public func tidyOptGetType( _ opt: TidyOption ) -> TidyOptionType {
  Is Option read-only? Some options (mainly internal use only options) are
  read-only.
  
- - parameter opt: An instance of a TidyOption to query.
- - returns: Returns `yes` or `no` depending on whether or not the specified
+ - parameters:
+   - opt: An instance of a `TidyOption` to query.
+ - returns: 
+     Returns `true` or `false` depending on whether or not the specified
      option is read-only.
 */
 public func tidyOptIsReadOnly( _ opt: TidyOption ) -> Swift.Bool {
@@ -646,10 +707,12 @@ public func tidyOptIsReadOnly( _ opt: TidyOption ) -> Swift.Bool {
 
  
 /**
- Get category of given Option
+ Get category of given option
  
- - parameter opt: An instance of a TidyOption to query.
- - returns: The TidyConfigCategory of the specified option.
+ - parameters:
+   - opt: An instance of a `TidyOption` to query.
+ - returns: 
+     The `TidyConfigCategory` of the specified option.
 */
 public func tidyOptGetCategory( _ opt: TidyOption ) -> TidyConfigCategory {
  
@@ -658,10 +721,12 @@ public func tidyOptGetCategory( _ opt: TidyOption ) -> TidyConfigCategory {
 
  
 /** 
- Get default value of given Option as a string
+ Get default value of given option as a string
  
- - parameter opt: An instance of a TidyOption to query.
- - returns: A string indicating the default value of the specified option.
+ - parameters:
+   - opt: An instance of a `TidyOption` to query.
+ - returns:
+     A string indicating the default value of the specified option.
 */
 public func tidyOptGetDefault( _ opt: TidyOption ) -> String {
  
@@ -670,11 +735,12 @@ public func tidyOptGetDefault( _ opt: TidyOption ) -> String {
 
  
 /**
- Get default value of given Option as an unsigned integer
+ Get default value of given option as an unsigned integer
  
- - parameter opt: An instance of a TidyOption to query.
- - returns: An unsigned integer indicating the default value of the specified
-     option.
+ - parameters:
+   - opt: An instance of a `TidyOption` to query.
+ - returns:
+     An unsigned integer indicating the default value of the specified option.
 */
 public func tidyOptGetDefaultInt( _ opt: TidyOption ) -> UInt {
  
@@ -683,10 +749,12 @@ public func tidyOptGetDefaultInt( _ opt: TidyOption ) -> UInt {
 
  
 /**
- Get default value of given Option as a Boolean value
+ Get default value of given option as a Boolean value
  
- - parameter opt: An instance of a TidyOption to query.
- - returns: A boolean indicating the default value of the specified option.
+ - parameters:
+   - opt: An instance of a `TidyOption` to query.
+ - returns:
+     A boolean indicating the default value of the specified option.
 */
 public func tidyOptGetDefaultBool( _ opt: TidyOption ) -> Swift.Bool {
  
@@ -696,14 +764,16 @@ public func tidyOptGetDefaultBool( _ opt: TidyOption ) -> Swift.Bool {
 
 /**
  Returns on array of strings indicating the available picklist values for the
- given TidyOption.
+ given `TidyOption`.
  
  - Note: This Swift array replaces the CLibTidy functions `tidyOptGetPickList()`
      and `tidyOptGetNextPick()`, as it is much more natural to deal with Swift
      array types when using Swift.
  
- - parameter opt: An instance of a TidyOption to query.
- - returns: An array of strings with the picklist values, if any.
+ - parameters:
+   - opt: An instance of a `TidyOption` to query.
+ - returns:
+     An array of strings with the picklist values, if any.
 */
 public func tidyOptGetPickList( _ opt: TidyOption ) -> [String] {
     
@@ -726,13 +796,15 @@ public func tidyOptGetPickList( _ opt: TidyOption ) -> [String] {
 
 
 /** 
- Get the current value of the option ID for the given document.
+ Get the current value of the `TidyOptionId` for the given document.
  
- - Note: The optId *must* have a `TidyOptionType` of `TidyString`.
+ - Note: The `optId` *must* have a `TidyOptionType` of `TidyString`.
 
- - parameter tdoc: The tidy document whose option value you wish to check.
- - parameter optId: The option ID whose value you wish to check.
- - returns: The string value of the given optId.
+ - parameters:
+   - tdoc: The tidy document whose option value you wish to check.
+   - optId: The option ID whose value you wish to check.
+ - returns: 
+     The string value of the given optId.
 */
 public func tidyOptGetValue( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> String {
 
@@ -745,10 +817,12 @@ public func tidyOptGetValue( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> String 
 
  - Note: The optId *must* have a `TidyOptionType` of `TidyString`.
 
- - parameter tdoc: The tidy document for which to set the value.
- - parameter optId: The option ID of the value to set.
- - parameter val: The string value to set.
- - returns: Returns a bool indicating success or failure.
+ - parameters
+   - tdoc: The tidy document for which to set the value.
+   - optId: The `TidyOptionId` of the value to set.
+   - val: The string value to set.
+ - returns: 
+     Returns a bool indicating success or failure.
 */
 public func tidyOptSetValue( _ tdoc: TidyDoc, _ optId: TidyOptionId, _ val: String ) -> Swift.Bool {
 
@@ -761,11 +835,13 @@ public func tidyOptSetValue( _ tdoc: TidyDoc, _ optId: TidyOptionId, _ val: Stri
  
  - Note: This is good setter if you are unsure of the type.
 
- - parameter tdoc: The tidy document for which to set the value.
- - parameter optnam: The name of the option to set; this is the string value
-     from the UI, e.g., `error-file`.
- - parameter val: The value to set, as a string.
- - returns: Returns a bool indicating success or failure.
+ - parameters:
+   - tdoc: The tidy document for which to set the value.
+   - optnam: The name of the option to set; this is the string value from the
+       UI, e.g., `error-file`.
+   - val: The value to set, as a string.
+ - returns:
+     Returns a bool indicating success or failure.
 */
 public func tidyOptParseValue( _ tdoc: TidyDoc, _ optnam: String, _ val: String ) -> Swift.Bool {
 
@@ -776,9 +852,11 @@ public func tidyOptParseValue( _ tdoc: TidyDoc, _ optnam: String, _ val: String 
 /** 
  Get current option value as an integer.
  
- - parameter tdoc: The tidy document for which to get the value.
- - parameter optId: The option ID to get.
- - returns: Returns the integer value of the specified option.
+ - parameters:
+   - tdoc: The tidy document for which to get the value.
+   - optId: The option ID to get.
+ - returns:
+     Returns the integer value of the specified option.
 */
 public func tidyOptGetInt( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> UInt {
 
@@ -789,10 +867,12 @@ public func tidyOptGetInt( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> UInt {
 /**
  Set option value as an integer.
  
- - parameter tdoc: The tidy document for which to set the value.
- - parameter optId: The option ID to set.
- - parameter val: The value to set.
- - returns: Returns a bool indicating success or failure.
+ - parameters
+   - tdoc: The tidy document for which to set the value.
+   - optId: The option ID to set.
+   - val: The value to set.
+ - returns:
+     Returns a bool indicating success or failure.
 */
 public func tidyOptSetInt( _ tdoc: TidyDoc, _ optId: TidyOptionId, _ val: UInt ) -> Swift.Bool {
 
@@ -801,11 +881,13 @@ public func tidyOptSetInt( _ tdoc: TidyDoc, _ optId: TidyOptionId, _ val: UInt )
 
  
 /** 
- Get current option value as a Boolean flag.
+ Get current option value as a Boolean.
  
- - parameter tdoc: The tidy document for which to get the value.
- - parameter optId: The option ID to get.
- - returns: Returns a bool indicating the value.
+ - parameters:
+   - tdoc: The tidy document for which to get the value.
+   - optId: The option ID to get.
+ - returns:
+     Returns a bool indicating the value.
 */
 public func tidyOptGetBool( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> Swift.Bool {
  
@@ -814,12 +896,14 @@ public func tidyOptGetBool( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> Swift.Bo
 
  
 /** 
- Set option value as a Boolean flag.
+ Set option value as a Boolean.
  
- - parameter tdoc: The tidy document for which to set the value.
- - parameter optId: The option ID to set.
- - parameter val: The value to set.
- - returns: Returns a bool indicating success or failure.
+ - parameters:
+   - tdoc: The tidy document for which to set the value.
+   - optId: The option ID to set.
+   - val: The value to set.
+ - returns:
+     Returns a bool indicating success or failure.
 */
 public func tidyOptSetBool( _ tdoc: TidyDoc, _ optId: TidyOptionId, _ val: Swift.Bool ) -> Swift.Bool {
  
@@ -830,9 +914,11 @@ public func tidyOptSetBool( _ tdoc: TidyDoc, _ optId: TidyOptionId, _ val: Swift
 /**
  Reset option to default value by ID.
  
- - parameter tdoc: The tidy document for which to reset the value.
- - parameter opt: The option ID to reset.
- - returns: Returns a bool indicating success or failure.
+ - parameters:
+   - tdoc: The tidy document for which to reset the value.
+   - opt: The option ID to reset.
+ - returns:
+     Returns a bool indicating success or failure.
 */
 public func tidyOptResetToDefault( _ tdoc: TidyDoc, _ opt: TidyOptionId ) -> Swift.Bool {
 
@@ -843,8 +929,10 @@ public func tidyOptResetToDefault( _ tdoc: TidyDoc, _ opt: TidyOptionId ) -> Swi
 /**
  Reset all options to their default values.
  
- - parameter tdoc: The tidy document for which to reset all values.
- - returns: Returns a bool indicating success or failure.
+ - parameters:
+   - tdoc: The tidy document for which to reset all values.
+ - returns: 
+     Returns a bool indicating success or failure.
 */
 public func tidyOptResetAllToDefault( _ tdoc: TidyDoc ) -> Swift.Bool {
 
@@ -855,8 +943,10 @@ public func tidyOptResetAllToDefault( _ tdoc: TidyDoc ) -> Swift.Bool {
 /**
  Take a snapshot of current config settings.
  
- - parameter tdoc: The tidy document for which to take a snapshot.
- - returns: Returns a bool indicating success or failure.
+ - parameters:
+   - tdoc: The tidy document for which to take a snapshot.
+ - returns:
+     Returns a bool indicating success or failure.
 */
 public func tidyOptSnapshot( _ tdoc: TidyDoc ) -> Swift.Bool {
  
@@ -869,8 +959,10 @@ public func tidyOptSnapshot( _ tdoc: TidyDoc ) -> Swift.Bool {
  processing. This will ensure that any values which Tidy may have changed
  are back to the intended configuration.
  
- - parameter tdoc: The tidy document for which to apply a snapshot.
- - returns: Returns a bool indicating success or failure.
+ - parameters:
+   - tdoc: The tidy document for which to apply a snapshot.
+ - returns: 
+     Returns a bool indicating success or failure.
 */
 public func tidyOptResetToSnapshot( _ tdoc: TidyDoc ) -> Swift.Bool {
  
@@ -881,8 +973,10 @@ public func tidyOptResetToSnapshot( _ tdoc: TidyDoc ) -> Swift.Bool {
 /**
  Any settings different than default?
  
- - parameter tdoc: The tidy document to check.
- - returns: Returns a bool indicating whether or not a difference exists.
+ - parameters:
+   - tdoc: The tidy document to check.
+ - returns:
+     Returns a bool indicating whether or not a difference exists.
 */
 public func tidyOptDiffThanDefault( _ tdoc: TidyDoc ) -> Swift.Bool {
  
@@ -893,8 +987,10 @@ public func tidyOptDiffThanDefault( _ tdoc: TidyDoc ) -> Swift.Bool {
 /**
  Any settings different than snapshot?
  
- - parameter tdoc: The tidy document to check.
- - returns: Returns a bool indicating whether or not a difference exists.
+ - parameters:
+   - tdoc: The tidy document to check.
+ - returns:
+     Returns a bool indicating whether or not a difference exists.
 */
 public func tidyOptDiffThanSnapshot( _ tdoc: TidyDoc ) -> Swift.Bool {
  
@@ -905,9 +1001,11 @@ public func tidyOptDiffThanSnapshot( _ tdoc: TidyDoc ) -> Swift.Bool {
 /**
  Copy current configuration settings from one document to another.
  
- - parameter tdocTo: The destination tidy document.
- - parameter tdocFrom: The source tidy document.
- - returns: Returns a bool indicating success or failure.
+ - parameters:
+   - tdocTo: The destination tidy document.
+   - tdocFrom: The source tidy document.
+ - returns:
+     Returns a bool indicating success or failure.
 */
 public func tidyOptCopyConfig( _ tdocTo: TidyDoc, _ tdocFrom: TidyDoc ) -> Swift.Bool {
  
@@ -919,9 +1017,11 @@ public func tidyOptCopyConfig( _ tdocTo: TidyDoc, _ tdocFrom: TidyDoc ) -> Swift
  Get character encoding name. Used with `TidyCharEncoding`, 
  `TidyOutCharEncoding`, and `TidyInCharEncoding`.
  
- - parameter tdoc: The tidy document to query.
- - parameter optId: The option ID whose value to check.
- - returns: The encoding name as a string for the specified option.
+ - parameters:
+   - tdoc: The tidy document to query.
+   - optId: The option ID whose value to check.
+ - returns: 
+     The encoding name as a string for the specified option.
 */
 public func tidyOptGetEncName( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> String {
  
@@ -933,9 +1033,11 @@ public func tidyOptGetEncName( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> Strin
  Get the current pick list value for the option ID, which can be useful for
  enum types.
  
- - parameter tdoc: The tidy document to query.
- - parameter optId: The option ID whose value to check.
- - returns: Returns a string indicating the current value of the given option.
+ - parameters:
+   - tdoc: The tidy document to query.
+   - optId: The option ID whose value to check.
+ - returns: 
+     Returns a string indicating the current value of the given option.
 */
 public func tidyOptGetCurrPick( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> String {
  
@@ -952,13 +1054,15 @@ public func tidyOptGetCurrPick( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> Stri
      and `tidyOptGetNextDeclTag()` functions, as it is much more natural to 
      deal with Swift array types when using Swift.
  
- - parameter tdoc: The TidyDoc for which to get user-declared tags.
- - parameter optId: The option ID matching the type of tag to retrieve. This
-     limits the scope of the tags to one of `TidyInlineTags`, `TidyBlockTags`,
-     `TidyEmptyTags`, `TidyPreTags`. Note that autonomous custom tags (if used)
-     are added to one of these option types, depending on the value of
-     TidyUseCustomTags.
- - returns: An array of strings with the tag names, if any.
+ - parameters
+   - tdoc: The TidyDoc for which to get user-declared tags.
+   - optId: The option ID matching the type of tag to retrieve. This
+       limits the scope of the tags to one of `TidyInlineTags`, `TidyBlockTags`,
+       `TidyEmptyTags`, `TidyPreTags`. Note that autonomous custom tags (if
+       used) are added to one of these option types, depending on the value of
+       `TidyUseCustomTags`.
+ - returns: 
+     An array of strings with the tag names, if any.
 */
 public func tidyOptGetDeclTagList( _ tdoc: TidyDoc, forOptionId optId: TidyOptionId ) -> [String] {
     
@@ -1247,45 +1351,62 @@ TIDY_EXPORT ctmbstr TIDY_CALL tidyGetMessageDefault( TidyMessage tmessage );
 TIDY_EXPORT ctmbstr TIDY_CALL tidyGetMessage( TidyMessage tmessage );
 
  
-/** Get the position part part of the message in the default language.
- ** - parameter tmessage Specify the message that you are querying.
- ** - returns: Returns the positional part of a string as Tidy would display it
- **         in the console application.
+/** 
+ Get the position part part of the message in the default language.
+
+ - parameter tmessage: Specify the message that you are querying.
+ - returns: Returns the positional part of a string as Tidy would display it
+     in the console application.
 */
 TIDY_EXPORT ctmbstr TIDY_CALL tidyGetMessagePosDefault( TidyMessage tmessage );
 
-/** Get the position part part of the message in the current language.
- ** - parameter tmessage Specify the message that you are querying.
- ** - returns: Returns the positional part of a string as Tidy would display it
- **         in the console application.
+ 
+/** 
+ Get the position part part of the message in the current language.
+
+ - parameter tmessage: Specify the message that you are querying.
+ - returns: Returns the positional part of a string as Tidy would display it
+     in the console application.
 */
 TIDY_EXPORT ctmbstr TIDY_CALL tidyGetMessagePos( TidyMessage tmessage );
 
-/** Get the prefix part of a message in the default language.
- ** - parameter tmessage Specify the message that you are querying.
- ** - returns: Returns the message prefix part of a string as Tidy would display
- **         it in the console application.
+ 
+/**
+ Get the prefix part of a message in the default language.
+
+ - parameter tmessage: Specify the message that you are querying.
+ - returns: Returns the message prefix part of a string as Tidy would display
+     it in the console application.
 */
 TIDY_EXPORT ctmbstr TIDY_CALL tidyGetMessagePrefixDefault( TidyMessage tmessage );
 
-/** Get the prefix part of a message in the current language.
- ** - parameter tmessage Specify the message that you are querying.
- ** - returns: Returns the message prefix part of a string as Tidy would display
- **         it in the console application.
+ 
+/**
+ Get the prefix part of a message in the current language.
+
+ - parameter tmessage: Specify the message that you are querying.
+ - returns: Returns the message prefix part of a string as Tidy would display
+     it in the console application.
 */
 TIDY_EXPORT ctmbstr TIDY_CALL tidyGetMessagePrefix( TidyMessage tmessage );
 
-/** Get the complete message as Tidy would emit it in the default localization.
- ** - parameter tmessage Specify the message that you are querying.
- ** - returns: Returns the complete message just as Tidy would display it on the
- **         console.
+ 
+/**
+ Get the complete message as Tidy would emit it in the default localization.
+ 
+ - parameter tmessage: Specify the message that you are querying.
+ - returns: Returns the complete message just as Tidy would display it on the
+     console.
 */
 TIDY_EXPORT ctmbstr TIDY_CALL tidyGetMessageOutputDefault( TidyMessage tmessage );
 
-/** Get the complete message as Tidy would emit it in the current localization.
- ** - parameter tmessage Specify the message that you are querying.
- ** - returns: Returns the complete message just as Tidy would display it on the
- **         console.
+ 
+/**
+ Get the complete message as Tidy would emit it in the current localization.
+ 
+ - parameter tmessage: Specify the message that you are querying.
+ - returns: Returns the complete message just as Tidy would display it on the
+     console.
 */
 TIDY_EXPORT ctmbstr TIDY_CALL tidyGetMessageOutput( TidyMessage tmessage );
 
@@ -1303,6 +1424,7 @@ TIDY_EXPORT ctmbstr TIDY_CALL tidyGetMessageOutput( TidyMessage tmessage );
  ** dialogue string to you.
 */
 
+ 
 /** Initiates an iterator for a list of arguments related to a given message.
  ** This iterator allows you to iterate through all of the arguments, if any.
  ** In order to iterate through the arguments, initiate the iterator with this
@@ -1321,6 +1443,7 @@ TIDY_EXPORT ctmbstr TIDY_CALL tidyGetMessageOutput( TidyMessage tmessage );
 */
 TIDY_EXPORT TidyIterator TIDY_CALL tidyGetMessageArguments( TidyMessage tmessage );
 
+ 
 /** Given a valid TidyIterator initiated with tidyGetMessageArguments(), returns
  ** an instance of the opaque type TidyMessageArgument, which serves as a token
  ** against which the remaining argument API functions may be used to query
@@ -1331,50 +1454,67 @@ TIDY_EXPORT TidyMessageArgument TIDY_CALL tidyGetNextMessageArgument(TidyMessage
     TidyIterator* iter    /**< The TidyIterator (initiated with tidyOptGetDocLinksList()) token. */
 );
 
-/** Returns the `TidyFormatParameterType` of the given message argument.
- ** - returns: Returns the type of parameter of type TidyFormatParameterType.
+ 
+/**
+ Returns the `TidyFormatParameterType` of the given message argument.
+ 
+ - returns: Returns the type of parameter of type TidyFormatParameterType.
 */
 TIDY_EXPORT TidyFormatParameterType TIDY_CALL tidyGetArgType(TidyMessage tmessage,    /**< The message whose arguments you want to access. */
     TidyMessageArgument* arg /**< The argument that you are querying. */
 );
 
-/** Returns the format specifier of the given message argument. The memory for
- ** this string is cleared upon termination of the callback, so do be sure to
- ** make your own copy.
- ** - returns: Returns the format specifier string of the given argument.
+ 
+/**
+ Returns the format specifier of the given message argument. The memory for
+ this string is cleared upon termination of the callback, so do be sure to
+ make your own copy.
+ 
+ - returns: Returns the format specifier string of the given argument.
 */
 TIDY_EXPORT ctmbstr TIDY_CALL tidyGetArgFormat(TidyMessage tmessage,    /**< The message whose arguments you want to access. */
     TidyMessageArgument* arg /**< The argument that you are querying. */
 );
 
-/** Returns the string value of the given message argument. An assertion
- ** will be generated if the argument type is not a string.
- ** - returns: Returns the string value of the given argument.
+ 
+/**
+ Returns the string value of the given message argument. An assertion
+ will be generated if the argument type is not a string.
+ 
+ - returns: Returns the string value of the given argument.
 */
 TIDY_EXPORT ctmbstr TIDY_CALL tidyGetArgValueString(TidyMessage tmessage,    /**< The message whose arguments you want to access. */
     TidyMessageArgument* arg /**< The argument that you are querying. */
 );
 
-/** Returns the unsigned integer value of the given message argument. An
- ** assertion will be generated if the argument type is not an unsigned int.
- ** - returns: Returns the unsigned integer value of the given argument.
+ 
+/**
+ Returns the unsigned integer value of the given message argument. An
+ assertion will be generated if the argument type is not an unsigned int.
+ 
+ - returns: Returns the unsigned integer value of the given argument.
 */
 TIDY_EXPORT uint TIDY_CALL tidyGetArgValueUInt(TidyMessage tmessage,    /**< The message whose arguments you want to access. */
     TidyMessageArgument* arg /**< The argument that you are querying. */
 );
 
-/** Returns the integer value of the given message argument. An assertion
- ** will be generated if the argument type is not an integer.
- ** - returns: Returns the integer value of the given argument.
+ 
+/**
+ Returns the integer value of the given message argument. An assertion
+ will be generated if the argument type is not an integer.
+ 
+ - returns: Returns the integer value of the given argument.
 */
 TIDY_EXPORT int TIDY_CALL tidyGetArgValueInt(TidyMessage tmessage,    /**< The message whose arguments you want to access. */
     TidyMessageArgument* arg /**< The argument that you are querying. */
 );
 
+ 
 /**
- *  Returns the double value of the given message argument. An assertion
- *  will be generated if the argument type is not a double.
- ** - returns: Returns the double value of the given argument.
+ Returns the double value of the given message argument. An assertion
+ will be generated if the argument type is not a double.
+ 
+ - returns: Returns the double value of the given argument.
 */
 TIDY_EXPORT double TIDY_CALL tidyGetArgValueDouble(TidyMessage tmessage,    /**< The message whose arguments you want to access. */
     TidyMessageArgument* arg /**< The argument that you are querying. */
@@ -1391,20 +1531,24 @@ TIDY_EXPORT double TIDY_CALL tidyGetArgValueDouble(TidyMessage tmessage,    /**<
  ** document ended up in the output.
 */
 
-/** This typedef represents the required signature for your provided callback
- ** function should you wish to register one with tidySetMessageCallback().
- ** Your callback function will be provided with the following parameters.
- ** - parameter tdoc: Indicates the source tidy document.
- ** - parameter line Indicates the line in the source document at this point in the process.
- ** - parameter column Indicates the column in the source document at this point in the process.
- ** - parameter destLine Indicates the line number in the output document at this point in the process.
- ** @return Your callback function will return `yes` if Tidy should include the
+ 
+/**
+ This typedef represents the required signature for your provided callback
+ function should you wish to register one with tidySetMessageCallback().
+ Your callback function will be provided with the following parameters.
+ - parameter tdoc: Indicates the source tidy document.
+ - parameter line Indicates the line in the source document at this point in the process.
+ - parameter column: Indicates the column in the source document at this point in the process.
+ - parameter destLine: Indicates the line number in the output document at this point in the process.
+ - returns: Your callback function will return `yes` if Tidy should include the
  **         report in its own output sink, or `no` if Tidy should suppress it.
 */
 typedef void (TIDY_CALL *TidyPPProgress)( TidyDoc tdoc, uint line, uint col, uint destLine );
 
-/** This function informs Tidy to use the specified callback for tracking the
- ** pretty-printing process progress.
+ 
+/** 
+ This function informs Tidy to use the specified callback for tracking the
+ pretty-printing process progress.
 */
 TIDY_EXPORT Bool TIDY_CALL   tidySetPrettyPrinterCallback(TidyDoc tdoc,
                                                           TidyPPProgress callback
@@ -1422,20 +1566,25 @@ TIDY_EXPORT Bool TIDY_CALL   tidySetPrettyPrinterCallback(TidyDoc tdoc,
  ** from input.
  ******************************************************************************/
 
-/** Parse markup in named file.
- ** - returns: Returns the highest of `2` indicating that errors were present in
- **         the docment, `1` indicating warnings, and `0` in the case of
- **         everything being okay.
+/**
+ Parse markup in named file.
+ 
+ - returns: Returns the highest of `2` indicating that errors were present in
+     the docment, `1` indicating warnings, and `0` in the case of
+     everything being okay.
 */
 TIDY_EXPORT int TIDY_CALL         tidyParseFile(TidyDoc tdoc,    /**< The tidy document to use for parsing. */
     ctmbstr filename /**< The filename to parse. */
 );
 
-/** Parse markup from the standard input.
- ** - parameter tdoc: The tidy document to use for parsing.
- ** - returns: Returns the highest of `2` indicating that errors were present in
- **         the docment, `1` indicating warnings, and `0` in the case of
- **         everything being okay.
+ 
+/**
+ Parse markup from the standard input.
+ 
+ - parameter tdoc: The tidy document to use for parsing.
+ - returns: Returns the highest of `2` indicating that errors were present in
+     the docment, `1` indicating warnings, and `0` in the case of
+     everything being okay.
 */
 TIDY_EXPORT int TIDY_CALL         tidyParseStdin( TidyDoc tdoc );
 
@@ -1456,49 +1605,61 @@ public func tidyParseString( _ tdoc: TidyDoc, _ content: String ) -> Int {
 
 /*
 
-/** Parse markup in given buffer.
- ** - returns: Returns the highest of `2` indicating that errors were present in
- **         the docment, `1` indicating warnings, and `0` in the case of
- **         everything being okay.
+/**
+ Parse markup in given buffer.
+ 
+ - returns: Returns the highest of `2` indicating that errors were present in
+     the docment, `1` indicating warnings, and `0` in the case of
+     everything being okay.
 */
 TIDY_EXPORT int TIDY_CALL         tidyParseBuffer(TidyDoc tdoc,   /**< The tidy document to use for parsing. */
     TidyBuffer* buf /**< The TidyBuffer containing data to parse. */
 );
 
-/** Parse markup in given generic input source.
- ** - returns: Returns the highest of `2` indicating that errors were present in
- **         the docment, `1` indicating warnings, and `0` in the case of
- **         everything being okay.
+ 
+/**
+ Parse markup in given generic input source.
+ - returns: Returns the highest of `2` indicating that errors were present in
+     the docment, `1` indicating warnings, and `0` in the case of
+     everything being okay.
 */
 TIDY_EXPORT int TIDY_CALL         tidyParseSource(TidyDoc tdoc,           /**< The tidy document to use for parsing. */
     TidyInputSource* source /**< A TidyInputSource containing data to parse. */
 );
 
+ 
 */
 // MARK: - Clean, Diagnostics, and Repair:
 /*
 
+ 
 /***************************************************************************//**
  ** After parsing the document, you can use these functions to attempt cleanup,
  ** repair, get additional diagnostics, and determine the document type.
  ******************************************************************************/
 
-/** Execute configured cleanup and repair operations on parsed markup.
- ** - parameter tdoc: The tidy document to use.
- ** - returns: An integer representing the status.
+/**
+ Execute configured cleanup and repair operations on parsed markup.
+ 
+ - parameter tdoc: The tidy document to use.
+ - returns: An integer representing the status.
 */
 TIDY_EXPORT int TIDY_CALL         tidyCleanAndRepair( TidyDoc tdoc );
 
-/** Run configured diagnostics on parsed and repaired markup. You must call
- ** tidyCleanAndRepair() before using this function.
- ** - parameter tdoc: The tidy document to use.
- ** - returns: An integer representing the status.
+/**
+ Run configured diagnostics on parsed and repaired markup. You must call
+ tidyCleanAndRepair() before using this function.
+ 
+ - parameter tdoc: The tidy document to use.
+ - returns: An integer representing the status.
 */
 TIDY_EXPORT int TIDY_CALL         tidyRunDiagnostics( TidyDoc tdoc );
 
-/** Reports the document type into the output sink.
- ** - parameter tdoc: The tidy document to use.
- ** - returns: An integer representing the status.
+/**
+ Reports the document type into the output sink.
+ 
+ - parameter tdoc: The tidy document to use.
+ - returns: An integer representing the status.
 */
 TIDY_EXPORT int TIDY_CALL         tidyReportDoctype( TidyDoc tdoc );
 
@@ -1513,56 +1674,75 @@ TIDY_EXPORT int TIDY_CALL         tidyReportDoctype( TidyDoc tdoc );
  ** and string/buffer functions provided for convenience.
  ******************************************************************************/
 
-/** Save the tidy document to the named file.
- ** - returns: An integer representing the status.
+/** 
+ Save the tidy document to the named file.
+ 
+ - returns: An integer representing the status.
 */
 TIDY_EXPORT int TIDY_CALL         tidySaveFile(TidyDoc tdoc,    /**< The tidy document to save. */
     ctmbstr filename /**< The destination file name. */
 );
 
-/** Save the tidy document to standard output (FILE*).
- ** - parameter tdoc: The tidy document to save.
- ** - returns: An integer representing the status.
+ 
+/**
+ Save the tidy document to standard output (FILE*).
+ 
+ - parameter tdoc: The tidy document to save.
+ - returns: An integer representing the status.
 */
 TIDY_EXPORT int TIDY_CALL         tidySaveStdout( TidyDoc tdoc );
 
-/** Save the tidy document to given TidyBuffer object.
- ** - returns: An integer representing the status.
+ 
+/**
+ Save the tidy document to given TidyBuffer object.
+ 
+ - returns: An integer representing the status.
 */
 TIDY_EXPORT int TIDY_CALL         tidySaveBuffer(TidyDoc tdoc,   /**< The tidy document to save. */
     TidyBuffer* buf /**< The buffer to place the output. */
 );
 
-/** Save the tidy document to an application buffer. If TidyShowMarkup and the
- ** document has no errors, or TidyForceOutput, then the current document (per
- ** the current configuration) will be pretty printed to this application
- ** buffer. The document byte length (not character length) will be placed into
- ** *buflen. The document will not be null terminated. If the buffer is not big
- ** enough, ENOMEM will be returned, else the actual document status.
- ** - returns: An integer representing the status.
+/** 
+ Save the tidy document to an application buffer. If TidyShowMarkup and the
+ document has no errors, or TidyForceOutput, then the current document (per
+ the current configuration) will be pretty printed to this application
+ buffer. The document byte length (not character length) will be placed into
+ *buflen. The document will not be null terminated. If the buffer is not big
+ enough, ENOMEM will be returned, else the actual document status.
+ 
+ - returns: An integer representing the status.
 */
 TIDY_EXPORT int TIDY_CALL         tidySaveString(TidyDoc tdoc,  /**< The tidy document to save. */
     tmbstr buffer, /**< The buffer to save to. */
     uint* buflen   /**< [out] The byte length written. */
 );
 
-/** Save to given generic output sink.
- ** - returns: An integer representing the status.
+ 
+/**
+ Save to given generic output sink.
+ 
+ - returns: An integer representing the status.
 */
 TIDY_EXPORT int TIDY_CALL         tidySaveSink(TidyDoc tdoc,        /**< The tidy document to save. */
     TidyOutputSink* sink /**< The output sink to save to. */
 );
 
-/** Save current settings to named file. Only writes non-default values.
- ** - returns: An integer representing the status.
+ 
+/**
+ Save current settings to named file. Only writes non-default values.
+ 
+ - returns: An integer representing the status.
 */
 TIDY_EXPORT int TIDY_CALL         tidyOptSaveFile(TidyDoc tdoc,  /**< The tidy document to save. */
     ctmbstr cfgfil /**< The filename to save the configuration to. */
 );
 
-/** Save current settings to given output sink. Only non-default values are
- ** written.
- ** - returns: An integer representing the status.
+ 
+/**
+ Save current settings to given output sink. Only non-default values are 
+ written.
+ 
+ - returns: An integer representing the status.
 */
 TIDY_EXPORT int TIDY_CALL         tidyOptSaveSink(TidyDoc tdoc,        /**< The tidy document to save. */
     TidyOutputSink* sink /**< The output sink to save the configuration to. */
@@ -1630,27 +1810,35 @@ TIDY_EXPORT int TIDY_CALL         tidyOptSaveSink(TidyDoc tdoc,        /**< The 
 /*
 
 
-/** Get the root node.
- ** - parameter tdoc: The document to query.
- ** - returns: Returns a tidy node.
+/** 
+ Get the root node.
+ 
+ - parameter tdoc: The document to query.
+ - returns: Returns a tidy node.
 */
 TIDY_EXPORT TidyNode TIDY_CALL    tidyGetRoot( TidyDoc tdoc );
 
-/** Get the HTML node.
- ** - parameter tdoc: The document to query.
- ** - returns: Returns a tidy node.
+/** 
+ Get the HTML node.
+ 
+ - parameter tdoc: The document to query.
+ - returns: Returns a tidy node.
 */
 TIDY_EXPORT TidyNode TIDY_CALL    tidyGetHtml( TidyDoc tdoc );
 
-/** Get the HEAD node.
- ** - parameter tdoc: The document to query.
- ** - returns: Returns a tidy node.
+/** 
+ Get the HEAD node.
+ 
+ - parameter tdoc: The document to query.
+ - returns: Returns a tidy node.
 */
 TIDY_EXPORT TidyNode TIDY_CALL    tidyGetHead( TidyDoc tdoc );
 
-/** Get the BODY node.
- ** - parameter tdoc: The document to query.
- ** - returns: Returns a tidy node.
+/** 
+ Get the BODY node.
+ 
+ - parameter tdoc: The document to query.
+ - returns: Returns a tidy node.
 */
 TIDY_EXPORT TidyNode TIDY_CALL    tidyGetBody( TidyDoc tdoc );
 
@@ -1660,27 +1848,35 @@ TIDY_EXPORT TidyNode TIDY_CALL    tidyGetBody( TidyDoc tdoc );
 /*
 
 
-/** Get the parent of the indicated node.
- ** - parameter tnod The node to query.
- ** - returns: Returns a tidy node.
+/** 
+ Get the parent of the indicated node.
+ 
+ - parameter tnod The node to query.
+ - returns: Returns a tidy node.
 */
 TIDY_EXPORT TidyNode TIDY_CALL    tidyGetParent( TidyNode tnod );
 
-/** Get the child of the indicated node.
- ** - parameter tnod The node to query.
- ** - returns: Returns a tidy node.
+/** 
+ Get the child of the indicated node.
+ 
+ - parameter tnod The node to query.
+ - returns: Returns a tidy node.
 */
 TIDY_EXPORT TidyNode TIDY_CALL    tidyGetChild( TidyNode tnod );
 
-/** Get the next sibling node.
- ** - parameter tnod The node to query.
- ** - returns: Returns a tidy node.
+/**
+ Get the next sibling node.
+ 
+ - parameter tnod The node to query.
+ - returns: Returns a tidy node.
 */
 TIDY_EXPORT TidyNode TIDY_CALL    tidyGetNext( TidyNode tnod );
 
-/** Get the previous sibling node.
- ** - parameter tnod The node to query.
- ** - returns: Returns a tidy node.
+/**
+ Get the previous sibling node.
+ 
+ - parameter tnod The node to query.
+ - returns: Returns a tidy node.
 */
 TIDY_EXPORT TidyNode TIDY_CALL    tidyGetPrev( TidyNode tnod );
 
@@ -1690,8 +1886,10 @@ TIDY_EXPORT TidyNode TIDY_CALL    tidyGetPrev( TidyNode tnod );
 /*
 
 
-/** Remove the indicated node.
- ** - returns: Returns the next tidy node.
+/** 
+ Remove the indicated node.
+ 
+ - returns: Returns the next tidy node.
 */
 TIDY_EXPORT TidyNode TIDY_CALL    tidyDiscardElement(TidyDoc tdoc, /**< The tidy document from which to remove the node. */
     TidyNode tnod /**< The node to remove */
@@ -1703,50 +1901,70 @@ TIDY_EXPORT TidyNode TIDY_CALL    tidyDiscardElement(TidyDoc tdoc, /**< The tidy
 /*
 
 
-/** Get the first attribute.
- ** - parameter tnod The node for which to get attributes.
- ** - returns: Returns an instance of TidyAttr.
+/** 
+ Get the first attribute.
+ 
+ - parameter tnod The node for which to get attributes.
+ - returns: Returns an instance of TidyAttr.
 */
 TIDY_EXPORT TidyAttr TIDY_CALL    tidyAttrFirst( TidyNode tnod );
 
-/** Get the next attribute.
- ** - parameter tattr The current attribute, so the next one can be returned.
- ** - returns: Returns and instance of TidyAttr.
+ 
+/**
+ Get the next attribute.
+ 
+ - parameter tattr The current attribute, so the next one can be returned.
+ - returns: Returns and instance of TidyAttr.
 */
 TIDY_EXPORT TidyAttr TIDY_CALL    tidyAttrNext( TidyAttr tattr );
 
-/** Get the name of a TidyAttr instance.
- ** - parameter tattr The tidy attribute to query.
- ** - returns: Returns a string indicating the name of the attribute.
+ 
+/**
+ Get the name of a TidyAttr instance.
+ - parameter tattr The tidy attribute to query.
+ - returns: Returns a string indicating the name of the attribute.
 */
 TIDY_EXPORT ctmbstr TIDY_CALL     tidyAttrName( TidyAttr tattr );
 
+ 
 /** Get the value of a TidyAttr instance.
  ** - parameter tattr The tidy attribute to query.
  ** - returns: Returns a string indicating the value of the attribute.
 */
 TIDY_EXPORT ctmbstr TIDY_CALL     tidyAttrValue( TidyAttr tattr );
 
-/** Discard an attribute. */
+ 
+/**
+ Discard an attribute.
+*/
 TIDY_EXPORT void TIDY_CALL        tidyAttrDiscard(TidyDoc itdoc, /**< The tidy document from which to discard the attribute. */
     TidyNode tnod, /**< The node from which to discard the attribute. */
     TidyAttr tattr /**< The attribute to discard. */
 );
 
-/** Get the attribute ID given a tidy attribute.
- ** - parameter tattr The attribute to query.
- ** - returns: Returns the TidyAttrId of the given attribute.
- **/
+ 
+/** 
+ Get the attribute ID given a tidy attribute.
+ 
+ - parameter tattr The attribute to query.
+ - returns: Returns the TidyAttrId of the given attribute.
+*/
 TIDY_EXPORT TidyAttrId TIDY_CALL  tidyAttrGetId( TidyAttr tattr );
 
-/** Indicates whether or not a given attribute is an event attribute.
- ** - parameter tattr The attribute to query.
- ** - returns: Returns a bool indicating whether or not the attribute is an event.
+ 
+/**
+ Indicates whether or not a given attribute is an event attribute.
+ 
+ - parameter tattr The attribute to query.
+ - returns: Returns a bool indicating whether or not the attribute is an event.
  **/
 TIDY_EXPORT Bool TIDY_CALL        tidyAttrIsEvent( TidyAttr tattr );
 
-/** Get an instance of TidyAttr by specifying an attribute ID.
- ** - returns: Returns a TidyAttr instance.
+ 
+/**
+ Get an instance of TidyAttr by specifying an attribute ID.
+ 
+ - returns: Returns a TidyAttr instance.
 */
 TIDY_EXPORT TidyAttr TIDY_CALL    tidyAttrGetById(TidyNode tnod,   /**< The node to query. */
     TidyAttrId attId /**< The attribute ID to find. */
@@ -1758,77 +1976,109 @@ TIDY_EXPORT TidyAttr TIDY_CALL    tidyAttrGetById(TidyNode tnod,   /**< The node
 /*
 
 
-/** Get the type of node.
- ** - parameter tnod The node to query.
- ** - returns: Returns the type of node as TidyNodeType.
+/**
+ Get the type of node.
+ 
+ - parameter tnod The node to query.
+ - returns: Returns the type of node as TidyNodeType.
 */
 TIDY_EXPORT TidyNodeType TIDY_CALL tidyNodeGetType( TidyNode tnod );
 
-/** Get the name of the node.
- ** - parameter tnod The node to query.
- ** - returns: Returns a string indicating the name of the node.
+ 
+/**
+ Get the name of the node.
+ 
+ - parameter tnod The node to query.
+ - returns: Returns a string indicating the name of the node.
 */
 TIDY_EXPORT ctmbstr TIDY_CALL tidyNodeGetName( TidyNode tnod );
 
-/** Indicates whether or not a node is a text node.
- ** - parameter tnod The node to query.
- ** - returns: Returns a bool indicating whether or not the node is a text node.
+ 
+/**
+ Indicates whether or not a node is a text node.
+ 
+ - parameter tnod The node to query.
+ - returns: Returns a bool indicating whether or not the node is a text node.
 */
 TIDY_EXPORT Bool TIDY_CALL tidyNodeIsText( TidyNode tnod );
 
-/** Indicates whether or not the node is a propriety type.
- ** - returns: Returns a bool indicating whether or not the node is a proprietary type.
+ 
+/**
+ Indicates whether or not the node is a propriety type.
+ 
+ - returns: Returns a bool indicating whether or not the node is a proprietary type.
 */
 TIDY_EXPORT Bool TIDY_CALL tidyNodeIsProp(TidyDoc tdoc, /**< The document to query. */
     TidyNode tnod /**< The node to query */
 );
 
-/** Indicates whether or not a node represents and HTML header element, such
- ** as h1, h2, etc.
- ** - parameter tnod The node to query.
- ** - returns: Returns a bool indicating whether or not the node is an HTML header.
+ 
+/**
+ Indicates whether or not a node represents and HTML header element, such
+ as h1, h2, etc.
+ 
+ - parameter tnod The node to query.
+ - returns: Returns a bool indicating whether or not the node is an HTML header.
 */
 TIDY_EXPORT Bool TIDY_CALL tidyNodeIsHeader( TidyNode tnod );
 
-/** Indicates whether or not the node has text.
- ** - returns: Returns the type of node as TidyNodeType.
+ 
+/**
+ Indicates whether or not the node has text.
+ 
+ - returns: Returns the type of node as TidyNodeType.
 */
 TIDY_EXPORT Bool TIDY_CALL tidyNodeHasText(TidyDoc tdoc, /**< The document to query. */
     TidyNode tnod /**< The node to query. */
 );
 
-/** Gets the text of a node and places it into the given TidyBuffer.
- ** - returns: Returns a bool indicating success or not.
+ 
+/**
+ Gets the text of a node and places it into the given TidyBuffer.
+ 
+ - returns: Returns a bool indicating success or not.
 */
 TIDY_EXPORT Bool TIDY_CALL tidyNodeGetText(TidyDoc tdoc,   /**< The document to query. */
     TidyNode tnod,  /**< The node to query. */
     TidyBuffer* buf /**< [out] A TidyBuffer used to receive the node's text. */
 );
 
-/** Get the value of the node. This copies the unescaped value of this node into
- ** the given TidyBuffer at UTF-8.
- ** - returns: Returns a bool indicating success or not.
+ 
+/**
+ Get the value of the node. This copies the unescaped value of this node into
+ the given TidyBuffer at UTF-8.
+ 
+ - returns: Returns a bool indicating success or not.
 */
 TIDY_EXPORT Bool TIDY_CALL tidyNodeGetValue(TidyDoc tdoc,   /**< The document to query */
     TidyNode tnod,  /**< The node to query */
     TidyBuffer* buf /**< [out] A TidyBuffer used to receive the node's value. */
 );
 
-/** Get the tag ID of the node.
- ** - parameter tnod The node to query.
- ** - returns: Returns the tag ID of the node as TidyTagId.
+ 
+/**
+ Get the tag ID of the node.
+ 
+ - parameter tnod The node to query.
+ - returns: Returns the tag ID of the node as TidyTagId.
 */
 TIDY_EXPORT TidyTagId TIDY_CALL tidyNodeGetId( TidyNode tnod );
 
-/** Get the line number where the node occurs.
- ** - parameter tnod The node to query.
- ** - returns: Returns the line number.
+ 
+/**
+ Get the line number where the node occurs.
+ 
+ - parameter tnod The node to query.
+ - returns: Returns the line number.
 */
 TIDY_EXPORT uint TIDY_CALL tidyNodeLine( TidyNode tnod );
 
-/** Get the column location of the node.
- ** - parameter tnod The node to query.
- ** - returns: Returns the column location of the node.
+ 
+/**
+ Get the column location of the node.
+ 
+ - parameter tnod The node to query.
+ - returns: Returns the column location of the node.
 */
 TIDY_EXPORT uint TIDY_CALL tidyNodeColumn( TidyNode tnod );
 
@@ -1849,27 +2099,29 @@ TIDY_EXPORT uint TIDY_CALL tidyNodeColumn( TidyNode tnod );
  ******************************************************************************/
 
 /**
- ** Given a message code, return the text key that represents it.
- ** - parameter code The error code to lookup.
- ** - returns: The string representing the error code.
+ Given a message code, return the text key that represents it.
+ 
+ - parameter code The error code to lookup.
+ - returns: The string representing the error code.
 */
 TIDY_EXPORT ctmbstr TIDY_CALL tidyErrorCodeAsKey(uint code);
 
 /**
- ** Given a text key representing a message code, return the uint that
- ** represents it.
- **
- ** @remark We establish that for external purposes, the API will ensure that
- **         string keys remain consistent. *Never* count on the integer value
- **         of a message code. Always use this function to ensure that the
- **         integer is valid if you need one.
- ** - parameter code The string representing the error code.
- ** - returns: Returns an integer that represents the error code, which can be
- **         used to lookup Tidy's built-in strings. If the provided string does
- **         not have a matching message code, then UINT_MAX will be returned.
+ Given a text key representing a message code, return the uint that
+ represents it.
+ 
+ - Note: We establish that for external purposes, the API will ensure that
+     string keys remain consistent. *Never* count on the integer value
+     of a message code. Always use this function to ensure that the
+     integer is valid if you need one.
+ - parameter code: The string representing the error code.
+ - returns: Returns an integer that represents the error code, which can be
+     used to lookup Tidy's built-in strings. If the provided string does
+     not have a matching message code, then UINT_MAX will be returned.
 */
 TIDY_EXPORT uint TIDY_CALL tidyErrorCodeFromKey(ctmbstr code);
 
+ 
 /** Initiates an iterator for a list of message codes available in Tidy.
  ** This iterator allows you to iterate through all of the code. In orde to
  ** iterate through the codes, initiate the iterator with this function, and
@@ -1914,9 +2166,11 @@ TIDY_EXPORT uint TIDY_CALL getNextErrorCode( TidyIterator* iter );
 /*
 
 
-/** Determines the current locale without affecting the C locale.
- ** - parameter  result The buffer to use to return the string, or NULL on failure.
- ** @return The same buffer for convenience.
+/** 
+ Determines the current locale without affecting the C locale.
+ 
+ - parameter result: The buffer to use to return the string, or NULL on failure.
+ - returns: The same buffer for convenience.
 */
 TIDY_EXPORT tmbstr TIDY_CALL tidySystemLocale(tmbstr result);
 
@@ -1932,8 +2186,11 @@ TIDY_EXPORT tmbstr TIDY_CALL tidySystemLocale(tmbstr result);
 */
 TIDY_EXPORT Bool TIDY_CALL tidySetLanguage( ctmbstr languageCode );
 
-/** Gets the current language used by Tidy.
- ** - returns: Returns a string indicating the currently set language.
+ 
+/**
+ Gets the current language used by Tidy.
+ 
+ - returns: Returns a string indicating the currently set language.
 */
 TIDY_EXPORT ctmbstr TIDY_CALL tidyGetLanguage();
 
@@ -1978,15 +2235,19 @@ TIDY_EXPORT TidyIterator TIDY_CALL getWindowsLanguageList();
 */
 TIDY_EXPORT const tidyLocaleMapItem* TIDY_CALL getNextWindowsLanguage( TidyIterator* iter );
 
-/** Given a `tidyLocalMapItem`, return the Windows name.
- ** - parameter item An instance of tidyLocalMapItem to query.
- ** - returns: Returns a string with the Windows name of the mapping.
+/** 
+ Given a `tidyLocalMapItem`, return the Windows name.
+ 
+ - parameter item: An instance of tidyLocalMapItem to query.
+ - returns: Returns a string with the Windows name of the mapping.
 */
 TIDY_EXPORT const ctmbstr TIDY_CALL TidyLangWindowsName( const tidyLocaleMapItem *item );
 
-/** Given a `tidyLocalMapItem`, return the POSIX name.
- ** - parameter item An instance of tidyLocalMapItem to query.
- ** - returns: Returns a string with the POSIX name of the mapping.
+/** 
+ Given a `tidyLocalMapItem`, return the POSIX name.
+ 
+ - parameter item: An instance of tidyLocalMapItem to query.
+ - returns: Returns a string with the POSIX name of the mapping.
 */
 TIDY_EXPORT const ctmbstr TIDY_CALL TidyLangPosixName( const tidyLocaleMapItem *item );
 
@@ -1996,30 +2257,39 @@ TIDY_EXPORT const ctmbstr TIDY_CALL TidyLangPosixName( const tidyLocaleMapItem *
 /*
 
 
-/** Provides a string given `messageType` in the current localization for
- ** `quantity`. Some strings have one or more plural forms, and this function
- ** will ensure that the correct singular or plural form is returned for the
- ** specified quantity.
- ** - returns: Returns the desired string.
+/** 
+ Provides a string given `messageType` in the current localization for
+ `quantity`. Some strings have one or more plural forms, and this function
+ will ensure that the correct singular or plural form is returned for the
+ specified quantity.
+ 
+ - returns: Returns the desired string.
 */
 TIDY_EXPORT ctmbstr TIDY_CALL tidyLocalizedStringN(uint messageType, /**< The message type. */
     uint quantity     /**< The quantity. */
 );
 
-/** Provides a string given `messageType` in the current localization for the
- ** single case.
- ** - parameter messageType The message type.
- ** - returns: Returns the desired string.
+ 
+/**
+ Provides a string given `messageType` in the current localization for the
+ single case.
+ 
+ - parameter messageType The message type.
+ - returns: Returns the desired string.
 */
 TIDY_EXPORT ctmbstr TIDY_CALL tidyLocalizedString( uint messageType );
 
-/** Provides a string given `messageType` in the default localization (which
- ** is `en`).
- ** - parameter messageType The message type.
- ** - returns: Returns the desired string.
+ 
+/** 
+ Provides a string given `messageType` in the default localization (which
+ is `en`).
+ 
+ - parameter messageType The message type.
+ - returns: Returns the desired string.
 */
 TIDY_EXPORT ctmbstr TIDY_CALL tidyDefaultString( uint messageType );
 
+ 
 /** Initiates an iterator for a list of string key codes available in Tidy.
  ** This iterator allows you to iterate through all of the codes. In order to
  ** iterate through the codes, initiate the iterator with this function, and
