@@ -63,7 +63,9 @@ class TidyRunner {
         tidyErrorSummary(tdoc)
         tidyGeneralInfo(tdoc)
         
-        let myarray = tidyGetOptions( tdoc )
+        let myOpts = tidyGetOptionList( tdoc )
+        
+        print( tidyOptGetPickList(myOpts[0]) )
         
 
         tidyRelease( tdoc )
