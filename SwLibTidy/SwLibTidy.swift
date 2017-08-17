@@ -132,28 +132,35 @@ public class TidyBuffer {
     fileprivate typealias _tidybuff = UnsafeMutablePointer<CLibTidy.TidyBuffer>
     fileprivate var ptrBuffer: _tidybuff
     
+    
     /** An accessor to the underlying raw data buffer used by CLibTidy. When
         using non-UTF8 buffers, you will want to convert this data into a
-        string or other representation yourself with the correct encoding. */
+        string or other representation yourself with the correct encoding.
+     */
     var rawBuffer: UnsafeMutablePointer<byte> {
         return ptrBuffer.pointee.bp
     }
     
+    /** Provides an accessor to the underlying raw buffer's data size.*/
     var rawBufferSize: UInt {
         return UInt(ptrBuffer.pointee.size)
     }
     
+    /** Provides the contents of the buffer as a string assuming internal UTF8
+        representation. All of Tidy's output is UTF8 *except* for Tidy's
+        document output buffer, which will contain data encoded according to
+        Tidy's `output-encoding`.
+     */
     var UTF8String: String? {
         guard rawBufferSize > 0 else { return nil }
         
-        // This approach copies the buffer first. Maybe not desired...
+        let theData = Data( bytes: rawBuffer, count: Int(rawBufferSize) )
 
-        let theData = Data(bytes: rawBuffer, count: Int(rawBufferSize))
-
-        return String(data: theData, encoding: String.Encoding.utf8)
+        return Swift.String( data: theData, encoding: .utf8 )
     }
     
-    init () {
+    /** Initializes the buffer and makes it ready for use. */
+    init() {
         
         ptrBuffer = _tidybuff.allocate(capacity: MemoryLayout<_tidybuff>.size)
         tidyBufInit( ptrBuffer )
@@ -162,6 +169,28 @@ public class TidyBuffer {
     deinit {
         tidyBufFree( ptrBuffer )
         free( ptrBuffer )
+    }
+    
+    
+    /** Provides the contents of the buffer as a string decoded according to
+        the specifed CLibTidy encoding type passed via `usingTidyEncoding:`
+        Tidy's buffer may contain representations in other than UTF8 format
+        as specified by `output-encoding`. Valid values include `ascii`,
+        `latin1`, `utf8`, `iso2022`, `mac`, `win1252`, `utf16le`, `utf16be`,
+        `utf16`, `big5`, and `shiftjis`. These values are not case
+        sensitive. `raw` is not support. Decoding will be performed by Cocoa,
+        and not CLibTidy.
+     */
+    func String( usingTidyEncoding: String) -> String? {
+        
+        guard
+            rawBufferSize > 0,
+            let encoding = encAssociations[ usingTidyEncoding ]
+        else { return nil }
+        
+        let theData = Data( bytes: rawBuffer, count: Int(rawBufferSize) )
+        
+        return Swift.String( data: theData, encoding: encoding )
     }
 }
 
@@ -528,9 +557,12 @@ public func tidySetInCharEncoding( _ tdoc: TidyDoc, _ encnam: String ) -> Int {
 
 
 /**
- Set the input encoding for writing markup.  Valid values include `ascii`,
+ Set the output encoding for writing markup.  Valid values include `ascii`,
  `latin1`, `raw`, `utf8`, `iso2022`, `mac`, `win1252`, `utf16le`, `utf16be`,
  `utf16`, `big5`, and `shiftjis`. These values are not case sensitive.
+ 
+ - Note: Changing this value _after_ processing a document will _not_ change
+     the results present in any buffers.
  
  - parameters:
    - tdoc: The `TidyDoc` for which you are setting the encoding.
@@ -1276,20 +1308,6 @@ public func tidySetErrorBuffer( _ tdoc: TidyDoc, errbuf: TidyBuffer ) -> Int {
 }
 
 
-/*
-
-
-/** 
- Set error sink to given generic sink.
- 
- - returns: Returns 0 upon success or a standard error number.
-*/
-TIDY_EXPORT int TIDY_CALL tidySetErrorSink(TidyDoc tdoc,        /**< The document to set. */
-    TidyOutputSink* sink /**< The TidyOutputSink to collect output. */
-);
-
-
-*/
 // MARK: Error and Message Callbacks - TidyMessageCallback
 /*
 
@@ -1308,38 +1326,48 @@ TIDY_EXPORT int TIDY_CALL tidySetErrorSink(TidyDoc tdoc,        /**< The documen
  This typedef represents the required signature for your provided callback
  function should you wish to register one with tidySetMessageCallback().
  Your callback function will be provided with the following parameters.
- - parameter tmessage An opaque type used as a token against which other API
-     calls can be made.
+ 
+ - parameters:
+   - tmessage: An opaque type used as a token against which other API
+       calls can be made.
  - returns: Your callback function will return `yes` if Tidy should include the
      report in its own output sink, or `no` if Tidy should suppress it.
 */
 typedef Bool (TIDY_CALL *TidyMessageCallback)( TidyMessage tmessage );
 
+ 
 /** 
  This function informs Tidy to use the specified callback to send reports.
+ 
+ - parameters:
+   - tdoc: The tidy document for which the callback applies.
+   - filtCallback: A pointer to your callback function of type 
+       `TidyMessageCallback`.
+ - returns:
+     A boolean indicating success or failure setting the callback.
  */
-TIDY_EXPORT Bool TIDY_CALL tidySetMessageCallback(TidyDoc tdoc,                    /**< The tidy document for which the callback applies. */
-    TidyMessageCallback filtCallback /**< A pointer to your callback function of type TidyMessageCallback. */
-);
+TIDY_EXPORT Bool TIDY_CALL tidySetMessageCallback(TidyDoc tdoc, TidyMessageCallback filtCallback );
  
 
 */
-// MARK: TidyMessageCallback API
-/*
-
-
-/** When using `TidyMessageCallback` you will be supplied with a TidyMessage
+/***************************************************************************//**
  ** object, which is used as a token to be interrogated with the following
  ** API before the callback returns.
  ** @remark Upon returning from the callback, this object is destroyed so do
  ** not attempt to copy it, or keep it around, or use it in any way.
-*/
+ ******************************************************************************/
+// MARK: TidyMessageCallback API
+/*
+
+
 
 /**
  Get the tidy document this message comes from.
  
- - parameter tmessage: Specify the message that you are querying.
- - returns: Returns the TidyDoc that generated the message.
+ - parameters:
+   - tmessage: Specify the message that you are querying.
+ - returns:
+     Returns the TidyDoc that generated the message.
 */
 TIDY_EXPORT TidyDoc TIDY_CALL tidyGetMessageDoc( TidyMessage tmessage );
 
@@ -1347,12 +1375,14 @@ TIDY_EXPORT TidyDoc TIDY_CALL tidyGetMessageDoc( TidyMessage tmessage );
 /**
  Get the message code.
  
- - parameter tmessage: Specify the message that you are querying.
- - returns: Returns a code representing the message. This code can be used
-     directly with the localized strings API; however we never make
-     any guarantees about the value of these codes. For code stability
-     don't store this value in your own application. Instead use the
-     enum field or use the message key string value.
+ - parameters:
+   - tmessage: Specify the message that you are querying.
+ - returns: 
+     Returns a code representing the message. This code can be used directly
+     with the localized strings API; however we never make any guarantees about
+     the value of these codes. For code stability don't store this value in your
+     own application. Instead use the enum field or use the message key string
+     value.
 */
 TIDY_EXPORT uint TIDY_CALL tidyGetMessageCode( TidyMessage tmessage );
 
@@ -1360,10 +1390,12 @@ TIDY_EXPORT uint TIDY_CALL tidyGetMessageCode( TidyMessage tmessage );
 /** 
  Get the message key string.
  
- - parameter tmessage: Specify the message that you are querying.
- - returns: Returns a string representing the message. This string is intended
-     to be stable by the LibTidy API, and is suitable for use as a key
-     in your own applications.
+ - parameters:
+   - tmessage: Specify the message that you are querying.
+ - returns: 
+     Returns a string representing the message. This string is intended to be
+     stable by the LibTidy API, and is suitable for use as a key in your own
+     applications.
 */
 TIDY_EXPORT ctmbstr TIDY_CALL tidyGetMessageKey( TidyMessage tmessage );
 
@@ -1371,8 +1403,10 @@ TIDY_EXPORT ctmbstr TIDY_CALL tidyGetMessageKey( TidyMessage tmessage );
 /**
  Get the line number the message applies to.
  
- - parameter tmessage: Specify the message that you are querying.
- - returns: Returns the line number, if any, that generated the message.
+ - parameters:
+   - tmessage: Specify the message that you are querying.
+ - returns: 
+     Returns the line number, if any, that generated the message.
 */
 TIDY_EXPORT int TIDY_CALL tidyGetMessageLine( TidyMessage tmessage );
 
@@ -2472,4 +2506,29 @@ class ApplicationData {
 private func convertTidyToSwiftType( tidyBool: CLibTidy.Bool ) -> Swift.Bool {
     return tidyBool.rawValue == 1
 }
+
+
+/** 
+ Provide mappings from CLibTidy encoding names to Cocoa string encoding
+ types.
+*/
+
+let cfEnc = CFStringEncodings.big5
+let nsEnc = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(cfEnc.rawValue))
+let big5encoding = String.Encoding(rawValue: nsEnc)
+
+private let encAssociations = [
+    "ascii"    : Swift.String.Encoding.ascii,
+    "latin1"   : Swift.String.Encoding.isoLatin1,
+    "utf8"     : Swift.String.Encoding.utf8,
+    "iso2022"  : Swift.String.Encoding.iso2022JP,
+    "mac"      : Swift.String.Encoding.macOSRoman,
+    "win1252"  : Swift.String.Encoding.windowsCP1252,
+    "utf16le"  : Swift.String.Encoding.utf16LittleEndian,
+    "utf16be"  : Swift.String.Encoding.utf16BigEndian,
+    "utf16"    : Swift.String.Encoding.utf16,
+    "big5"     : big5encoding,
+    "shiftjis" : Swift.String.Encoding.shiftJIS
+]
+
 
