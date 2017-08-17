@@ -40,6 +40,9 @@ class TidyRunner {
 
         // Store a reference to self here, so that we can fetch it later.
         tidySetAppData(tdoc, self)
+        
+        let errorBuffer = TidyBuffer()
+        _ = tidySetErrorBuffer( tdoc, errbuf: errorBuffer )
 
         // Let's load a configuration file. 
         // Note, eventually copy these to the bundle and load them from there.
@@ -66,6 +69,11 @@ class TidyRunner {
         let myOpts = tidyGetOptionList( tdoc )
         
         print( tidyOptGetPickList(myOpts[0]) )
+        
+        print("---------------------------------")
+        
+        print(errorBuffer.UTF8String ?? "MISSING!")
+        
         
 
         tidyRelease( tdoc )

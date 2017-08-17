@@ -116,6 +116,57 @@ public typealias TidyMessage = CLibTidy.TidyMessage
 public typealias TidyMessageArgument = CLibTidy.TidyMessageArgument
 
 
+// MARK: - Tidy Input/Output Buffers
+
+
+/**
+ Provide a buffer that CLibTidy can use for most of its I/O.
+ 
+ - Remark: Unless using standard I/O or files, Tidy inherently requires the use
+     of C buffers in order to perform its I/O, and instances of this class
+     abstract most of the C pointer handling and unsafe types that are involved
+     in such.
+*/
+public class TidyBuffer {
+    
+    fileprivate typealias _tidybuff = UnsafeMutablePointer<CLibTidy.TidyBuffer>
+    fileprivate var ptrBuffer: _tidybuff
+    
+    /** An accessor to the underlying raw data buffer used by CLibTidy. When
+        using non-UTF8 buffers, you will want to convert this data into a
+        string or other representation yourself with the correct encoding. */
+    var rawBuffer: UnsafeMutablePointer<byte> {
+        return ptrBuffer.pointee.bp
+    }
+    
+    var rawBufferSize: UInt {
+        return UInt(ptrBuffer.pointee.size)
+    }
+    
+    var UTF8String: String? {
+        guard rawBufferSize > 0 else { return nil }
+        
+        // This approach copies the buffer first. Maybe not desired...
+
+        let theData = Data(bytes: rawBuffer, count: Int(rawBufferSize))
+
+        return String(data: theData, encoding: String.Encoding.utf8)
+    }
+    
+    init () {
+        
+        ptrBuffer = _tidybuff.allocate(capacity: MemoryLayout<_tidybuff>.size)
+        tidyBufInit( ptrBuffer )
+    }
+    
+    deinit {
+        tidyBufFree( ptrBuffer )
+        free( ptrBuffer )
+    }
+}
+
+
+
 // MARK: - Basic Operations -
 
 // MARK: Instantiation and Destruction
@@ -1215,18 +1266,13 @@ public func tidyGetEmacsFile( _ tdoc: TidyDoc ) -> String {
  
  - parameters:
    - tdoc: The document to set.
-   - errbuf: The TidyBuffer to collect output.
+   - errbuf: An instance of TidyBuffer to provide output.
  - returns:
      Returns 0 upon success or a standard error number.
 */
-public func tidySetErrorBuffer( _ tdoc: TidyDoc, errbuf: TidyBuffer* ) -> Int {
+public func tidySetErrorBuffer( _ tdoc: TidyDoc, errbuf: TidyBuffer ) -> Int {
 
-    // Here we're getting into unmanaged memory and C voodoo. It would be nice
-    // if I could abstract this into a String, somehow. The problem is once the
-    // user has a buffer, he can read it any time. MAYBE I capture this in all
-    // of the TidyCleanAndRepair, etc., to update the string then, and not
-    // provide this function at all?
-    return 0
+    return Int( CLibTidy.tidySetErrorBuffer( tdoc, errbuf.ptrBuffer) )
 }
 
 
