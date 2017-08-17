@@ -1130,10 +1130,6 @@ public func tidyOptGetDocLinksList( _ tdoc: TidyDoc, _ opt: TidyOption ) -> [Tid
 }
 
 
-// MARK: - I/O and Messages
-/*
-     
-
 /***************************************************************************//**
  ** Tidy provides flexible I/O. By default, Tidy will define, create and use
  ** instances of input and output handlers for standard C buffered I/O (i.e.,
@@ -1142,15 +1138,24 @@ public func tidyOptGetDocLinksList( _ tdoc: TidyDoc, _ opt: TidyOption ) -> [Tid
  ** input handler will be used for config files. Command line options will
  ** just be set directly.
  ******************************************************************************/
+// MARK: - I/O and Messages
 
 
+/*
 TIDY_STRUCT struct _TidyBuffer;
 typedef struct _TidyBuffer TidyBuffer;
-
- 
 */
+
+/**
+ This typealias provides a type for dealing with non-standard input and output
+ streams in Swift. In general you can set CLibTidy's input streams and then
+ forget them, however if you wish to contribute additional I/O with these
+ non-standard streams, you will have to do it with a C-type API.
+*/
+public typealias CFilePointer = UnsafeMutablePointer<FILE>
+
+
 // MARK: - Emacs-compatible reporting support
-/*
 
  
 /**
@@ -1161,44 +1166,72 @@ typedef struct _TidyBuffer TidyBuffer;
  - Note: This is useful if you work with Emacs and prefer Tidy's report
      output to be in a form that is easy for Emacs to parse
  
- - parameter tdoc: The tidy document for which you are setting the filePath.
- - parameter filePath: The path of the document that should be reported.
+ - parameters:
+   - tdoc: The tidy document for which you are setting the `filePath`.
+   - filePath: The path of the document that should be reported.
 */
-TIDY_EXPORT void TIDY_CALL tidySetEmacsFile(TidyDoc tdoc, ctmbstr filePath );
+public func tidySetEmacsFile( _ tdoc: TidyDoc, _ filePath: String ) {
+
+    CLibTidy.tidySetEmacsFile( tdoc, filePath )
+}
 
 /** 
  Get the file path to use for reports when `TidyEmacs` is being used. This
  function provides a proper interface for using the hidden, internal-only
  `TidyEmacsFile` configuration option.
  
- - parameter tdoc: The tidy document for which you want to fetch the file path.
- - returns: Returns a string indicating the file path.
+ - parameters:
+   - tdoc: The tidy document for which you want to fetch the file path.
+ - returns:
+     Returns a string indicating the file path.
 */
-TIDY_EXPORT ctmbstr TIDY_CALL tidyGetEmacsFile( TidyDoc tdoc );
+public func tidyGetEmacsFile( _ tdoc: TidyDoc ) -> String {
+
+    return String( cString: CLibTidy.tidyGetEmacsFile( tdoc ) )
+}
 
  
-*/
 // MARK: Error Sink
-/*
- 
- 
+
+
+
 /** 
  Set error sink to named file.
- 
- - returns: Returns a file handle.
+
+ - parameters:
+   - tdoc: The document to set.
+   - errfilname: The file path to send output.
+ - returns: 
+     Returns a file handle.
 */
-TIDY_EXPORT FILE* TIDY_CALL tidySetErrorFile(TidyDoc tdoc,     /**< The document to set. */
-    ctmbstr errfilnam /**< The file path to send output. */
-);
+@discardableResult public func tidySetErrorFile( _ tdoc: TidyDoc, _ errfilnam: String ) -> CFilePointer {
+ 
+    return CLibTidy.tidySetErrorFile( tdoc, errfilnam )
+}
+
 
 /**
  Set error sink to given buffer.
  
- - returns: Returns 0 upon success or a standard error number.
+ - parameters:
+   - tdoc: The document to set.
+   - errbuf: The TidyBuffer to collect output.
+ - returns:
+     Returns 0 upon success or a standard error number.
 */
-TIDY_EXPORT int TIDY_CALL tidySetErrorBuffer(TidyDoc tdoc,      /**< The document to set. */
-    TidyBuffer* errbuf /**< The TidyBuffer to collect output. */
-);
+public func tidySetErrorBuffer( _ tdoc: TidyDoc, errbuf: TidyBuffer* ) -> Int {
+
+    // Here we're getting into unmanaged memory and C voodoo. It would be nice
+    // if I could abstract this into a String, somehow. The problem is once the
+    // user has a buffer, he can read it any time. MAYBE I capture this in all
+    // of the TidyCleanAndRepair, etc., to update the string then, and not
+    // provide this function at all?
+    return 0
+}
+
+
+/*
+
 
 /** 
  Set error sink to given generic sink.
