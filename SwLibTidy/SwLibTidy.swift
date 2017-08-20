@@ -1224,11 +1224,6 @@ public func tidyOptGetDocLinksList( _ tdoc: TidyDoc, _ opt: TidyOption ) -> [Tid
 // MARK: - I/O and Messages
 
 
-/*
-TIDY_STRUCT struct _TidyBuffer;
-typedef struct _TidyBuffer TidyBuffer;
-*/
-
 /**
  This typealias provides a type for dealing with non-standard input and output
  streams in Swift. In general you can set CLibTidy's input streams and then
@@ -1277,7 +1272,6 @@ public func tidyGetEmacsFile( _ tdoc: TidyDoc ) -> String {
 // MARK: Error Sink
 
 
-
 /** 
  Set error sink to named file.
 
@@ -1308,10 +1302,6 @@ public func tidySetErrorBuffer( _ tdoc: TidyDoc, errbuf: TidyBuffer ) -> Int {
 }
 
 
-// MARK: Error and Message Callbacks - TidyMessageCallback
-/*
-
-
 /***************************************************************************//**
  A sophisticated and extensible callback to filter or collect messages
  reported by Tidy. It returns only an opaque type `TidyMessage` for every
@@ -1320,20 +1310,21 @@ public func tidySetErrorBuffer( _ tdoc: TidyDoc, errbuf: TidyBuffer ) -> Int {
  callback exposes *all* output that LibTidy emits (excluding the console
  application, which is a client of LibTidy).
  ******************************************************************************/
+// MARK: Error and Message Callbacks - TidyMessageCallback
 
- 
-/** 
- This typedef represents the required signature for your provided callback
+
+/**
+ This typealias represents the required signature for your provided callback
  function should you wish to register one with tidySetMessageCallback().
  Your callback function will be provided with the following parameters.
  
  - parameters:
-   - tmessage: An opaque type used as a token against which other API
-       calls can be made.
- - returns: Your callback function will return `yes` if Tidy should include the
-     report in its own output sink, or `no` if Tidy should suppress it.
+   - tmessage: An opaque type used as a token against which other API calls can
+       be made.
+ - returns: Your callback function will return `true` if Tidy should include the
+     report in its own output sink, or `false` if Tidy should suppress it.
 */
-typedef Bool (TIDY_CALL *TidyMessageCallback)( TidyMessage tmessage );
+public typealias TidyMessageCallback = ( _ tmessage: TidyMessage ) -> Swift.Bool
 
  
 /** 
@@ -1346,10 +1337,39 @@ typedef Bool (TIDY_CALL *TidyMessageCallback)( TidyMessage tmessage );
  - returns:
      A boolean indicating success or failure setting the callback.
  */
-TIDY_EXPORT Bool TIDY_CALL tidySetMessageCallback(TidyDoc tdoc, TidyMessageCallback filtCallback );
- 
+public func tidySetMessageCallback( _ tdoc: TidyDoc, filtCallback: @escaping TidyMessageCallback ) -> Swift.Bool {
 
-*/
+    // Let's turn our opaque reference to an ApplicationData into an instance.
+    guard let ptrStorage = CLibTidy.tidyGetAppData(tdoc) else { return false }
+    
+    let storage: ApplicationData = Unmanaged<ApplicationData>
+        .fromOpaque(ptrStorage)
+        .takeUnretainedValue()
+    
+    storage.tidyMessageCallback = filtCallback;
+
+    // CLibTidy's callback will call into this closure.
+    let localCallback: CLibTidy.TidyMessageCallback = { tmessage in
+        
+        guard
+            let tmessage = tmessage,
+            let tdoc = CLibTidy.tidyGetMessageDoc( tmessage ),
+            let ptrStorage = CLibTidy.tidyGetAppData( tdoc )
+        else { return no }
+        
+        let storage = Unmanaged<ApplicationData>
+            .fromOpaque(ptrStorage)
+            .takeUnretainedValue()
+        
+        let result = storage.tidyMessageCallback!( tmessage )
+        
+        return result ? yes : no
+    }
+    
+    return CLibTidy.tidySetMessageCallback( tdoc, localCallback ) == yes ? true : false
+}
+
+
 /***************************************************************************//**
  ** object, which is used as a token to be interrogated with the following
  ** API before the callback returns.
@@ -2487,7 +2507,7 @@ TIDY_EXPORT ctmbstr TIDY_CALL getNextInstalledLanguage( TidyIterator* iter );
 class ApplicationData {
     var appData: AnyObject?
     var optionCallback: TidyConfigCallback?
-    var tidyMessageCallback: UnsafeMutableRawPointer? // this is swift native!
+    var tidyMessageCallback: TidyMessageCallback?
     
     init() {
         self.appData = nil

@@ -27,6 +27,11 @@ public func someFunc( tdoc: TidyDoc, option: String, value: String) -> Swift.Boo
     return false
 }
 
+public func myMessageCallback( _ tmessage: TidyMessage ) -> Bool {
+    print("The message callback")
+    return true
+}
+
 class TidyRunner {
 
     func printHello() {
@@ -43,6 +48,9 @@ class TidyRunner {
         
         let errorBuffer = TidyBuffer()
         _ = tidySetErrorBuffer( tdoc, errbuf: errorBuffer )
+
+        // Let's set a message callback
+        tidySetMessageCallback( tdoc, filtCallback: myMessageCallback)
 
         // Let's load a configuration file. 
         // Note, eventually copy these to the bundle and load them from there.
