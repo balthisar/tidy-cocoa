@@ -1377,8 +1377,6 @@ public func tidySetMessageCallback( _ tdoc: TidyDoc, filtCallback: @escaping Tid
  ** not attempt to copy it, or keep it around, or use it in any way.
  ******************************************************************************/
 // MARK: TidyMessageCallback API
-/*
-
 
 
 /**
@@ -1389,9 +1387,11 @@ public func tidySetMessageCallback( _ tdoc: TidyDoc, filtCallback: @escaping Tid
  - returns:
      Returns the TidyDoc that generated the message.
 */
-TIDY_EXPORT TidyDoc TIDY_CALL tidyGetMessageDoc( TidyMessage tmessage );
+public func tidyGetMessageDoc( _ tmessage: TidyMessage ) -> TidyDoc {
 
- 
+    return CLibTidy.tidyGetMessageDoc( tmessage )
+}
+
 /**
  Get the message code.
  
@@ -1404,7 +1404,10 @@ TIDY_EXPORT TidyDoc TIDY_CALL tidyGetMessageDoc( TidyMessage tmessage );
      own application. Instead use the enum field or use the message key string
      value.
 */
-TIDY_EXPORT uint TIDY_CALL tidyGetMessageCode( TidyMessage tmessage );
+public func tidyGetMessageCode( _ tmessage: TidyMessage ) -> UInt {
+
+    return UInt( CLibTidy.tidyGetMessageCode( tmessage ) )
+}
 
  
 /** 
@@ -1417,7 +1420,10 @@ TIDY_EXPORT uint TIDY_CALL tidyGetMessageCode( TidyMessage tmessage );
      stable by the LibTidy API, and is suitable for use as a key in your own
      applications.
 */
-TIDY_EXPORT ctmbstr TIDY_CALL tidyGetMessageKey( TidyMessage tmessage );
+public func tidyGetMessageKey( _ tmessage: TidyMessage ) -> String {
+
+    return String( cString: CLibTidy.tidyGetMessageKey( tmessage ))
+}
 
  
 /**
@@ -1428,7 +1434,10 @@ TIDY_EXPORT ctmbstr TIDY_CALL tidyGetMessageKey( TidyMessage tmessage );
  - returns: 
      Returns the line number, if any, that generated the message.
 */
-TIDY_EXPORT int TIDY_CALL tidyGetMessageLine( TidyMessage tmessage );
+public func tidyGetMessageLine( _ tmessage: TidyMessage ) -> Int {
+
+    return Int( CLibTidy.tidyGetMessageLine( tmessage) )
+}
 
  
 /** 
@@ -1437,7 +1446,10 @@ TIDY_EXPORT int TIDY_CALL tidyGetMessageLine( TidyMessage tmessage );
  - parameter tmessage: Specify the message that you are querying.
  - returns: Returns the column number, if any, that generated the message.
 */
-TIDY_EXPORT int TIDY_CALL tidyGetMessageColumn( TidyMessage tmessage );
+public func tidyGetMessageColumn( _ tmessage: TidyMessage ) -> Int {
+
+    return Int( CLibTidy.tidyGetMessageColumn( tmessage ) )
+}
 
  
 /**
@@ -1447,7 +1459,10 @@ TIDY_EXPORT int TIDY_CALL tidyGetMessageColumn( TidyMessage tmessage );
  - returns: Returns a TidyReportLevel indicating the severity or status of the
      message.
 */
-TIDY_EXPORT TidyReportLevel TIDY_CALL tidyGetMessageLevel( TidyMessage tmessage );
+public func tidyGetMessageLevel( _ tmessage: TidyMessage ) -> TidyReportLevel {
+
+    return CLibTidy.tidyGetMessageLevel( tmessage )
+}
 
  
 /** 
@@ -1457,7 +1472,10 @@ TIDY_EXPORT TidyReportLevel TIDY_CALL tidyGetMessageLevel( TidyMessage tmessage 
  - parameter tmessage: Specify the message that you are querying.
  - returns: Returns the default localization format string of the message.
 */
-TIDY_EXPORT ctmbstr TIDY_CALL tidyGetMessageFormatDefault( TidyMessage tmessage );
+public func tidyGetMessageFormatDefault( _ tmessage: TidyMessage ) -> String {
+
+    return String( cString: CLibTidy.tidyGetMessageFormatDefault( tmessage ) )
+}
 
  
 /**
@@ -1467,7 +1485,10 @@ TIDY_EXPORT ctmbstr TIDY_CALL tidyGetMessageFormatDefault( TidyMessage tmessage 
  - parameter tmessage: Specify the message that you are querying.
  - returns: Returns the localized format string of the message.
 */
-TIDY_EXPORT ctmbstr TIDY_CALL tidyGetMessageFormat( TidyMessage tmessage );
+public func tidyGetMessageFormat( _ tmessage: TidyMessage ) -> String {
+
+    return String( cString: CLibTidy.tidyGetMessageFormat( tmessage ) )
+}
 
  
 /** 
@@ -1477,7 +1498,10 @@ TIDY_EXPORT ctmbstr TIDY_CALL tidyGetMessageFormat( TidyMessage tmessage );
  - parameter tmessage: Specify the message that you are querying.
  - returns: Returns the message in the default localization.
 */
-TIDY_EXPORT ctmbstr TIDY_CALL tidyGetMessageDefault( TidyMessage tmessage );
+public func tidyGetMessageDefault( _ tmessage: TidyMessage ) -> String {
+
+    return String( cString: CLibTidy.tidyGetMessageDefault( tmessage ) )
+}
 
  
 /** 
@@ -1487,7 +1511,10 @@ TIDY_EXPORT ctmbstr TIDY_CALL tidyGetMessageDefault( TidyMessage tmessage );
  - parameter tmessage: Specify the message that you are querying.
  - returns: Returns the message in the current localization.
 */
-TIDY_EXPORT ctmbstr TIDY_CALL tidyGetMessage( TidyMessage tmessage );
+public func tidyGetMessage( _ tmessage: TidyMessage ) -> String {
+
+    return String( cString: CLibTidy.tidyGetMessage( tmessage ) )
+}
 
  
 /** 
@@ -1497,7 +1524,10 @@ TIDY_EXPORT ctmbstr TIDY_CALL tidyGetMessage( TidyMessage tmessage );
  - returns: Returns the positional part of a string as Tidy would display it
      in the console application.
 */
-TIDY_EXPORT ctmbstr TIDY_CALL tidyGetMessagePosDefault( TidyMessage tmessage );
+public func tidyGetMessagePosDefault( _ tmessage: TidyMessage ) -> String {
+
+    return String( cString: CLibTidy.tidyGetMessagePosDefault( tmessage ) )
+}
 
  
 /** 
@@ -1507,7 +1537,10 @@ TIDY_EXPORT ctmbstr TIDY_CALL tidyGetMessagePosDefault( TidyMessage tmessage );
  - returns: Returns the positional part of a string as Tidy would display it
      in the console application.
 */
-TIDY_EXPORT ctmbstr TIDY_CALL tidyGetMessagePos( TidyMessage tmessage );
+public func tidyGetMessagePos( _ tmessage: TidyMessage ) -> String {
+
+    return String( cString: CLibTidy.tidyGetMessagePos( tmessage ) )
+}
 
  
 /**
@@ -1517,7 +1550,10 @@ TIDY_EXPORT ctmbstr TIDY_CALL tidyGetMessagePos( TidyMessage tmessage );
  - returns: Returns the message prefix part of a string as Tidy would display
      it in the console application.
 */
-TIDY_EXPORT ctmbstr TIDY_CALL tidyGetMessagePrefixDefault( TidyMessage tmessage );
+public func tidyGetMessagePrefixDefault( _ tmessage: TidyMessage ) -> String {
+
+    return String( cString: CLibTidy.tidyGetMessagePrefixDefault( tmessage ) )
+}
 
  
 /**
@@ -1527,7 +1563,10 @@ TIDY_EXPORT ctmbstr TIDY_CALL tidyGetMessagePrefixDefault( TidyMessage tmessage 
  - returns: Returns the message prefix part of a string as Tidy would display
      it in the console application.
 */
-TIDY_EXPORT ctmbstr TIDY_CALL tidyGetMessagePrefix( TidyMessage tmessage );
+public func tidyGetMessagePrefix( _ tmessage: TidyMessage ) -> String {
+
+    return String( cString: CLibTidy.tidyGetMessagePrefix( tmessage ) )
+}
 
  
 /**
@@ -1537,7 +1576,10 @@ TIDY_EXPORT ctmbstr TIDY_CALL tidyGetMessagePrefix( TidyMessage tmessage );
  - returns: Returns the complete message just as Tidy would display it on the
      console.
 */
-TIDY_EXPORT ctmbstr TIDY_CALL tidyGetMessageOutputDefault( TidyMessage tmessage );
+public func tidyGetMessageOutputDefault( _ tmessage: TidyMessage ) -> String {
+
+    return String( cString: CLibTidy.tidyGetMessageOutputDefault( tmessage ) )
+}
 
  
 /**
@@ -1547,10 +1589,12 @@ TIDY_EXPORT ctmbstr TIDY_CALL tidyGetMessageOutputDefault( TidyMessage tmessage 
  - returns: Returns the complete message just as Tidy would display it on the
      console.
 */
-TIDY_EXPORT ctmbstr TIDY_CALL tidyGetMessageOutput( TidyMessage tmessage );
+public func tidyGetMessageOutput( _ tmessage: TidyMessage ) -> String {
+
+    return String( cString: CLibTidy.tidyGetMessageOutput( tmessage ) )
+}
 
 
-*/
 // MARK: TidyMessageCallback Arguments API
 /*
 
@@ -2516,7 +2560,7 @@ class ApplicationData {
     }
 }
 
-/** 
+/**
  Provide mappings from CLibTidy encoding names to Cocoa string encoding
  types.
 */
