@@ -1371,9 +1371,10 @@ public func tidySetMessageCallback( _ tdoc: TidyDoc, filtCallback: @escaping Tid
 
 
 /***************************************************************************//**
+ ** When using `TidyMessageCallback` you will be supplied with a TidyMessage 
  ** object, which is used as a token to be interrogated with the following
  ** API before the callback returns.
- ** @remark Upon returning from the callback, this object is destroyed so do
+ ** Note: Upon returning from the callback, this object is destroyed so do
  ** not attempt to copy it, or keep it around, or use it in any way.
  ******************************************************************************/
 // MARK: TidyMessageCallback API
