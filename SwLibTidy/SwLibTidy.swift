@@ -2516,18 +2516,6 @@ class ApplicationData {
     }
 }
 
-/**
- CLibTidy bools are enum { no = 0, yes }, but get referenced by Swift as some
- stupid structure. Because we're using original CLibTidy source code, we can't
- wrap the original enum declaration with a magic macro, so we have to work
- around this limitation by working with the raw values of this dumb struct,
- where CLibTidy.no.rawValue = 0, CLibTidy.yes.rawValue = 1
-*/
-private func convertTidyToSwiftType( tidyBool: CLibTidy.Bool ) -> Swift.Bool {
-    return tidyBool.rawValue == 1
-}
-
-
 /** 
  Provide mappings from CLibTidy encoding names to Cocoa string encoding
  types.
