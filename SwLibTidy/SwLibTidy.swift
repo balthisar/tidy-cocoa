@@ -1960,31 +1960,44 @@ public func tidyReportDoctype( _ tdoc: TidyDoc ) -> Int {
 /** 
  Save the tidy document to the named file.
  
- - returns: An integer representing the status.
+ - parameters:
+   - tdoc: The tidy document to save.
+   - filenam: The destination file name.
+ - returns: 
+     An integer representing the status.
 */
-TIDY_EXPORT int TIDY_CALL         tidySaveFile(TidyDoc tdoc,    /**< The tidy document to save. */
-    ctmbstr filename /**< The destination file name. */
-);
+TIDY_EXPORT int TIDY_CALL         tidySaveFile(TidyDoc tdoc, ctmbstr filename ) -> Int {
+ 
+}
 
  
 /**
  Save the tidy document to standard output (FILE*).
  
- - parameter tdoc: The tidy document to save.
- - returns: An integer representing the status.
+ - parameters:
+   - tdoc: The tidy document to save.
+ - returns:
+     An integer representing the status.
 */
-TIDY_EXPORT int TIDY_CALL         tidySaveStdout( TidyDoc tdoc );
-
+TIDY_EXPORT int TIDY_CALL         tidySaveStdout( TidyDoc tdoc ) -> Int {
+ 
+}
+ 
  
 /**
  Save the tidy document to given TidyBuffer object.
  
- - returns: An integer representing the status.
+ - parameters:
+   - tdoc: The tidy document to save.
+   - buf: The buffer to place the output.
+ - returns: 
+     An integer representing the status.
 */
-TIDY_EXPORT int TIDY_CALL         tidySaveBuffer(TidyDoc tdoc,   /**< The tidy document to save. */
-    TidyBuffer* buf /**< The buffer to place the output. */
-);
-
+TIDY_EXPORT int TIDY_CALL         tidySaveBuffer(TidyDoc tdoc, TidyBuffer* buf ) -> Int {
+ 
+}
+ 
+ 
 /** 
  Save the tidy document to an application buffer. If TidyShowMarkup and the
  document has no errors, or TidyForceOutput, then the current document (per
@@ -1993,50 +2006,29 @@ TIDY_EXPORT int TIDY_CALL         tidySaveBuffer(TidyDoc tdoc,   /**< The tidy d
  *buflen. The document will not be null terminated. If the buffer is not big
  enough, ENOMEM will be returned, else the actual document status.
  
- - returns: An integer representing the status.
+ - parameters:
+   - tdoc: The tidy document to save.
+   - buffer: The buffer to save to.
+   - buflen: [out] The byte length written.
+ - returns: 
+     An integer representing the status.
 */
-TIDY_EXPORT int TIDY_CALL         tidySaveString(TidyDoc tdoc,  /**< The tidy document to save. */
-    tmbstr buffer, /**< The buffer to save to. */
-    uint* buflen   /**< [out] The byte length written. */
-);
-
- 
-/**
- Save to given generic output sink.
- 
- - returns: An integer representing the status.
-*/
-TIDY_EXPORT int TIDY_CALL         tidySaveSink(TidyDoc tdoc,        /**< The tidy document to save. */
-    TidyOutputSink* sink /**< The output sink to save to. */
-);
+TIDY_EXPORT int TIDY_CALL         tidySaveString(TidyDoc tdoc, tmbstr buffer, uint* buflen )
 
  
 /**
  Save current settings to named file. Only writes non-default values.
  
- - returns: An integer representing the status.
+ - parameters:
+   - tdoc: The tidy document to save.
+   - cfgfil: The filename to save the configuration to.
+ - returns:
+     An integer representing the status.
 */
-TIDY_EXPORT int TIDY_CALL         tidyOptSaveFile(TidyDoc tdoc,  /**< The tidy document to save. */
-    ctmbstr cfgfil /**< The filename to save the configuration to. */
-);
-
- 
-/**
- Save current settings to given output sink. Only non-default values are 
- written.
- 
- - returns: An integer representing the status.
-*/
-TIDY_EXPORT int TIDY_CALL         tidyOptSaveSink(TidyDoc tdoc,        /**< The tidy document to save. */
-    TidyOutputSink* sink /**< The output sink to save the configuration to. */
-);
+TIDY_EXPORT int TIDY_CALL         tidyOptSaveFile(TidyDoc tdoc, ctmbstr cfgfil )
 
 
 */
-// MARK: - Document Tree:
-/*
-
- 
 /***************************************************************************//**
  ** A parsed (and optionally repaired) document is represented by Tidy as a
  ** tree, much like a W3C DOM. This tree may be traversed using these
@@ -2086,8 +2078,10 @@ TIDY_EXPORT int TIDY_CALL         tidyOptSaveSink(TidyDoc tdoc,        /**< The 
  **
  ** @{
  ******************************************************************************/
+// MARK: - Document Tree:
+/*
 
-
+ 
 */
 // MARK: Nodes for Document Sections
 /*
@@ -2096,34 +2090,45 @@ TIDY_EXPORT int TIDY_CALL         tidyOptSaveSink(TidyDoc tdoc,        /**< The 
 /** 
  Get the root node.
  
- - parameter tdoc: The document to query.
- - returns: Returns a tidy node.
+ - parameters:
+   - tdoc: The document to query.
+ - returns: 
+     Returns a tidy node.
 */
-TIDY_EXPORT TidyNode TIDY_CALL    tidyGetRoot( TidyDoc tdoc );
+TIDY_EXPORT TidyNode TIDY_CALL    tidyGetRoot( TidyDoc tdoc )
 
+ 
 /** 
  Get the HTML node.
  
- - parameter tdoc: The document to query.
- - returns: Returns a tidy node.
+ - parameters:
+   - tdoc: The document to query.
+ - returns: 
+     Returns a tidy node.
 */
-TIDY_EXPORT TidyNode TIDY_CALL    tidyGetHtml( TidyDoc tdoc );
+TIDY_EXPORT TidyNode TIDY_CALL    tidyGetHtml( TidyDoc tdoc )
 
+ 
 /** 
  Get the HEAD node.
  
- - parameter tdoc: The document to query.
- - returns: Returns a tidy node.
+ - parameters:
+   - tdoc: The document to query.
+ - returns: 
+     Returns a tidy node.
 */
-TIDY_EXPORT TidyNode TIDY_CALL    tidyGetHead( TidyDoc tdoc );
+TIDY_EXPORT TidyNode TIDY_CALL    tidyGetHead( TidyDoc tdoc )
 
+ 
 /** 
  Get the BODY node.
  
- - parameter tdoc: The document to query.
- - returns: Returns a tidy node.
+ - parameters:
+   - tdoc: The document to query.
+ - returns:
+     Returns a tidy node.
 */
-TIDY_EXPORT TidyNode TIDY_CALL    tidyGetBody( TidyDoc tdoc );
+TIDY_EXPORT TidyNode TIDY_CALL    tidyGetBody( TidyDoc tdoc )
 
 
 */
@@ -2134,34 +2139,45 @@ TIDY_EXPORT TidyNode TIDY_CALL    tidyGetBody( TidyDoc tdoc );
 /** 
  Get the parent of the indicated node.
  
- - parameter tnod The node to query.
- - returns: Returns a tidy node.
+ - parameters:
+   - tnod: The node to query.
+ - returns: 
+     Returns a tidy node.
 */
-TIDY_EXPORT TidyNode TIDY_CALL    tidyGetParent( TidyNode tnod );
+TIDY_EXPORT TidyNode TIDY_CALL    tidyGetParent( TidyNode tnod )
 
+ 
 /** 
  Get the child of the indicated node.
  
- - parameter tnod The node to query.
- - returns: Returns a tidy node.
+ - parameters:
+   - tnod: The node to query.
+ - returns: 
+     Returns a tidy node.
 */
-TIDY_EXPORT TidyNode TIDY_CALL    tidyGetChild( TidyNode tnod );
+TIDY_EXPORT TidyNode TIDY_CALL    tidyGetChild( TidyNode tnod )
 
+ 
 /**
  Get the next sibling node.
  
- - parameter tnod The node to query.
- - returns: Returns a tidy node.
+ - parameters:
+   - tnod: The node to query.
+ - returns: 
+     Returns a tidy node.
 */
-TIDY_EXPORT TidyNode TIDY_CALL    tidyGetNext( TidyNode tnod );
+TIDY_EXPORT TidyNode TIDY_CALL    tidyGetNext( TidyNode tnod )
 
+ 
 /**
  Get the previous sibling node.
  
- - parameter tnod The node to query.
- - returns: Returns a tidy node.
+ - parameters:
+   - tnod: The node to query.
+ - returns:
+     Returns a tidy node.
 */
-TIDY_EXPORT TidyNode TIDY_CALL    tidyGetPrev( TidyNode tnod );
+TIDY_EXPORT TidyNode TIDY_CALL    tidyGetPrev( TidyNode tnod )
 
  
 */
@@ -2172,11 +2188,13 @@ TIDY_EXPORT TidyNode TIDY_CALL    tidyGetPrev( TidyNode tnod );
 /** 
  Remove the indicated node.
  
- - returns: Returns the next tidy node.
+ - parameters:
+   - tdoc: The tidy document from which to remove the node.
+   - tnod: The node to remove.
+ - returns:
+     Returns the next tidy node.
 */
-TIDY_EXPORT TidyNode TIDY_CALL    tidyDiscardElement(TidyDoc tdoc, /**< The tidy document from which to remove the node. */
-    TidyNode tnod /**< The node to remove */
-);
+TIDY_EXPORT TidyNode TIDY_CALL    tidyDiscardElement(TidyDoc tdoc, TidyNode tnod )
 
  
 */
@@ -2187,71 +2205,88 @@ TIDY_EXPORT TidyNode TIDY_CALL    tidyDiscardElement(TidyDoc tdoc, /**< The tidy
 /** 
  Get the first attribute.
  
- - parameter tnod The node for which to get attributes.
- - returns: Returns an instance of TidyAttr.
+ - parameters:
+   - tnod: The node for which to get attributes.
+ - returns:
+     Returns an instance of TidyAttr.
 */
-TIDY_EXPORT TidyAttr TIDY_CALL    tidyAttrFirst( TidyNode tnod );
+TIDY_EXPORT TidyAttr TIDY_CALL    tidyAttrFirst( TidyNode tnod )
 
  
 /**
  Get the next attribute.
  
- - parameter tattr The current attribute, so the next one can be returned.
- - returns: Returns and instance of TidyAttr.
+ - parameters:
+   - tattr: The current attribute, so the next one can be returned.
+ - returns: 
+     Returns and instance of TidyAttr.
 */
-TIDY_EXPORT TidyAttr TIDY_CALL    tidyAttrNext( TidyAttr tattr );
+TIDY_EXPORT TidyAttr TIDY_CALL    tidyAttrNext( TidyAttr tattr )
 
  
 /**
  Get the name of a TidyAttr instance.
- - parameter tattr The tidy attribute to query.
- - returns: Returns a string indicating the name of the attribute.
+ - parameters:
+   - tattr: The tidy attribute to query.
+ - returns: 
+     Returns a string indicating the name of the attribute.
 */
-TIDY_EXPORT ctmbstr TIDY_CALL     tidyAttrName( TidyAttr tattr );
+TIDY_EXPORT ctmbstr TIDY_CALL     tidyAttrName( TidyAttr tattr )
 
  
-/** Get the value of a TidyAttr instance.
- ** - parameter tattr The tidy attribute to query.
- ** - returns: Returns a string indicating the value of the attribute.
+/** 
+ Get the value of a TidyAttr instance.
+ 
+ - parameters:
+   - tattr: The tidy attribute to query.
+ - returns: Returns a string indicating the value of the attribute.
 */
-TIDY_EXPORT ctmbstr TIDY_CALL     tidyAttrValue( TidyAttr tattr );
+TIDY_EXPORT ctmbstr TIDY_CALL     tidyAttrValue( TidyAttr tattr )
 
  
 /**
  Discard an attribute.
+ 
+ - parameters:
+   - tdoc: The tidy document from which to discard the attribute.
+   - tnod: The node from which to discard the attribute.
+   - tattr: The attribute to discard.
 */
-TIDY_EXPORT void TIDY_CALL        tidyAttrDiscard(TidyDoc itdoc, /**< The tidy document from which to discard the attribute. */
-    TidyNode tnod, /**< The node from which to discard the attribute. */
-    TidyAttr tattr /**< The attribute to discard. */
-);
+TIDY_EXPORT void TIDY_CALL        tidyAttrDiscard(TidyDoc itdoc, TidyNode tnod, TidyAttr tattr )
 
  
 /** 
  Get the attribute ID given a tidy attribute.
  
- - parameter tattr The attribute to query.
- - returns: Returns the TidyAttrId of the given attribute.
+ - parameters:
+   - tattr: The attribute to query.
+ - returns: 
+     Returns the TidyAttrId of the given attribute.
 */
-TIDY_EXPORT TidyAttrId TIDY_CALL  tidyAttrGetId( TidyAttr tattr );
+TIDY_EXPORT TidyAttrId TIDY_CALL  tidyAttrGetId( TidyAttr tattr )
 
  
 /**
  Indicates whether or not a given attribute is an event attribute.
  
- - parameter tattr The attribute to query.
- - returns: Returns a bool indicating whether or not the attribute is an event.
+ - parameters:
+   - tattr: The attribute to query.
+ - returns:
+     Returns a bool indicating whether or not the attribute is an event.
  **/
-TIDY_EXPORT Bool TIDY_CALL        tidyAttrIsEvent( TidyAttr tattr );
+TIDY_EXPORT Bool TIDY_CALL        tidyAttrIsEvent( TidyAttr tattr )
 
  
 /**
  Get an instance of TidyAttr by specifying an attribute ID.
  
- - returns: Returns a TidyAttr instance.
+ - parameters:
+   - tnod: The node to query.
+   - attId: The attribute ID to find.
+ - returns:
+     Returns a TidyAttr instance.
 */
-TIDY_EXPORT TidyAttr TIDY_CALL    tidyAttrGetById(TidyNode tnod,   /**< The node to query. */
-    TidyAttrId attId /**< The attribute ID to find. */
-);
+TIDY_EXPORT TidyAttr TIDY_CALL    tidyAttrGetById(TidyNode tnod, TidyAttrId attId )
 
  
 */
@@ -2262,115 +2297,133 @@ TIDY_EXPORT TidyAttr TIDY_CALL    tidyAttrGetById(TidyNode tnod,   /**< The node
 /**
  Get the type of node.
  
- - parameter tnod The node to query.
- - returns: Returns the type of node as TidyNodeType.
+ - parameters:
+   - tnod: The node to query.
+ - returns: 
+     Returns the type of node as TidyNodeType.
 */
-TIDY_EXPORT TidyNodeType TIDY_CALL tidyNodeGetType( TidyNode tnod );
+TIDY_EXPORT TidyNodeType TIDY_CALL tidyNodeGetType( TidyNode tnod )
 
  
 /**
  Get the name of the node.
  
- - parameter tnod The node to query.
- - returns: Returns a string indicating the name of the node.
+ - parameters:
+   - tnod: The node to query.
+ - returns:
+     Returns a string indicating the name of the node.
 */
-TIDY_EXPORT ctmbstr TIDY_CALL tidyNodeGetName( TidyNode tnod );
+TIDY_EXPORT ctmbstr TIDY_CALL tidyNodeGetName( TidyNode tnod )
 
  
 /**
  Indicates whether or not a node is a text node.
  
- - parameter tnod The node to query.
- - returns: Returns a bool indicating whether or not the node is a text node.
+ - parameters:
+   - tnod: The node to query.
+ - returns: 
+     Returns a bool indicating whether or not the node is a text node.
 */
-TIDY_EXPORT Bool TIDY_CALL tidyNodeIsText( TidyNode tnod );
+TIDY_EXPORT Bool TIDY_CALL tidyNodeIsText( TidyNode tnod )
 
  
 /**
  Indicates whether or not the node is a propriety type.
  
- - returns: Returns a bool indicating whether or not the node is a proprietary type.
+ - parameters:
+   - tdoc: The document to query.
+   - tnod: The node to query.
+ - returns:
+     Returns a bool indicating whether or not the node is a proprietary type.
 */
-TIDY_EXPORT Bool TIDY_CALL tidyNodeIsProp(TidyDoc tdoc, /**< The document to query. */
-    TidyNode tnod /**< The node to query */
-);
+TIDY_EXPORT Bool TIDY_CALL tidyNodeIsProp(TidyDoc tdoc, TidyNode tnod )
 
  
 /**
  Indicates whether or not a node represents and HTML header element, such
  as h1, h2, etc.
  
- - parameter tnod The node to query.
- - returns: Returns a bool indicating whether or not the node is an HTML header.
+ - parameters:
+   - tnod: The node to query.
+ - returns:
+     Returns a bool indicating whether or not the node is an HTML header.
 */
-TIDY_EXPORT Bool TIDY_CALL tidyNodeIsHeader( TidyNode tnod );
+TIDY_EXPORT Bool TIDY_CALL tidyNodeIsHeader( TidyNode tnod )
 
  
 /**
  Indicates whether or not the node has text.
  
- - returns: Returns the type of node as TidyNodeType.
+ - parameters:
+   - tdoc: The document to query.
+   - tnod: The node to query.
+ - returns: 
+     Returns the type of node as TidyNodeType.
 */
-TIDY_EXPORT Bool TIDY_CALL tidyNodeHasText(TidyDoc tdoc, /**< The document to query. */
-    TidyNode tnod /**< The node to query. */
-);
+TIDY_EXPORT Bool TIDY_CALL tidyNodeHasText(TidyDoc tdoc, TidyNode tnod )
 
  
 /**
  Gets the text of a node and places it into the given TidyBuffer.
  
- - returns: Returns a bool indicating success or not.
+ - parameters:
+   - tdoc: The document to query.
+   - tnod: The node to query.
+   - buf: [out] A TidyBuffer used to receive the node's text.
+ - returns: 
+     Returns a bool indicating success or not.
 */
-TIDY_EXPORT Bool TIDY_CALL tidyNodeGetText(TidyDoc tdoc,   /**< The document to query. */
-    TidyNode tnod,  /**< The node to query. */
-    TidyBuffer* buf /**< [out] A TidyBuffer used to receive the node's text. */
-);
+TIDY_EXPORT Bool TIDY_CALL tidyNodeGetText(TidyDoc tdoc, TidyNode tnod, TidyBuffer* buf )
 
  
 /**
  Get the value of the node. This copies the unescaped value of this node into
- the given TidyBuffer at UTF-8.
+ the given TidyBuffer as UTF-8.
  
- - returns: Returns a bool indicating success or not.
+ - parameters:
+   - tdoc: The document to query.
+   - tnod: The node to query.
+   - buf: [out] A TidyBuffer used to receive the node's text.
+ - returns:
+     Returns a bool indicating success or not.
 */
-TIDY_EXPORT Bool TIDY_CALL tidyNodeGetValue(TidyDoc tdoc,   /**< The document to query */
-    TidyNode tnod,  /**< The node to query */
-    TidyBuffer* buf /**< [out] A TidyBuffer used to receive the node's value. */
-);
+TIDY_EXPORT Bool TIDY_CALL tidyNodeGetValue(TidyDoc tdoc, TidyNode tnod, TidyBuffer* buf )
 
  
 /**
  Get the tag ID of the node.
  
- - parameter tnod The node to query.
- - returns: Returns the tag ID of the node as TidyTagId.
+ - parameters:
+   - tnod: The node to query.
+ - returns: 
+     Returns the tag ID of the node as TidyTagId.
 */
-TIDY_EXPORT TidyTagId TIDY_CALL tidyNodeGetId( TidyNode tnod );
+TIDY_EXPORT TidyTagId TIDY_CALL tidyNodeGetId( TidyNode tnod )
 
  
 /**
  Get the line number where the node occurs.
  
- - parameter tnod The node to query.
- - returns: Returns the line number.
+ - parameters:
+   - tnod: The node to query.
+ - returns: 
+     Returns the line number.
 */
-TIDY_EXPORT uint TIDY_CALL tidyNodeLine( TidyNode tnod );
+TIDY_EXPORT uint TIDY_CALL tidyNodeLine( TidyNode tnod )
 
  
 /**
  Get the column location of the node.
  
- - parameter tnod The node to query.
- - returns: Returns the column location of the node.
+ - parameters:
+   - tnod: The node to query.
+ - returns:
+     Returns the column location of the node.
 */
-TIDY_EXPORT uint TIDY_CALL tidyNodeColumn( TidyNode tnod );
+TIDY_EXPORT uint TIDY_CALL tidyNodeColumn( TidyNode tnod )
 
  
 */
-// MARK: - Message Key Management:
-/*
-
-
 /***************************************************************************//**
  ** These functions serve to manage message codes, i.e., codes that are used
  ** Tidy and communicated via its callback filters to represent reports and
@@ -2380,15 +2433,21 @@ TIDY_EXPORT uint TIDY_CALL tidyNodeColumn( TidyNode tnod );
  **         distinct from the internal codes that are used to lookup individual
  **         strings for localization purposes.
  ******************************************************************************/
+// MARK: - Message Key Management:
+/*
+
 
 /**
  Given a message code, return the text key that represents it.
  
- - parameter code The error code to lookup.
- - returns: The string representing the error code.
+ - parameters:
+   - code: The error code to lookup.
+ - returns:
+     The string representing the error code.
 */
-TIDY_EXPORT ctmbstr TIDY_CALL tidyErrorCodeAsKey(uint code);
+TIDY_EXPORT ctmbstr TIDY_CALL tidyErrorCodeAsKey(uint code)
 
+ 
 /**
  Given a text key representing a message code, return the uint that
  represents it.
@@ -2397,12 +2456,15 @@ TIDY_EXPORT ctmbstr TIDY_CALL tidyErrorCodeAsKey(uint code);
      string keys remain consistent. *Never* count on the integer value
      of a message code. Always use this function to ensure that the
      integer is valid if you need one.
- - parameter code: The string representing the error code.
- - returns: Returns an integer that represents the error code, which can be
+ 
+ - parameters:
+   - code: The string representing the error code.
+ - returns:
+     Returns an integer that represents the error code, which can be
      used to lookup Tidy's built-in strings. If the provided string does
      not have a matching message code, then UINT_MAX will be returned.
 */
-TIDY_EXPORT uint TIDY_CALL tidyErrorCodeFromKey(ctmbstr code);
+TIDY_EXPORT uint TIDY_CALL tidyErrorCodeFromKey(ctmbstr code)
 
  
 /** Initiates an iterator for a list of message codes available in Tidy.
@@ -2429,7 +2491,7 @@ TIDY_EXPORT TidyIterator TIDY_CALL getErrorCodeList();
  ** - parameter iter The TidyIterator (initiated with getErrorCodeList()) token.
  ** - returns: Returns a message code.
 */
-TIDY_EXPORT uint TIDY_CALL getNextErrorCode( TidyIterator* iter );
+TIDY_EXPORT uint TIDY_CALL getNextErrorCode( TidyIterator* iter )
 
 
 */
@@ -2452,10 +2514,12 @@ TIDY_EXPORT uint TIDY_CALL getNextErrorCode( TidyIterator* iter );
 /** 
  Determines the current locale without affecting the C locale.
  
- - parameter result: The buffer to use to return the string, or NULL on failure.
- - returns: The same buffer for convenience.
+ - parameters:
+   - result: The buffer to use to return the string, or NULL on failure.
+ - returns:
+     The same buffer for convenience.
 */
-TIDY_EXPORT tmbstr TIDY_CALL tidySystemLocale(tmbstr result);
+TIDY_EXPORT tmbstr TIDY_CALL tidySystemLocale(tmbstr result)
 
 /** Tells Tidy to use a different language for output.
  ** - parameter  languageCode A Windows or POSIX language code, and must match
@@ -2467,15 +2531,16 @@ TIDY_EXPORT tmbstr TIDY_CALL tidySystemLocale(tmbstr result);
  **         true. However the opposite is not true; if es is requested but
  **         not present, Tidy will not try to select from the es_XX variants.
 */
-TIDY_EXPORT Bool TIDY_CALL tidySetLanguage( ctmbstr languageCode );
+TIDY_EXPORT Bool TIDY_CALL tidySetLanguage( ctmbstr languageCode )
 
  
 /**
  Gets the current language used by Tidy.
  
- - returns: Returns a string indicating the currently set language.
+ - returns:
+     Returns a string indicating the currently set language.
 */
-TIDY_EXPORT ctmbstr TIDY_CALL tidyGetLanguage();
+TIDY_EXPORT ctmbstr TIDY_CALL tidyGetLanguage()
 
 
 */
@@ -2488,11 +2553,9 @@ TIDY_EXPORT ctmbstr TIDY_CALL tidyGetLanguage();
  ** is used to iterate through the language list, and used to access
  ** the windowsName() and the posixName().
 */
-/* Prevent Doxygen from listing this as a function. */
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
 opaque_type(tidyLocaleMapItem);
-#endif
 
+ 
 /** Initiates an iterator for a list of Tidy's Windows<->POSIX locale mappings.
  ** This iterator allows you to iterate through this list. In order to
  ** iterate through the list, initiate the iterator with this function, and then
@@ -2508,7 +2571,7 @@ opaque_type(tidyLocaleMapItem);
  ** - returns: Returns a TidyIterator, which is a token used to represent the
  **         current position in a list within LibTidy.
 */
-TIDY_EXPORT TidyIterator TIDY_CALL getWindowsLanguageList();
+TIDY_EXPORT TidyIterator TIDY_CALL getWindowsLanguageList()
 
 /** Given a valid TidyIterator initiated with getWindowsLanguageList(), returns
  ** a pointer to a tidyLocaleMapItem, which can be further interrogated with
@@ -2516,23 +2579,28 @@ TIDY_EXPORT TidyIterator TIDY_CALL getWindowsLanguageList();
  ** - parameter iter The TidyIterator (initiated with getWindowsLanguageList()) token.
  ** - returns: Returns a pointer to a tidyLocaleMapItem.
 */
-TIDY_EXPORT const tidyLocaleMapItem* TIDY_CALL getNextWindowsLanguage( TidyIterator* iter );
+TIDY_EXPORT const tidyLocaleMapItem* TIDY_CALL getNextWindowsLanguage( TidyIterator* iter )
 
 /** 
  Given a `tidyLocalMapItem`, return the Windows name.
  
- - parameter item: An instance of tidyLocalMapItem to query.
- - returns: Returns a string with the Windows name of the mapping.
+ - parameters:
+   - item: An instance of tidyLocalMapItem to query.
+ - returns: 
+     Returns a string with the Windows name of the mapping.
 */
-TIDY_EXPORT const ctmbstr TIDY_CALL TidyLangWindowsName( const tidyLocaleMapItem *item );
+TIDY_EXPORT const ctmbstr TIDY_CALL TidyLangWindowsName( const tidyLocaleMapItem *item )
 
+ 
 /** 
  Given a `tidyLocalMapItem`, return the POSIX name.
  
- - parameter item: An instance of tidyLocalMapItem to query.
- - returns: Returns a string with the POSIX name of the mapping.
+ - parameters:
+   - item: An instance of tidyLocalMapItem to query.
+ - returns: 
+     Returns a string with the POSIX name of the mapping.
 */
-TIDY_EXPORT const ctmbstr TIDY_CALL TidyLangPosixName( const tidyLocaleMapItem *item );
+TIDY_EXPORT const ctmbstr TIDY_CALL TidyLangPosixName( const tidyLocaleMapItem *item )
 
 
 */
@@ -2546,31 +2614,37 @@ TIDY_EXPORT const ctmbstr TIDY_CALL TidyLangPosixName( const tidyLocaleMapItem *
  will ensure that the correct singular or plural form is returned for the
  specified quantity.
  
- - returns: Returns the desired string.
+ - parameters:
+   - messageType: The message type.
+   - quantity: The quantity.
+ - returns: 
+     Returns the desired string.
 */
-TIDY_EXPORT ctmbstr TIDY_CALL tidyLocalizedStringN(uint messageType, /**< The message type. */
-    uint quantity     /**< The quantity. */
-);
+TIDY_EXPORT ctmbstr TIDY_CALL tidyLocalizedStringN(uint messageType, uint quantity )
 
  
 /**
  Provides a string given `messageType` in the current localization for the
  single case.
  
- - parameter messageType The message type.
- - returns: Returns the desired string.
+ - parameters:
+   - messageType: The message type.
+ - returns:
+     Returns the desired string.
 */
-TIDY_EXPORT ctmbstr TIDY_CALL tidyLocalizedString( uint messageType );
+TIDY_EXPORT ctmbstr TIDY_CALL tidyLocalizedString( uint messageType )
 
  
 /** 
  Provides a string given `messageType` in the default localization (which
  is `en`).
  
- - parameter messageType The message type.
- - returns: Returns the desired string.
+ - parameters:
+   - messageType: The message type.
+ - returns: 
+     Returns the desired string.
 */
-TIDY_EXPORT ctmbstr TIDY_CALL tidyDefaultString( uint messageType );
+TIDY_EXPORT ctmbstr TIDY_CALL tidyDefaultString( uint messageType )
 
  
 /** Initiates an iterator for a list of string key codes available in Tidy.
@@ -2590,7 +2664,7 @@ TIDY_EXPORT ctmbstr TIDY_CALL tidyDefaultString( uint messageType );
  ** - returns: Returns a TidyIterator, which is a token used to represent the
  **         current position in a list within LibTidy.
 */
-TIDY_EXPORT TidyIterator TIDY_CALL getStringKeyList();
+TIDY_EXPORT TidyIterator TIDY_CALL getStringKeyList()
 
 /** Given a valid TidyIterator initiated with getStringKeyList(), returns
  ** an unsigned integer representing the next key value.
@@ -2599,7 +2673,7 @@ TIDY_EXPORT TidyIterator TIDY_CALL getStringKeyList();
  ** - parameter iter The TidyIterator (initiated with getStringKeyList()) token.
  ** - returns: Returns a message code.
 */
-TIDY_EXPORT uint TIDY_CALL getNextStringKey( TidyIterator* iter );
+TIDY_EXPORT uint TIDY_CALL getNextStringKey( TidyIterator* iter )
 
 
 */
@@ -2621,15 +2695,16 @@ TIDY_EXPORT uint TIDY_CALL getNextStringKey( TidyIterator* iter );
  ** - returns: Returns a TidyIterator, which is a token used to represent the
  **         current position in a list within LibTidy.
 */
-TIDY_EXPORT TidyIterator TIDY_CALL getInstalledLanguageList();
+TIDY_EXPORT TidyIterator TIDY_CALL getInstalledLanguageList()
 
+ 
 /** Given a valid TidyIterator initiated with getInstalledLanguageList(),
  ** returns a string representing a language name that is installed in Tidy.
  ** - parameter iter The TidyIterator (initiated with getInstalledLanguageList())
  **        token.
  ** - returns: Returns a string indicating the installed language.
 */
-TIDY_EXPORT ctmbstr TIDY_CALL getNextInstalledLanguage( TidyIterator* iter );
+TIDY_EXPORT ctmbstr TIDY_CALL getNextInstalledLanguage( TidyIterator* iter )
 
 
 */
