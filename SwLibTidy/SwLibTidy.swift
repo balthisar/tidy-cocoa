@@ -2187,7 +2187,6 @@ public func tidyGetPrev( _ tnod: TidyNode ) -> TidyNode {
 
 
 // MARK: Miscellaneous Node Functions
-/*
 
 
 /** 
@@ -2201,12 +2200,11 @@ public func tidyGetPrev( _ tnod: TidyNode ) -> TidyNode {
 */
 public func tidyDiscardElement( _ tdoc: TidyDoc, _ tnod: TidyNode ) -> TidyNode {
  
+    return CLibTidy.tidyDiscardElement( tdoc, tnod )
 }
 
- 
-*/
+
 // MARK: Node Attribute Functions
-/*
 
 
 /** 
@@ -2219,6 +2217,7 @@ public func tidyDiscardElement( _ tdoc: TidyDoc, _ tnod: TidyNode ) -> TidyNode 
 */
 public func tidyAttrFirst( _ tnod: TidyNode ) -> TidyAttr {
  
+    return CLibTidy.tidyAttrFirst( tnod )
 }
 
  
@@ -2232,6 +2231,7 @@ public func tidyAttrFirst( _ tnod: TidyNode ) -> TidyAttr {
 */
 public func tidyAttrNext( _ tattr: TidyAttr ) -> TidyAttr {
  
+    return CLibTidy.tidyAttrNext( tattr )
 }
 
  
@@ -2244,6 +2244,7 @@ public func tidyAttrNext( _ tattr: TidyAttr ) -> TidyAttr {
 */
 public func tidyAttrName( _ tattr: TidyAttr ) -> String {
  
+    return String( cString: CLibTidy.tidyAttrName( tattr ) )
 }
 
  
@@ -2256,6 +2257,7 @@ public func tidyAttrName( _ tattr: TidyAttr ) -> String {
 */
 public func tidyAttrValue( _ tattr: TidyAttr ) -> String {
  
+    return String( cString: CLibTidy.tidyAttrValue( tattr ) )
 }
 
  
@@ -2267,7 +2269,10 @@ public func tidyAttrValue( _ tattr: TidyAttr ) -> String {
    - tnod: The node from which to discard the attribute.
    - tattr: The attribute to discard.
 */
-public func tidyAttrDiscard( _ tdoc: TidyDoc, _ tnod: TidyNode, _ tattr: TidyAttr )
+public func tidyAttrDiscard( _ tdoc: TidyDoc, _ tnod: TidyNode, _ tattr: TidyAttr ) -> Void {
+    
+    CLibTidy.tidyAttrDiscard( tdoc, tnod, tattr )
+}
 
  
 /** 
@@ -2280,6 +2285,7 @@ public func tidyAttrDiscard( _ tdoc: TidyDoc, _ tnod: TidyNode, _ tattr: TidyAtt
 */
 public func tidyAttrGetId( _ tattr: TidyAttr ) -> TidyAttrId {
  
+    return CLibTidy.tidyAttrGetId( tattr )
 }
 
  
@@ -2293,6 +2299,7 @@ public func tidyAttrGetId( _ tattr: TidyAttr ) -> TidyAttrId {
  **/
 public func tidyAttrIsEvent( _ tattr: TidyAttr ) -> Swift.Bool {
  
+    return CLibTidy.tidyAttrIsEvent( tattr ) == yes ? true : false
 }
 
  
@@ -2307,12 +2314,11 @@ public func tidyAttrIsEvent( _ tattr: TidyAttr ) -> Swift.Bool {
 */
 public func tidyAttrGetById( _ tnod: TidyNode, _ attId: TidyAttrId ) -> TidyAttr {
  
+    return CLibTidy.tidyAttrGetById( tnod, attId )
 }
 
  
-*/
 // MARK: Additional Node Interrogation
-/*
 
 
 /**
@@ -2325,6 +2331,7 @@ public func tidyAttrGetById( _ tnod: TidyNode, _ attId: TidyAttrId ) -> TidyAttr
 */
 public func tidyNodeGetType( _ tnod: TidyNode ) -> TidyNodeType {
  
+    return CLibTidy.tidyNodeGetType( tnod )
 }
 
  
@@ -2338,6 +2345,7 @@ public func tidyNodeGetType( _ tnod: TidyNode ) -> TidyNodeType {
 */
 public func tidyNodeGetName( _ tnod: TidyNode ) -> String {
  
+    return String( cString: CLibTidy.tidyNodeGetName( tnod ) )
 }
 
  
@@ -2351,6 +2359,7 @@ public func tidyNodeGetName( _ tnod: TidyNode ) -> String {
 */
 public func tidyNodeIsText( _ tnod: TidyNode ) -> Swift.Bool {
  
+    return CLibTidy.tidyNodeIsText( tnod ) == yes ? true : false
 }
 
  
@@ -2365,6 +2374,7 @@ public func tidyNodeIsText( _ tnod: TidyNode ) -> Swift.Bool {
 */
 public func tidyNodeIsProp( _ tdoc: TidyDoc, _ tnod: TidyNode ) -> Swift.Bool {
  
+    return CLibTidy.tidyNodeIsProp( tdoc, tnod ) == yes ? true : false
 }
 
  
@@ -2379,6 +2389,7 @@ public func tidyNodeIsProp( _ tdoc: TidyDoc, _ tnod: TidyNode ) -> Swift.Bool {
 */
 public func tidyNodeIsHeader( _ tnod: TidyNode ) -> Swift.Bool {
  
+    return CLibTidy.tidyNodeIsHeader( tnod ) == yes ? true : false
 }
 
  
@@ -2393,6 +2404,7 @@ public func tidyNodeIsHeader( _ tnod: TidyNode ) -> Swift.Bool {
 */
 public func tidyNodeHasText( _ tdoc: TidyDoc, _ tnod: TidyNode ) -> Swift.Bool {
  
+    return CLibTidy.tidyNodeHasText( tdoc, tnod ) == yes ? true : false
 }
 
  
@@ -2406,8 +2418,9 @@ public func tidyNodeHasText( _ tdoc: TidyDoc, _ tnod: TidyNode ) -> Swift.Bool {
  - returns: 
      Returns a bool indicating success or not.
 */
-public func tidyNodeGetText( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: TidyBuffer* ) -> Swift.Bool {
+public func tidyNodeGetText( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: TidyBuffer ) -> Swift.Bool {
  
+    return CLibTidy.tidyNodeGetText( tdoc, tnod, buf.ptrBuffer ) == yes ? true : false
 }
 
  
@@ -2422,8 +2435,9 @@ public func tidyNodeGetText( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: TidyBuffe
  - returns:
      Returns a bool indicating success or not.
 */
-public func tidyNodeGetValue( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: TidyBuffer* ) -> Swift.Bool {
+public func tidyNodeGetValue( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: TidyBuffer ) -> Swift.Bool {
  
+    return CLibTidy.tidyNodeGetValue( tdoc, tnod, buf.ptrBuffer ) == yes ? true : false
 }
 
  
@@ -2437,6 +2451,7 @@ public func tidyNodeGetValue( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: TidyBuff
 */
 public func tidyNodeGetId( _ tnod: TidyNode ) -> TidyTagId {
  
+    return CLibTidy.tidyNodeGetId( tnod )
 }
 
  
@@ -2450,6 +2465,7 @@ public func tidyNodeGetId( _ tnod: TidyNode ) -> TidyTagId {
 */
 public func tidyNodeLine( _ tnod: TidyNode ) -> UInt {
  
+    return UInt( CLibTidy.tidyNodeLine( tnod ) )
 }
 
  
@@ -2463,10 +2479,10 @@ public func tidyNodeLine( _ tnod: TidyNode ) -> UInt {
 */
 public func tidyNodeColumn( _ tnod: TidyNode ) -> UInt {
  
+    return UInt( CLibTidy.tidyNodeColumn( tnod ) )
 }
 
  
-*/
 /***************************************************************************//**
  ** These functions serve to manage message codes, i.e., codes that are used
  ** Tidy and communicated via its callback filters to represent reports and
@@ -2477,7 +2493,6 @@ public func tidyNodeColumn( _ tnod: TidyNode ) -> UInt {
  **         strings for localization purposes.
  ******************************************************************************/
 // MARK: - Message Key Management:
-/*
 
 
 /**
@@ -2490,6 +2505,7 @@ public func tidyNodeColumn( _ tnod: TidyNode ) -> UInt {
 */
 public func tidyErrorCodeAsKey( _ code: uint ) -> String {
  
+    return String( cString: CLibTidy.tidyErrorCodeAsKey( code ) )
 }
 
  
@@ -2511,9 +2527,10 @@ public func tidyErrorCodeAsKey( _ code: uint ) -> String {
 */
 public func tidyErrorCodeFromKey( _ code: String ) -> UInt {
  
+    return UInt( CLibTidy.tidyErrorCodeFromKey( code ) )
 }
 
- 
+/*
 /** Initiates an iterator for a list of message codes available in Tidy.
  ** This iterator allows you to iterate through all of the code. In orde to
  ** iterate through the codes, initiate the iterator with this function, and
