@@ -1966,7 +1966,7 @@ public func tidyReportDoctype( _ tdoc: TidyDoc ) -> Int {
  - returns: 
      An integer representing the status.
 */
-TIDY_EXPORT int TIDY_CALL         tidySaveFile(TidyDoc tdoc, ctmbstr filename ) -> Int {
+public func tidySaveFile( _ tdoc: TidyDoc, _ filename: String ) -> Int {
  
 }
 
@@ -1979,7 +1979,7 @@ TIDY_EXPORT int TIDY_CALL         tidySaveFile(TidyDoc tdoc, ctmbstr filename ) 
  - returns:
      An integer representing the status.
 */
-TIDY_EXPORT int TIDY_CALL         tidySaveStdout( TidyDoc tdoc ) -> Int {
+public func tidySaveStdout( _ tdoc: TidyDoc ) -> Int {
  
 }
  
@@ -1993,7 +1993,7 @@ TIDY_EXPORT int TIDY_CALL         tidySaveStdout( TidyDoc tdoc ) -> Int {
  - returns: 
      An integer representing the status.
 */
-TIDY_EXPORT int TIDY_CALL         tidySaveBuffer(TidyDoc tdoc, TidyBuffer* buf ) -> Int {
+public func tidySaveBuffer( _ tdoc: TidyDoc, _ buf: TidyBuffer ) -> Int {
  
 }
  
@@ -2013,7 +2013,7 @@ TIDY_EXPORT int TIDY_CALL         tidySaveBuffer(TidyDoc tdoc, TidyBuffer* buf )
  - returns: 
      An integer representing the status.
 */
-TIDY_EXPORT int TIDY_CALL         tidySaveString(TidyDoc tdoc, tmbstr buffer, uint* buflen ) -> Int {
+public func tidySaveString( _ tdoc: TidyDoc, _ buffer: String, _ buflen: uint* ) -> Int {
  
 }
 
@@ -2027,7 +2027,7 @@ TIDY_EXPORT int TIDY_CALL         tidySaveString(TidyDoc tdoc, tmbstr buffer, ui
  - returns:
      An integer representing the status.
 */
-TIDY_EXPORT int TIDY_CALL         tidyOptSaveFile(TidyDoc tdoc, ctmbstr cfgfil ) -> Int {
+public func tidyOptSaveFile( _ tdoc: TidyDoc, _ cfgfil: String ) -> Int {
  
 }
 
@@ -2099,7 +2099,7 @@ TIDY_EXPORT int TIDY_CALL         tidyOptSaveFile(TidyDoc tdoc, ctmbstr cfgfil )
  - returns: 
      Returns a tidy node.
 */
-TIDY_EXPORT TidyNode TIDY_CALL    tidyGetRoot( TidyDoc tdoc ) -> TidyNode {
+public func tidyGetRoot( _ tdoc: TidyDoc ) -> TidyNode {
  
 }
 
@@ -2112,7 +2112,7 @@ TIDY_EXPORT TidyNode TIDY_CALL    tidyGetRoot( TidyDoc tdoc ) -> TidyNode {
  - returns: 
      Returns a tidy node.
 */
-TIDY_EXPORT TidyNode TIDY_CALL    tidyGetHtml( TidyDoc tdoc ) -> TidyNode {
+public func tidyGetHtml( _ tdoc: TidyDoc ) -> TidyNode {
  
 }
  
@@ -2125,7 +2125,7 @@ TIDY_EXPORT TidyNode TIDY_CALL    tidyGetHtml( TidyDoc tdoc ) -> TidyNode {
  - returns: 
      Returns a tidy node.
 */
-TIDY_EXPORT TidyNode TIDY_CALL    tidyGetHead( TidyDoc tdoc ) -> TidyNode {
+public func tidyGetHead( _ tdoc: TidyDoc ) -> TidyNode {
  
 }
  
@@ -2138,7 +2138,7 @@ TIDY_EXPORT TidyNode TIDY_CALL    tidyGetHead( TidyDoc tdoc ) -> TidyNode {
  - returns:
      Returns a tidy node.
 */
-TIDY_EXPORT TidyNode TIDY_CALL    tidyGetBody( TidyDoc tdoc ) -> TidyNode {
+public func tidyGetBody( _ tdoc: TidyDoc ) -> TidyNode {
  
 }
 
@@ -2156,7 +2156,7 @@ TIDY_EXPORT TidyNode TIDY_CALL    tidyGetBody( TidyDoc tdoc ) -> TidyNode {
  - returns: 
      Returns a tidy node.
 */
-TIDY_EXPORT TidyNode TIDY_CALL    tidyGetParent( TidyNode tnod ) -> TidyNode {
+public func tidyGetParent( _ tnod: TidyNode ) -> TidyNode {
  
 }
  
@@ -2169,7 +2169,7 @@ TIDY_EXPORT TidyNode TIDY_CALL    tidyGetParent( TidyNode tnod ) -> TidyNode {
  - returns: 
      Returns a tidy node.
 */
-TIDY_EXPORT TidyNode TIDY_CALL    tidyGetChild( TidyNode tnod ) -> TidyNode {
+public func tidyGetChild( _ tnod: TidyNode ) -> TidyNode {
  
 }
  
@@ -2182,7 +2182,7 @@ TIDY_EXPORT TidyNode TIDY_CALL    tidyGetChild( TidyNode tnod ) -> TidyNode {
  - returns: 
      Returns a tidy node.
 */
-TIDY_EXPORT TidyNode TIDY_CALL    tidyGetNext( TidyNode tnod ) -> TidyNode {
+public func tidyGetNext( _ tnod: TidyNode ) -> TidyNode {
  
 }
  
@@ -2195,7 +2195,7 @@ TIDY_EXPORT TidyNode TIDY_CALL    tidyGetNext( TidyNode tnod ) -> TidyNode {
  - returns:
      Returns a tidy node.
 */
-TIDY_EXPORT TidyNode TIDY_CALL    tidyGetPrev( TidyNode tnod ) -> TidyNode {
+public func tidyGetPrev( _ tnod: TidyNode ) -> TidyNode {
  
 }
 
@@ -2214,7 +2214,7 @@ TIDY_EXPORT TidyNode TIDY_CALL    tidyGetPrev( TidyNode tnod ) -> TidyNode {
  - returns:
      Returns the next tidy node.
 */
-TIDY_EXPORT TidyNode TIDY_CALL    tidyDiscardElement(TidyDoc tdoc, TidyNode tnod ) -> TidyNode {
+public func tidyDiscardElement( _ tdoc: TidyDoc, _ tnod: TidyNode ) -> TidyNode {
  
 }
 
@@ -2232,7 +2232,7 @@ TIDY_EXPORT TidyNode TIDY_CALL    tidyDiscardElement(TidyDoc tdoc, TidyNode tnod
  - returns:
      Returns an instance of TidyAttr.
 */
-TIDY_EXPORT TidyAttr TIDY_CALL    tidyAttrFirst( TidyNode tnod ) -> TidyAttr {
+public func tidyAttrFirst( _ tnod: TidyNode ) -> TidyAttr {
  
 }
 
@@ -2245,7 +2245,7 @@ TIDY_EXPORT TidyAttr TIDY_CALL    tidyAttrFirst( TidyNode tnod ) -> TidyAttr {
  - returns: 
      Returns and instance of TidyAttr.
 */
-TIDY_EXPORT TidyAttr TIDY_CALL    tidyAttrNext( TidyAttr tattr ) -> TidyAttr {
+public func tidyAttrNext( _ tattr: TidyAttr ) -> TidyAttr {
  
 }
 
@@ -2257,7 +2257,7 @@ TIDY_EXPORT TidyAttr TIDY_CALL    tidyAttrNext( TidyAttr tattr ) -> TidyAttr {
  - returns: 
      Returns a string indicating the name of the attribute.
 */
-TIDY_EXPORT ctmbstr TIDY_CALL     tidyAttrName( TidyAttr tattr ) -> String {
+public func tidyAttrName( _ tattr: TidyAttr ) -> String {
  
 }
 
@@ -2269,7 +2269,7 @@ TIDY_EXPORT ctmbstr TIDY_CALL     tidyAttrName( TidyAttr tattr ) -> String {
    - tattr: The tidy attribute to query.
  - returns: Returns a string indicating the value of the attribute.
 */
- TIDY_EXPORT ctmbstr TIDY_CALL     tidyAttrValue( TidyAttr tattr ) -> String {
+public func tidyAttrValue( _ tattr: TidyAttr ) -> String {
  
 }
 
@@ -2282,7 +2282,7 @@ TIDY_EXPORT ctmbstr TIDY_CALL     tidyAttrName( TidyAttr tattr ) -> String {
    - tnod: The node from which to discard the attribute.
    - tattr: The attribute to discard.
 */
-TIDY_EXPORT void TIDY_CALL        tidyAttrDiscard(TidyDoc itdoc, TidyNode tnod, TidyAttr tattr )
+public func tidyAttrDiscard( _ tdoc: TidyDoc, _ tnod: TidyNode, _ tattr: TidyAttr )
 
  
 /** 
@@ -2293,7 +2293,7 @@ TIDY_EXPORT void TIDY_CALL        tidyAttrDiscard(TidyDoc itdoc, TidyNode tnod, 
  - returns: 
      Returns the TidyAttrId of the given attribute.
 */
-TIDY_EXPORT TidyAttrId TIDY_CALL  tidyAttrGetId( TidyAttr tattr ) -> TidyAttrId {
+public func tidyAttrGetId( _ tattr: TidyAttr ) -> TidyAttrId {
  
 }
 
@@ -2306,7 +2306,7 @@ TIDY_EXPORT TidyAttrId TIDY_CALL  tidyAttrGetId( TidyAttr tattr ) -> TidyAttrId 
  - returns:
      Returns a bool indicating whether or not the attribute is an event.
  **/
-TIDY_EXPORT Bool TIDY_CALL        tidyAttrIsEvent( TidyAttr tattr ) -> Swift.Bool {
+public func tidyAttrIsEvent( _ tattr: TidyAttr ) -> Swift.Bool {
  
 }
 
@@ -2320,7 +2320,7 @@ TIDY_EXPORT Bool TIDY_CALL        tidyAttrIsEvent( TidyAttr tattr ) -> Swift.Boo
  - returns:
      Returns a TidyAttr instance.
 */
-TIDY_EXPORT TidyAttr TIDY_CALL    tidyAttrGetById(TidyNode tnod, TidyAttrId attId ) -> TidyAttr {
+public func tidyAttrGetById( _ tnod: TidyNode, _ attId: TidyAttrId ) -> TidyAttr {
  
 }
 
@@ -2338,7 +2338,9 @@ TIDY_EXPORT TidyAttr TIDY_CALL    tidyAttrGetById(TidyNode tnod, TidyAttrId attI
  - returns: 
      Returns the type of node as TidyNodeType.
 */
-TIDY_EXPORT TidyNodeType TIDY_CALL tidyNodeGetType( TidyNode tnod )
+public func tidyNodeGetType( _ tnod: TidyNode ) -> TidyNodeType {
+ 
+}
 
  
 /**
@@ -2349,7 +2351,9 @@ TIDY_EXPORT TidyNodeType TIDY_CALL tidyNodeGetType( TidyNode tnod )
  - returns:
      Returns a string indicating the name of the node.
 */
-TIDY_EXPORT ctmbstr TIDY_CALL tidyNodeGetName( TidyNode tnod )
+public func tidyNodeGetName( _ tnod: TidyNode ) -> String {
+ 
+}
 
  
 /**
@@ -2360,7 +2364,9 @@ TIDY_EXPORT ctmbstr TIDY_CALL tidyNodeGetName( TidyNode tnod )
  - returns: 
      Returns a bool indicating whether or not the node is a text node.
 */
-TIDY_EXPORT Bool TIDY_CALL tidyNodeIsText( TidyNode tnod )
+public func tidyNodeIsText( _ tnod: TidyNode ) -> Swift.Bool {
+ 
+}
 
  
 /**
@@ -2372,7 +2378,9 @@ TIDY_EXPORT Bool TIDY_CALL tidyNodeIsText( TidyNode tnod )
  - returns:
      Returns a bool indicating whether or not the node is a proprietary type.
 */
-TIDY_EXPORT Bool TIDY_CALL tidyNodeIsProp(TidyDoc tdoc, TidyNode tnod )
+public func tidyNodeIsProp( _ tdoc: TidyDoc, _ tnod: TidyNode ) -> Swift.Bool {
+ 
+}
 
  
 /**
@@ -2384,7 +2392,9 @@ TIDY_EXPORT Bool TIDY_CALL tidyNodeIsProp(TidyDoc tdoc, TidyNode tnod )
  - returns:
      Returns a bool indicating whether or not the node is an HTML header.
 */
-TIDY_EXPORT Bool TIDY_CALL tidyNodeIsHeader( TidyNode tnod )
+public func tidyNodeIsHeader( _ tnod: TidyNode ) -> Swift.Bool {
+ 
+}
 
  
 /**
@@ -2396,7 +2406,9 @@ TIDY_EXPORT Bool TIDY_CALL tidyNodeIsHeader( TidyNode tnod )
  - returns: 
      Returns the type of node as TidyNodeType.
 */
-TIDY_EXPORT Bool TIDY_CALL tidyNodeHasText(TidyDoc tdoc, TidyNode tnod )
+public func tidyNodeHasText( _ tdoc: TidyDoc, _ tnod: TidyNode ) -> Swift.Bool {
+ 
+}
 
  
 /**
@@ -2409,7 +2421,9 @@ TIDY_EXPORT Bool TIDY_CALL tidyNodeHasText(TidyDoc tdoc, TidyNode tnod )
  - returns: 
      Returns a bool indicating success or not.
 */
-TIDY_EXPORT Bool TIDY_CALL tidyNodeGetText(TidyDoc tdoc, TidyNode tnod, TidyBuffer* buf )
+public func tidyNodeGetText( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: TidyBuffer* ) -> Swift.Bool {
+ 
+}
 
  
 /**
@@ -2423,7 +2437,9 @@ TIDY_EXPORT Bool TIDY_CALL tidyNodeGetText(TidyDoc tdoc, TidyNode tnod, TidyBuff
  - returns:
      Returns a bool indicating success or not.
 */
-TIDY_EXPORT Bool TIDY_CALL tidyNodeGetValue(TidyDoc tdoc, TidyNode tnod, TidyBuffer* buf )
+public func tidyNodeGetValue( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: TidyBuffer* ) -> Swift.Bool {
+ 
+}
 
  
 /**
@@ -2434,7 +2450,9 @@ TIDY_EXPORT Bool TIDY_CALL tidyNodeGetValue(TidyDoc tdoc, TidyNode tnod, TidyBuf
  - returns: 
      Returns the tag ID of the node as TidyTagId.
 */
-TIDY_EXPORT TidyTagId TIDY_CALL tidyNodeGetId( TidyNode tnod )
+public func tidyNodeGetId( _ tnod: TidyNode ) -> TidyTagId {
+ 
+}
 
  
 /**
@@ -2445,7 +2463,9 @@ TIDY_EXPORT TidyTagId TIDY_CALL tidyNodeGetId( TidyNode tnod )
  - returns: 
      Returns the line number.
 */
-TIDY_EXPORT uint TIDY_CALL tidyNodeLine( TidyNode tnod )
+public func tidyNodeLine( _ tnod: TidyNode ) -> UInt {
+ 
+}
 
  
 /**
@@ -2456,7 +2476,9 @@ TIDY_EXPORT uint TIDY_CALL tidyNodeLine( TidyNode tnod )
  - returns:
      Returns the column location of the node.
 */
-TIDY_EXPORT uint TIDY_CALL tidyNodeColumn( TidyNode tnod )
+public func tidyNodeColumn( _ tnod: TidyNode ) -> UInt {
+ 
+}
 
  
 */
@@ -2481,7 +2503,9 @@ TIDY_EXPORT uint TIDY_CALL tidyNodeColumn( TidyNode tnod )
  - returns:
      The string representing the error code.
 */
-TIDY_EXPORT ctmbstr TIDY_CALL tidyErrorCodeAsKey(uint code)
+public func tidyErrorCodeAsKey( _ code: uint ) -> String {
+ 
+}
 
  
 /**
@@ -2500,7 +2524,9 @@ TIDY_EXPORT ctmbstr TIDY_CALL tidyErrorCodeAsKey(uint code)
      used to lookup Tidy's built-in strings. If the provided string does
      not have a matching message code, then UINT_MAX will be returned.
 */
-TIDY_EXPORT uint TIDY_CALL tidyErrorCodeFromKey(ctmbstr code)
+public func tidyErrorCodeFromKey( _ code: String ) -> UInt {
+ 
+}
 
  
 /** Initiates an iterator for a list of message codes available in Tidy.
@@ -2551,23 +2577,31 @@ TIDY_EXPORT uint TIDY_CALL getNextErrorCode( TidyIterator* iter )
  Determines the current locale without affecting the C locale.
  
  - parameters:
-   - result: The buffer to use to return the string, or NULL on failure.
+   - result: [out] The buffer to use to return the string, or NULL on failure.
  - returns:
      The same buffer for convenience.
 */
-TIDY_EXPORT tmbstr TIDY_CALL tidySystemLocale(tmbstr result)
+public func tidySystemLocale( _ result: String* ) -> String {
+ 
+}
 
-/** Tells Tidy to use a different language for output.
- ** - parameter  languageCode A Windows or POSIX language code, and must match
- **         a TIDY_LANGUAGE for an installed language.
- ** - returns: Indicates that a setting was applied, but not necessarily the
- **         specific request, i.e., true indicates a language and/or region
- **         was applied. If es_mx is requested but not installed, and es is
- **         installed, then es will be selected and this function will return
- **         true. However the opposite is not true; if es is requested but
- **         not present, Tidy will not try to select from the es_XX variants.
+/**
+ Tells Tidy to use a different language for output.
+ 
+ - parameters: 
+   - languageCode: A Windows or POSIX language code, and must match a
+         `TIDY_LANGUAGE` for an installed language.
+ - returns:
+     Indicates that a setting was applied, but not necessarily the specific
+     request, i.e., true indicates a language and/or region was applied. If
+     `es_mx` is requested but not installed, and `es` is installed, then `es`
+     will be selected and this function will return `true`. However the opposite
+     is not true; if `es` is requested but not present, Tidy will not try to 
+     select from the `es_XX` variants.
 */
-TIDY_EXPORT Bool TIDY_CALL tidySetLanguage( ctmbstr languageCode )
+public func tidySetLanguage( _ languageCode: String ) -> Swift.Bool {
+ 
+}
 
  
 /**
@@ -2576,7 +2610,9 @@ TIDY_EXPORT Bool TIDY_CALL tidySetLanguage( ctmbstr languageCode )
  - returns:
      Returns a string indicating the currently set language.
 */
-TIDY_EXPORT ctmbstr TIDY_CALL tidyGetLanguage()
+public func tidyGetLanguage() -> String {
+ 
+}
 
 
 */
@@ -2621,11 +2657,13 @@ TIDY_EXPORT const tidyLocaleMapItem* TIDY_CALL getNextWindowsLanguage( TidyItera
  Given a `tidyLocalMapItem`, return the Windows name.
  
  - parameters:
-   - item: An instance of tidyLocalMapItem to query.
+   - item: An instance of tidyLocaleMapItem to query.
  - returns: 
      Returns a string with the Windows name of the mapping.
 */
-TIDY_EXPORT const ctmbstr TIDY_CALL TidyLangWindowsName( const tidyLocaleMapItem *item )
+public func TidyLangWindowsName( _ *item: tidyLocaleMapItem ) -> String {
+ 
+}
 
  
 /** 
@@ -2636,7 +2674,9 @@ TIDY_EXPORT const ctmbstr TIDY_CALL TidyLangWindowsName( const tidyLocaleMapItem
  - returns: 
      Returns a string with the POSIX name of the mapping.
 */
-TIDY_EXPORT const ctmbstr TIDY_CALL TidyLangPosixName( const tidyLocaleMapItem *item )
+public func TidyLangPosixName( _ *item: tidyLocaleMapItem ) -> String {
+ 
+}
 
 
 */
@@ -2656,7 +2696,9 @@ TIDY_EXPORT const ctmbstr TIDY_CALL TidyLangPosixName( const tidyLocaleMapItem *
  - returns: 
      Returns the desired string.
 */
-TIDY_EXPORT ctmbstr TIDY_CALL tidyLocalizedStringN(uint messageType, uint quantity )
+public func tidyLocalizedStringN( _ messageType: UInt, _ quantity: UInt ) -> String {
+ 
+}
 
  
 /**
@@ -2668,7 +2710,9 @@ TIDY_EXPORT ctmbstr TIDY_CALL tidyLocalizedStringN(uint messageType, uint quanti
  - returns:
      Returns the desired string.
 */
-TIDY_EXPORT ctmbstr TIDY_CALL tidyLocalizedString( uint messageType )
+public func tidyLocalizedString( _ messageType: UInt ) -> String {
+ 
+}
 
  
 /** 
@@ -2680,7 +2724,9 @@ TIDY_EXPORT ctmbstr TIDY_CALL tidyLocalizedString( uint messageType )
  - returns: 
      Returns the desired string.
 */
-TIDY_EXPORT ctmbstr TIDY_CALL tidyDefaultString( uint messageType )
+public func tidyDefaultString( _ messageType: UInt ) -> String {
+ 
+}
 
  
 /** Initiates an iterator for a list of string key codes available in Tidy.
