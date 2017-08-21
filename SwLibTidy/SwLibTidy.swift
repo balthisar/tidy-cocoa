@@ -131,7 +131,14 @@ public class TidyBuffer {
     
     fileprivate typealias _tidybuff = UnsafeMutablePointer<CLibTidy.TidyBuffer>
     fileprivate var ptrBuffer: _tidybuff
-    
+    /**
+     Provide mappings from CLibTidy encoding names to Cocoa string encoding
+     types.
+     */
+
+    private let big5encoding: String.Encoding
+
+    private let encAssociations: [ String : String.Encoding ]
     
     /** An accessor to the underlying raw data buffer used by CLibTidy. When
         using non-UTF8 buffers, you will want to convert this data into a
@@ -164,6 +171,25 @@ public class TidyBuffer {
         
         ptrBuffer = _tidybuff.allocate(capacity: MemoryLayout<_tidybuff>.size)
         tidyBufInit( ptrBuffer )
+
+        let cfEnc = CFStringEncodings.big5
+        let nsEnc = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(cfEnc.rawValue))
+        big5encoding = Swift.String.Encoding(rawValue: nsEnc)
+
+        encAssociations = [
+            "ascii"    : Swift.String.Encoding.ascii,
+            "latin1"   : Swift.String.Encoding.isoLatin1,
+            "utf8"     : Swift.String.Encoding.utf8,
+            "iso2022"  : Swift.String.Encoding.iso2022JP,
+            "mac"      : Swift.String.Encoding.macOSRoman,
+            "win1252"  : Swift.String.Encoding.windowsCP1252,
+            "utf16le"  : Swift.String.Encoding.utf16LittleEndian,
+            "utf16be"  : Swift.String.Encoding.utf16BigEndian,
+            "utf16"    : Swift.String.Encoding.utf16,
+            "big5"     : big5encoding,
+            "shiftjis" : Swift.String.Encoding.shiftJIS
+        ]
+
     }
     
     deinit {
@@ -2594,28 +2620,5 @@ class ApplicationData {
         self.tidyMessageCallback = nil
     }
 }
-
-/**
- Provide mappings from CLibTidy encoding names to Cocoa string encoding
- types.
-*/
-
-let cfEnc = CFStringEncodings.big5
-let nsEnc = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(cfEnc.rawValue))
-let big5encoding = String.Encoding(rawValue: nsEnc)
-
-private let encAssociations = [
-    "ascii"    : Swift.String.Encoding.ascii,
-    "latin1"   : Swift.String.Encoding.isoLatin1,
-    "utf8"     : Swift.String.Encoding.utf8,
-    "iso2022"  : Swift.String.Encoding.iso2022JP,
-    "mac"      : Swift.String.Encoding.macOSRoman,
-    "win1252"  : Swift.String.Encoding.windowsCP1252,
-    "utf16le"  : Swift.String.Encoding.utf16LittleEndian,
-    "utf16be"  : Swift.String.Encoding.utf16BigEndian,
-    "utf16"    : Swift.String.Encoding.utf16,
-    "big5"     : big5encoding,
-    "shiftjis" : Swift.String.Encoding.shiftJIS
-]
 
 
