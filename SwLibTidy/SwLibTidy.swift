@@ -2488,9 +2488,9 @@ public func tidyNodeColumn( _ tnod: TidyNode ) -> UInt {
  ** Tidy and communicated via its callback filters to represent reports and
  ** dialogue that Tidy emits.
  **
- ** @remark These codes only reflect complete messages, and are specifically
- **         distinct from the internal codes that are used to lookup individual
- **         strings for localization purposes.
+ ** - Note: These codes only reflect complete messages, and are specifically
+ **     distinct from the internal codes that are used to lookup individual
+ **     strings for localization purposes.
  ******************************************************************************/
 // MARK: - Message Key Management:
 
@@ -2558,20 +2558,13 @@ public func getErrorCodeList() -> [UInt] {
 }
 
 
-// MARK: - Localization Support:
-/*
-
-
 /***************************************************************************//**
  ** These functions help manage localization in Tidy. Note that these implement
  ** native CLibTidy localization; you'd probably want to implement your own
  ** mechanism to use native macOS localization.
  ******************************************************************************/
-
-
-*/
+// MARK: - Localization Support:
 // MARK: Tidy's Locale
-/*
 
 
 /** 
@@ -2582,8 +2575,14 @@ public func getErrorCodeList() -> [UInt] {
  - returns:
      The same buffer for convenience.
 */
-public func tidySystemLocale( _ result: String* ) -> String {
- 
+public func tidySystemLocale( ) -> String {
+
+    /* CLibTidy has strange calling semantics for this function; it would
+       normally allocate `myString` for us, but also returns it as a value.
+       This is nice in C where it's a pointer and gives us in-out, but
+       doesn't work that way in Swift. */
+    let myString: tmbstr? = nil
+    return String( cString: CLibTidy.tidySystemLocale( myString ) )
 }
 
 /**
@@ -2601,7 +2600,8 @@ public func tidySystemLocale( _ result: String* ) -> String {
      select from the `es_XX` variants.
 */
 public func tidySetLanguage( _ languageCode: String ) -> Swift.Bool {
- 
+
+    return CLibTidy.tidySetLanguage( languageCode ) == yes ? true : false
 }
 
  
@@ -2612,11 +2612,11 @@ public func tidySetLanguage( _ languageCode: String ) -> Swift.Bool {
      Returns a string indicating the currently set language.
 */
 public func tidyGetLanguage() -> String {
- 
+
+    return String( cString: CLibTidy.tidyGetLanguage() )
 }
 
 
-*/
 // MARK: Locale Mappings
 /*
 

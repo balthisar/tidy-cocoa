@@ -81,8 +81,10 @@ class TidyRunner {
         print("---------------------------------")
         
         print(errorBuffer.UTF8String ?? "MISSING!")
-        
-        
+
+        print("---------------------------------")
+        print( tidySystemLocale() )
+
 
         tidyRelease( tdoc )
     }
