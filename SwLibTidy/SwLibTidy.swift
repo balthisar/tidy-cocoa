@@ -24,9 +24,9 @@
       use its default memory allocators. Custom memory allocators, if needed,
       are best written in C for compatibility.
  
-      No support for custom input and output sinks is present, and it's very
-      unlikely that they would be needed for a modern, full-featured operating
-      system. If needed, they are best written in C for compatibility.
+      No support for custom input and output sources/sinks is present, and it's
+      very unlikely that they would be needed for a modern, full-featured 
+      operating system. If needed, they are best written in C for compatibility.
  
       TidyReportFilter and TidyReportCallback are not supported as being
       deprecated (although not yet marked as such in CLibTidy source). Instead,
@@ -1786,7 +1786,6 @@ public func tidyGetArgValueDouble( _ tmessage: TidyMessage, _ arg: TidyMessageAr
 
 public typealias TidyPPProgress = ( _ tdoc: TidyDoc, _ line: UInt, _ col: UInt, _ destLine: UInt ) -> Void
 
-//typedef void (TIDY_CALL *TidyPPProgress)( TidyDoc tdoc, uint line, uint col, uint destLine );
 
 /**
  This function informs Tidy to use the specified callback for tracking the
@@ -1829,39 +1828,45 @@ public func tidySetPrettyPrinterCallback( _ tdoc: TidyDoc, _ callback: @escaping
 
 
 
-// MARK: - Document Parse:
-/*
-
- 
 /***************************************************************************//**
  ** Functions for parsing markup from a given input source, as well as string
  ** and filename functions for added convenience. HTML/XHTML version determined
  ** from input.
  ******************************************************************************/
+// MARK: - Document Parse:
+
 
 /**
  Parse markup in named file.
  
- - returns: Returns the highest of `2` indicating that errors were present in
-     the docment, `1` indicating warnings, and `0` in the case of
-     everything being okay.
+ - parameters:
+   - tdoc: The tidy document to use for parsing.
+   - filename: The path and filename to parse.
+ - returns: 
+     Returns the highest of `2` indicating that errors were present in the
+     document, `1` indicating warnings, and `0` in the case of everything being
+     okay.
 */
-TIDY_EXPORT int TIDY_CALL         tidyParseFile(TidyDoc tdoc,    /**< The tidy document to use for parsing. */
-    ctmbstr filename /**< The filename to parse. */
-);
+public func tidyParseFile( _ tdoc: TidyDoc, _ filename: String ) -> Int {
+
+        return Int( CLibTidy.tidyParseFile( tdoc, filename ) )
+}
 
  
 /**
  Parse markup from the standard input.
  
- - parameter tdoc: The tidy document to use for parsing.
- - returns: Returns the highest of `2` indicating that errors were present in
-     the docment, `1` indicating warnings, and `0` in the case of
-     everything being okay.
+ - parameters:
+   - tdoc: The tidy document to use for parsing.
+ - returns:
+     Returns the highest of `2` indicating that errors were present in the
+     docment, `1` indicating warnings, and `0` in the case of everything being
+     okay.
 */
-TIDY_EXPORT int TIDY_CALL         tidyParseStdin( TidyDoc tdoc );
-
-*/
+public func tidyParseStdin( _ tdoc: TidyDoc ) -> Int {
+    
+    return Int( CLibTidy.tidyParseStdin( tdoc ) )
+}
 
 
 /**
@@ -1872,81 +1877,86 @@ TIDY_EXPORT int TIDY_CALL         tidyParseStdin( TidyDoc tdoc );
 */
 public func tidyParseString( _ tdoc: TidyDoc, _ content: String ) -> Int {
     
-    return Int( CLibTidy.tidyParseString(tdoc, content) )
+    return Int( CLibTidy.tidyParseString( tdoc, content ) )
 }
 
-
-/*
 
 /**
  Parse markup in given buffer.
  
- - returns: Returns the highest of `2` indicating that errors were present in
-     the docment, `1` indicating warnings, and `0` in the case of
-     everything being okay.
+ - parameters:
+   - tdoc: The tidy document to use for parsing.
+   - buf: The TidyBuffer containing data to parse.
+ - returns: 
+     Returns the highest of `2` indicating that errors were present in the 
+     docment, `1` indicating warnings, and `0` in the case of everything being 
+     okay.
 */
-TIDY_EXPORT int TIDY_CALL         tidyParseBuffer(TidyDoc tdoc,   /**< The tidy document to use for parsing. */
-    TidyBuffer* buf /**< The TidyBuffer containing data to parse. */
-);
+public func tidyParseBuffer( _ tdoc: TidyDoc, _ buf: TidyBuffer ) -> Int {
+ 
+    return Int( CLibTidy.tidyParseBuffer( tdoc, buf.ptrBuffer) )
+}
 
  
-/**
- Parse markup in given generic input source.
- - returns: Returns the highest of `2` indicating that errors were present in
-     the docment, `1` indicating warnings, and `0` in the case of
-     everything being okay.
-*/
-TIDY_EXPORT int TIDY_CALL         tidyParseSource(TidyDoc tdoc,           /**< The tidy document to use for parsing. */
-    TidyInputSource* source /**< A TidyInputSource containing data to parse. */
-);
-
- 
-*/
-// MARK: - Clean, Diagnostics, and Repair:
-/*
-
  
 /***************************************************************************//**
  ** After parsing the document, you can use these functions to attempt cleanup,
  ** repair, get additional diagnostics, and determine the document type.
  ******************************************************************************/
+// MARK: - Clean, Diagnostics, and Repair:
 
+ 
 /**
  Execute configured cleanup and repair operations on parsed markup.
  
- - parameter tdoc: The tidy document to use.
- - returns: An integer representing the status.
+ - parameters:
+   - tdoc: The tidy document to use.
+ - returns:
+     An integer representing the status.
 */
-TIDY_EXPORT int TIDY_CALL         tidyCleanAndRepair( TidyDoc tdoc );
+public func tidyCleanAndRepair( _ tdoc: TidyDoc ) -> Int {
+ 
+    return Int( CLibTidy.tidyCleanAndRepair( tdoc ) )
+}
 
+ 
 /**
  Run configured diagnostics on parsed and repaired markup. You must call
  tidyCleanAndRepair() before using this function.
  
- - parameter tdoc: The tidy document to use.
- - returns: An integer representing the status.
+ - parameters:
+   - tdoc: The tidy document to use.
+ - returns:
+     An integer representing the status.
 */
-TIDY_EXPORT int TIDY_CALL         tidyRunDiagnostics( TidyDoc tdoc );
+public func tidyRunDiagnostics( _ tdoc: TidyDoc ) -> Int {
+ 
+    return Int( CLibTidy.tidyRunDiagnostics( tdoc ) )
+}
 
+ 
 /**
  Reports the document type into the output sink.
  
- - parameter tdoc: The tidy document to use.
- - returns: An integer representing the status.
+ - parameters:
+   - tdoc: The tidy document to use.
+ - returns:
+     An integer representing the status.
 */
-TIDY_EXPORT int TIDY_CALL         tidyReportDoctype( TidyDoc tdoc );
-
-
-*/
-// MARK: - Document Save Functions:
-/*
-
+public func tidyReportDoctype( _ tdoc: TidyDoc ) -> Int {
  
+    return Int( CLibTidy.tidyReportDoctype( tdoc ) )
+}
+
+
 /***************************************************************************//**
  ** Save currently parsed document to the given output sink. File name
  ** and string/buffer functions provided for convenience.
  ******************************************************************************/
+// MARK: - Document Save Functions:
+/*
 
+ 
 /** 
  Save the tidy document to the named file.
  
