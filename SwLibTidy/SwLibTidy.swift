@@ -131,13 +131,8 @@ public class TidyBuffer {
     
     fileprivate typealias _tidybuff = UnsafeMutablePointer<CLibTidy.TidyBuffer>
     fileprivate var ptrBuffer: _tidybuff
-    /**
-     Provide mappings from CLibTidy encoding names to Cocoa string encoding
-     types.
-     */
 
     private let big5encoding: String.Encoding
-
     private let encAssociations: [ String : String.Encoding ]
     
     /** An accessor to the underlying raw data buffer used by CLibTidy. When
