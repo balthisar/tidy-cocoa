@@ -1596,57 +1596,62 @@ public func tidyGetMessageOutput( _ tmessage: TidyMessage ) -> String {
 }
 
 
-// MARK: TidyMessageCallback Arguments API
-/*
-
-
-/** When using `TidyMessageCallback` you will be supplied with a TidyMessage
+/***************************************************************************//**
+ ** When using `TidyMessageCallback` you will be supplied with a TidyMessage
  ** object which can be used as a token against which to query using this API.
  ** This API deals strictly with _arguments_ that a message may or may not have;
  ** these are the same arguments that Tidy would apply to a format string in
  ** order to fill in the placeholder fields and deliver a complete report or
  ** dialogue string to you.
-*/
+ ******************************************************************************/
+// MARK: TidyMessageCallback Arguments API
 
- 
-/** Initiates an iterator for a list of arguments related to a given message.
- ** This iterator allows you to iterate through all of the arguments, if any.
- ** In order to iterate through the arguments, initiate the iterator with this
- ** function, and then use tidyGetNextMessageArgument() to retrieve the first
- ** and subsequent arguments. For example:
- ** @code{.c}
- **   TidyIterator itArg = tidyGetMessageArguments( tmessage );
- **   while ( itArg ) {
- **     TidyMessageArgument my_arg = tidyGetNextMessageArgument( tmessage, &itArg );
- **     // do something with my_arg, such as inspect its value or format
- **   }
- ** @endcode
- ** - parameter tmessage The message about whose arguments you wish to query.
- ** - returns: Returns a TidyIterator, which is a token used to represent the
- **         current position in a list within LibTidy.
-*/
-TIDY_EXPORT TidyIterator TIDY_CALL tidyGetMessageArguments( TidyMessage tmessage );
 
- 
-/** Given a valid TidyIterator initiated with tidyGetMessageArguments(), returns
- ** an instance of the opaque type TidyMessageArgument, which serves as a token
- ** against which the remaining argument API functions may be used to query
- ** information.
- ** - returns: Returns an instance of TidyMessageArgument.
-*/
-TIDY_EXPORT TidyMessageArgument TIDY_CALL tidyGetNextMessageArgument(TidyMessage tmessage, /**< The message whose arguments you want to access. */
-    TidyIterator* iter    /**< The TidyIterator (initiated with tidyOptGetDocLinksList()) token. */
-);
+/**
+ Returns on array of TidyMessageArgument, where each item represents an argument
+ for the specified TidyMessage. You can then use the arguments API to query each
+ of these items to deconstruct relevant portions of Tidy's messages.
 
+ - Note: This Swift array replaces the CLibTidy `tidyGetMessageArguments()`
+     and `tidyGetNextMessageArgument()` functions, as it is much more natural to
+     deal with Swift array types when using Swift.
  
+ - parameters
+   - tmessage: The `TidyMessage` for which to get arguments.
+ - returns:
+     An array of `TidyMessageArgument`, if any.
+*/
+public func tidyGetMessageArguments( forMessage tmessage: TidyMessage ) -> [TidyMessageArgument] {
+    
+    var itArgs: TidyIterator? = CLibTidy.tidyGetMessageArguments( tmessage )
+    
+    var result : [TidyMessageArgument] = []
+    
+    while ( itArgs != nil ) {
+        
+        if let arg = CLibTidy.tidyGetNextMessageArgument( tmessage, &itArgs ) {
+            result.append( arg )
+        }
+    }
+    
+    return result
+}
+
+
 /**
  Returns the `TidyFormatParameterType` of the given message argument.
  
- - returns: Returns the type of parameter of type TidyFormatParameterType.
+ - parameters:
+   - tmessage: The message whose arguments you want to access.
+   - arg: The argument that you are querying.
+ - returns:
+     Returns the type of parameter of type TidyFormatParameterType.
 */
-TIDY_EXPORT TidyFormatParameterType TIDY_CALL tidyGetArgType(TidyMessage tmessage,    /**< The message whose arguments you want to access. */
-    TidyMessageArgument* arg /**< The argument that you are querying. */
-);
+public func tidyGetArgType( _ tmessage: TidyMessage, _ arg: TidyMessageArgument ) -> TidyFormatParameterType {
+
+    var ptrArg: TidyMessageArgument? = arg
+    return CLibTidy.tidyGetArgType( tmessage, &ptrArg )
+}
 
  
 /**
@@ -1654,58 +1659,87 @@ TIDY_EXPORT TidyFormatParameterType TIDY_CALL tidyGetArgType(TidyMessage tmessag
  this string is cleared upon termination of the callback, so do be sure to
  make your own copy.
  
- - returns: Returns the format specifier string of the given argument.
+ - parameters:
+   - tmessage: The message whose arguments you want to access.
+   - arg: The argument that you are querying.
+ - returns:
+     Returns the format specifier string of the given argument.
 */
-TIDY_EXPORT ctmbstr TIDY_CALL tidyGetArgFormat(TidyMessage tmessage,    /**< The message whose arguments you want to access. */
-    TidyMessageArgument* arg /**< The argument that you are querying. */
-);
+public func tidyGetArgFormat( _ tmessage: TidyMessage, _ arg: TidyMessageArgument ) -> String {
+
+    var ptrArg: TidyMessageArgument? = arg
+    return String( cString: CLibTidy.tidyGetArgFormat( tmessage, &ptrArg ) )
+}
 
  
 /**
  Returns the string value of the given message argument. An assertion
  will be generated if the argument type is not a string.
  
- - returns: Returns the string value of the given argument.
+ - parameters:
+   - tmessage: The message whose arguments you want to access.
+   - arg: The argument that you are querying.
+ - returns: 
+     Returns the string value of the given argument.
 */
-TIDY_EXPORT ctmbstr TIDY_CALL tidyGetArgValueString(TidyMessage tmessage,    /**< The message whose arguments you want to access. */
-    TidyMessageArgument* arg /**< The argument that you are querying. */
-);
+public func tidyGetArgValueString( _ tmessage: TidyMessage, _ arg: TidyMessageArgument ) -> String {
+
+    var ptrArg: TidyMessageArgument? = arg
+    return String( cString: CLibTidy.tidyGetArgValueString( tmessage, &ptrArg ) )
+}
 
  
 /**
  Returns the unsigned integer value of the given message argument. An
  assertion will be generated if the argument type is not an unsigned int.
  
- - returns: Returns the unsigned integer value of the given argument.
+ - parameters:
+   - tmessage: The message whose arguments you want to access.
+   - arg: The argument that you are querying.
+ - returns: 
+     Returns the unsigned integer value of the given argument.
 */
-TIDY_EXPORT uint TIDY_CALL tidyGetArgValueUInt(TidyMessage tmessage,    /**< The message whose arguments you want to access. */
-    TidyMessageArgument* arg /**< The argument that you are querying. */
-);
+public func tidyGetArgValueUInt( _ tmessage: TidyMessage, _ arg: TidyMessageArgument ) -> UInt {
+
+    var ptrArg: TidyMessageArgument? = arg
+    return UInt( CLibTidy.tidyGetArgValueUInt( tmessage, &ptrArg ) )
+}
 
  
 /**
  Returns the integer value of the given message argument. An assertion
  will be generated if the argument type is not an integer.
  
- - returns: Returns the integer value of the given argument.
+ - parameters:
+   - tmessage: The message whose arguments you want to access.
+   - arg: The argument that you are querying.
+ - returns: 
+     Returns the integer value of the given argument.
 */
-TIDY_EXPORT int TIDY_CALL tidyGetArgValueInt(TidyMessage tmessage,    /**< The message whose arguments you want to access. */
-    TidyMessageArgument* arg /**< The argument that you are querying. */
-);
+public func tidyGetArgValueInt( _ tmessage: TidyMessage, _ arg: TidyMessageArgument ) -> Int {
+
+    var ptrArg: TidyMessageArgument? = arg
+    return Int( CLibTidy.tidyGetArgValueInt( tmessage, &ptrArg ) )
+}
 
  
 /**
  Returns the double value of the given message argument. An assertion
  will be generated if the argument type is not a double.
  
- - returns: Returns the double value of the given argument.
+ - parameters:
+   - tmessage: The message whose arguments you want to access.
+   - arg: The argument that you are querying.
+ - returns: 
+     Returns the double value of the given argument.
 */
-TIDY_EXPORT double TIDY_CALL tidyGetArgValueDouble(TidyMessage tmessage,    /**< The message whose arguments you want to access. */
-    TidyMessageArgument* arg /**< The argument that you are querying. */
-);
+public func tidyGetArgValueDouble( _ tmessage: TidyMessage, _ arg: TidyMessageArgument ) -> Double {
+
+    var ptrArg: TidyMessageArgument? = arg
+    return Double( CLibTidy.tidyGetArgValueDouble( tmessage, &ptrArg ) )
+}
 
 
-*/
 // MARK: Printing
 /*
 

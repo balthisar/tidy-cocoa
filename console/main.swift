@@ -50,7 +50,7 @@ class TidyRunner {
         _ = tidySetErrorBuffer( tdoc, errbuf: errorBuffer )
 
         // Let's set a message callback
-        tidySetMessageCallback( tdoc, filtCallback: myMessageCallback)
+        _ = tidySetMessageCallback( tdoc, filtCallback: myMessageCallback)
 
         // Let's load a configuration file. 
         // Note, eventually copy these to the bundle and load them from there.
