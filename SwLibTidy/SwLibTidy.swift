@@ -720,13 +720,13 @@ public func tidyOptGetIdForName( _ optnam: String) -> TidyOptionId {
 */
 public func tidyGetOptionList( _ tdoc: TidyDoc ) -> [TidyOption] {
     
-    var itOpt: TidyIterator? = CLibTidy.tidyGetOptionList( tdoc )
+    var it: TidyIterator? = CLibTidy.tidyGetOptionList( tdoc )
     
     var result : [TidyOption] = []
     
-    while ( itOpt != nil ) {
+    while ( it != nil ) {
         
-        if let opt = CLibTidy.tidyGetNextOption(tdoc, &itOpt) {
+        if let opt = CLibTidy.tidyGetNextOption(tdoc, &it) {
             result.append(opt)
         }
     }
@@ -884,13 +884,13 @@ public func tidyOptGetDefaultBool( _ opt: TidyOption ) -> Swift.Bool {
 */
 public func tidyOptGetPickList( _ opt: TidyOption ) -> [String] {
     
-    var itPick: TidyIterator? = CLibTidy.tidyOptGetPickList( opt )
+    var it: TidyIterator? = CLibTidy.tidyOptGetPickList( opt )
     
     var result : [String] = []
     
-    while ( itPick != nil ) {
+    while ( it != nil ) {
         
-        if let pick = CLibTidy.tidyOptGetNextPick( opt, &itPick) {
+        if let pick = CLibTidy.tidyOptGetNextPick( opt, &it) {
             result.append( String( cString:pick ) )
         }
     }
@@ -1173,13 +1173,13 @@ public func tidyOptGetCurrPick( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> Stri
 */
 public func tidyOptGetDeclTagList( _ tdoc: TidyDoc, forOptionId optId: TidyOptionId ) -> [String] {
     
-    var itTag: TidyIterator? = CLibTidy.tidyOptGetDeclTagList( tdoc )
+    var it: TidyIterator? = CLibTidy.tidyOptGetDeclTagList( tdoc )
     
     var result : [String] = []
     
-    while ( itTag != nil ) {
+    while ( it != nil ) {
         
-        if let tag = CLibTidy.tidyOptGetNextDeclTag( tdoc, optId, &itTag) {
+        if let tag = CLibTidy.tidyOptGetNextDeclTag( tdoc, optId, &it) {
             result.append( String( cString: tag ) )
         }
     }
@@ -1222,13 +1222,13 @@ public func tidyOptGetDoc( _ tdoc: TidyDoc, _ opt: TidyOption ) -> String {
 */
 public func tidyOptGetDocLinksList( _ tdoc: TidyDoc, _ opt: TidyOption ) -> [TidyOption] {
     
-    var itOpt: TidyIterator? = CLibTidy.tidyOptGetDocLinksList( tdoc, opt )
+    var it: TidyIterator? = CLibTidy.tidyOptGetDocLinksList( tdoc, opt )
     
     var result : [TidyOption] = []
     
-    while ( itOpt != nil ) {
+    while ( it != nil ) {
         
-        if let opt = CLibTidy.tidyOptGetNextDocLinks( tdoc, &itOpt) {
+        if let opt = CLibTidy.tidyOptGetNextDocLinks( tdoc, &it) {
             result.append( opt )
         }
     }
@@ -1647,13 +1647,13 @@ public func tidyGetMessageOutput( _ tmessage: TidyMessage ) -> String {
 */
 public func tidyGetMessageArguments( forMessage tmessage: TidyMessage ) -> [TidyMessageArgument] {
     
-    var itArgs: TidyIterator? = CLibTidy.tidyGetMessageArguments( tmessage )
+    var it: TidyIterator? = CLibTidy.tidyGetMessageArguments( tmessage )
     
     var result : [TidyMessageArgument] = []
     
-    while ( itArgs != nil ) {
+    while ( it != nil ) {
         
-        if let arg = CLibTidy.tidyGetNextMessageArgument( tmessage, &itArgs ) {
+        if let arg = CLibTidy.tidyGetNextMessageArgument( tmessage, &it ) {
             result.append( arg )
         }
     }
@@ -2530,35 +2530,34 @@ public func tidyErrorCodeFromKey( _ code: String ) -> UInt {
     return UInt( CLibTidy.tidyErrorCodeFromKey( code ) )
 }
 
-/*
-/** Initiates an iterator for a list of message codes available in Tidy.
- ** This iterator allows you to iterate through all of the code. In orde to
- ** iterate through the codes, initiate the iterator with this function, and
- ** then use getNextErrorCode() to retrieve the first and subsequent codes.
- ** For example:
- ** @code{.c}
- **   TidyIterator itMessage = getErrorCodeList();
- **   while ( itMessage ) {
- **     uint code = getNextErrorCode( &itMessage );
- **     // do something with the code, such as lookup a string.
- **   }
- ** @endcode
- ** - returns: Returns a TidyIterator, which is a token used to represent the
- **         current position in a list within LibTidy.
-*/
-TIDY_EXPORT TidyIterator TIDY_CALL getErrorCodeList();
+/**
+ Returns on array of `UInt`, where each `UInt` represents an message code 
+ available in Tidy. These `UInt` values map to message codes in one CLibTidy's
+ various enumerations. In general, you must never count on these values, and 
+ always use the enum label. This utility is generally only useful for
+ documentation purposes.
 
-/** Given a valid TidyIterator initiated with getErrorCodeList(), returns
- ** an instance of the opaque type TidyMessageArgument, which serves as a token
- ** against which the remaining argument API functions may be used to query
- ** information.
- ** - parameter iter The TidyIterator (initiated with getErrorCodeList()) token.
- ** - returns: Returns a message code.
+ - Note: This Swift array replaces the CLibTidy `getErrorCodeList()` and
+     `getNextErrorCode()` functions, as it is much more natural to deal with 
+     Swift array types when using Swift.
+
+ - returns:
+     An array of `UInt`, if any.
 */
-TIDY_EXPORT uint TIDY_CALL getNextErrorCode( TidyIterator* iter )
+public func getErrorCodeList() -> [UInt] {
+    
+    var it: TidyIterator? = CLibTidy.getErrorCodeList()
+    
+    var result : [UInt] = []
+    
+    while ( it != nil ) {
+        result.append( UInt( CLibTidy.getNextErrorCode( &it ) ) )
+    }
+    
+    return result
+}
 
 
-*/
 // MARK: - Localization Support:
 /*
 
