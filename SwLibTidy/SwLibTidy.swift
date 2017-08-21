@@ -2013,7 +2013,9 @@ TIDY_EXPORT int TIDY_CALL         tidySaveBuffer(TidyDoc tdoc, TidyBuffer* buf )
  - returns: 
      An integer representing the status.
 */
-TIDY_EXPORT int TIDY_CALL         tidySaveString(TidyDoc tdoc, tmbstr buffer, uint* buflen )
+TIDY_EXPORT int TIDY_CALL         tidySaveString(TidyDoc tdoc, tmbstr buffer, uint* buflen ) -> Int {
+ 
+}
 
  
 /**
@@ -2025,7 +2027,9 @@ TIDY_EXPORT int TIDY_CALL         tidySaveString(TidyDoc tdoc, tmbstr buffer, ui
  - returns:
      An integer representing the status.
 */
-TIDY_EXPORT int TIDY_CALL         tidyOptSaveFile(TidyDoc tdoc, ctmbstr cfgfil )
+TIDY_EXPORT int TIDY_CALL         tidyOptSaveFile(TidyDoc tdoc, ctmbstr cfgfil ) -> Int {
+ 
+}
 
 
 */
@@ -2095,7 +2099,9 @@ TIDY_EXPORT int TIDY_CALL         tidyOptSaveFile(TidyDoc tdoc, ctmbstr cfgfil )
  - returns: 
      Returns a tidy node.
 */
-TIDY_EXPORT TidyNode TIDY_CALL    tidyGetRoot( TidyDoc tdoc )
+TIDY_EXPORT TidyNode TIDY_CALL    tidyGetRoot( TidyDoc tdoc ) -> TidyNode {
+ 
+}
 
  
 /** 
@@ -2106,8 +2112,10 @@ TIDY_EXPORT TidyNode TIDY_CALL    tidyGetRoot( TidyDoc tdoc )
  - returns: 
      Returns a tidy node.
 */
-TIDY_EXPORT TidyNode TIDY_CALL    tidyGetHtml( TidyDoc tdoc )
-
+TIDY_EXPORT TidyNode TIDY_CALL    tidyGetHtml( TidyDoc tdoc ) -> TidyNode {
+ 
+}
+ 
  
 /** 
  Get the HEAD node.
@@ -2117,8 +2125,10 @@ TIDY_EXPORT TidyNode TIDY_CALL    tidyGetHtml( TidyDoc tdoc )
  - returns: 
      Returns a tidy node.
 */
-TIDY_EXPORT TidyNode TIDY_CALL    tidyGetHead( TidyDoc tdoc )
-
+TIDY_EXPORT TidyNode TIDY_CALL    tidyGetHead( TidyDoc tdoc ) -> TidyNode {
+ 
+}
+ 
  
 /** 
  Get the BODY node.
@@ -2128,9 +2138,11 @@ TIDY_EXPORT TidyNode TIDY_CALL    tidyGetHead( TidyDoc tdoc )
  - returns:
      Returns a tidy node.
 */
-TIDY_EXPORT TidyNode TIDY_CALL    tidyGetBody( TidyDoc tdoc )
+TIDY_EXPORT TidyNode TIDY_CALL    tidyGetBody( TidyDoc tdoc ) -> TidyNode {
+ 
+}
 
-
+ 
 */
 // MARK: Relative Nodes
 /*
@@ -2144,8 +2156,10 @@ TIDY_EXPORT TidyNode TIDY_CALL    tidyGetBody( TidyDoc tdoc )
  - returns: 
      Returns a tidy node.
 */
-TIDY_EXPORT TidyNode TIDY_CALL    tidyGetParent( TidyNode tnod )
-
+TIDY_EXPORT TidyNode TIDY_CALL    tidyGetParent( TidyNode tnod ) -> TidyNode {
+ 
+}
+ 
  
 /** 
  Get the child of the indicated node.
@@ -2155,8 +2169,10 @@ TIDY_EXPORT TidyNode TIDY_CALL    tidyGetParent( TidyNode tnod )
  - returns: 
      Returns a tidy node.
 */
-TIDY_EXPORT TidyNode TIDY_CALL    tidyGetChild( TidyNode tnod )
-
+TIDY_EXPORT TidyNode TIDY_CALL    tidyGetChild( TidyNode tnod ) -> TidyNode {
+ 
+}
+ 
  
 /**
  Get the next sibling node.
@@ -2166,8 +2182,10 @@ TIDY_EXPORT TidyNode TIDY_CALL    tidyGetChild( TidyNode tnod )
  - returns: 
      Returns a tidy node.
 */
-TIDY_EXPORT TidyNode TIDY_CALL    tidyGetNext( TidyNode tnod )
-
+TIDY_EXPORT TidyNode TIDY_CALL    tidyGetNext( TidyNode tnod ) -> TidyNode {
+ 
+}
+ 
  
 /**
  Get the previous sibling node.
@@ -2177,7 +2195,9 @@ TIDY_EXPORT TidyNode TIDY_CALL    tidyGetNext( TidyNode tnod )
  - returns:
      Returns a tidy node.
 */
-TIDY_EXPORT TidyNode TIDY_CALL    tidyGetPrev( TidyNode tnod )
+TIDY_EXPORT TidyNode TIDY_CALL    tidyGetPrev( TidyNode tnod ) -> TidyNode {
+ 
+}
 
  
 */
@@ -2194,7 +2214,9 @@ TIDY_EXPORT TidyNode TIDY_CALL    tidyGetPrev( TidyNode tnod )
  - returns:
      Returns the next tidy node.
 */
-TIDY_EXPORT TidyNode TIDY_CALL    tidyDiscardElement(TidyDoc tdoc, TidyNode tnod )
+TIDY_EXPORT TidyNode TIDY_CALL    tidyDiscardElement(TidyDoc tdoc, TidyNode tnod ) -> TidyNode {
+ 
+}
 
  
 */
@@ -2210,7 +2232,9 @@ TIDY_EXPORT TidyNode TIDY_CALL    tidyDiscardElement(TidyDoc tdoc, TidyNode tnod
  - returns:
      Returns an instance of TidyAttr.
 */
-TIDY_EXPORT TidyAttr TIDY_CALL    tidyAttrFirst( TidyNode tnod )
+TIDY_EXPORT TidyAttr TIDY_CALL    tidyAttrFirst( TidyNode tnod ) -> TidyAttr {
+ 
+}
 
  
 /**
@@ -2221,7 +2245,9 @@ TIDY_EXPORT TidyAttr TIDY_CALL    tidyAttrFirst( TidyNode tnod )
  - returns: 
      Returns and instance of TidyAttr.
 */
-TIDY_EXPORT TidyAttr TIDY_CALL    tidyAttrNext( TidyAttr tattr )
+TIDY_EXPORT TidyAttr TIDY_CALL    tidyAttrNext( TidyAttr tattr ) -> TidyAttr {
+ 
+}
 
  
 /**
@@ -2231,7 +2257,9 @@ TIDY_EXPORT TidyAttr TIDY_CALL    tidyAttrNext( TidyAttr tattr )
  - returns: 
      Returns a string indicating the name of the attribute.
 */
-TIDY_EXPORT ctmbstr TIDY_CALL     tidyAttrName( TidyAttr tattr )
+TIDY_EXPORT ctmbstr TIDY_CALL     tidyAttrName( TidyAttr tattr ) -> String {
+ 
+}
 
  
 /** 
@@ -2241,7 +2269,9 @@ TIDY_EXPORT ctmbstr TIDY_CALL     tidyAttrName( TidyAttr tattr )
    - tattr: The tidy attribute to query.
  - returns: Returns a string indicating the value of the attribute.
 */
-TIDY_EXPORT ctmbstr TIDY_CALL     tidyAttrValue( TidyAttr tattr )
+ TIDY_EXPORT ctmbstr TIDY_CALL     tidyAttrValue( TidyAttr tattr ) -> String {
+ 
+}
 
  
 /**
@@ -2263,7 +2293,9 @@ TIDY_EXPORT void TIDY_CALL        tidyAttrDiscard(TidyDoc itdoc, TidyNode tnod, 
  - returns: 
      Returns the TidyAttrId of the given attribute.
 */
-TIDY_EXPORT TidyAttrId TIDY_CALL  tidyAttrGetId( TidyAttr tattr )
+TIDY_EXPORT TidyAttrId TIDY_CALL  tidyAttrGetId( TidyAttr tattr ) -> TidyAttrId {
+ 
+}
 
  
 /**
@@ -2274,7 +2306,9 @@ TIDY_EXPORT TidyAttrId TIDY_CALL  tidyAttrGetId( TidyAttr tattr )
  - returns:
      Returns a bool indicating whether or not the attribute is an event.
  **/
-TIDY_EXPORT Bool TIDY_CALL        tidyAttrIsEvent( TidyAttr tattr )
+TIDY_EXPORT Bool TIDY_CALL        tidyAttrIsEvent( TidyAttr tattr ) -> Swift.Bool {
+ 
+}
 
  
 /**
@@ -2286,7 +2320,9 @@ TIDY_EXPORT Bool TIDY_CALL        tidyAttrIsEvent( TidyAttr tattr )
  - returns:
      Returns a TidyAttr instance.
 */
-TIDY_EXPORT TidyAttr TIDY_CALL    tidyAttrGetById(TidyNode tnod, TidyAttrId attId )
+TIDY_EXPORT TidyAttr TIDY_CALL    tidyAttrGetById(TidyNode tnod, TidyAttrId attId ) -> TidyAttr {
+ 
+}
 
  
 */
