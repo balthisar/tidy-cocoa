@@ -1761,40 +1761,74 @@ public func tidyGetArgValueDouble( _ tmessage: TidyMessage, _ arg: TidyMessageAr
 }
 
 
-// MARK: Printing
-/*
-
- 
-/** LibTidy applications can somewhat track the progress of the tidying process
+/***************************************************************************//**
+ ** LibTidy applications can somewhat track the progress of the tidying process
  ** by using this provided callback. It relates where something in the source
  ** document ended up in the output.
-*/
+ ******************************************************************************/
+// MARK: Printing
 
- 
+
 /**
  This typedef represents the required signature for your provided callback
- function should you wish to register one with tidySetMessageCallback().
+ function should you wish to register one with tidySetPrettyPrinterCallback().
  Your callback function will be provided with the following parameters.
- - parameter tdoc: Indicates the source tidy document.
- - parameter line Indicates the line in the source document at this point in the process.
- - parameter column: Indicates the column in the source document at this point in the process.
- - parameter destLine: Indicates the line number in the output document at this point in the process.
- - returns: Your callback function will return `yes` if Tidy should include the
- **         report in its own output sink, or `no` if Tidy should suppress it.
-*/
-typedef void (TIDY_CALL *TidyPPProgress)( TidyDoc tdoc, uint line, uint col, uint destLine );
-
  
-/** 
+ - parameters:
+   - tdoc: Indicates the source tidy document.
+   - line Indicates the line in the source document at this point in the process.
+   - column: Indicates the column in the source document at this point in the process.
+   - destLine: Indicates the line number in the output document at this point in the process.
+ - returns: 
+     Your callback function will return `true` if Tidy should include the report
+     report in its own output sink, or `false` if Tidy should suppress it.
+*/
+
+public typealias TidyPPProgress = ( _ tdoc: TidyDoc, _ line: UInt, _ col: UInt, _ destLine: UInt ) -> Void
+
+//typedef void (TIDY_CALL *TidyPPProgress)( TidyDoc tdoc, uint line, uint col, uint destLine );
+
+/**
  This function informs Tidy to use the specified callback for tracking the
  pretty-printing process progress.
-*/
-TIDY_EXPORT Bool TIDY_CALL   tidySetPrettyPrinterCallback(TidyDoc tdoc,
-                                                          TidyPPProgress callback
-);
-
  
+ - parameters:
+   - tdoc: The `TidyDoc` for which you are setting the callback.
+   - callback: The function to be called.
+ - returns:
+     True or false indicating the success or failure of setting the callback.
 */
+public func tidySetPrettyPrinterCallback( _ tdoc: TidyDoc, _ callback: @escaping TidyPPProgress ) -> Swift.Bool {
+    
+    // Let's turn our opaque reference to an ApplicationData into an instance.
+    guard let ptrStorage = CLibTidy.tidyGetAppData(tdoc) else { return false }
+    
+    let storage: ApplicationData = Unmanaged<ApplicationData>
+        .fromOpaque(ptrStorage)
+        .takeUnretainedValue()
+    
+    storage.tidyPPCallback = callback;
+
+    // CLibTidy's callback will call into this closure.
+    let localCallback: CLibTidy.TidyPPProgress = { tdoc, line, col, destLine in
+        
+        guard
+            let tdoc = tdoc,
+            let ptrStorage = CLibTidy.tidyGetAppData( tdoc )
+        else { return }
+        
+        let storage = Unmanaged<ApplicationData>
+            .fromOpaque(ptrStorage)
+            .takeUnretainedValue()
+        
+        storage.tidyPPCallback!(  tdoc, UInt(line), UInt(col), UInt(destLine) )
+    }
+    
+    return CLibTidy.tidySetPrettyPrinterCallback( tdoc, localCallback ) == yes ? true : false
+}
+
+
+
 // MARK: - Document Parse:
 /*
 
@@ -2608,11 +2642,13 @@ class ApplicationData {
     var appData: AnyObject?
     var optionCallback: TidyConfigCallback?
     var tidyMessageCallback: TidyMessageCallback?
+    var tidyPPCallback: TidyPPProgress?
     
     init() {
         self.appData = nil
         self.optionCallback = nil
         self.tidyMessageCallback = nil
+        self.tidyPPCallback = nil
     }
 }
 
