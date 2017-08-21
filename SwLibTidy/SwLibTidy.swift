@@ -33,6 +33,9 @@
       use the modern, extensible TidyMessageCallback features that this library
       wraps.
  
+      tidySaveString() is not supported; there's not really a use case in Swift;
+      use tidySaveBuffer() instead.
+ 
     Important Linking Notes:
       Note that GUI apps should simply link to this framework; the framework
       will become part of your application bundle and be dynamically linked.
@@ -1954,7 +1957,6 @@ public func tidyReportDoctype( _ tdoc: TidyDoc ) -> Int {
  ** and string/buffer functions provided for convenience.
  ******************************************************************************/
 // MARK: - Document Save Functions:
-/*
 
  
 /** 
@@ -1968,6 +1970,7 @@ public func tidyReportDoctype( _ tdoc: TidyDoc ) -> Int {
 */
 public func tidySaveFile( _ tdoc: TidyDoc, _ filename: String ) -> Int {
  
+    return Int( CLibTidy.tidySaveFile( tdoc, filename ) )
 }
 
  
@@ -1981,6 +1984,7 @@ public func tidySaveFile( _ tdoc: TidyDoc, _ filename: String ) -> Int {
 */
 public func tidySaveStdout( _ tdoc: TidyDoc ) -> Int {
  
+    return Int( CLibTidy.tidySaveStdout( tdoc ) )
 }
  
  
@@ -1995,29 +1999,10 @@ public func tidySaveStdout( _ tdoc: TidyDoc ) -> Int {
 */
 public func tidySaveBuffer( _ tdoc: TidyDoc, _ buf: TidyBuffer ) -> Int {
  
+    return Int( CLibTidy.tidySaveBuffer( tdoc, buf.ptrBuffer ) )
 }
  
- 
-/** 
- Save the tidy document to an application buffer. If TidyShowMarkup and the
- document has no errors, or TidyForceOutput, then the current document (per
- the current configuration) will be pretty printed to this application
- buffer. The document byte length (not character length) will be placed into
- *buflen. The document will not be null terminated. If the buffer is not big
- enough, ENOMEM will be returned, else the actual document status.
- 
- - parameters:
-   - tdoc: The tidy document to save.
-   - buffer: The buffer to save to.
-   - buflen: [out] The byte length written.
- - returns: 
-     An integer representing the status.
-*/
-public func tidySaveString( _ tdoc: TidyDoc, _ buffer: String, _ buflen: uint* ) -> Int {
- 
-}
 
- 
 /**
  Save current settings to named file. Only writes non-default values.
  
@@ -2029,10 +2014,10 @@ public func tidySaveString( _ tdoc: TidyDoc, _ buffer: String, _ buflen: uint* )
 */
 public func tidyOptSaveFile( _ tdoc: TidyDoc, _ cfgfil: String ) -> Int {
  
+    return Int( CLibTidy.tidyOptSaveFile( tdoc, cfgfil ) )
 }
 
 
-*/
 /***************************************************************************//**
  ** A parsed (and optionally repaired) document is represented by Tidy as a
  ** tree, much like a W3C DOM. This tree may be traversed using these
@@ -2083,12 +2068,7 @@ public func tidyOptSaveFile( _ tdoc: TidyDoc, _ cfgfil: String ) -> Int {
  ** @{
  ******************************************************************************/
 // MARK: - Document Tree:
-/*
-
- 
-*/
 // MARK: Nodes for Document Sections
-/*
 
 
 /** 
@@ -2100,7 +2080,8 @@ public func tidyOptSaveFile( _ tdoc: TidyDoc, _ cfgfil: String ) -> Int {
      Returns a tidy node.
 */
 public func tidyGetRoot( _ tdoc: TidyDoc ) -> TidyNode {
- 
+
+    return CLibTidy.tidyGetRoot( tdoc )
 }
 
  
@@ -2114,6 +2095,7 @@ public func tidyGetRoot( _ tdoc: TidyDoc ) -> TidyNode {
 */
 public func tidyGetHtml( _ tdoc: TidyDoc ) -> TidyNode {
  
+    return CLibTidy.tidyGetHtml( tdoc )
 }
  
  
@@ -2127,6 +2109,7 @@ public func tidyGetHtml( _ tdoc: TidyDoc ) -> TidyNode {
 */
 public func tidyGetHead( _ tdoc: TidyDoc ) -> TidyNode {
  
+    return CLibTidy.tidyGetHead( tdoc )
 }
  
  
@@ -2140,12 +2123,11 @@ public func tidyGetHead( _ tdoc: TidyDoc ) -> TidyNode {
 */
 public func tidyGetBody( _ tdoc: TidyDoc ) -> TidyNode {
  
+    return CLibTidy.tidyGetBody( tdoc )
 }
 
- 
-*/
+
 // MARK: Relative Nodes
-/*
 
 
 /** 
@@ -2158,6 +2140,7 @@ public func tidyGetBody( _ tdoc: TidyDoc ) -> TidyNode {
 */
 public func tidyGetParent( _ tnod: TidyNode ) -> TidyNode {
  
+    return CLibTidy.tidyGetParent( tnod )
 }
  
  
@@ -2171,6 +2154,7 @@ public func tidyGetParent( _ tnod: TidyNode ) -> TidyNode {
 */
 public func tidyGetChild( _ tnod: TidyNode ) -> TidyNode {
  
+    return CLibTidy.tidyGetChild( tnod )
 }
  
  
@@ -2184,6 +2168,7 @@ public func tidyGetChild( _ tnod: TidyNode ) -> TidyNode {
 */
 public func tidyGetNext( _ tnod: TidyNode ) -> TidyNode {
  
+    return CLibTidy.tidyGetNext( tnod )
 }
  
  
@@ -2197,10 +2182,10 @@ public func tidyGetNext( _ tnod: TidyNode ) -> TidyNode {
 */
 public func tidyGetPrev( _ tnod: TidyNode ) -> TidyNode {
  
+    return CLibTidy.tidyGetPrev( tnod )
 }
 
- 
-*/
+
 // MARK: Miscellaneous Node Functions
 /*
 
