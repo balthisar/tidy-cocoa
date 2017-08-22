@@ -278,7 +278,58 @@ public func tidyCreate() -> TidyDoc {
      * callback, but our internal callbacks will call them.
      */
     
+    _ = CLibTidy.tidySetConfigCallback( tdoc, { tdoc, option, value in
+        
+        guard let option = option,
+            let value = value,
+            let ptrStorage = CLibTidy.tidyGetAppData(tdoc)
+            else { return no }
+        
+        let storage: ApplicationData = Unmanaged<ApplicationData>
+            .fromOpaque(ptrStorage)
+            .takeUnretainedValue()
+        
+        if let callback = storage.configCallback {
+            return callback( tdoc!, String(cString: option), String(cString: value) ) ? yes : no
+        } else {
+            return no
+        }
+    })
     
+    _ = CLibTidy.tidySetMessageCallback( tdoc, { tmessage in
+        
+        guard
+            let tmessage = tmessage,
+            let tdoc = CLibTidy.tidyGetMessageDoc( tmessage ),
+            let ptrStorage = CLibTidy.tidyGetAppData( tdoc )
+            else { return no }
+        
+        let storage = Unmanaged<ApplicationData>
+            .fromOpaque(ptrStorage)
+            .takeUnretainedValue()
+        
+        if let callback = storage.tidyMessageCallback {
+            return callback( tmessage ) ? yes : no
+        } else {
+            return no
+        }
+    })
+    
+    _ = CLibTidy.tidySetPrettyPrinterCallback( tdoc, { tdoc, line, col, destLine in
+        
+        guard
+            let tdoc = tdoc,
+            let ptrStorage = CLibTidy.tidyGetAppData( tdoc )
+            else { return }
+        
+        let storage = Unmanaged<ApplicationData>
+            .fromOpaque(ptrStorage)
+            .takeUnretainedValue()
+        
+        if let callback = storage.tidyPPCallback {
+            callback(  tdoc, UInt(line), UInt(col), UInt(destLine) )
+        }
+    })
     
     return tdoc
 }
@@ -667,7 +718,7 @@ public typealias TidyConfigCallback = ( _ tdoc: TidyDoc, _ option: String, _ val
      Returns `true` upon success.
 */
 public func tidySetConfigCallback( _ tdoc: TidyDoc, _ swiftCallback: @escaping TidyConfigCallback ) -> Swift.Bool {
-
+    
     // Let's turn our opaque reference to an ApplicationData into an instance.
     guard let ptrStorage = CLibTidy.tidyGetAppData(tdoc) else { return false }
     
@@ -677,11 +728,7 @@ public func tidySetConfigCallback( _ tdoc: TidyDoc, _ swiftCallback: @escaping T
     
     storage.configCallback = swiftCallback;
     
-    return CLibTidy.tidySetConfigCallback( tdoc, testCallback ) == yes ? true : false
-}
-
-private func testCallback( _ tdoc: TidyDoc, _ option: String, _ value: String ) -> CLibTidy.Bool {
-    return yes
+    return true
 }
 
 // MARK: Option ID Discovery
@@ -1388,26 +1435,8 @@ public func tidySetMessageCallback( _ tdoc: TidyDoc, filtCallback: @escaping Tid
         .takeUnretainedValue()
     
     storage.tidyMessageCallback = filtCallback;
-
-    // CLibTidy's callback will call into this closure.
-    let localCallback: CLibTidy.TidyMessageCallback = { tmessage in
-        
-        guard
-            let tmessage = tmessage,
-            let tdoc = CLibTidy.tidyGetMessageDoc( tmessage ),
-            let ptrStorage = CLibTidy.tidyGetAppData( tdoc )
-        else { return no }
-        
-        let storage = Unmanaged<ApplicationData>
-            .fromOpaque(ptrStorage)
-            .takeUnretainedValue()
-        
-        let result = storage.tidyMessageCallback!( tmessage )
-        
-        return result ? yes : no
-    }
     
-    return CLibTidy.tidySetMessageCallback( tdoc, localCallback ) == yes ? true : false
+    return true
 }
 
 
@@ -1828,22 +1857,7 @@ public func tidySetPrettyPrinterCallback( _ tdoc: TidyDoc, _ callback: @escaping
     
     storage.tidyPPCallback = callback;
 
-    // CLibTidy's callback will call into this closure.
-    let localCallback: CLibTidy.TidyPPProgress = { tdoc, line, col, destLine in
-        
-        guard
-            let tdoc = tdoc,
-            let ptrStorage = CLibTidy.tidyGetAppData( tdoc )
-        else { return }
-        
-        let storage = Unmanaged<ApplicationData>
-            .fromOpaque(ptrStorage)
-            .takeUnretainedValue()
-        
-        storage.tidyPPCallback!(  tdoc, UInt(line), UInt(col), UInt(destLine) )
-    }
-    
-    return CLibTidy.tidySetPrettyPrinterCallback( tdoc, localCallback ) == yes ? true : false
+    return true
 }
 
 
@@ -2837,73 +2851,3 @@ private class ApplicationData {
         self.tidyPPCallback = nil
     }
 }
-
-
-/**
- Use CLibTidy's ConfigCallback to build a dictionary to make available for
- users. If the user has specified his own ConfigCallback, then execute it.
- Note: In `tidyCreate()` we've set this method as the document's callback.
-*/
-private func handleConfigCallback( _ tdoc: TidyDoc, _ option: Swift.String, _ value: Swift.String ) -> CLibTidy.Bool {
-    
-    guard
-        let ptrStorage = CLibTidy.tidyGetAppData(tdoc)
-    else { return no }
-    
-    let storage: ApplicationData = Unmanaged<ApplicationData>
-        .fromOpaque(ptrStorage)
-        .takeUnretainedValue()
-    
-    if let callback = storage.configCallback {
-        return callback( tdoc, option, value ) ? yes : no
-    } else {
-        return no
-    }
-}
-
-
-/**
- Use CLibTidy's MessageCallback to build a class instance to make available for
- users. If the user has specified his own MessageCallback, then execute it.
- Note: In `tidyCreate()` we've set this method as the document's callback.
-*/
-private func handleMessageCallback( _ tmessage: TidyMessage ) -> CLibTidy.Bool {
-    
-    guard
-        let tdoc = CLibTidy.tidyGetMessageDoc( tmessage ),
-        let ptrStorage = CLibTidy.tidyGetAppData( tdoc )
-    else { return no }
-    
-    let storage = Unmanaged<ApplicationData>
-        .fromOpaque(ptrStorage)
-        .takeUnretainedValue()
-    
-    if let callback = storage.tidyMessageCallback {
-        return callback( tmessage ) ? yes : no
-    } else {
-        return no
-    }
-}
-
-
-/**
- Use CLibTidy's PrettyPrinterCallback to build a class instance to make 
- available for users. If the user has specified his own MessageCallback, then
- execute it. Note: In `tidyCreate()` we've set this method as the document's
- callback.
-*/
-private func handlePrettyPrinterCallback( _ tdoc: TidyDoc, _ line: UInt, _ col: UInt, _ destLine: UInt ) -> Void {
-    
-    guard
-        let ptrStorage = CLibTidy.tidyGetAppData( tdoc )
-    else { return }
-    
-    let storage = Unmanaged<ApplicationData>
-        .fromOpaque(ptrStorage)
-        .takeUnretainedValue()
-    
-    if let callback = storage.tidyPPCallback {
-        callback(  tdoc, UInt(line), UInt(col), UInt(destLine) )
-    }
-}
-
