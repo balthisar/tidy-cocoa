@@ -289,6 +289,8 @@ public func tidyCreate() -> TidyDoc {
             .fromOpaque(ptrStorage)
             .takeUnretainedValue()
         
+        storage.configCallbackRecords.updateValue( String(cString: value), forKey: String(cString: option) )
+        
         if let callback = storage.configCallback {
             return callback( tdoc!, String(cString: option), String(cString: value) ) ? yes : no
         } else {
@@ -2826,6 +2828,30 @@ public func getInstalledLanguageList() -> [String] {
 
 
 /******************************************************************************
+ ** Convenience Methods
+ **************************************************************************** */
+// MARK: - Private:
+
+/**
+ Returns a dictionary of everything that could have been passed to the 
+ ConfigCallback, where the key indicates the unrecognized configuration option
+ and the value indicating the proposed value. This convenience method avoids 
+ having to use your own callback to collect this data.
+*/
+public func tidyConfigRecords( forTidyDoc: TidyDoc ) -> [ String : String ] {
+    
+    guard
+        let ptrStorage = CLibTidy.tidyGetAppData( forTidyDoc )
+    else { return [:] }
+    
+    let storage = Unmanaged<ApplicationData>
+        .fromOpaque(ptrStorage)
+        .takeUnretainedValue()
+
+    return storage.configCallbackRecords
+}
+
+/******************************************************************************
  ** Private Stuff
  **************************************************************************** */
 // MARK: - Private:
@@ -2841,12 +2867,14 @@ public func getInstalledLanguageList() -> [String] {
 private class ApplicationData {
     var appData: AnyObject?
     var configCallback: TidyConfigCallback?
+    var configCallbackRecords: [ String : String]
     var tidyMessageCallback: TidyMessageCallback?
     var tidyPPCallback: TidyPPProgress?
     
     init() {
         self.appData = nil
         self.configCallback = nil
+        self.configCallbackRecords = [:]
         self.tidyMessageCallback = nil
         self.tidyPPCallback = nil
     }

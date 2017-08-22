@@ -84,6 +84,10 @@ class TidyRunner {
 
         print("---------------------------------")
         print( tidySystemLocale() )
+        
+        
+        print("---------------------------------")
+        print(tidyConfigRecords(forTidyDoc: tdoc))
 
 
         tidyRelease( tdoc )
