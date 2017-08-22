@@ -36,6 +36,13 @@
       tidySaveString() is not supported; there's not really a use case in Swift;
       use tidySaveBuffer() instead.
  
+    Localization API
+      CLibTidy will always perform in its default (`en`) locale unless you use
+      the localization API to change it. This might be suitable if you are
+      writing a command line tool, but it's recommended to use native
+      localization features instead. CLibTidy's source includes gettext
+      compatible `.po` files that can be converted to `.strings` if needed.
+ 
     Important Linking Notes:
       Note that GUI apps should simply link to this framework; the framework
       will become part of your application bundle and be dynamically linked.
@@ -2618,43 +2625,46 @@ public func tidyGetLanguage() -> String {
 
 
 // MARK: Locale Mappings
-/*
 
 
-/** @struct tidyLocalMapItem
- ** Represents an opaque type we can use for tidyLocaleMapItem, which
- ** is used to iterate through the language list, and used to access
- ** the windowsName() and the posixName().
+/**
+ Represents an opaque type we can use for tidyLocaleMapItem, which
+ is used to represent items in the language list, and used to access
+ the `windowsName()` and the `posixName()`.
 */
-opaque_type(tidyLocaleMapItem);
+public typealias tidyLocaleMapItem = UnsafePointer<CLibTidy.tidyLocaleMapItem?>
 
  
-/** Initiates an iterator for a list of Tidy's Windows<->POSIX locale mappings.
- ** This iterator allows you to iterate through this list. In order to
- ** iterate through the list, initiate the iterator with this function, and then
- ** use getNextWindowsLanguage() to retrieve the first and subsequent codes.
- ** For example:
- ** @code{.c}
- **   TidyIterator itList = getWindowsLanguageList();
- **   while ( itList ) {
- **     tidyLocaleMapItem *item = getNextWindowsLanguage( &itList );
- **     // do something such as get the TidyLangWindowsName(item).
- **   }
- ** @endcode
- ** - returns: Returns a TidyIterator, which is a token used to represent the
- **         current position in a list within LibTidy.
+/**
+ Returns an array of `tidyLocaleMapItem` tokens representing a mapping between
+ legacy Windows locale names and POSIX names. These tokens can be queried
+ against `TidyLangWindowsName` and `TidyLangPosixName`.
+ 
+ - Note: This Swift array replaces the CLibTidy functions
+     `getWindowsLanguageList()` and `getNextWindowsLanguage()`, as it is much
+     more natural to deal with Swift  array types when using Swift.
+ 
+ - returns:
+     Returns an array of `tidyLocaleMapItem` opaque tokens.
 */
-TIDY_EXPORT TidyIterator TIDY_CALL getWindowsLanguageList()
+public func getWindowsLanguageList() -> [tidyLocaleMapItem] {
+    
+    var it: TidyIterator? = CLibTidy.getWindowsLanguageList()
+    
+    var result : [tidyLocaleMapItem] = []
+    
+    while ( it != nil ) {
+        
+        if let opt = CLibTidy.getNextWindowsLanguage( &it ) {
+            result.append(opt)
+        }
+    }
+    
+    return result
+}
 
-/** Given a valid TidyIterator initiated with getWindowsLanguageList(), returns
- ** a pointer to a tidyLocaleMapItem, which can be further interrogated with
- ** TidyLangWindowsName() or TidyLangPosixName().
- ** - parameter iter The TidyIterator (initiated with getWindowsLanguageList()) token.
- ** - returns: Returns a pointer to a tidyLocaleMapItem.
-*/
-TIDY_EXPORT const tidyLocaleMapItem* TIDY_CALL getNextWindowsLanguage( TidyIterator* iter )
 
-/** 
+/**
  Given a `tidyLocalMapItem`, return the Windows name.
  
  - parameters:
@@ -2662,8 +2672,9 @@ TIDY_EXPORT const tidyLocaleMapItem* TIDY_CALL getNextWindowsLanguage( TidyItera
  - returns: 
      Returns a string with the Windows name of the mapping.
 */
-public func TidyLangWindowsName( _ *item: tidyLocaleMapItem ) -> String {
+public func TidyLangWindowsName( _ item: tidyLocaleMapItem ) -> String {
  
+    return String( cString: CLibTidy.TidyLangWindowsName( item ) )
 }
 
  
@@ -2675,12 +2686,12 @@ public func TidyLangWindowsName( _ *item: tidyLocaleMapItem ) -> String {
  - returns: 
      Returns a string with the POSIX name of the mapping.
 */
-public func TidyLangPosixName( _ *item: tidyLocaleMapItem ) -> String {
+public func TidyLangPosixName( _ item: tidyLocaleMapItem ) -> String {
  
+    return String( cString: CLibTidy.TidyLangPosixName( item ) )
 }
 
 
-*/
 // MARK: Getting Localized Strings
 /*
 
