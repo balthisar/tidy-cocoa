@@ -2693,7 +2693,6 @@ public func TidyLangPosixName( _ item: tidyLocaleMapItem ) -> String {
 
 
 // MARK: Getting Localized Strings
-/*
 
 
 /** 
@@ -2710,6 +2709,7 @@ public func TidyLangPosixName( _ item: tidyLocaleMapItem ) -> String {
 */
 public func tidyLocalizedStringN( _ messageType: UInt, _ quantity: UInt ) -> String {
  
+    return String( cString: CLibTidy.tidyLocalizedStringN( uint(messageType), uint(quantity) ) )
 }
 
  
@@ -2724,6 +2724,7 @@ public func tidyLocalizedStringN( _ messageType: UInt, _ quantity: UInt ) -> Str
 */
 public func tidyLocalizedString( _ messageType: UInt ) -> String {
  
+    return String( cString: CLibTidy.tidyLocalizedString( uint(messageType) ) )
 }
 
  
@@ -2738,70 +2739,66 @@ public func tidyLocalizedString( _ messageType: UInt ) -> String {
 */
 public func tidyDefaultString( _ messageType: UInt ) -> String {
  
+    return String( cString: CLibTidy.tidyDefaultString( uint(messageType) ) )
 }
 
  
-/** Initiates an iterator for a list of string key codes available in Tidy.
- ** This iterator allows you to iterate through all of the codes. In order to
- ** iterate through the codes, initiate the iterator with this function, and
- ** then use getNextStringKey() to retrieve the first and subsequent codes.
- ** For example:
- ** @code{.c}
- **   TidyIterator itKey = getErrorCodeList();
- **   while ( itKey ) {
- **     uint code = getNextStringKey( &itKey );
- **     // do something with the code, such as lookup a string.
- **   }
- ** @endcode
- ** @remark These are provided for documentation generation purposes, and
- **         probably aren't of much use to the average LibTidy implementor.
- ** - returns: Returns a TidyIterator, which is a token used to represent the
- **         current position in a list within LibTidy.
-*/
-TIDY_EXPORT TidyIterator TIDY_CALL getStringKeyList()
+/**
+ Returns an array of `UInt`, each of which serves as a key to a CLibTidy string.
 
-/** Given a valid TidyIterator initiated with getStringKeyList(), returns
- ** an unsigned integer representing the next key value.
- ** @remark These are provided for documentation generation purposes, and
- **         probably aren't of much use to the average LibTidy implementor.
- ** - parameter iter The TidyIterator (initiated with getStringKeyList()) token.
- ** - returns: Returns a message code.
-*/
-TIDY_EXPORT uint TIDY_CALL getNextStringKey( TidyIterator* iter )
-
-
-*/
-// MARK: Available Languages
-/*
-
-
-/** Initiates an iterator for a list of Tidy's installed languages. This
- ** iterator allows you to iterate through this list. In order to iterate
- ** through the list, initiate the iterator with this function, and then use
- ** use getNextInstalledLanguage() to retrieve the first and subsequent strings.
- ** For example:
- ** @code{.c}
- **   TidyIterator itList = getInstalledLanguageList();
- **   while ( itList ) {
- **     printf("%s",  getNextInstalledLanguage( &itList ));
- **   }
- ** @endcode
- ** - returns: Returns a TidyIterator, which is a token used to represent the
- **         current position in a list within LibTidy.
-*/
-TIDY_EXPORT TidyIterator TIDY_CALL getInstalledLanguageList()
-
+ - Note: These are provided for documentation generation purposes, and probably
+     aren't of much use to the average LibTidy implementor.
  
-/** Given a valid TidyIterator initiated with getInstalledLanguageList(),
- ** returns a string representing a language name that is installed in Tidy.
- ** - parameter iter The TidyIterator (initiated with getInstalledLanguageList())
- **        token.
- ** - returns: Returns a string indicating the installed language.
+ - Note: This Swift array replaces the CLibTidy functions `getStringKeyList()`
+     and `getNextStringKey()`, as it is much more natural to deal with Swift
+     array types when using Swift.
+ 
+ - returns:
+     Returns an array of `UInt`.
 */
-TIDY_EXPORT ctmbstr TIDY_CALL getNextInstalledLanguage( TidyIterator* iter )
+public func getStringKeyList() -> [UInt] {
+    
+    var it: TidyIterator? = CLibTidy.getWindowsLanguageList()
+    
+    var result : [UInt] = []
+    
+    while ( it != nil ) {
+        result.append( UInt( CLibTidy.getNextStringKey( &it ) ) )
+    }
+    
+    return result
+}
 
 
-*/
+// MARK: Available Languages
+
+
+/**
+ Returns an array of `String`, each of which indicates an installed CLibTidy
+ language.
+ 
+ - Note: This Swift array replaces the CLibTidy functions 
+   `getInstalledLanguageList()` and `getNextInstalledLanguage()`, as it is much
+   more natural to deal with Swift array types when using Swift.
+ 
+ - returns:
+ Returns an array of `String`.
+ */
+public func getInstalledLanguageList() -> [String] {
+    
+    var it: TidyIterator? = CLibTidy.getWindowsLanguageList()
+    
+    var result : [String] = []
+    
+    while ( it != nil ) {
+        
+        if let opt = CLibTidy.getNextInstalledLanguage( &it ) {
+            result.append( String( cString: opt ) )
+        }
+    }
+    
+    return result
+}
 
 
 /******************************************************************************
