@@ -9,15 +9,18 @@
     this source code per the W3C Software Notice and License:
     https://www.w3.org/Consortium/Legal/2002/copyright-software-20021231
 
-    Provides a strictly procedural wrapper to CLibTidy in order to simplify
-    the use of CLibTidy in Swift console and GUI applications. Chiefly among
-    its goals is to:
-      - Use Swift-native types whereever possible.
-      - Provide arrays or structures of information instead of depending on
-        CLibTidy's iterators.
-      - Simplify callbacks and appdata by abstracting C implementation details
-        into Swift-friendly form.
-      - Maintain full compatibility with Objective-C.
+    Purpose
+      Provide a low-level, highly procedural wrapper to the nearly the entirety
+      of CLibTidy in order to simplify the use of CLibTidy in Swift console and
+      GUI applications, and as a basis for developing high-level, object-
+      oriented classes for macOS and iOS. Its goals are to:
+        - Use Swift-native types, including for the use of callbacks/closures
+          and for the storage of context data. Although procedure, some minimal
+          supplementary classes are used to abstract C data structures.
+        - Provide arrays of information instead of depending on CLibTidy's
+          iterator mechanism.
+        - Maintain full compatibility with Objective-C.
+        - Provide some additional tools and functionality useful within Swift.
  
     Unsupported APIs
       Support for custom memory allocators is currently missing; CLibTidy will
@@ -209,7 +212,7 @@ public class TidyBuffer {
         as specified by `output-encoding`. Valid values include `ascii`,
         `latin1`, `utf8`, `iso2022`, `mac`, `win1252`, `utf16le`, `utf16be`,
         `utf16`, `big5`, and `shiftjis`. These values are not case
-        sensitive. `raw` is not support. Decoding will be performed by Cocoa,
+        sensitive. `raw` is not supported. Decoding will be performed by Cocoa,
         and not CLibTidy.
      */
     func String( usingTidyEncoding: String) -> String? {
@@ -243,6 +246,20 @@ public class TidyBuffer {
 */
 public func tidyCreate() -> TidyDoc {
     
+    // Perform CLibTidy version checking, because `tidySetConfigCallback()`
+    // wasn't added until version 5.5.32 (previous versions didn't surface the
+    // `TidyDoc` needed for identifying the source of the callback).
+    let versionMin = "5.5.32"
+    let versionCurrent: String = tidyLibraryVersion()
+    
+    let vaMin = versionMin.components(separatedBy: ".").map { Int.init($0) ?? 0 }
+    let vaCurrent = versionCurrent.components(separatedBy: ".").map { Int.init($0) ?? 0 }
+    
+    if vaCurrent.lexicographicallyPrecedes(vaMin) {
+        debugPrint( "LibTidy: oldest recommended version is \(versionMin), but you have linked against \(versionCurrent)." )
+    }
+    
+    // This is the only real "wrapper" part!
     let tdoc: TidyDoc! = CLibTidy.tidyCreate()
 
     // Create some extra storage to attach to Tidy's AppData.
@@ -253,6 +270,15 @@ public func tidyCreate() -> TidyDoc {
 
     // Now attach it to Tidy's AppData.
     CLibTidy.tidySetAppData(tdoc, ptr)
+    
+    
+    /* Now we're going to usurp all of Tidy's callbacks so that we can use them
+     * for our own purposes, such as building Swift-like data structures that
+     * can avoid the need for user callbacks. The user can still specify a
+     * callback, but our internal callbacks will call them.
+     */
+    
+    
     
     return tdoc
 }
@@ -649,30 +675,14 @@ public func tidySetConfigCallback( _ tdoc: TidyDoc, _ swiftCallback: @escaping T
         .fromOpaque(ptrStorage)
         .takeUnretainedValue()
     
-    storage.optionCallback = swiftCallback;
-
-    // CLibTidy's callback will call into this closure.
-    let localCallback: CLibTidy.TidyConfigCallback = { tdoc, option, value in
-        
-        guard let option = option,
-            let value = value,
-            let ptrStorage = CLibTidy.tidyGetAppData(tdoc)
-        else { return no }
-        
-        let storage: ApplicationData = Unmanaged<ApplicationData>
-            .fromOpaque(ptrStorage)
-            .takeUnretainedValue()
-        
-        let result = storage.optionCallback!(tdoc!,
-                                             String(cString: option),
-                                             String(cString: value))
-        
-        return result ? yes : no
-    }
+    storage.configCallback = swiftCallback;
     
-    return CLibTidy.tidySetConfigCallback( tdoc, localCallback ) == yes ? true : false
+    return CLibTidy.tidySetConfigCallback( tdoc, testCallback ) == yes ? true : false
 }
 
+private func testCallback( _ tdoc: TidyDoc, _ option: String, _ value: String ) -> CLibTidy.Bool {
+    return yes
+}
 
 // MARK: Option ID Discovery
 
@@ -2811,21 +2821,89 @@ public func getInstalledLanguageList() -> [String] {
  An instance of this class is retained by CLibTidy's AppData, and is used to
  store additional pointers that we cannot store in CLibTidy directly.
  - appData: Contains the pointer used by `tidySetAppData()`.
- - optionCallback: Contains the pointer used by `tidySetOptionCallback()`.
+ - configCallback: Contains the pointer used by `tidySetConfigCallback()`.
  - tidyMessageCallback: Contains the pointer used by `tidySetMessageCallback`.
 */
-class ApplicationData {
+private class ApplicationData {
     var appData: AnyObject?
-    var optionCallback: TidyConfigCallback?
+    var configCallback: TidyConfigCallback?
     var tidyMessageCallback: TidyMessageCallback?
     var tidyPPCallback: TidyPPProgress?
     
     init() {
         self.appData = nil
-        self.optionCallback = nil
+        self.configCallback = nil
         self.tidyMessageCallback = nil
         self.tidyPPCallback = nil
     }
 }
 
+
+/**
+ Use CLibTidy's ConfigCallback to build a dictionary to make available for
+ users. If the user has specified his own ConfigCallback, then execute it.
+ Note: In `tidyCreate()` we've set this method as the document's callback.
+*/
+private func handleConfigCallback( _ tdoc: TidyDoc, _ option: Swift.String, _ value: Swift.String ) -> CLibTidy.Bool {
+    
+    guard
+        let ptrStorage = CLibTidy.tidyGetAppData(tdoc)
+    else { return no }
+    
+    let storage: ApplicationData = Unmanaged<ApplicationData>
+        .fromOpaque(ptrStorage)
+        .takeUnretainedValue()
+    
+    if let callback = storage.configCallback {
+        return callback( tdoc, option, value ) ? yes : no
+    } else {
+        return no
+    }
+}
+
+
+/**
+ Use CLibTidy's MessageCallback to build a class instance to make available for
+ users. If the user has specified his own MessageCallback, then execute it.
+ Note: In `tidyCreate()` we've set this method as the document's callback.
+*/
+private func handleMessageCallback( _ tmessage: TidyMessage ) -> CLibTidy.Bool {
+    
+    guard
+        let tdoc = CLibTidy.tidyGetMessageDoc( tmessage ),
+        let ptrStorage = CLibTidy.tidyGetAppData( tdoc )
+    else { return no }
+    
+    let storage = Unmanaged<ApplicationData>
+        .fromOpaque(ptrStorage)
+        .takeUnretainedValue()
+    
+    if let callback = storage.tidyMessageCallback {
+        return callback( tmessage ) ? yes : no
+    } else {
+        return no
+    }
+}
+
+
+/**
+ Use CLibTidy's PrettyPrinterCallback to build a class instance to make 
+ available for users. If the user has specified his own MessageCallback, then
+ execute it. Note: In `tidyCreate()` we've set this method as the document's
+ callback.
+*/
+private func handlePrettyPrinterCallback( _ tdoc: TidyDoc, _ line: UInt, _ col: UInt, _ destLine: UInt ) -> Void {
+    
+    guard
+        let ptrStorage = CLibTidy.tidyGetAppData( tdoc )
+    else { return }
+    
+    let storage = Unmanaged<ApplicationData>
+        .fromOpaque(ptrStorage)
+        .takeUnretainedValue()
+    
+    if let callback = storage.tidyPPCallback {
+        callback(  tdoc, UInt(line), UInt(col), UInt(destLine) )
+    }
+}
 
