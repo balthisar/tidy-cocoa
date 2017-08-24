@@ -80,7 +80,7 @@ class TidyRunner {
         
         print("---------------------------------")
         
-        print(errorBuffer.UTF8String ?? "MISSING!")
+        print(errorBuffer.StringValue() ?? "MISSING!")
 
         print("---------------------------------")
         print( tidySystemLocale() )
