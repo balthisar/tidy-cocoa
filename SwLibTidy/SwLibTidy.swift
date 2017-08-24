@@ -2869,13 +2869,17 @@ private class ApplicationData {
     var configCallback: TidyConfigCallback?
     var configCallbackRecords: [ String : String]
     var tidyMessageCallback: TidyMessageCallback?
+    var tidyMessageCallbackRecords: [[ String : String ]]
     var tidyPPCallback: TidyPPProgress?
+    var tidyPPCallbackRecords: [[ String : String ]]
     
     init() {
         self.appData = nil
         self.configCallback = nil
         self.configCallbackRecords = [:]
         self.tidyMessageCallback = nil
+        self.tidyMessageCallbackRecords = []
         self.tidyPPCallback = nil
+        self.tidyPPCallbackRecords = []
     }
 }
