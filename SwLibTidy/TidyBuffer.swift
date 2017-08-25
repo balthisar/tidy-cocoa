@@ -80,35 +80,6 @@ protocol TidyBufferProtocol: AnyObject {
      */
     func StringValue( usingTidyDoc: TidyDoc ) -> String?
     
-   
-    /** Sets the buffer from a provided string. The buffer's encoding will match
-        the `usingTidyEncoding` parameter.
-     
-    - parameters:
-        - fromString: The native string to store in the buffer.
-        - usingTidyEncoding: The CLibTidy encoding type. Valid values include
-          `ascii`, `latin1`, `utf8`, `iso2022`, `mac`, `win1252`, `utf16le`,
-          `utf16be`, `utf16`, `big5`, and `shiftjis`. These values are not
-          case sensitive. `raw` is not supported.
-    - returns:
-         Returns `true` or `false` indicating success or failure. TODO: throws?
-     */
-    func setStringValue( fromString: String, usingTidyEncoding: String ) -> Swift.Bool
-    
-
-    /** Sets the buffer from a provided string. The buffer's encoding will match
-    the `input-encoding` setting of the provided `TidyDoc`.
-     
-    - parameters:
-        - fromString: The native string to store in the buffer.
-        - usingTidyDoc: The `input-encoding` setting of the given TidyDoc will
-          be used to determine how to translate the string to the buffer's
-          internal representation.
-    - returns:
-         Returns `true` or `false` indicating success or failure. TODO: throws?
-     */
-    func setStringValue( usingTidyDoc: TidyDoc ) -> Swift.Bool
-    
 }
 
 
@@ -158,16 +129,6 @@ public class TidyBuffer: TidyBufferProtocol {
 
         let tidyEncoding = String( cString: CLibTidy.tidyOptGetValue( usingTidyDoc, CLibTidy.TidyOutCharEncoding ) )
         return StringValue( usingTidyEncoding: tidyEncoding )
-    }
-
-
-    func setStringValue( fromString: String, usingTidyEncoding: String ) -> Swift.Bool {
-        return true
-    }
-    
-
-    func setStringValue( usingTidyDoc: TidyDoc ) -> Swift.Bool {
-        return true
     }
 
 
