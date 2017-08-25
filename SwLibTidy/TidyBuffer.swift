@@ -19,6 +19,9 @@ import Foundation
 import CLibTidy
 
 
+typealias TidyBufferPtr = UnsafeMutablePointer<CLibTidy.TidyBuffer>
+typealias TidyRawBuffer = UnsafeMutablePointer<byte>
+
 /**
  This protocol describes an interface for objects that CLibTidy can use for
  performing the majority of its input/output operations. Unless using standard 
@@ -31,10 +34,6 @@ import CLibTidy
  enable accessing the raw, stored data.
 */
 protocol TidyBufferProtocol: AnyObject {
-    
-    typealias TidyBufferPtr = UnsafeMutablePointer<CLibTidy.TidyBuffer>
-    typealias TidyRawBuffer = UnsafeMutablePointer<byte>
-    
     
     /** An accessor to the underlying TidyBuffer type from CLibTidy. */
     var tidyBuffer: TidyBufferPtr { get }
@@ -113,90 +112,54 @@ protocol TidyBufferProtocol: AnyObject {
 }
 
 
+/** An default implementation of the `TidyBufferProtocol`. */
 public class TidyBuffer: TidyBufferProtocol {
-    
-    typealias TidyBufferPtr = UnsafeMutablePointer<CLibTidy.TidyBuffer>
-    typealias TidyRawBuffer = UnsafeMutablePointer<byte>
-//    fileprivate typealias _tidybuff = UnsafeMutablePointer<CLibTidy.TidyBuffer>
     
     var tidyBuffer: TidyBufferPtr
 
-    private let big5encoding: String.Encoding
-    private let encAssociations: [ String : String.Encoding ]
-    
-    /** An accessor to the underlying raw data buffer used by CLibTidy. When
-        using non-UTF8 buffers, you will want to convert this data into a
-        string or other representation yourself with the correct encoding.
-     */
+
     var rawBuffer: UnsafeMutablePointer<byte> {
         return tidyBuffer.pointee.bp
     }
-    
-    /** Provides an accessor to the underlying raw buffer's data size.*/
+
+
     var rawBufferSize: UInt {
         return UInt(tidyBuffer.pointee.size)
     }
-    
-    /** Provides the contents of the buffer as a string assuming internal UTF8
-        representation. All of Tidy's output is UTF8 *except* for Tidy's
-        document output buffer, which will contain data encoded according to
-        Tidy's `output-encoding`.
-     */
-    var UTF8String: String? {
-        guard rawBufferSize > 0 else { return nil }
-        
-        let theData = Data( bytes: rawBuffer, count: Int(rawBufferSize) )
 
-        return Swift.String( data: theData, encoding: .utf8 )
-    }
-    
-    /** Initializes the buffer and makes it ready for use. */
+
     init() {
         
         tidyBuffer = TidyBufferPtr.allocate(capacity: MemoryLayout<TidyBufferPtr>.size)
         tidyBufInit( tidyBuffer )
-
-        let cfEnc = CFStringEncodings.big5
-        let nsEnc = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(cfEnc.rawValue))
-        big5encoding = Swift.String.Encoding(rawValue: nsEnc)
-
-        encAssociations = [
-            "ascii"    : Swift.String.Encoding.ascii,
-            "latin1"   : Swift.String.Encoding.isoLatin1,
-            "utf8"     : Swift.String.Encoding.utf8,
-            "iso2022"  : Swift.String.Encoding.iso2022JP,
-            "mac"      : Swift.String.Encoding.macOSRoman,
-            "win1252"  : Swift.String.Encoding.windowsCP1252,
-            "utf16le"  : Swift.String.Encoding.utf16LittleEndian,
-            "utf16be"  : Swift.String.Encoding.utf16BigEndian,
-            "utf16"    : Swift.String.Encoding.utf16,
-            "big5"     : big5encoding,
-            "shiftjis" : Swift.String.Encoding.shiftJIS
-        ]
-
     }
-    
+
+
     deinit {
         tidyBufFree( tidyBuffer )
         free( tidyBuffer )
     }
-    
-    
+
+
     func StringValue( usingTidyEncoding: String = "utf8" ) -> String? {
         
         guard
             rawBufferSize > 0,
-            let encoding = encAssociations[ usingTidyEncoding ]
+            let encoding = encoding(forTidyEncoding: usingTidyEncoding)
         else { return nil }
         
         let theData = Data( bytes: rawBuffer, count: Int(rawBufferSize) )
         
         return Swift.String( data: theData, encoding: encoding )
     }
-    
+
+
     func StringValue( usingTidyDoc: TidyDoc ) -> String? {
-        return nil
+
+        let tidyEncoding = String( cString: CLibTidy.tidyOptGetValue( usingTidyDoc, CLibTidy.TidyOutCharEncoding ) )
+        return StringValue( usingTidyEncoding: tidyEncoding )
     }
+
 
     func setStringValue( fromString: String, usingTidyEncoding: String ) -> Swift.Bool {
         return true
@@ -206,7 +169,30 @@ public class TidyBuffer: TidyBufferProtocol {
     func setStringValue( usingTidyDoc: TidyDoc ) -> Swift.Bool {
         return true
     }
-    
+
+
+    /** Convert the Tidy document encoding string to a macOS type. */
+    private func encoding( forTidyEncoding: String ) -> String.Encoding? {
+
+        let cfEnc = CFStringEncodings.big5
+        let nsEnc = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(cfEnc.rawValue))
+        let big5encoding = Swift.String.Encoding(rawValue: nsEnc)
+
+        switch forTidyEncoding {
+            case "ascii"    : return Swift.String.Encoding.ascii
+            case "latin1"   : return Swift.String.Encoding.isoLatin1
+            case "utf8"     : return Swift.String.Encoding.utf8
+            case "iso2022"  : return Swift.String.Encoding.iso2022JP
+            case "mac"      : return Swift.String.Encoding.macOSRoman
+            case "win1252"  : return Swift.String.Encoding.windowsCP1252
+            case "utf16le"  : return Swift.String.Encoding.utf16LittleEndian
+            case "utf16be"  : return Swift.String.Encoding.utf16BigEndian
+            case "utf16"    : return Swift.String.Encoding.utf16
+            case "big5"     : return big5encoding
+            case "shiftjis" : return Swift.String.Encoding.shiftJIS
+        default             : return nil
+        }
+    }
 
 
 }
