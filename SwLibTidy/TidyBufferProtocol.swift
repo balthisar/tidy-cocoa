@@ -1,6 +1,6 @@
 /******************************************************************************
 
-	TidyBuffer.swift
+	TidyBufferProtocol.swift
     Part of the SwLibTidy wrapper library for tidy-html5 ("CLibTidy").
     See https://github.com/htacg/tidy-html5
 
@@ -19,8 +19,8 @@ import Foundation
 import CLibTidy
 
 
-typealias TidyBufferPtr = UnsafeMutablePointer<CLibTidy.TidyBuffer>
-typealias TidyRawBuffer = UnsafeMutablePointer<byte>
+public typealias TidyBufferPtr = UnsafeMutablePointer<CLibTidy.TidyBuffer>
+public typealias TidyRawBuffer = UnsafeMutablePointer<byte>
 
 /**
  This protocol describes an interface for objects that CLibTidy can use for
@@ -33,7 +33,7 @@ typealias TidyRawBuffer = UnsafeMutablePointer<byte>
  Conforming objects are also required to provide accessors and functions that
  enable accessing the raw, stored data.
 */
-protocol TidyBufferProtocol: AnyObject {
+public protocol TidyBufferProtocol: AnyObject {
     
     /** An accessor to the underlying TidyBuffer type from CLibTidy. */
     var tidyBuffer: TidyBufferPtr { get }
@@ -83,18 +83,18 @@ protocol TidyBufferProtocol: AnyObject {
 }
 
 
-/** An default implementation of the `TidyBufferProtocol`. */
+/** A default implementation of the `TidyBufferProtocol`. */
 public class TidyBuffer: TidyBufferProtocol {
     
-    var tidyBuffer: TidyBufferPtr
+    public var tidyBuffer: TidyBufferPtr
 
 
-    var rawBuffer: UnsafeMutablePointer<byte> {
+    public var rawBuffer: UnsafeMutablePointer<byte> {
         return tidyBuffer.pointee.bp
     }
 
 
-    var rawBufferSize: UInt {
+    public var rawBufferSize: UInt {
         return UInt(tidyBuffer.pointee.size)
     }
 
@@ -112,7 +112,7 @@ public class TidyBuffer: TidyBufferProtocol {
     }
 
 
-    func StringValue( usingTidyEncoding: String = "utf8" ) -> String? {
+    public func StringValue( usingTidyEncoding: String = "utf8" ) -> String? {
         
         guard
             rawBufferSize > 0,
@@ -125,7 +125,7 @@ public class TidyBuffer: TidyBufferProtocol {
     }
 
 
-    func StringValue( usingTidyDoc: TidyDoc ) -> String? {
+    public func StringValue( usingTidyDoc: TidyDoc ) -> String? {
 
         let tidyEncoding = String( cString: CLibTidy.tidyOptGetValue( usingTidyDoc, CLibTidy.TidyOutCharEncoding ) )
         return StringValue( usingTidyEncoding: tidyEncoding )

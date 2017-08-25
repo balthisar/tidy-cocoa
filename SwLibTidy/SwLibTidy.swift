@@ -1285,7 +1285,7 @@ public func tidyGetEmacsFile( _ tdoc: TidyDoc ) -> String {
  - returns:
      Returns 0 upon success or a standard error number.
 */
-public func tidySetErrorBuffer( _ tdoc: TidyDoc, errbuf: TidyBuffer ) -> Int {
+public func tidySetErrorBuffer( _ tdoc: TidyDoc, errbuf: TidyBufferProtocol ) -> Int {
 
     return Int( CLibTidy.tidySetErrorBuffer( tdoc, errbuf.tidyBuffer) )
 }
@@ -1827,7 +1827,7 @@ public func tidyParseString( _ tdoc: TidyDoc, _ content: String ) -> Int {
      docment, `1` indicating warnings, and `0` in the case of everything being 
      okay.
 */
-public func tidyParseBuffer( _ tdoc: TidyDoc, _ buf: TidyBuffer ) -> Int {
+public func tidyParseBuffer( _ tdoc: TidyDoc, _ buf: TidyBufferProtocol ) -> Int {
  
     return Int( CLibTidy.tidyParseBuffer( tdoc, buf.tidyBuffer) )
 }
@@ -1929,7 +1929,7 @@ public func tidySaveStdout( _ tdoc: TidyDoc ) -> Int {
  - returns: 
      An integer representing the status.
 */
-public func tidySaveBuffer( _ tdoc: TidyDoc, _ buf: TidyBuffer ) -> Int {
+public func tidySaveBuffer( _ tdoc: TidyDoc, _ buf: TidyBufferProtocol ) -> Int {
  
     return Int( CLibTidy.tidySaveBuffer( tdoc, buf.tidyBuffer ) )
 }
@@ -2350,7 +2350,7 @@ public func tidyNodeHasText( _ tdoc: TidyDoc, _ tnod: TidyNode ) -> Swift.Bool {
  - returns: 
      Returns a bool indicating success or not.
 */
-public func tidyNodeGetText( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: TidyBuffer ) -> Swift.Bool {
+public func tidyNodeGetText( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: TidyBufferProtocol ) -> Swift.Bool {
  
     return CLibTidy.tidyNodeGetText( tdoc, tnod, buf.tidyBuffer ) == yes ? true : false
 }
@@ -2367,7 +2367,7 @@ public func tidyNodeGetText( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: TidyBuffe
  - returns:
      Returns a bool indicating success or not.
 */
-public func tidyNodeGetValue( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: TidyBuffer ) -> Swift.Bool {
+public func tidyNodeGetValue( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: TidyBufferProtocol ) -> Swift.Bool {
  
     return CLibTidy.tidyNodeGetValue( tdoc, tnod, buf.tidyBuffer ) == yes ? true : false
 }
@@ -2766,7 +2766,7 @@ public func tidyConfigRecords( forTidyDoc: TidyDoc ) -> [ String : String ] {
 private class ApplicationData {
     var appData: AnyObject?
     var configCallback: TidyConfigCallback?
-    var configCallbackRecords: [ String : String]
+    var configCallbackRecords: [ String : String ]
     var tidyMessageCallback: TidyMessageCallback?
     var tidyMessageCallbackRecords: [[ String : String ]]
     var tidyPPCallback: TidyPPProgress?

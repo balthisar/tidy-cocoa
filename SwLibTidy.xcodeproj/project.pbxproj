@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D00892DC1F4F2ABC007A1CA4 /* TidyBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00892DB1F4F2ABC007A1CA4 /* TidyBuffer.swift */; };
-		D00892DD1F4F2AC6007A1CA4 /* TidyBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00892DB1F4F2ABC007A1CA4 /* TidyBuffer.swift */; };
-		D00892DE1F4F2ACB007A1CA4 /* TidyBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00892DB1F4F2ABC007A1CA4 /* TidyBuffer.swift */; };
+		D00892DC1F4F2ABC007A1CA4 /* TidyBufferProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00892DB1F4F2ABC007A1CA4 /* TidyBufferProtocol.swift */; };
+		D00892DD1F4F2AC6007A1CA4 /* TidyBufferProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00892DB1F4F2ABC007A1CA4 /* TidyBufferProtocol.swift */; };
+		D00892DE1F4F2ACB007A1CA4 /* TidyBufferProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00892DB1F4F2ABC007A1CA4 /* TidyBufferProtocol.swift */; };
 		D04034921F4386EA00A2A9DC /* SwLibTidyTests_Advanced.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04034911F4386EA00A2A9DC /* SwLibTidyTests_Advanced.swift */; };
 		D06AD6A31F3CED5A00199B88 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06AD6A21F3CED5A00199B88 /* main.swift */; };
 		D06AD6A81F3CF09300199B88 /* libtidy-html5.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0C2D7641F3CE994002551A9 /* libtidy-html5.a */; };
@@ -61,6 +61,9 @@
 		D0C2D8B11F3CEBAE002551A9 /* libtidy-html5.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0C2D7641F3CE994002551A9 /* libtidy-html5.a */; };
 		D0C3BD131F3CB3690007BB54 /* SwLibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0C3BD091F3CB3680007BB54 /* SwLibTidy.framework */; };
 		D0DEFE1F1F3F54600034C732 /* version.txt in Sources */ = {isa = PBXBuildFile; fileRef = D0DEFE1C1F3F51880034C732 /* version.txt */; };
+		D0DEFE211F50C7910034C732 /* TidyConfigReportProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DEFE201F50C7910034C732 /* TidyConfigReportProtocol.swift */; };
+		D0DEFE221F50C7910034C732 /* TidyConfigReportProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DEFE201F50C7910034C732 /* TidyConfigReportProtocol.swift */; };
+		D0DEFE231F50C7910034C732 /* TidyConfigReportProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DEFE201F50C7910034C732 /* TidyConfigReportProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -121,7 +124,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		D00892DB1F4F2ABC007A1CA4 /* TidyBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TidyBuffer.swift; path = SwLibTidy/TidyBuffer.swift; sourceTree = SOURCE_ROOT; };
+		D00892DB1F4F2ABC007A1CA4 /* TidyBufferProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TidyBufferProtocol.swift; path = SwLibTidy/TidyBufferProtocol.swift; sourceTree = SOURCE_ROOT; };
 		D04034871F43659C00A2A9DC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D04034891F4365B300A2A9DC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = SwLibTidy/README.md; sourceTree = SOURCE_ROOT; };
 		D040348B1F4365EB00A2A9DC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = vendor/README.md; sourceTree = "<group>"; };
@@ -211,6 +214,7 @@
 		D0C3BD121F3CB3690007BB54 /* SwLibTidyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwLibTidyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0C3BDC41F3CC0510007BB54 /* console */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = console; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0DEFE1C1F3F51880034C732 /* version.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = version.txt; path = "vendor/tidy-html5/version.txt"; sourceTree = "<group>"; };
+		D0DEFE201F50C7910034C732 /* TidyConfigReportProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TidyConfigReportProtocol.swift; path = SwLibTidy/TidyConfigReportProtocol.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -393,7 +397,8 @@
 				D04034891F4365B300A2A9DC /* README.md */,
 				D0A8A9D91F41F65400A2DB63 /* SwLibTidy.h */,
 				D0A8A9CE1F41C69000A2DB63 /* SwLibTidy.swift */,
-				D00892DB1F4F2ABC007A1CA4 /* TidyBuffer.swift */,
+				D00892DB1F4F2ABC007A1CA4 /* TidyBufferProtocol.swift */,
+				D0DEFE201F50C7910034C732 /* TidyConfigReportProtocol.swift */,
 				D0A8A9D51F41E22300A2DB63 /* Info.plist */,
 			);
 			name = SwLibTidy;
@@ -672,7 +677,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0A8A9D01F41C69600A2DB63 /* SwLibTidy.swift in Sources */,
-				D00892DD1F4F2AC6007A1CA4 /* TidyBuffer.swift in Sources */,
+				D00892DD1F4F2AC6007A1CA4 /* TidyBufferProtocol.swift in Sources */,
+				D0DEFE221F50C7910034C732 /* TidyConfigReportProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -681,9 +687,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0A8A9D11F41C69700A2DB63 /* SwLibTidy.swift in Sources */,
+				D0DEFE231F50C7910034C732 /* TidyConfigReportProtocol.swift in Sources */,
 				D0A8A9DF1F41F74E00A2DB63 /* SwLibTidyTests_Basic.swift in Sources */,
 				D04034921F4386EA00A2A9DC /* SwLibTidyTests_Advanced.swift in Sources */,
-				D00892DE1F4F2ACB007A1CA4 /* TidyBuffer.swift in Sources */,
+				D00892DE1F4F2ACB007A1CA4 /* TidyBufferProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -692,8 +699,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				D06AD6A31F3CED5A00199B88 /* main.swift in Sources */,
-				D00892DC1F4F2ABC007A1CA4 /* TidyBuffer.swift in Sources */,
+				D00892DC1F4F2ABC007A1CA4 /* TidyBufferProtocol.swift in Sources */,
 				D0A8A9CF1F41C69000A2DB63 /* SwLibTidy.swift in Sources */,
+				D0DEFE211F50C7910034C732 /* TidyConfigReportProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
