@@ -9,4 +9,4 @@
 #endif
 #define LIBTIDY_VERSION "5.5.31"
 #define RELEASE_DATE "2017.05.30"
-// Updated on Wed Sep 20 07:57:15 EDT 2017
+// Updated on Sun Oct 8 13:56:23 EDT 2017

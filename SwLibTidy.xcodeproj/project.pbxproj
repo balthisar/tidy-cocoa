@@ -271,7 +271,7 @@
 				D06AD6BB1F3CF33E00199B88 /* Info.plist */,
 			);
 			path = gui;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		D0C2D7681F3CE9A8002551A9 /* tidy-html5 */ = {
 			isa = PBXGroup;
@@ -403,7 +403,7 @@
 			);
 			name = SwLibTidy;
 			path = LibTidy;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		D0C3BD161F3CB3690007BB54 /* SwLibTidyTests */ = {
 			isa = PBXGroup;
