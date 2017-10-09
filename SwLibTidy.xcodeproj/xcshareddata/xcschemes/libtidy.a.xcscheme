@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D0C2D7631F3CE994002551A9"
-               BuildableName = "liblibtidy.a"
+               BuildableName = "libtidy.a"
                BlueprintName = "libtidy.a"
                ReferencedContainer = "container:SwLibTidy.xcodeproj">
             </BuildableReference>
@@ -48,7 +48,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D0C2D7631F3CE994002551A9"
-            BuildableName = "liblibtidy.a"
+            BuildableName = "libtidy.a"
             BlueprintName = "libtidy.a"
             ReferencedContainer = "container:SwLibTidy.xcodeproj">
          </BuildableReference>
@@ -66,7 +66,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D0C2D7631F3CE994002551A9"
-            BuildableName = "liblibtidy.a"
+            BuildableName = "libtidy.a"
             BlueprintName = "libtidy.a"
             ReferencedContainer = "container:SwLibTidy.xcodeproj">
          </BuildableReference>
