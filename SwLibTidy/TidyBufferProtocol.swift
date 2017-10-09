@@ -99,8 +99,7 @@ public class TidyBuffer: TidyBufferProtocol {
     }
 
 
-    init() {
-        
+    public init() {
         tidyBuffer = TidyBufferPtr.allocate(capacity: MemoryLayout<TidyBufferPtr>.size)
         tidyBufInit( tidyBuffer )
     }

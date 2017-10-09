@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwLibTidy
 
 /*
     Note that we're not importing anything from LibTidy. The LibTidy.swift
