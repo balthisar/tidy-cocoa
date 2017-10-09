@@ -42,7 +42,7 @@ class TidyRunner {
     func RunTidy() {
 
         // Create a TidyDoc
-        let tdoc : TidyDoc = tidyCreate()
+        guard let tdoc = tidyCreate() else { return }
 
         // Store a reference to self here, so that we can fetch it later.
         tidySetAppData(tdoc, self)

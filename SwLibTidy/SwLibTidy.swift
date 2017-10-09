@@ -19,7 +19,8 @@
           supplementary classes are used to abstract C data structures.
         - Provide arrays of information instead of depending on CLibTidy's
           iterator mechanism.
-        - Maintain full compatibility with Objective-C.
+        - Maintain full compatibility with Objective-C (when wrapped into a
+          class).
         - Provide some additional tools and functionality useful within Swift.
  
     Unsupported APIs
@@ -47,21 +48,11 @@
       compatible `.po` files that can be converted to `.strings` if needed.
  
     Important Linking Notes:
-      Note that GUI apps should simply link to this framework; the framework
-      will become part of your application bundle and be dynamically linked.
+      There are both static and dylib targets for this framework. Generally
+      distribution is made simpler if your GUI apps use the framework proper
+      (dynamic library), and console applications link statically (because
+      console applications are not bundles).
 
-      Console apps are simpler to manage when they're static linked, however.
-      In that case, don't use this framework as a framework. Simply include
-      this file as part of your console application, and static link the
-      tidy-html5 static library target.
- 
-      Console apps can use the framework, but you have to manage the framework
-      installation strategies yourself.
- 
-      When the Swift ABI is stable, it will be possible to include this file
-      as part of a static library, but until then, statically-bound console
-      applications are subject to this limitation.
- 
     Compiling Notes
       The tidy-html5 target uses tidy-html5 as distributed, and that project
       keeps track of version numbers in `version.txt`. Thus the tidy-html5
@@ -143,12 +134,12 @@ public typealias TidyMessageArgument = CLibTidy.TidyMessageArgument
  - returns:
      Returns a `TidyDoc` instance.
 */
-public func tidyCreate() -> TidyDoc {
+public func tidyCreate() -> TidyDoc? {
     
     // Perform CLibTidy version checking, because `tidySetConfigCallback()`
     // wasn't added until version 5.5.32 (previous versions didn't surface the
     // `TidyDoc` needed for identifying the source of the callback).
-    let versionMin = "5.5.32"
+    let versionMin = "5.5.62"
     let versionCurrent: String = tidyLibraryVersion()
     
     let vaMin = versionMin.components(separatedBy: ".").map { Int.init($0) ?? 0 }
@@ -159,7 +150,7 @@ public func tidyCreate() -> TidyDoc {
     }
     
     // This is the only real "wrapper" part!
-    let tdoc: TidyDoc! = CLibTidy.tidyCreate()
+    guard let tdoc = CLibTidy.tidyCreate() else { return nil }
 
     // Create some extra storage to attach to Tidy's AppData.
     let appData: ApplicationData = ApplicationData.init()

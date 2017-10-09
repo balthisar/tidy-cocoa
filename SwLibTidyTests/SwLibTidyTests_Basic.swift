@@ -1,10 +1,18 @@
-//
-//  SwLibTidyTests_Basic.swift
-//  SwLibTidyTests
-//
-//  Created by Jim Derry on 8/10/17.
-//  Copyright © 2017 Jim Derry. All rights reserved.
-//
+/******************************************************************************
+
+    SwLibTidyTests_Basic.swift
+    Basic tests of the SwLibTidy wrapper library for tidy-html5 ("CLibTidy").
+    See https://github.com/htacg/tidy-html5
+
+    Copyright © 2107 by HTACG. All rights reserved.
+    Created by Jim Derry 2017; copyright assigned to HTACG. Permission to use
+    this source code per the W3C Software Notice and License:
+    https://www.w3.org/Consortium/Legal/2002/copyright-software-20021231
+
+    Created by Jim Derry on 8/10/17.
+    Copyright © 2017 Jim Derry. All rights reserved.
+
+ ******************************************************************************/
 
 import XCTest
 @testable import SwLibTidy
@@ -12,38 +20,45 @@ import XCTest
 class SwLibTidyTests_Basic: XCTestCase {
     
     private var tdoc: TidyDoc?
-    
-    
+    private let delimiter = "=-=-=-=-=-=-=-=-=-=-"
+
     override func setUp() {
-        
         super.setUp()
-        
         tdoc = tidyCreate()
+        print(delimiter)
     }
     
     
     override func tearDown() {
-        
+        print(delimiter)
         if let tdoc = tdoc {
             tidyRelease(tdoc)
         }
 
         super.tearDown()
     }
-    
-    // tidySetAppData()
-    // tidyGetAppData()
-    // Ensure that we can set and get Tidy's a
+
+    /**
+     Ensure that we can set and get Tidy's app data properly. Proper storage
+     is required so that we can properly execute Tidy's callbacks, if used.
+     - tidySetAppData()
+     - tidyGetAppData()
+     */
     func testSetAndGetAppData() {
-        
-        tidySetAppData(tdoc!, self)
-        let gotObject = tidyGetAppData(tdoc!)
+
+        guard let tdoc = tdoc else { return }
+
+        tidySetAppData(tdoc, self)
+        let gotObject = tidyGetAppData(tdoc)
     
         XCTAssert(gotObject === self, "The object stored is not that same as the object retrieved.")
     }
     
     
-    // tidyReleaseDate()
+    /**
+     Test basic function:
+     - tidyReleaseDate()
+     */
     func test_tidyReleaseDate() {
         let str = tidyReleaseDate()
         print(str)
@@ -51,19 +66,14 @@ class SwLibTidyTests_Basic: XCTestCase {
     }
     
     
-    // tidyLibraryVersion
+    /**
+     Test basic function:
+     - tidyLibraryVersion()
+     */
     func test_tidyLibraryVersion() {
         let str = tidyLibraryVersion()
         print(str)
         XCTAssert(str.hasPrefix("5.5"), "The library version does not begin with 5.5.")
     }
-    
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
+
 }
