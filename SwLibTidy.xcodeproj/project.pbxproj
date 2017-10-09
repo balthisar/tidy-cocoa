@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D00892DD1F4F2AC6007A1CA4 /* TidyBufferProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00892DB1F4F2ABC007A1CA4 /* TidyBufferProtocol.swift */; };
-		D00892DE1F4F2ACB007A1CA4 /* TidyBufferProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00892DB1F4F2ABC007A1CA4 /* TidyBufferProtocol.swift */; };
+		D00892DD1F4F2AC6007A1CA4 /* TidyBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00892DB1F4F2ABC007A1CA4 /* TidyBuffer.swift */; };
 		D04034921F4386EA00A2A9DC /* SwLibTidyTests_Advanced.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04034911F4386EA00A2A9DC /* SwLibTidyTests_Advanced.swift */; };
 		D06AD6A31F3CED5A00199B88 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06AD6A21F3CED5A00199B88 /* main.swift */; };
 		D06AD6A81F3CF09300199B88 /* libtidy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0C2D7641F3CE994002551A9 /* libtidy.a */; };
@@ -17,9 +16,12 @@
 		D06AD6B71F3CF33E00199B88 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D06AD6B61F3CF33E00199B88 /* Assets.xcassets */; };
 		D06AD6BA1F3CF33E00199B88 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D06AD6B81F3CF33E00199B88 /* Main.storyboard */; };
 		D06AD6C11F3CF36500199B88 /* SwLibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0C3BD091F3CB3680007BB54 /* SwLibTidy.framework */; };
+		D09014C61F8BF2E800B56A62 /* SwLibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0C3BD091F3CB3680007BB54 /* SwLibTidy.framework */; };
+		D09014CC1F8BFB3F00B56A62 /* SwLibTidyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D09014CB1F8BFB3F00B56A62 /* SwLibTidyTests.m */; };
 		D0A8A9D01F41C69600A2DB63 /* SwLibTidy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A8A9CE1F41C69000A2DB63 /* SwLibTidy.swift */; };
-		D0A8A9D11F41C69700A2DB63 /* SwLibTidy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A8A9CE1F41C69000A2DB63 /* SwLibTidy.swift */; };
 		D0A8A9DF1F41F74E00A2DB63 /* SwLibTidyTests_Basic.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A8A9DD1F41F74500A2DB63 /* SwLibTidyTests_Basic.swift */; };
+		D0AD28701F8BDE7800972DB7 /* TidyEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AD286F1F8BDE7800972DB7 /* TidyEngine.swift */; };
+		D0AD28711F8BDE7800972DB7 /* TidyEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AD286F1F8BDE7800972DB7 /* TidyEngine.swift */; };
 		D0C3BD131F3CB3690007BB54 /* SwLibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0C3BD091F3CB3680007BB54 /* SwLibTidy.framework */; };
 		D0D06EEF1F8AEACD00370E9D /* access.c in Sources */ = {isa = PBXBuildFile; fileRef = D0D06EB31F8AE7CE00370E9D /* access.c */; };
 		D0D06EF01F8AEACD00370E9D /* alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = D0D06EB51F8AE7CE00370E9D /* alloc.c */; };
@@ -86,11 +88,10 @@
 		D0D06F2E1F8AEB6700370E9D /* version.txt in Sources */ = {isa = PBXBuildFile; fileRef = D0D06EEE1F8AE7CE00370E9D /* version.txt */; };
 		D0D06F4C1F8AF13A00370E9D /* libtidy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0C2D7641F3CE994002551A9 /* libtidy.a */; };
 		D0D06F4D1F8AF14B00370E9D /* SwLibTidy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A8A9CE1F41C69000A2DB63 /* SwLibTidy.swift */; };
-		D0D06F4E1F8AF14F00370E9D /* TidyBufferProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00892DB1F4F2ABC007A1CA4 /* TidyBufferProtocol.swift */; };
-		D0D06F4F1F8AF15300370E9D /* TidyConfigReportProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DEFE201F50C7910034C732 /* TidyConfigReportProtocol.swift */; };
+		D0D06F4E1F8AF14F00370E9D /* TidyBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00892DB1F4F2ABC007A1CA4 /* TidyBuffer.swift */; };
+		D0D06F4F1F8AF15300370E9D /* TidyConfigReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DEFE201F50C7910034C732 /* TidyConfigReport.swift */; };
 		D0D06F521F8AF19900370E9D /* SwLibTidy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0D06F401F8AF0F300370E9D /* SwLibTidy.a */; };
-		D0DEFE221F50C7910034C732 /* TidyConfigReportProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DEFE201F50C7910034C732 /* TidyConfigReportProtocol.swift */; };
-		D0DEFE231F50C7910034C732 /* TidyConfigReportProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DEFE201F50C7910034C732 /* TidyConfigReportProtocol.swift */; };
+		D0DEFE221F50C7910034C732 /* TidyConfigReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DEFE201F50C7910034C732 /* TidyConfigReport.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -121,6 +122,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = D0C3BD081F3CB3680007BB54;
 			remoteInfo = LibTidy;
+		};
+		D09014C41F8BF2E100B56A62 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D0C3BD001F3CB3680007BB54 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D0C3BD081F3CB3680007BB54;
+			remoteInfo = SwLibTidy.dylib;
 		};
 		D0C3BD141F3CB3690007BB54 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -158,10 +166,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		D00892DB1F4F2ABC007A1CA4 /* TidyBufferProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TidyBufferProtocol.swift; path = SwLibTidy/TidyBufferProtocol.swift; sourceTree = SOURCE_ROOT; };
+		D00892DB1F4F2ABC007A1CA4 /* TidyBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TidyBuffer.swift; path = SwLibTidy/TidyBuffer.swift; sourceTree = SOURCE_ROOT; };
 		D04034871F43659C00A2A9DC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D04034891F4365B300A2A9DC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = SwLibTidy/README.md; sourceTree = SOURCE_ROOT; };
-		D04034911F4386EA00A2A9DC /* SwLibTidyTests_Advanced.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwLibTidyTests_Advanced.swift; path = SwLibTidyTests/SwLibTidyTests_Advanced.swift; sourceTree = SOURCE_ROOT; };
+		D04034911F4386EA00A2A9DC /* SwLibTidyTests_Advanced.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwLibTidyTests_Advanced.swift; sourceTree = "<group>"; };
 		D0692FC91F3CE8930045AB69 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = console/README.md; sourceTree = SOURCE_ROOT; };
 		D06AD6A21F3CED5A00199B88 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D06AD6B01F3CF33E00199B88 /* gui.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gui.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -170,13 +178,18 @@
 		D06AD6B61F3CF33E00199B88 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D06AD6B91F3CF33E00199B88 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D06AD6BB1F3CF33E00199B88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D09014CB1F8BFB3F00B56A62 /* SwLibTidyTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwLibTidyTests.m; sourceTree = "<group>"; };
 		D0A8A9CE1F41C69000A2DB63 /* SwLibTidy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwLibTidy.swift; path = SwLibTidy/SwLibTidy.swift; sourceTree = SOURCE_ROOT; };
 		D0A8A9D51F41E22300A2DB63 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = SwLibTidy/Info.plist; sourceTree = SOURCE_ROOT; };
-		D0A8A9DC1F41F74500A2DB63 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = SwLibTidyTests/Info.plist; sourceTree = SOURCE_ROOT; };
-		D0A8A9DD1F41F74500A2DB63 /* SwLibTidyTests_Basic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwLibTidyTests_Basic.swift; path = SwLibTidyTests/SwLibTidyTests_Basic.swift; sourceTree = SOURCE_ROOT; };
+		D0A8A9DC1F41F74500A2DB63 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D0A8A9DD1F41F74500A2DB63 /* SwLibTidyTests_Basic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwLibTidyTests_Basic.swift; sourceTree = "<group>"; };
+		D0AD286F1F8BDE7800972DB7 /* TidyEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidyEngine.swift; sourceTree = "<group>"; };
+		D0AD28781F8BE6B400972DB7 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		D0AD287E1F8BEEC000972DB7 /* Objective-C Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Objective-C Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0AD28821F8BEEC000972DB7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D0C2D7641F3CE994002551A9 /* libtidy.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libtidy.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0C3BD091F3CB3680007BB54 /* SwLibTidy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwLibTidy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D0C3BD121F3CB3690007BB54 /* SwLibTidyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwLibTidyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0C3BD121F3CB3690007BB54 /* Swift Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Swift Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0C3BDC41F3CC0510007BB54 /* console */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = console; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0D06E671F8AE7AC00370E9D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D0D06E8B1F8AE7CE00370E9D /* tidy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tidy.h; sourceTree = "<group>"; };
@@ -244,7 +257,7 @@
 		D0D06EEC1F8AE7CE00370E9D /* version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
 		D0D06EEE1F8AE7CE00370E9D /* version.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = version.txt; sourceTree = "<group>"; };
 		D0D06F401F8AF0F300370E9D /* SwLibTidy.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = SwLibTidy.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		D0DEFE201F50C7910034C732 /* TidyConfigReportProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TidyConfigReportProtocol.swift; path = SwLibTidy/TidyConfigReportProtocol.swift; sourceTree = SOURCE_ROOT; };
+		D0DEFE201F50C7910034C732 /* TidyConfigReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TidyConfigReport.swift; path = SwLibTidy/TidyConfigReport.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -253,6 +266,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				D06AD6C11F3CF36500199B88 /* SwLibTidy.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0AD287B1F8BEEC000972DB7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D09014C61F8BF2E800B56A62 /* SwLibTidy.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,6 +332,27 @@
 			path = gui;
 			sourceTree = SOURCE_ROOT;
 		};
+		D0AD288A1F8BEF4900972DB7 /* Swift */ = {
+			isa = PBXGroup;
+			children = (
+				D0A8A9DD1F41F74500A2DB63 /* SwLibTidyTests_Basic.swift */,
+				D04034911F4386EA00A2A9DC /* SwLibTidyTests_Advanced.swift */,
+				D0A8A9DC1F41F74500A2DB63 /* Info.plist */,
+			);
+			name = Swift;
+			path = SwLibTidyTests/Swift;
+			sourceTree = SOURCE_ROOT;
+		};
+		D0AD288B1F8BEF4D00972DB7 /* Objective-C */ = {
+			isa = PBXGroup;
+			children = (
+				D09014CB1F8BFB3F00B56A62 /* SwLibTidyTests.m */,
+				D0AD28821F8BEEC000972DB7 /* Info.plist */,
+			);
+			name = "Objective-C";
+			path = "SwLibTidyTests/Objective-C";
+			sourceTree = SOURCE_ROOT;
+		};
 		D0C3BCFF1F3CB3680007BB54 = {
 			isa = PBXGroup;
 			children = (
@@ -328,11 +370,12 @@
 			isa = PBXGroup;
 			children = (
 				D0C3BD091F3CB3680007BB54 /* SwLibTidy.framework */,
-				D0C3BD121F3CB3690007BB54 /* SwLibTidyTests.xctest */,
+				D0C3BD121F3CB3690007BB54 /* Swift Tests.xctest */,
 				D0C3BDC41F3CC0510007BB54 /* console */,
 				D0C2D7641F3CE994002551A9 /* libtidy.a */,
 				D06AD6B01F3CF33E00199B88 /* gui.app */,
 				D0D06F401F8AF0F300370E9D /* SwLibTidy.a */,
+				D0AD287E1F8BEEC000972DB7 /* Objective-C Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = SOURCE_ROOT;
@@ -342,8 +385,9 @@
 			children = (
 				D04034891F4365B300A2A9DC /* README.md */,
 				D0A8A9CE1F41C69000A2DB63 /* SwLibTidy.swift */,
-				D00892DB1F4F2ABC007A1CA4 /* TidyBufferProtocol.swift */,
-				D0DEFE201F50C7910034C732 /* TidyConfigReportProtocol.swift */,
+				D0AD286F1F8BDE7800972DB7 /* TidyEngine.swift */,
+				D00892DB1F4F2ABC007A1CA4 /* TidyBuffer.swift */,
+				D0DEFE201F50C7910034C732 /* TidyConfigReport.swift */,
 				D0A8A9D51F41E22300A2DB63 /* Info.plist */,
 			);
 			path = SwLibTidy;
@@ -352,9 +396,8 @@
 		D0C3BD161F3CB3690007BB54 /* SwLibTidyTests */ = {
 			isa = PBXGroup;
 			children = (
-				D0A8A9DD1F41F74500A2DB63 /* SwLibTidyTests_Basic.swift */,
-				D04034911F4386EA00A2A9DC /* SwLibTidyTests_Advanced.swift */,
-				D0A8A9DC1F41F74500A2DB63 /* Info.plist */,
+				D0AD288A1F8BEF4900972DB7 /* Swift */,
+				D0AD288B1F8BEF4D00972DB7 /* Objective-C */,
 			);
 			path = SwLibTidyTests;
 			sourceTree = SOURCE_ROOT;
@@ -467,6 +510,7 @@
 		D0D06F4B1F8AF13A00370E9D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D0AD28781F8BE6B400972DB7 /* XCTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -551,6 +595,24 @@
 			productReference = D06AD6B01F3CF33E00199B88 /* gui.app */;
 			productType = "com.apple.product-type.application";
 		};
+		D0AD287D1F8BEEC000972DB7 /* Objective-C Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D0AD28861F8BEEC000972DB7 /* Build configuration list for PBXNativeTarget "Objective-C Tests" */;
+			buildPhases = (
+				D0AD287A1F8BEEC000972DB7 /* Sources */,
+				D0AD287B1F8BEEC000972DB7 /* Frameworks */,
+				D0AD287C1F8BEEC000972DB7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D09014C51F8BF2E100B56A62 /* PBXTargetDependency */,
+			);
+			name = "Objective-C Tests";
+			productName = CocoaTests;
+			productReference = D0AD287E1F8BEEC000972DB7 /* Objective-C Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		D0C2D7631F3CE994002551A9 /* libtidy.a */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D0C2D7651F3CE995002551A9 /* Build configuration list for PBXNativeTarget "libtidy.a" */;
@@ -588,9 +650,9 @@
 			productReference = D0C3BD091F3CB3680007BB54 /* SwLibTidy.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		D0C3BD111F3CB3690007BB54 /* SwLibTidyTests */ = {
+		D0C3BD111F3CB3690007BB54 /* Swift Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D0C3BD201F3CB3690007BB54 /* Build configuration list for PBXNativeTarget "SwLibTidyTests" */;
+			buildConfigurationList = D0C3BD201F3CB3690007BB54 /* Build configuration list for PBXNativeTarget "Swift Tests" */;
 			buildPhases = (
 				D0C3BD0E1F3CB3690007BB54 /* Sources */,
 				D0C3BD0F1F3CB3690007BB54 /* Frameworks */,
@@ -601,9 +663,9 @@
 			dependencies = (
 				D0C3BD151F3CB3690007BB54 /* PBXTargetDependency */,
 			);
-			name = SwLibTidyTests;
+			name = "Swift Tests";
 			productName = LibTidyTests;
-			productReference = D0C3BD121F3CB3690007BB54 /* SwLibTidyTests.xctest */;
+			productReference = D0C3BD121F3CB3690007BB54 /* Swift Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		D0C3BDC31F3CC0510007BB54 /* console */ = {
@@ -656,6 +718,10 @@
 						CreatedOnToolsVersion = 8.3.3;
 						ProvisioningStyle = Automatic;
 					};
+					D0AD287D1F8BEEC000972DB7 = {
+						CreatedOnToolsVersion = 9.0;
+						ProvisioningStyle = Automatic;
+					};
 					D0C2D7631F3CE994002551A9 = {
 						CreatedOnToolsVersion = 8.3.3;
 						ProvisioningStyle = Automatic;
@@ -700,7 +766,8 @@
 				D0C3BD081F3CB3680007BB54 /* SwLibTidy.dylib */,
 				D0D06F3F1F8AF0F300370E9D /* SwLibTidy.a */,
 				D0C2D7631F3CE994002551A9 /* libtidy.a */,
-				D0C3BD111F3CB3690007BB54 /* SwLibTidyTests */,
+				D0C3BD111F3CB3690007BB54 /* Swift Tests */,
+				D0AD287D1F8BEEC000972DB7 /* Objective-C Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -712,6 +779,13 @@
 			files = (
 				D06AD6B71F3CF33E00199B88 /* Assets.xcassets in Resources */,
 				D06AD6BA1F3CF33E00199B88 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0AD287C1F8BEEC000972DB7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -738,6 +812,14 @@
 			files = (
 				D06AD6B51F3CF33E00199B88 /* ViewController.swift in Sources */,
 				D06AD6B31F3CF33E00199B88 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0AD287A1F8BEEC000972DB7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D09014CC1F8BFB3F00B56A62 /* SwLibTidyTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -781,8 +863,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0A8A9D01F41C69600A2DB63 /* SwLibTidy.swift in Sources */,
-				D00892DD1F4F2AC6007A1CA4 /* TidyBufferProtocol.swift in Sources */,
-				D0DEFE221F50C7910034C732 /* TidyConfigReportProtocol.swift in Sources */,
+				D00892DD1F4F2AC6007A1CA4 /* TidyBuffer.swift in Sources */,
+				D0DEFE221F50C7910034C732 /* TidyConfigReport.swift in Sources */,
+				D0AD28701F8BDE7800972DB7 /* TidyEngine.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -790,11 +873,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0A8A9D11F41C69700A2DB63 /* SwLibTidy.swift in Sources */,
-				D0DEFE231F50C7910034C732 /* TidyConfigReportProtocol.swift in Sources */,
 				D0A8A9DF1F41F74E00A2DB63 /* SwLibTidyTests_Basic.swift in Sources */,
 				D04034921F4386EA00A2A9DC /* SwLibTidyTests_Advanced.swift in Sources */,
-				D00892DE1F4F2ACB007A1CA4 /* TidyBufferProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -811,8 +891,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0D06F4D1F8AF14B00370E9D /* SwLibTidy.swift in Sources */,
-				D0D06F4E1F8AF14F00370E9D /* TidyBufferProtocol.swift in Sources */,
-				D0D06F4F1F8AF15300370E9D /* TidyConfigReportProtocol.swift in Sources */,
+				D0D06F4E1F8AF14F00370E9D /* TidyBuffer.swift in Sources */,
+				D0D06F4F1F8AF15300370E9D /* TidyConfigReport.swift in Sources */,
+				D0AD28711F8BDE7800972DB7 /* TidyEngine.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -828,6 +909,11 @@
 			isa = PBXTargetDependency;
 			target = D0C3BD081F3CB3680007BB54 /* SwLibTidy.dylib */;
 			targetProxy = D06AD6BF1F3CF36000199B88 /* PBXContainerItemProxy */;
+		};
+		D09014C51F8BF2E100B56A62 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D0C3BD081F3CB3680007BB54 /* SwLibTidy.dylib */;
+			targetProxy = D09014C41F8BF2E100B56A62 /* PBXContainerItemProxy */;
 		};
 		D0C3BD151F3CB3690007BB54 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -879,6 +965,53 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.gui;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		D0AD28871F8BEEC000972DB7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "SwLibTidyTests/Objective-C/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.CocoaTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		D0AD28881F8BEEC000972DB7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "SwLibTidyTests/Objective-C/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.CocoaTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -1054,11 +1187,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = SwLibTidyTests/Info.plist;
+				INFOPLIST_FILE = SwLibTidyTests/Swift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.LibTidyTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
@@ -1067,8 +1202,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = SwLibTidyTests/Info.plist;
+				INFOPLIST_FILE = SwLibTidyTests/Swift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.LibTidyTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1083,7 +1219,9 @@
 				INFOPLIST_FILE = "$(SRCROOT)/gui/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SwLibTidyTests/Objective-C/console-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -1094,6 +1232,8 @@
 				INFOPLIST_FILE = "$(SRCROOT)/gui/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SwLibTidyTests/Objective-C/console-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -1148,6 +1288,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		D0AD28861F8BEEC000972DB7 /* Build configuration list for PBXNativeTarget "Objective-C Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0AD28871F8BEEC000972DB7 /* Debug */,
+				D0AD28881F8BEEC000972DB7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		D0C2D7651F3CE995002551A9 /* Build configuration list for PBXNativeTarget "libtidy.a" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1175,7 +1324,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D0C3BD201F3CB3690007BB54 /* Build configuration list for PBXNativeTarget "SwLibTidyTests" */ = {
+		D0C3BD201F3CB3690007BB54 /* Build configuration list for PBXNativeTarget "Swift Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D0C3BD211F3CB3690007BB54 /* Debug */,

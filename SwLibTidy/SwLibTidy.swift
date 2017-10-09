@@ -93,6 +93,8 @@ public typealias TidyDoc = CLibTidy.TidyDoc
 */
 public typealias TidyOption = CLibTidy.TidyOption
 
+public typealias MyTidyOptionId = CLibTidy.TidyOptionId
+
 /** 
  Single nodes of a TidyDocument are represented by this datatype. It can be
  returned by various API functions, or accepted as a function argument.
@@ -168,7 +170,7 @@ public func tidyCreate() -> TidyDoc? {
      * callback, but our internal callbacks will call them.
      */
     
-    _ = CLibTidy.tidySetConfigCallback( tdoc, { tdoc, option, value in
+    guard yes == CLibTidy.tidySetConfigCallback( tdoc, { tdoc, option, value in
         
         guard let option = option,
             let value = value,
@@ -186,9 +188,9 @@ public func tidyCreate() -> TidyDoc? {
         } else {
             return no
         }
-    })
+    }) else { tidyRelease( tdoc ); return nil }
     
-    _ = CLibTidy.tidySetMessageCallback( tdoc, { tmessage in
+    guard yes == CLibTidy.tidySetMessageCallback( tdoc, { tmessage in
         
         guard
             let tmessage = tmessage,
@@ -205,9 +207,9 @@ public func tidyCreate() -> TidyDoc? {
         } else {
             return no
         }
-    })
+    }) else { tidyRelease( tdoc ); return nil }
     
-    _ = CLibTidy.tidySetPrettyPrinterCallback( tdoc, { tdoc, line, col, destLine in
+    guard yes == CLibTidy.tidySetPrettyPrinterCallback( tdoc, { tdoc, line, col, destLine in
         
         guard
             let tdoc = tdoc,
@@ -221,7 +223,7 @@ public func tidyCreate() -> TidyDoc? {
         if let callback = storage.tidyPPCallback {
             callback(  tdoc, UInt(line), UInt(col), UInt(destLine) )
         }
-    })
+    }) else { tidyRelease( tdoc ); return nil }
     
     return tdoc
 }
@@ -634,8 +636,11 @@ public func tidySetConfigCallback( _ tdoc: TidyDoc, _ swiftCallback: @escaping T
  - returns:
      The `TidyOptionId` of the given option.
 */
-public func tidyOptGetId( _ opt: TidyOption ) -> TidyOptionId {
-    return CLibTidy.tidyOptGetId( opt )
+public func tidyOptGetId( _ opt: TidyOption ) -> TidyOptionId? {
+
+    let optId = CLibTidy.tidyOptGetId( opt )
+
+    return optId == N_TIDY_OPTIONS ? nil : optId
 }
 
 
@@ -648,8 +653,11 @@ public func tidyOptGetId( _ opt: TidyOption ) -> TidyOptionId {
  - returns: 
      The `TidyOptionId` of the given `optname`.
 */
-public func tidyOptGetIdForName( _ optnam: String) -> TidyOptionId {
-    return CLibTidy.tidyOptGetIdForName( optnam )
+public func tidyOptGetIdForName( _ optnam: String) -> TidyOptionId? {
+
+    let optId = CLibTidy.tidyOptGetIdForName( optnam )
+
+    return optId == N_TIDY_OPTIONS ? nil : optId
 }
 
 
@@ -678,7 +686,7 @@ public func tidyGetOptionList( _ tdoc: TidyDoc ) -> [TidyOption] {
     
     var it: TidyIterator? = CLibTidy.tidyGetOptionList( tdoc )
     
-    var result : [TidyOption] = []
+    var result: [TidyOption] = []
     
     while ( it != nil ) {
         
@@ -700,7 +708,12 @@ public func tidyGetOptionList( _ tdoc: TidyDoc ) -> [TidyOption] {
  - returns:
      An instance of `TidyOption` matching the provided `TidyOptionId`.
 */
-public func tidyGetOption( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> TidyOption {
+public func tidyGetOption( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> TidyOption? {
+
+    /* CLibTidy can return garbabe on this call, so check it ourselves. */
+    if optId.rawValue <= TidyUnknownOption.rawValue || optId.rawValue >= N_TIDY_OPTIONS.rawValue {
+        return nil;
+    }
 
     return CLibTidy.tidyGetOption( tdoc, optId )
 }
