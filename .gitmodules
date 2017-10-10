@@ -1,4 +1,3 @@
 [submodule "CLibTidy/tidy-html5"]
 	path = CLibTidy/tidy-html5
 	url = https://github.com/htacg/tidy-html5.git
-	branch = next
