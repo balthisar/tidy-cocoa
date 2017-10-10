@@ -1,0 +1,5 @@
+module CLibTidy {
+    header "CLibTidyModule.h"
+    export *
+}
+

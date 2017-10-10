@@ -16,13 +16,17 @@
 		D06AD6B71F3CF33E00199B88 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D06AD6B61F3CF33E00199B88 /* Assets.xcassets */; };
 		D06AD6BA1F3CF33E00199B88 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D06AD6B81F3CF33E00199B88 /* Main.storyboard */; };
 		D06AD6C11F3CF36500199B88 /* SwLibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0C3BD091F3CB3680007BB54 /* SwLibTidy.framework */; };
-		D09014C61F8BF2E800B56A62 /* SwLibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0C3BD091F3CB3680007BB54 /* SwLibTidy.framework */; };
+		D082E77E1F8D402900C8C192 /* CLibTidyModule.h in Headers */ = {isa = PBXBuildFile; fileRef = D082E77D1F8D401100C8C192 /* CLibTidyModule.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D082E7851F8D479300C8C192 /* SwLibTidy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0D06F401F8AF0F300370E9D /* SwLibTidy.a */; };
+		D082E7901F8D4A0A00C8C192 /* SwLibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0C3BD091F3CB3680007BB54 /* SwLibTidy.framework */; };
+		D082E7911F8D4A1300C8C192 /* SwLibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0C3BD091F3CB3680007BB54 /* SwLibTidy.framework */; };
+		D082E79D1F8D4CE100C8C192 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D082E79C1F8D4CE100C8C192 /* main.m */; };
 		D09014CC1F8BFB3F00B56A62 /* SwLibTidyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D09014CB1F8BFB3F00B56A62 /* SwLibTidyTests.m */; };
 		D0A8A9D01F41C69600A2DB63 /* SwLibTidy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A8A9CE1F41C69000A2DB63 /* SwLibTidy.swift */; };
 		D0A8A9DF1F41F74E00A2DB63 /* SwLibTidyTests_Basic.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A8A9DD1F41F74500A2DB63 /* SwLibTidyTests_Basic.swift */; };
 		D0AD28701F8BDE7800972DB7 /* TidyEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AD286F1F8BDE7800972DB7 /* TidyEngine.swift */; };
 		D0AD28711F8BDE7800972DB7 /* TidyEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AD286F1F8BDE7800972DB7 /* TidyEngine.swift */; };
-		D0C3BD131F3CB3690007BB54 /* SwLibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0C3BD091F3CB3680007BB54 /* SwLibTidy.framework */; };
+		D0BAAEBB1F8D587C000BE36B /* SwLibTidy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0D06F401F8AF0F300370E9D /* SwLibTidy.a */; };
 		D0D06EEF1F8AEACD00370E9D /* access.c in Sources */ = {isa = PBXBuildFile; fileRef = D0D06EB31F8AE7CE00370E9D /* access.c */; };
 		D0D06EF01F8AEACD00370E9D /* alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = D0D06EB51F8AE7CE00370E9D /* alloc.c */; };
 		D0D06EF11F8AEACD00370E9D /* attrapi.c in Sources */ = {isa = PBXBuildFile; fileRef = D0D06EB61F8AE7CE00370E9D /* attrapi.c */; };
@@ -90,7 +94,6 @@
 		D0D06F4D1F8AF14B00370E9D /* SwLibTidy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A8A9CE1F41C69000A2DB63 /* SwLibTidy.swift */; };
 		D0D06F4E1F8AF14F00370E9D /* TidyBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00892DB1F4F2ABC007A1CA4 /* TidyBuffer.swift */; };
 		D0D06F4F1F8AF15300370E9D /* TidyConfigReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DEFE201F50C7910034C732 /* TidyConfigReport.swift */; };
-		D0D06F521F8AF19900370E9D /* SwLibTidy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0D06F401F8AF0F300370E9D /* SwLibTidy.a */; };
 		D0DEFE221F50C7910034C732 /* TidyConfigReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DEFE201F50C7910034C732 /* TidyConfigReport.swift */; };
 /* End PBXBuildFile section */
 
@@ -123,19 +126,33 @@
 			remoteGlobalIDString = D0C3BD081F3CB3680007BB54;
 			remoteInfo = LibTidy;
 		};
-		D09014C41F8BF2E100B56A62 /* PBXContainerItemProxy */ = {
+		D082E7831F8D478E00C8C192 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D0C3BD001F3CB3680007BB54 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D0D06F3F1F8AF0F300370E9D;
+			remoteInfo = SwLibTidy.a;
+		};
+		D082E78E1F8D4A0300C8C192 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D0C3BD001F3CB3680007BB54 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = D0C3BD081F3CB3680007BB54;
 			remoteInfo = SwLibTidy.dylib;
 		};
-		D0C3BD141F3CB3690007BB54 /* PBXContainerItemProxy */ = {
+		D082E7921F8D4A1600C8C192 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D0C3BD001F3CB3680007BB54 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = D0C3BD081F3CB3680007BB54;
-			remoteInfo = LibTidy;
+			remoteInfo = SwLibTidy.dylib;
+		};
+		D0BAAEB91F8D586E000BE36B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D0C3BD001F3CB3680007BB54 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D0D06F3F1F8AF0F300370E9D;
+			remoteInfo = SwLibTidy.a;
 		};
 		D0D06F491F8AF13300370E9D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -143,13 +160,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = D0C2D7631F3CE994002551A9;
 			remoteInfo = libtidy.a;
-		};
-		D0D06F501F8AF19400370E9D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D0C3BD001F3CB3680007BB54 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D0D06F3F1F8AF0F300370E9D;
-			remoteInfo = SwLibTidy.a;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -162,6 +172,15 @@
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D082E7981F8D4CE100C8C192 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -178,6 +197,10 @@
 		D06AD6B61F3CF33E00199B88 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D06AD6B91F3CF33E00199B88 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D06AD6BB1F3CF33E00199B88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D082E77D1F8D401100C8C192 /* CLibTidyModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CLibTidyModule.h; sourceTree = "<group>"; };
+		D082E77F1F8D404F00C8C192 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		D082E79A1F8D4CE100C8C192 /* console-objc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "console-objc"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D082E79C1F8D4CE100C8C192 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D09014CB1F8BFB3F00B56A62 /* SwLibTidyTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwLibTidyTests.m; sourceTree = "<group>"; };
 		D0A8A9CE1F41C69000A2DB63 /* SwLibTidy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwLibTidy.swift; path = SwLibTidy/SwLibTidy.swift; sourceTree = SOURCE_ROOT; };
 		D0A8A9D51F41E22300A2DB63 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = SwLibTidy/Info.plist; sourceTree = SOURCE_ROOT; };
@@ -187,6 +210,7 @@
 		D0AD28781F8BE6B400972DB7 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		D0AD287E1F8BEEC000972DB7 /* Objective-C Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Objective-C Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0AD28821F8BEEC000972DB7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D0BAAEBD1F8D5A36000BE36B /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		D0C2D7641F3CE994002551A9 /* libtidy.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libtidy.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0C3BD091F3CB3680007BB54 /* SwLibTidy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwLibTidy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0C3BD121F3CB3690007BB54 /* Swift Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Swift Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -269,11 +293,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D082E7971F8D4CE100C8C192 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0BAAEBB1F8D587C000BE36B /* SwLibTidy.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D0AD287B1F8BEEC000972DB7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D09014C61F8BF2E800B56A62 /* SwLibTidy.framework in Frameworks */,
+				D082E7901F8D4A0A00C8C192 /* SwLibTidy.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,7 +328,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0C3BD131F3CB3690007BB54 /* SwLibTidy.framework in Frameworks */,
+				D082E7911F8D4A1300C8C192 /* SwLibTidy.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -304,7 +336,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0D06F521F8AF19900370E9D /* SwLibTidy.a in Frameworks */,
+				D082E7851F8D479300C8C192 /* SwLibTidy.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,6 +364,14 @@
 			path = gui;
 			sourceTree = SOURCE_ROOT;
 		};
+		D082E79B1F8D4CE100C8C192 /* console-objc */ = {
+			isa = PBXGroup;
+			children = (
+				D082E79C1F8D4CE100C8C192 /* main.m */,
+			);
+			path = "console-objc";
+			sourceTree = SOURCE_ROOT;
+		};
 		D0AD288A1F8BEF4900972DB7 /* Swift */ = {
 			isa = PBXGroup;
 			children = (
@@ -356,6 +396,7 @@
 		D0C3BCFF1F3CB3680007BB54 = {
 			isa = PBXGroup;
 			children = (
+				D082E79B1F8D4CE100C8C192 /* console-objc */,
 				D0C3BDC51F3CC0510007BB54 /* console */,
 				D06AD6B11F3CF33E00199B88 /* gui */,
 				D0C3BD0B1F3CB3680007BB54 /* SwLibTidy */,
@@ -376,6 +417,7 @@
 				D06AD6B01F3CF33E00199B88 /* gui.app */,
 				D0D06F401F8AF0F300370E9D /* SwLibTidy.a */,
 				D0AD287E1F8BEEC000972DB7 /* Objective-C Tests.xctest */,
+				D082E79A1F8D4CE100C8C192 /* console-objc */,
 			);
 			name = Products;
 			sourceTree = SOURCE_ROOT;
@@ -384,6 +426,7 @@
 			isa = PBXGroup;
 			children = (
 				D04034891F4365B300A2A9DC /* README.md */,
+				D0BAAEBD1F8D5A36000BE36B /* module.modulemap */,
 				D0A8A9CE1F41C69000A2DB63 /* SwLibTidy.swift */,
 				D0AD286F1F8BDE7800972DB7 /* TidyEngine.swift */,
 				D00892DB1F4F2ABC007A1CA4 /* TidyBuffer.swift */,
@@ -415,6 +458,8 @@
 			isa = PBXGroup;
 			children = (
 				D0D06E671F8AE7AC00370E9D /* README.md */,
+				D082E77F1F8D404F00C8C192 /* module.modulemap */,
+				D082E77D1F8D401100C8C192 /* CLibTidyModule.h */,
 				D0D06E681F8AE7CE00370E9D /* tidy-html5 */,
 			);
 			path = CLibTidy;
@@ -522,6 +567,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D082E77E1F8D402900C8C192 /* CLibTidyModule.h in Headers */,
 				D0D06F0A1F8AEAE000370E9D /* tidy.h in Headers */,
 				D0D06F0B1F8AEAE000370E9D /* tidybuffio.h in Headers */,
 				D0D06F0C1F8AEAE000370E9D /* tidyenum.h in Headers */,
@@ -595,6 +641,24 @@
 			productReference = D06AD6B01F3CF33E00199B88 /* gui.app */;
 			productType = "com.apple.product-type.application";
 		};
+		D082E7991F8D4CE100C8C192 /* console-objc */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D082E79E1F8D4CE100C8C192 /* Build configuration list for PBXNativeTarget "console-objc" */;
+			buildPhases = (
+				D082E7961F8D4CE100C8C192 /* Sources */,
+				D082E7971F8D4CE100C8C192 /* Frameworks */,
+				D082E7981F8D4CE100C8C192 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D0BAAEBA1F8D586E000BE36B /* PBXTargetDependency */,
+			);
+			name = "console-objc";
+			productName = "console-objc";
+			productReference = D082E79A1F8D4CE100C8C192 /* console-objc */;
+			productType = "com.apple.product-type.tool";
+		};
 		D0AD287D1F8BEEC000972DB7 /* Objective-C Tests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D0AD28861F8BEEC000972DB7 /* Build configuration list for PBXNativeTarget "Objective-C Tests" */;
@@ -606,7 +670,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				D09014C51F8BF2E100B56A62 /* PBXTargetDependency */,
+				D082E78F1F8D4A0300C8C192 /* PBXTargetDependency */,
 			);
 			name = "Objective-C Tests";
 			productName = CocoaTests;
@@ -661,7 +725,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				D0C3BD151F3CB3690007BB54 /* PBXTargetDependency */,
+				D082E7931F8D4A1600C8C192 /* PBXTargetDependency */,
 			);
 			name = "Swift Tests";
 			productName = LibTidyTests;
@@ -679,7 +743,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				D0D06F511F8AF19400370E9D /* PBXTargetDependency */,
+				D082E7841F8D478E00C8C192 /* PBXTargetDependency */,
 			);
 			name = console;
 			productName = tidy;
@@ -716,6 +780,10 @@
 				TargetAttributes = {
 					D06AD6AF1F3CF33E00199B88 = {
 						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+					};
+					D082E7991F8D4CE100C8C192 = {
+						CreatedOnToolsVersion = 9.0;
 						ProvisioningStyle = Automatic;
 					};
 					D0AD287D1F8BEEC000972DB7 = {
@@ -762,6 +830,7 @@
 			projectRoot = "";
 			targets = (
 				D0C3BDC31F3CC0510007BB54 /* console */,
+				D082E7991F8D4CE100C8C192 /* console-objc */,
 				D06AD6AF1F3CF33E00199B88 /* gui */,
 				D0C3BD081F3CB3680007BB54 /* SwLibTidy.dylib */,
 				D0D06F3F1F8AF0F300370E9D /* SwLibTidy.a */,
@@ -812,6 +881,14 @@
 			files = (
 				D06AD6B51F3CF33E00199B88 /* ViewController.swift in Sources */,
 				D06AD6B31F3CF33E00199B88 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D082E7961F8D4CE100C8C192 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D082E79D1F8D4CE100C8C192 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -910,25 +987,30 @@
 			target = D0C3BD081F3CB3680007BB54 /* SwLibTidy.dylib */;
 			targetProxy = D06AD6BF1F3CF36000199B88 /* PBXContainerItemProxy */;
 		};
-		D09014C51F8BF2E100B56A62 /* PBXTargetDependency */ = {
+		D082E7841F8D478E00C8C192 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D0C3BD081F3CB3680007BB54 /* SwLibTidy.dylib */;
-			targetProxy = D09014C41F8BF2E100B56A62 /* PBXContainerItemProxy */;
+			target = D0D06F3F1F8AF0F300370E9D /* SwLibTidy.a */;
+			targetProxy = D082E7831F8D478E00C8C192 /* PBXContainerItemProxy */;
 		};
-		D0C3BD151F3CB3690007BB54 /* PBXTargetDependency */ = {
+		D082E78F1F8D4A0300C8C192 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D0C3BD081F3CB3680007BB54 /* SwLibTidy.dylib */;
-			targetProxy = D0C3BD141F3CB3690007BB54 /* PBXContainerItemProxy */;
+			targetProxy = D082E78E1F8D4A0300C8C192 /* PBXContainerItemProxy */;
+		};
+		D082E7931F8D4A1600C8C192 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D0C3BD081F3CB3680007BB54 /* SwLibTidy.dylib */;
+			targetProxy = D082E7921F8D4A1600C8C192 /* PBXContainerItemProxy */;
+		};
+		D0BAAEBA1F8D586E000BE36B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D0D06F3F1F8AF0F300370E9D /* SwLibTidy.a */;
+			targetProxy = D0BAAEB91F8D586E000BE36B /* PBXContainerItemProxy */;
 		};
 		D0D06F4A1F8AF13300370E9D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D0C2D7631F3CE994002551A9 /* libtidy.a */;
 			targetProxy = D0D06F491F8AF13300370E9D /* PBXContainerItemProxy */;
-		};
-		D0D06F511F8AF19400370E9D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = D0D06F3F1F8AF0F300370E9D /* SwLibTidy.a */;
-			targetProxy = D0D06F501F8AF19400370E9D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -965,6 +1047,43 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.gui;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		D082E79F1F8D4CE100C8C192 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		D082E7A01F8D4CE100C8C192 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -1020,6 +1139,7 @@
 			buildSettings = {
 				EXECUTABLE_PREFIX = "";
 				GCC_PREFIX_HEADER = "${SRCROOT}/CLibTidy/tidy-html5-version.h";
+				MODULEMAP_FILE = "$(SOURCE_ROOT)/CLibTidy/module.modulemap";
 				PRODUCT_NAME = libtidy;
 			};
 			name = Debug;
@@ -1029,6 +1149,7 @@
 			buildSettings = {
 				EXECUTABLE_PREFIX = "";
 				GCC_PREFIX_HEADER = "${SRCROOT}/CLibTidy/tidy-html5-version.h";
+				MODULEMAP_FILE = "$(SOURCE_ROOT)/CLibTidy/module.modulemap";
 				PRODUCT_NAME = libtidy;
 			};
 			name = Release;
@@ -1219,7 +1340,6 @@
 				INFOPLIST_FILE = "$(SRCROOT)/gui/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "SwLibTidyTests/Objective-C/console-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
@@ -1232,7 +1352,6 @@
 				INFOPLIST_FILE = "$(SRCROOT)/gui/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "SwLibTidyTests/Objective-C/console-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -1253,6 +1372,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				MODULEMAP_FILE = "$(SOURCE_ROOT)/SwLibTidy/module.modulemap";
 				PRODUCT_NAME = SwLibTidy;
 			};
 			name = Debug;
@@ -1272,6 +1392,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				MODULEMAP_FILE = "$(SOURCE_ROOT)/SwLibTidy/module.modulemap";
 				PRODUCT_NAME = SwLibTidy;
 			};
 			name = Release;
@@ -1284,6 +1405,15 @@
 			buildConfigurations = (
 				D06AD6BD1F3CF33E00199B88 /* Debug */,
 				D06AD6BE1F3CF33E00199B88 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D082E79E1F8D4CE100C8C192 /* Build configuration list for PBXNativeTarget "console-objc" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D082E79F1F8D4CE100C8C192 /* Debug */,
+				D082E7A01F8D4CE100C8C192 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

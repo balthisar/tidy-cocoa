@@ -1,0 +1,5 @@
+module SwLibTidy {
+    header "SwLibTidy-Swift.h"
+    export *
+}
+

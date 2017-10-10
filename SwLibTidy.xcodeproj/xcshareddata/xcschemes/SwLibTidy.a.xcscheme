@@ -29,7 +29,26 @@
       language = ""
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D0C3BD111F3CB3690007BB54"
+               BuildableName = "Swift Tests.xctest"
+               BlueprintName = "Swift Tests"
+               ReferencedContainer = "container:SwLibTidy.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "D0D06F3F1F8AF0F300370E9D"
+            BuildableName = "SwLibTidy.a"
+            BlueprintName = "SwLibTidy.a"
+            ReferencedContainer = "container:SwLibTidy.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>

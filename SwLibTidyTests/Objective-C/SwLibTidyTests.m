@@ -7,6 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
+//#import "SwLibTidy-Swift.h"
 @import SwLibTidy;
 
 @interface CocoaTests : XCTestCase

@@ -1,5 +1,0 @@
-module CLibTidy [system] {
-    header "vendor/tidy-html5/include/tidy.h"
-    header "vendor/tidy-html5/include/tidybuffio.h"
-    export *
-}
