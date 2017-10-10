@@ -102,9 +102,9 @@
 			fileType = pattern.proxy;
 			isEditable = 1;
 			outputFiles = (
-				"$(SRCROOT)/vendor/tidy-html5-version.h",
+				"$(SRCROOT)/CLibTidy/tidy-html5-version.h",
 			);
-			script = "#!/usr/bin/env bash\necho \"Processing the date and version file to build a dynamic header.\"\nHEADER=\"${SRCROOT}/vendor/tidy-html5-version.h\"\ncd \"${SRCROOT}/vendor\"\necho \"// This file is generated automatically. Do not edit. Edit version.txt instead.\" > $HEADER\necho \"// The tidy target Build Rules for *.txt files has produced this file.\" >> $HEADER\necho \"// Make sure you include this file as the tidy target prefix header.\" >> $HEADER\n\nIFS=$'\\n' read -d '' -r -a LINES < \"${INPUT_FILE_PATH}\"\n\ncat << EOF >> $HEADER\n#ifdef LIBTIDY_VERSION\n#undef LIBTIDY_VERSION\n#endif\n#ifdef RELEASE_DATE\n#undef RELEASE_DATE\n#endif\nEOF\n\necho \"#define LIBTIDY_VERSION \\\"${LINES[0]}\\\"\" >> $HEADER\necho \"#define RELEASE_DATE \\\"${LINES[1]}\\\"\" >> $HEADER\n\necho \"// Updated on \"`date` >> $HEADER\n";
+			script = "#!/usr/bin/env bash\necho \"Processing the date and version file to build a dynamic header.\"\nHEADER=\"${SRCROOT}/CLibTidy/tidy-html5-version.h\"\ncd \"${SRCROOT}/CLibTidy\"\necho \"// This file is generated automatically. Do not edit. Edit version.txt instead.\" > $HEADER\necho \"// The tidy target Build Rules for *.txt files has produced this file.\" >> $HEADER\necho \"// Make sure you include this file as the tidy target prefix header.\" >> $HEADER\n\nIFS=$'\\n' read -d '' -r -a LINES < \"${INPUT_FILE_PATH}\"\n\ncat << EOF >> $HEADER\n#ifdef LIBTIDY_VERSION\n#undef LIBTIDY_VERSION\n#endif\n#ifdef RELEASE_DATE\n#undef RELEASE_DATE\n#endif\nEOF\n\necho \"#define LIBTIDY_VERSION \\\"${LINES[0]}\\\"\" >> $HEADER\necho \"#define RELEASE_DATE \\\"${LINES[1]}\\\"\" >> $HEADER\n\necho \"// Updated on \"`date` >> $HEADER\n";
 		};
 /* End PBXBuildRule section */
 
@@ -359,7 +359,7 @@
 				D0C3BDC51F3CC0510007BB54 /* console */,
 				D06AD6B11F3CF33E00199B88 /* gui */,
 				D0C3BD0B1F3CB3680007BB54 /* SwLibTidy */,
-				D0D06CCE1F8AE6ED00370E9D /* vendor */,
+				D0D06CCE1F8AE6ED00370E9D /* CLibTidy */,
 				D0C3BD161F3CB3690007BB54 /* SwLibTidyTests */,
 				D0C3BD0A1F3CB3680007BB54 /* Products */,
 				D0D06F4B1F8AF13A00370E9D /* Frameworks */,
@@ -411,13 +411,13 @@
 			path = console;
 			sourceTree = SOURCE_ROOT;
 		};
-		D0D06CCE1F8AE6ED00370E9D /* vendor */ = {
+		D0D06CCE1F8AE6ED00370E9D /* CLibTidy */ = {
 			isa = PBXGroup;
 			children = (
 				D0D06E671F8AE7AC00370E9D /* README.md */,
 				D0D06E681F8AE7CE00370E9D /* tidy-html5 */,
 			);
-			path = vendor;
+			path = CLibTidy;
 			sourceTree = SOURCE_ROOT;
 		};
 		D0D06E681F8AE7CE00370E9D /* tidy-html5 */ = {
@@ -1019,7 +1019,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = "";
-				GCC_PREFIX_HEADER = "${SRCROOT}/vendor/tidy-html5-version.h";
+				GCC_PREFIX_HEADER = "${SRCROOT}/CLibTidy/tidy-html5-version.h";
 				PRODUCT_NAME = libtidy;
 			};
 			name = Debug;
@@ -1028,7 +1028,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = "";
-				GCC_PREFIX_HEADER = "${SRCROOT}/vendor/tidy-html5-version.h";
+				GCC_PREFIX_HEADER = "${SRCROOT}/CLibTidy/tidy-html5-version.h";
 				PRODUCT_NAME = libtidy;
 			};
 			name = Release;
