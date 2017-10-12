@@ -93,7 +93,7 @@ public typealias TidyDoc = CLibTidy.TidyDoc
 */
 public typealias TidyOption = CLibTidy.TidyOption
 
-public typealias MyTidyOptionId = CLibTidy.TidyOptionId
+public typealias TidyOptionId = CLibTidy.TidyOptionId
 
 /** 
  Single nodes of a TidyDocument are represented by this datatype. It can be

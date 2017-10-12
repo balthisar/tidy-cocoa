@@ -7,9 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-//#import "SwLibTidy-Swift.h"
-@import CLibTidy;
 @import SwLibTidy;
+@import CLibTidy;
 
 
 int main(int argc, const char * argv[]) {
@@ -17,10 +16,11 @@ int main(int argc, const char * argv[]) {
 
         TidyEngine *doc = [[TidyEngine alloc] init];
 
+
         NSString *myString = [doc getHello];
         NSLog(@"\n%@\n", myString);
 
-        MyTidyOptionId id = [doc getOptionIdForName: @"clean"];
+        TidyOptionId id = [doc getOptionIdForName: @"clean"];
         NSLog(@"\n%u\n", id);
 
 

@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D0C2D7631F3CE994002551A9"
-               BuildableName = "libtidy.a"
-               BlueprintName = "libtidy.a"
+               BlueprintIdentifier = "D0F640CB1F8F998A005A945B"
+               BuildableName = "SwLibTidy.framework"
+               BlueprintName = "SwLibTidy"
                ReferencedContainer = "container:SwLibTidy.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -29,7 +29,26 @@
       language = ""
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D0C3BD111F3CB3690007BB54"
+               BuildableName = "SwLibTidy Tests.xctest"
+               BlueprintName = "SwLibTidy Tests"
+               ReferencedContainer = "container:SwLibTidy.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "D0F640CB1F8F998A005A945B"
+            BuildableName = "SwLibTidy.framework"
+            BlueprintName = "SwLibTidy"
+            ReferencedContainer = "container:SwLibTidy.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -47,9 +66,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D0C2D7631F3CE994002551A9"
-            BuildableName = "libtidy.a"
-            BlueprintName = "libtidy.a"
+            BlueprintIdentifier = "D0F640CB1F8F998A005A945B"
+            BuildableName = "SwLibTidy.framework"
+            BlueprintName = "SwLibTidy"
             ReferencedContainer = "container:SwLibTidy.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -65,9 +84,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D0C2D7631F3CE994002551A9"
-            BuildableName = "libtidy.a"
-            BlueprintName = "libtidy.a"
+            BlueprintIdentifier = "D0F640CB1F8F998A005A945B"
+            BuildableName = "SwLibTidy.framework"
+            BlueprintName = "SwLibTidy"
             ReferencedContainer = "container:SwLibTidy.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

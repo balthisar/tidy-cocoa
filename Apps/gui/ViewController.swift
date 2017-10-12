@@ -19,19 +19,29 @@ import SwLibTidy
 class ViewController: NSViewController {
 
     @IBOutlet weak var versionLabel: NSTextField!
-    
-    
+    @IBOutlet weak var textView: NSTextView!
+
+    /* Use the same output creator as the sample console application. */
+    var myExample = TidyRunner.init()
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        myExample.output = { arg in
+            self.textView.font = NSFont(name: "Consolas", size: 12)
+            self.textView.textStorage?.append(NSAttributedString(string: "\(arg)\n"))
+        }
+
         versionLabel.stringValue = tidyLibraryVersion()
+        myExample.RunTidy()
     }
+
 
     override var representedObject: Any? {
         didSet {
         // Update the view, if already loaded.
         }
     }
-
 
 }
 

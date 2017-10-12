@@ -33,7 +33,7 @@ import Foundation
     }
 
     // Can't return optional to objc.
-    @objc public func getOptionId( forName: String ) -> MyTidyOptionId {
+    @objc public func getOptionId( forName: String ) -> TidyOptionId {
 
         return SwLibTidy.tidyOptGetIdForName( forName )!
     }

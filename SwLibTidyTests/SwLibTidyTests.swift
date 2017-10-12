@@ -1,6 +1,6 @@
 /******************************************************************************
 
-    SwLibTidyTests_Basic.swift
+    SwLibTidyTests.swift
     Basic tests of the SwLibTidy wrapper library for tidy-html5 ("CLibTidy").
     See https://github.com/htacg/tidy-html5
 
@@ -17,7 +17,7 @@
 import XCTest
 @testable import SwLibTidy
 
-class SwLibTidyTests_Basic: XCTestCase {
+class SwiftTests: XCTestCase {
     
     private var tdoc: TidyDoc?
     private let delimiter = "=-=-=-=-=-=-=-=-=-=-"

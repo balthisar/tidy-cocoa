@@ -1,5 +1,5 @@
 //
-//  CocoaTests.m
+//  SwLibTidyTests.m
 //  CocoaTests
 //
 //  Created by Jim Derry on 10/9/17.
@@ -7,14 +7,14 @@
 //
 
 #import <XCTest/XCTest.h>
-//#import "SwLibTidy-Swift.h"
 @import SwLibTidy;
+@import CLibTidy;
 
-@interface CocoaTests : XCTestCase
+@interface ObjectiveCTests : XCTestCase
 
 @end
 
-@implementation CocoaTests
+@implementation ObjectiveCTests
 
 TidyEngine *mydoc;
 
@@ -27,7 +27,7 @@ TidyEngine *mydoc;
 
 - (void)tearDown
 {
-    mydoc = nil;
+//    mydoc = nil;
 
     [super tearDown];
 }
@@ -37,7 +37,7 @@ TidyEngine *mydoc;
     NSString *myString = [NSString stringWithString:[mydoc getHello]];
     NSLog(@"===>%@\n", myString);
 
-    MyTidyOptionId theId = [mydoc getOptionIdForName: @"clean" ];
+    TidyOptionId theId = [mydoc getOptionIdForName: @"clean" ];
     NSLog(@"%u", theId);
 }
 

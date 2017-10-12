@@ -18,18 +18,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D0C3BD111F3CB3690007BB54"
-               BuildableName = "Swift Tests.xctest"
-               BlueprintName = "Swift Tests"
-               ReferencedContainer = "container:SwLibTidy.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D0AD287D1F8BEEC000972DB7"
-               BuildableName = "Objective-C Tests.xctest"
-               BlueprintName = "Objective-C Tests"
+               BuildableName = "SwLibTidy Tests.xctest"
+               BlueprintName = "SwLibTidy Tests"
                ReferencedContainer = "container:SwLibTidy.xcodeproj">
             </BuildableReference>
          </TestableReference>
