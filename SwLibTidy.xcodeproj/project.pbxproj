@@ -915,6 +915,11 @@
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				GCC_PREFIX_HEADER = "${SRCROOT}/CLibTidy/tidy-html5-version.h";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+					SUPPORT_GETPWNAM,
+				);
 				INSTALL_PATH = "@rpath";
 				MODULEMAP_FILE = "$(SOURCE_ROOT)/CLibTidy/module.modulemap";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -926,6 +931,7 @@
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				GCC_PREFIX_HEADER = "${SRCROOT}/CLibTidy/tidy-html5-version.h";
+				GCC_PREPROCESSOR_DEFINITIONS = SUPPORT_GETPWNAM;
 				INSTALL_PATH = "@rpath";
 				MODULEMAP_FILE = "$(SOURCE_ROOT)/CLibTidy/module.modulemap";
 				PRODUCT_NAME = "$(TARGET_NAME)";

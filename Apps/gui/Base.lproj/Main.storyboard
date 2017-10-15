@@ -700,7 +700,7 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <size key="minSize" width="663" height="282"/>
-                                            <size key="maxSize" width="663" height="10000000"/>
+                                            <size key="maxSize" width="680" height="10000000"/>
                                             <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         </textView>
                                     </subviews>
@@ -735,7 +735,6 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="scrollView" destination="wwP-xc-DHh" id="dJ2-dB-i07"/>
                         <outlet property="textView" destination="y5f-RS-sOh" id="qK2-FV-lKz"/>
                         <outlet property="versionLabel" destination="Fx8-tR-1TN" id="ldm-5E-Kdv"/>
                     </connections>
