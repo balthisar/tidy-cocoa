@@ -178,6 +178,7 @@
 
 /* Begin PBXFileReference section */
 		D04034871F43659C00A2A9DC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		D043B72F1F92DAA3009A61BE /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
 		D0692FC91F3CE8930045AB69 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = Apps/console/README.md; sourceTree = SOURCE_ROOT; };
 		D06AD6A21F3CED5A00199B88 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D06AD6B01F3CF33E00199B88 /* gui.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gui.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -362,6 +363,7 @@
 		D0C3BCFF1F3CB3680007BB54 = {
 			isa = PBXGroup;
 			children = (
+				D043B72F1F92DAA3009A61BE /* README.md */,
 				D0A5C6AD1F92B71900CABB67 /* Apps */,
 				D0F640CD1F8F998A005A945B /* SwLibTidy */,
 				D0D06CCE1F8AE6ED00370E9D /* CLibTidy */,

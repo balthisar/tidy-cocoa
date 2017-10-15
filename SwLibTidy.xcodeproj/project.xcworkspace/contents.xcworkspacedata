@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:LibTidy.xcodeproj">
+      location = "self:/Users/jderry/Development/tidy-cocoa/SwLibTidy.xcodeproj">
    </FileRef>
 </Workspace>
