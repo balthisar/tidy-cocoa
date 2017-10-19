@@ -324,6 +324,15 @@ public func tidyLibraryVersion() -> String {
     return String( cString: CLibTidy.tidyLibraryVersion() )
 }
 
+public func tidyPlatform() -> String? {
+
+    if let platform = CLibTidy.tidyPlatform() {
+        return String( cString: platform )
+    }
+
+    return nil
+}
+
 
 // MARK: - Diagnostics and Repair Status
 

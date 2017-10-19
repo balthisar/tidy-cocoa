@@ -12,6 +12,14 @@
 		D06AD6B51F3CF33E00199B88 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06AD6B41F3CF33E00199B88 /* ViewController.swift */; };
 		D06AD6B71F3CF33E00199B88 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D06AD6B61F3CF33E00199B88 /* Assets.xcassets */; };
 		D06AD6BA1F3CF33E00199B88 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D06AD6B81F3CF33E00199B88 /* Main.storyboard */; };
+		D06D94871F99073E00A0E300 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06D94861F99073E00A0E300 /* AppDelegate.swift */; };
+		D06D94891F99073E00A0E300 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06D94881F99073E00A0E300 /* ViewController.swift */; };
+		D06D948C1F99073E00A0E300 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D06D948A1F99073E00A0E300 /* Main.storyboard */; };
+		D06D948E1F99073E00A0E300 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D06D948D1F99073E00A0E300 /* Assets.xcassets */; };
+		D06D94911F99073E00A0E300 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D06D948F1F99073E00A0E300 /* LaunchScreen.storyboard */; };
+		D06D94C61F991AF300A0E300 /* SwLibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; };
+		D06D94C81F991B3300A0E300 /* SwLibTidy.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D06D94C91F991E9500A0E300 /* tidyRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A5C6AE1F92B81600CABB67 /* tidyRunner.swift */; };
 		D082E79D1F8D4CE100C8C192 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D082E79C1F8D4CE100C8C192 /* main.m */; };
 		D0A5C6931F92AA7100CABB67 /* CLibTidyModule.h in Copy Headers and Module Map */ = {isa = PBXBuildFile; fileRef = D082E77D1F8D401100C8C192 /* CLibTidyModule.h */; };
 		D0A5C6AF1F92B81600CABB67 /* tidyRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A5C6AE1F92B81600CABB67 /* tidyRunner.swift */; };
@@ -80,6 +88,13 @@
 /* End PBXBuildRule section */
 
 /* Begin PBXContainerItemProxy section */
+		D06D94C41F991A6E00A0E300 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D0C3BD001F3CB3680007BB54 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D0F640CB1F8F998A005A945B;
+			remoteInfo = SwLibTidy;
+		};
 		D0B32CDB1F91881700477C4B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D0C3BD001F3CB3680007BB54 /* Project object */;
@@ -125,6 +140,17 @@
 			dstSubfolderSpec = 7;
 			files = (
 			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D06D94C71F991B1500A0E300 /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				D06D94C81F991B3300A0E300 /* SwLibTidy.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		D082E7981F8D4CE100C8C192 /* CopyFiles */ = {
@@ -188,6 +214,13 @@
 		D06AD6B91F3CF33E00199B88 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D06AD6BB1F3CF33E00199B88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D06D947F1F98EBB000A0E300 /* README-Linking.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "README-Linking.md"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
+		D06D94841F99073D00A0E300 /* ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ios.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D06D94861F99073E00A0E300 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D06D94881F99073E00A0E300 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D06D948B1F99073E00A0E300 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D06D948D1F99073E00A0E300 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D06D94901F99073E00A0E300 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		D06D94921F99073E00A0E300 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D082E77D1F8D401100C8C192 /* CLibTidyModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CLibTidyModule.h; sourceTree = "<group>"; };
 		D082E77F1F8D404F00C8C192 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		D082E79A1F8D4CE100C8C192 /* console-objc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "console-objc"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -286,6 +319,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D06D94811F99073D00A0E300 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D06D94C61F991AF300A0E300 /* SwLibTidy.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D082E7971F8D4CE100C8C192 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -342,6 +383,19 @@
 			path = Apps/gui;
 			sourceTree = SOURCE_ROOT;
 		};
+		D06D94851F99073E00A0E300 /* ios */ = {
+			isa = PBXGroup;
+			children = (
+				D06D94861F99073E00A0E300 /* AppDelegate.swift */,
+				D06D94881F99073E00A0E300 /* ViewController.swift */,
+				D06D948A1F99073E00A0E300 /* Main.storyboard */,
+				D06D948D1F99073E00A0E300 /* Assets.xcassets */,
+				D06D948F1F99073E00A0E300 /* LaunchScreen.storyboard */,
+				D06D94921F99073E00A0E300 /* Info.plist */,
+			);
+			path = ios;
+			sourceTree = "<group>";
+		};
 		D082E79B1F8D4CE100C8C192 /* console-objc */ = {
 			isa = PBXGroup;
 			children = (
@@ -357,6 +411,7 @@
 				D0C3BDC51F3CC0510007BB54 /* console */,
 				D082E79B1F8D4CE100C8C192 /* console-objc */,
 				D06AD6B11F3CF33E00199B88 /* gui */,
+				D06D94851F99073E00A0E300 /* ios */,
 			);
 			path = Apps;
 			sourceTree = SOURCE_ROOT;
@@ -384,6 +439,7 @@
 				D082E79A1F8D4CE100C8C192 /* console-objc */,
 				D0F640CC1F8F998A005A945B /* SwLibTidy.framework */,
 				D0B32C8F1F917C7A00477C4B /* libtidy-sw.dylib */,
+				D06D94841F99073D00A0E300 /* ios.app */,
 			);
 			name = Products;
 			sourceTree = SOURCE_ROOT;
@@ -564,6 +620,25 @@
 			productReference = D06AD6B01F3CF33E00199B88 /* gui.app */;
 			productType = "com.apple.product-type.application";
 		};
+		D06D94831F99073D00A0E300 /* ios */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D06D94931F99073E00A0E300 /* Build configuration list for PBXNativeTarget "ios" */;
+			buildPhases = (
+				D06D94801F99073D00A0E300 /* Sources */,
+				D06D94811F99073D00A0E300 /* Frameworks */,
+				D06D94821F99073D00A0E300 /* Resources */,
+				D06D94C71F991B1500A0E300 /* Copy Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D06D94C51F991A6E00A0E300 /* PBXTargetDependency */,
+			);
+			name = ios;
+			productName = ios;
+			productReference = D06D94841F99073D00A0E300 /* ios.app */;
+			productType = "com.apple.product-type.application";
+		};
 		D082E7991F8D4CE100C8C192 /* console-objc */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D082E79E1F8D4CE100C8C192 /* Build configuration list for PBXNativeTarget "console-objc" */;
@@ -661,12 +736,17 @@
 		D0C3BD001F3CB3680007BB54 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0830;
+				LastSwiftUpdateCheck = 0900;
 				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "Jim Derry";
 				TargetAttributes = {
 					D06AD6AF1F3CF33E00199B88 = {
 						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+					};
+					D06D94831F99073D00A0E300 = {
+						CreatedOnToolsVersion = 9.0;
+						DevelopmentTeam = 9PN2JXXG7Y;
 						ProvisioningStyle = Automatic;
 					};
 					D082E7991F8D4CE100C8C192 = {
@@ -675,6 +755,7 @@
 					};
 					D0B32C8E1F917C7A00477C4B = {
 						CreatedOnToolsVersion = 9.0;
+						DevelopmentTeam = 9PN2JXXG7Y;
 					};
 					D0C3BD111F3CB3690007BB54 = {
 						CreatedOnToolsVersion = 8.3.3;
@@ -688,6 +769,7 @@
 					};
 					D0F640CB1F8F998A005A945B = {
 						CreatedOnToolsVersion = 9.0;
+						DevelopmentTeam = 9PN2JXXG7Y;
 						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
@@ -709,6 +791,7 @@
 				D0C3BDC31F3CC0510007BB54 /* console */,
 				D082E7991F8D4CE100C8C192 /* console-objc */,
 				D06AD6AF1F3CF33E00199B88 /* gui */,
+				D06D94831F99073D00A0E300 /* ios */,
 				D0F640CB1F8F998A005A945B /* SwLibTidy */,
 				D0C3BD111F3CB3690007BB54 /* SwLibTidy Tests */,
 				D0B32C8E1F917C7A00477C4B /* tidy-sw */,
@@ -723,6 +806,16 @@
 			files = (
 				D06AD6B71F3CF33E00199B88 /* Assets.xcassets in Resources */,
 				D06AD6BA1F3CF33E00199B88 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D06D94821F99073D00A0E300 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D06D94911F99073E00A0E300 /* LaunchScreen.storyboard in Resources */,
+				D06D948E1F99073E00A0E300 /* Assets.xcassets in Resources */,
+				D06D948C1F99073E00A0E300 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -743,6 +836,16 @@
 				D06AD6B31F3CF33E00199B88 /* AppDelegate.swift in Sources */,
 				D06AD6B51F3CF33E00199B88 /* ViewController.swift in Sources */,
 				D0A5C6B01F92C26B00CABB67 /* tidyRunner.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D06D94801F99073D00A0E300 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D06D94891F99073E00A0E300 /* ViewController.swift in Sources */,
+				D06D94871F99073E00A0E300 /* AppDelegate.swift in Sources */,
+				D06D94C91F991E9500A0E300 /* tidyRunner.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -821,6 +924,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		D06D94C51F991A6E00A0E300 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D0F640CB1F8F998A005A945B /* SwLibTidy */;
+			targetProxy = D06D94C41F991A6E00A0E300 /* PBXContainerItemProxy */;
+		};
 		D0B32CDC1F91881700477C4B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D0B32C8E1F917C7A00477C4B /* tidy-sw */;
@@ -857,6 +965,22 @@
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
+		D06D948A1F99073E00A0E300 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D06D948B1F99073E00A0E300 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		D06D948F1F99073E00A0E300 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D06D94901F99073E00A0E300 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -883,6 +1007,42 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.gui;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "";
+			};
+			name = Release;
+		};
+		D06D94941F99073E00A0E300 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9PN2JXXG7Y;
+				INFOPLIST_FILE = Apps/ios/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.ios;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
+				SWIFT_INCLUDE_PATHS = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D06D94951F99073E00A0E300 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9PN2JXXG7Y;
+				INFOPLIST_FILE = Apps/ios/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.ios;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
+				SWIFT_INCLUDE_PATHS = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -915,6 +1075,8 @@
 		D0B32C911F917C7A00477C4B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 9PN2JXXG7Y;
 				EXECUTABLE_PREFIX = lib;
 				GCC_PREFIX_HEADER = "${SRCROOT}/CLibTidy/tidy-html5-version.h";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -925,18 +1087,26 @@
 				INSTALL_PATH = "@rpath";
 				MODULEMAP_FILE = "$(SOURCE_ROOT)/CLibTidy/module.modulemap";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos11.0;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Debug;
 		};
 		D0B32C931F917C7A00477C4B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 9PN2JXXG7Y;
 				EXECUTABLE_PREFIX = lib;
 				GCC_PREFIX_HEADER = "${SRCROOT}/CLibTidy/tidy-html5-version.h";
 				GCC_PREPROCESSOR_DEFINITIONS = SUPPORT_GETPWNAM;
 				INSTALL_PATH = "@rpath";
 				MODULEMAP_FILE = "$(SOURCE_ROOT)/CLibTidy/module.modulemap";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos11.0;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Release;
 		};
@@ -1108,41 +1278,55 @@
 		D0F640D21F8F998A005A945B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 9PN2JXXG7Y;
 				DYLIB_COMPATIBILITY_VERSION = 5.5;
 				DYLIB_CURRENT_VERSION = 5.5;
 				FRAMEWORK_VERSION = A;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = SwLibTidy/Info.plist;
 				INSTALL_PATH = "@rpath";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) /usr/local/lib @executable_path/../Frameworks @loader_path/Frameworks @loader_path";
 				PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.SwLibTidy;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos11.0;
 				SKIP_INSTALL = YES;
-				SWIFT_FORCE_STATIC_LINK_STDLIB = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SWIFT_FORCE_STATIC_LINK_STDLIB = NO;
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Debug;
 		};
 		D0F640D31F8F998A005A945B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 9PN2JXXG7Y;
 				DYLIB_COMPATIBILITY_VERSION = 5.5;
 				DYLIB_CURRENT_VERSION = 5.5;
 				FRAMEWORK_VERSION = A;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = SwLibTidy/Info.plist;
 				INSTALL_PATH = "@rpath";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) /usr/local/lib @executable_path/../Frameworks @loader_path/Frameworks @loader_path";
 				PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.SwLibTidy;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos11.0;
 				SKIP_INSTALL = YES;
-				SWIFT_FORCE_STATIC_LINK_STDLIB = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SWIFT_FORCE_STATIC_LINK_STDLIB = NO;
 				SWIFT_INCLUDE_PATHS = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Release;
 		};
@@ -1154,6 +1338,15 @@
 			buildConfigurations = (
 				D06AD6BD1F3CF33E00199B88 /* Debug */,
 				D06AD6BE1F3CF33E00199B88 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D06D94931F99073E00A0E300 /* Build configuration list for PBXNativeTarget "ios" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D06D94941F99073E00A0E300 /* Debug */,
+				D06D94951F99073E00A0E300 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
