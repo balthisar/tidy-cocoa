@@ -70,6 +70,15 @@
 import Foundation
 import CLibTidy
 
+/******************************************************************************
+ ** "Globals,", used within this file.
+ **************************************************************************** */
+// MARK: - Globals
+
+
+/** Enforce a minimum LibTidy version for compatibility. */
+fileprivate let MINIMUM_LIBTIDY_VERSION = "5.5.67"
+
 
 /******************************************************************************
  ** Instances of these types are returned by LibTidy API functions, however
@@ -141,14 +150,13 @@ public func tidyCreate() -> TidyDoc? {
     // Perform CLibTidy version checking, because `tidySetConfigCallback()`
     // wasn't added until version 5.5.32 (previous versions didn't surface the
     // `TidyDoc` needed for identifying the source of the callback).
-    let versionMin = "5.5.62"
     let versionCurrent: String = tidyLibraryVersion()
     
-    let vaMin = versionMin.components(separatedBy: ".").map { Int.init($0) ?? 0 }
+    let vaMin = MINIMUM_LIBTIDY_VERSION.components(separatedBy: ".").map { Int.init($0) ?? 0 }
     let vaCurrent = versionCurrent.components(separatedBy: ".").map { Int.init($0) ?? 0 }
     
     if vaCurrent.lexicographicallyPrecedes(vaMin) {
-        debugPrint( "LibTidy: oldest recommended version is \(versionMin), but you have linked against \(versionCurrent)." )
+        debugPrint( "LibTidy: oldest recommended version is \(MINIMUM_LIBTIDY_VERSION), but you have linked against \(versionCurrent)." )
     }
     
     // This is the only real "wrapper" part!
@@ -322,6 +330,19 @@ public func tidyReleaseDate() -> String {
 public func tidyLibraryVersion() -> String {
     
     return String( cString: CLibTidy.tidyLibraryVersion() )
+}
+
+/**
+ Get the platform name from the current library.
+
+ - returns:
+     An optional string indicating the platform on which LibTidy was built.
+ */
+public func tidyPlatform() -> String? {
+
+    guard let platform = CLibTidy.tidyPlatform() else { return nil }
+
+    return String( cString: platform )
 }
 
 
