@@ -177,9 +177,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		D04034871F43659C00A2A9DC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		D04034871F43659C00A2A9DC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
 		D043B72F1F92DAA3009A61BE /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
-		D0692FC91F3CE8930045AB69 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = Apps/console/README.md; sourceTree = SOURCE_ROOT; };
+		D0692FC91F3CE8930045AB69 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = Apps/console/README.md; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = "<none>"; };
 		D06AD6A21F3CED5A00199B88 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D06AD6B01F3CF33E00199B88 /* gui.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gui.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D06AD6B21F3CF33E00199B88 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -187,12 +187,13 @@
 		D06AD6B61F3CF33E00199B88 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D06AD6B91F3CF33E00199B88 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D06AD6BB1F3CF33E00199B88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D06D947F1F98EBB000A0E300 /* README-Linking.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "README-Linking.md"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
 		D082E77D1F8D401100C8C192 /* CLibTidyModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CLibTidyModule.h; sourceTree = "<group>"; };
 		D082E77F1F8D404F00C8C192 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		D082E79A1F8D4CE100C8C192 /* console-objc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "console-objc"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D082E79C1F8D4CE100C8C192 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D09014CB1F8BFB3F00B56A62 /* SwLibTidyTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwLibTidyTests.m; sourceTree = "<group>"; };
-		D0A5C6AB1F92B18E00CABB67 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		D0A5C6AB1F92B18E00CABB67 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
 		D0A5C6AE1F92B81600CABB67 /* tidyRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tidyRunner.swift; sourceTree = "<group>"; };
 		D0A8A9DC1F41F74500A2DB63 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D0A8A9DD1F41F74500A2DB63 /* SwLibTidyTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwLibTidyTests.swift; sourceTree = "<group>"; };
@@ -364,6 +365,7 @@
 			isa = PBXGroup;
 			children = (
 				D043B72F1F92DAA3009A61BE /* README.md */,
+				D06D947F1F98EBB000A0E300 /* README-Linking.md */,
 				D0A5C6AD1F92B71900CABB67 /* Apps */,
 				D0F640CD1F8F998A005A945B /* SwLibTidy */,
 				D0D06CCE1F8AE6ED00370E9D /* CLibTidy */,
@@ -1106,6 +1108,7 @@
 		D0F640D21F8F998A005A945B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 5.5;
@@ -1113,7 +1116,7 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = SwLibTidy/Info.plist;
 				INSTALL_PATH = "@rpath";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited)  /usr/local/lib @executable_path/../Frameworks @loader_path/Frameworks @loader_path";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) /usr/local/lib @executable_path/../Frameworks @loader_path/Frameworks @loader_path";
 				PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.SwLibTidy;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1126,6 +1129,7 @@
 		D0F640D31F8F998A005A945B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 5.5;
@@ -1133,7 +1137,7 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = SwLibTidy/Info.plist;
 				INSTALL_PATH = "@rpath";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited)  /usr/local/lib @executable_path/../Frameworks @loader_path/Frameworks @loader_path";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) /usr/local/lib @executable_path/../Frameworks @loader_path/Frameworks @loader_path";
 				PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.SwLibTidy;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

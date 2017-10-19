@@ -28,7 +28,7 @@ class ViewController: NSViewController {
         super.viewDidLoad()
 
         myExample.output = { arg in
-            self.textView.font = NSFont(name: "Consolas", size: 12)
+            self.textView.font = NSFont(name: "Menlo", size: 12)
             self.textView.textStorage?.append(NSAttributedString(string: "\(arg)\n"))
         }
 

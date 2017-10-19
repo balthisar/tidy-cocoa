@@ -23,14 +23,4 @@ update their versions of Tidy if your provide instructions.
 
 ## Swift Libraries, Swift Applications, and Objective-C
 
-Note that build settings include `SWIFT_FORCE_STATIC_LINK_STDLIB = YES`, which
-will ensure that this framework, when built, includes the Swift standard
-libraries statically linked. This is done to support console applications
-written in Swift, which *must* use `SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES`
-in their build settings in order to avoid duplicate symbol warnings.
-
-If you are using additional libraries with Swift, you may want to fiddle with
-this configuration setting.
-
-Until Swift libraries are part of macOS proper, this is going to be a bit
-hacky.
+See [README-Linking.md](../README-Linking.md).
