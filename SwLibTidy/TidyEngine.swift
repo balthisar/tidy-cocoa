@@ -16,26 +16,25 @@
  ******************************************************************************/
 
 import Foundation
-//import CLibTidy // Not found when called from bridging -Swift.h header!
 
 
 @objc public class TidyEngine: NSObject {
 
-    private var doc = SwLibTidy.tidyCreate()
+    private var doc = tidyCreate()
 
 //    public init?() {
 //    }
 //
     deinit {
         if let doc = doc {
-            SwLibTidy.tidyRelease( doc )
+            tidyRelease( doc )
         }
     }
 
     // Can't return optional to objc.
     @objc public func getOptionId( forName: String ) -> TidyOptionId {
 
-        return SwLibTidy.tidyOptGetIdForName( forName )!
+        return tidyOptGetIdForName( forName )!
     }
 
     @objc public func getHello() -> String {
