@@ -77,7 +77,7 @@ import CLibTidy
 
 
 /** Enforce a minimum LibTidy version for compatibility. */
-fileprivate let MINIMUM_LIBTIDY_VERSION = "5.5.67"
+fileprivate let MINIMUM_LIBTIDY_VERSION = "5.5.68"
 
 
 /******************************************************************************
@@ -147,9 +147,8 @@ public typealias TidyMessageArgument = CLibTidy.TidyMessageArgument
 */
 public func tidyCreate() -> TidyDoc? {
     
-    // Perform CLibTidy version checking, because `tidySetConfigCallback()`
-    // wasn't added until version 5.5.32 (previous versions didn't surface the
-    // `TidyDoc` needed for identifying the source of the callback).
+    // Perform CLibTidy version checking, because we count on some of the
+    // newer API's.
     let versionCurrent: String = tidyLibraryVersion()
     
     let vaMin = MINIMUM_LIBTIDY_VERSION.components(separatedBy: ".").map { Int.init($0) ?? 0 }
@@ -179,10 +178,10 @@ public func tidyCreate() -> TidyDoc? {
      */
     
     guard yes == CLibTidy.tidySetConfigCallback( tdoc, { tdoc, option, value in
-        
+
         guard let option = option,
             let value = value,
-            let ptrStorage = CLibTidy.tidyGetAppData(tdoc)
+            let ptrStorage = CLibTidy.tidyGetAppData( tdoc )
             else { return no }
         
         let storage: ApplicationData = Unmanaged<ApplicationData>
