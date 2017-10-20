@@ -18,7 +18,6 @@ import SwLibTidy
 
 class ViewController: NSViewController {
 
-    @IBOutlet weak var versionLabel: NSTextField!
     @IBOutlet weak var textView: NSTextView!
 
     /* Use the same output creator as the sample console application. */
@@ -30,9 +29,9 @@ class ViewController: NSViewController {
         myExample.output = { arg in
             self.textView.font = NSFont(name: "Menlo", size: 12)
             self.textView.textStorage?.append(NSAttributedString(string: "\(arg)\n"))
+            self.textView.font = NSFont(name: "Menlo", size: 12)
         }
 
-        versionLabel.stringValue = tidyLibraryVersion()
         myExample.RunTidy()
     }
 
