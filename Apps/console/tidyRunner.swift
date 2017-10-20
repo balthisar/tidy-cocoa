@@ -181,7 +181,9 @@ class TidyRunner {
 
         /* Don't need this any more. */
         tidyRelease( tdoc )
-    }
+
+        output(horizontal_rule)
+}
 
 
 }
