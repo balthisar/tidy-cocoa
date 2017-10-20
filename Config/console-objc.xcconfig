@@ -1,0 +1,23 @@
+//
+// console-objc-Shared.xcconfig
+//
+//  Created by Jim Derry on 2017/10/20 with help by BuildSettingExtractor
+//
+
+
+// App Setup and Configuration
+PRODUCT_NAME = $(TARGET_NAME)
+
+
+// Runpath Search Paths
+//
+// This is a list of paths to be added to the runpath search path list for the
+// image being created.  At runtime, dyld uses the runpath when searching for
+// dylibs whose load path begins with '@rpath/'.
+//
+// Because this is a console application, we want to attempt to load frameworks
+// from the same directory as the executable (@executable path), as well as
+// from /Library/Frameworks/ (automatic behavior) and ~/Library/Frameworks/
+// (automatic behavior).
+
+LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path @executable_path/SwLibTidyConsole.framework/Versions/A/Frameworks

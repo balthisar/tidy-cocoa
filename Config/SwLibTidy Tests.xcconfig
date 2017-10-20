@@ -1,0 +1,13 @@
+//
+// SwLibTidy Tests-Shared.xcconfig
+//
+//  Created by Jim Derry on 2017/10/20 with help by BuildSettingExtractor
+//
+
+
+INFOPLIST_FILE = SwLibTidyTests/Info.plist
+LD_RUNPATH_SEARCH_PATHS = $(inherited) @loader_path/../Frameworks
+PRODUCT_NAME = $(TARGET_NAME)
+PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.LibTidyTests
+SWIFT_OPTIMIZATION_LEVEL = -Onone
+

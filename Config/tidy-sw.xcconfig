@@ -1,0 +1,84 @@
+//
+// tidy-sw-Shared.xcconfig
+//
+//  Created by Jim Derry on 2017/10/20 with help by BuildSettingExtractor
+//
+
+
+//////////////////////////////////////////////////////////
+// Framework Setup and Configuration
+//////////////////////////////////////////////////////////
+
+PRODUCT_NAME = $(TARGET_NAME)
+
+
+//////////////////////////////////////////////////////////
+// Code Signing - Required on iOS
+//////////////////////////////////////////////////////////
+
+CODE_SIGN_IDENTITY[sdk=iphoneos*] = iPhone Developer
+CODE_SIGN_STYLE[sdk=iphoneos*] = Automatic
+DEVELOPMENT_TEAM[sdk=iphoneos*] = 9PN2JXXG7Y
+
+
+//////////////////////////////////////////////////////////
+// Cross Platform setup
+//////////////////////////////////////////////////////////
+
+SUPPORTED_PLATFORMS = iphonesimulator iphoneos macosx
+VALID_ARCHS[sdk=macosx*] = x86_64
+VALID_ARCHS[sdk=iphoneos*] = arm64 armv7 armv7s
+VALID_ARCHS[sdk=iphonesimulator*] = i386 x86_64
+
+
+//////////////////////////////////////////////////////////
+// Compiler Setup
+//////////////////////////////////////////////////////////
+
+// Hide third party library's documentation comment warnings.
+CLANG_WARN_DOCUMENTATION_COMMENTS = no
+
+// LibTidy is is a C89 library, so let's enforce this.
+GCC_C_LANGUAGE_STANDARD = gnu89
+
+// Ensure that the result of compiled `version.txt` in included
+GCC_PREFIX_HEADER = ${SRCROOT}/CLibTidy/tidy-html5-version.h
+
+
+//////////////////////////////////////////////////////////
+// Library and Module Setup
+//////////////////////////////////////////////////////////
+
+
+// Module Map File. We're manually creating a module, and this modulemap
+// file defines the module to Xcode. This allows simply impot CLibTidy.
+MODULEMAP_FILE = $(SOURCE_ROOT)/CLibTidy/module.modulemap
+
+// Note that we are tracking LibTidy's major version 5, which is implied
+// below. For example, 5.7 refers to LibTidy 5.5.70 and better. This makes
+// it difficult to support versions such at 5.78, as we are limited to
+// supporting only 5.70 and better, given the decimal nature of this setting.
+DYLIB_COMPATIBILITY_VERSION = 5.7
+DYLIB_CURRENT_VERSION = 5.7
+
+// Executable Prefix
+EXECUTABLE_PREFIX = lib
+
+// Installation Directory. This dylib can be installed anywhere.
+INSTALL_PATH = @rpath
+
+
+//////////////////////////////////////////////////////////
+// Preprocessor Macros
+//////////////////////////////////////////////////////////
+
+// LibTidy has some macro definitions available to control the build:
+//   SUPPORT_GETPWNAM - define to use getpwnam() in file paths.
+//   SUPPORT_LOCALIZATIONS - define to support Tidy's native localization.
+//   SUPPORT_CONSOLE_APP - define to ensure that console strings and console-
+//     specific functions are included in the library.
+//   ENABLE_DEBUG_LOG - define to output debugging messages.
+//   ENABLE_ALLOC_DEBUG - define to output node allocation diagnostics.
+//   ENABLE_MEMORY_DEBUG - define to output some memory diagnostics.
+GCC_PREPROCESSOR_DEFINITIONS =  $(inherited) SUPPORT_GETPWNAM=1 SUPPORT_LOCALIZATIONS=1 SUPPORT_CONSOLE_APP=1
+

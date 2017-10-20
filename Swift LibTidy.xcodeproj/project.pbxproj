@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D027FFB91F9BBAF5009A274E /* tidyRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A5C6AE1F92B81600CABB67 /* tidyRunner.swift */; };
+		D027FFBA1F9BBAFE009A274E /* SwLibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; };
+		D027FFBC1F9BBB1C009A274E /* SwLibTidy.framework in Copy Frameworks to Bundle */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D03B6F731F9BF052009C2F64 /* SwLibTidyConsole.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B6F711F9BF044009C2F64 /* SwLibTidyConsole.swift */; };
+		D03B6F7F1F9BF9B4009C2F64 /* SwLibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; };
+		D03B6F821F9BF9D0009C2F64 /* SwLibTidyConsole.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D03B6F6D1F9BEFF0009C2F64 /* SwLibTidyConsole.framework */; };
+		D03B6F851F9C1CE3009C2F64 /* SwLibTidyConsole.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D03B6F6D1F9BEFF0009C2F64 /* SwLibTidyConsole.framework */; };
 		D06AD6A31F3CED5A00199B88 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06AD6A21F3CED5A00199B88 /* main.swift */; };
 		D06AD6B31F3CF33E00199B88 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06AD6B21F3CF33E00199B88 /* AppDelegate.swift */; };
 		D06AD6B51F3CF33E00199B88 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06AD6B41F3CF33E00199B88 /* ViewController.swift */; };
@@ -51,9 +58,14 @@
 		D0B32CD91F9187F400477C4B /* tidyenum.h in Copy Headers and Module Map */ = {isa = PBXBuildFile; fileRef = D0D06E8D1F8AE7CE00370E9D /* tidyenum.h */; };
 		D0B32CDA1F9187F400477C4B /* tidyplatform.h in Copy Headers and Module Map */ = {isa = PBXBuildFile; fileRef = D0D06E8E1F8AE7CE00370E9D /* tidyplatform.h */; };
 		D0B32CDD1F91881D00477C4B /* libtidy-sw.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D0B32C8F1F917C7A00477C4B /* libtidy-sw.dylib */; };
-		D0B32CE11F918A6B00477C4B /* libtidy-sw.dylib in Copy Dylib to Bundle */ = {isa = PBXBuildFile; fileRef = D0B32C8F1F917C7A00477C4B /* libtidy-sw.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		D0B32CE11F918A6B00477C4B /* libtidy-sw.dylib in Copy Dylib to Bundle */ = {isa = PBXBuildFile; fileRef = D0B32C8F1F917C7A00477C4B /* libtidy-sw.dylib */; };
 		D0B32CE31F918B4500477C4B /* SwLibTidy.framework in Copy Frameworks to Bundle */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D0C2E2741F92A7E500FC7E00 /* SwLibTidyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D09014CB1F8BFB3F00B56A62 /* SwLibTidyTests.m */; };
+		D0C3A2D51F9B7A22005921F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C3A2D41F9B7A22005921F7 /* AppDelegate.swift */; };
+		D0C3A2D71F9B7A22005921F7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C3A2D61F9B7A22005921F7 /* ViewController.swift */; };
+		D0C3A2DA1F9B7A22005921F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0C3A2D81F9B7A22005921F7 /* Main.storyboard */; };
+		D0C3A2DC1F9B7A22005921F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0C3A2DB1F9B7A22005921F7 /* Assets.xcassets */; };
+		D0C3A2E51F9B7A48005921F7 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0C3A2E41F9B7A48005921F7 /* Default-568h@2x.png */; };
 		D0D7C17E1F8F9BF80091FFCE /* SwLibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; };
 		D0D7C1841F8F9DF70091FFCE /* SwLibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; };
 		D0D7C1871F8F9F960091FFCE /* SwLibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; };
@@ -80,6 +92,34 @@
 /* End PBXBuildRule section */
 
 /* Begin PBXContainerItemProxy section */
+		D027FFB71F9BBAEC009A274E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D0C3BD001F3CB3680007BB54 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D0F640CB1F8F998A005A945B;
+			remoteInfo = SwLibTidy;
+		};
+		D03B6F7C1F9BF9A9009C2F64 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D0C3BD001F3CB3680007BB54 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D0F640CB1F8F998A005A945B;
+			remoteInfo = SwLibTidy;
+		};
+		D03B6F801F9BF9CC009C2F64 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D0C3BD001F3CB3680007BB54 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D03B6F5C1F9BEFF0009C2F64;
+			remoteInfo = SwLibTidyConsole;
+		};
+		D03B6F831F9C1CDF009C2F64 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D0C3BD001F3CB3680007BB54 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D03B6F5C1F9BEFF0009C2F64;
+			remoteInfo = SwLibTidyConsole;
+		};
 		D0B32CDB1F91881700477C4B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D0C3BD001F3CB3680007BB54 /* Project object */;
@@ -118,6 +158,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		D027FFBB1F9BBB05009A274E /* Copy Frameworks to Bundle */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				D027FFBC1F9BBB1C009A274E /* SwLibTidy.framework in Copy Frameworks to Bundle */,
+			);
+			name = "Copy Frameworks to Bundle";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D0692FC81F3CE4DE0045AB69 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -177,6 +228,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D027FFB51F9B7ABF009A274E /* iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
+		D03B6F6D1F9BEFF0009C2F64 /* SwLibTidyConsole.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwLibTidyConsole.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D03B6F701F9BF044009C2F64 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D03B6F711F9BF044009C2F64 /* SwLibTidyConsole.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwLibTidyConsole.swift; sourceTree = "<group>"; };
+		D03B6F741F9BF091009C2F64 /* SwLibTidyConsole.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SwLibTidyConsole.xcconfig; sourceTree = "<group>"; };
+		D03B6F781F9BF246009C2F64 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D04034871F43659C00A2A9DC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
 		D043B72F1F92DAA3009A61BE /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
 		D0692FC91F3CE8930045AB69 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = Apps/console/README.md; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = "<none>"; };
@@ -197,9 +254,26 @@
 		D0A5C6AE1F92B81600CABB67 /* tidyRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tidyRunner.swift; sourceTree = "<group>"; };
 		D0A8A9DC1F41F74500A2DB63 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D0A8A9DD1F41F74500A2DB63 /* SwLibTidyTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwLibTidyTests.swift; sourceTree = "<group>"; };
+		D0AB75451F9A44EB0072028C /* SwLibTidy Tests.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SwLibTidy Tests.xcconfig"; sourceTree = "<group>"; };
+		D0AB754C1F9A44EC0072028C /* console.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = console.xcconfig; sourceTree = "<group>"; };
+		D0AB754D1F9A44EC0072028C /* SwLibTidy.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SwLibTidy.xcconfig; sourceTree = "<group>"; };
+		D0AB754E1F9A44EC0072028C /* Common-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Common-Debug.xcconfig"; sourceTree = "<group>"; };
+		D0AB754F1F9A44EC0072028C /* Common-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Common-Release.xcconfig"; sourceTree = "<group>"; };
+		D0AB75521F9A44ED0072028C /* tidy-sw.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "tidy-sw.xcconfig"; sourceTree = "<group>"; };
+		D0AB75531F9A44ED0072028C /* console-objc.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "console-objc.xcconfig"; sourceTree = "<group>"; };
+		D0AB75551F9A44ED0072028C /* Common-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Common-Shared.xcconfig"; sourceTree = "<group>"; };
+		D0AB75581F9A44ED0072028C /* gui.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = gui.xcconfig; sourceTree = "<group>"; };
 		D0AD28781F8BE6B400972DB7 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		D0B32C8F1F917C7A00477C4B /* libtidy-sw.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "libtidy-sw.dylib"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D0C3BD121F3CB3690007BB54 /* SwLibTidy Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SwLibTidy Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0C3A2CD1F9AD454005921F7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
+		D0C3A2D21F9B7A22005921F7 /* iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0C3A2D41F9B7A22005921F7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D0C3A2D61F9B7A22005921F7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D0C3A2D91F9B7A22005921F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D0C3A2DB1F9B7A22005921F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D0C3A2E01F9B7A22005921F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D0C3A2E41F9B7A48005921F7 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		D0C3BD121F3CB3690007BB54 /* Swift LibTidy Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Swift LibTidy Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0C3BDC41F3CC0510007BB54 /* console */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = console; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0D06E671F8AE7AC00370E9D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
 		D0D06E8B1F8AE7CE00370E9D /* tidy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tidy.h; sourceTree = "<group>"; };
@@ -277,6 +351,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		D03B6F7E1F9BF9B0009C2F64 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D03B6F7F1F9BF9B4009C2F64 /* SwLibTidy.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D06AD6AD1F3CF33E00199B88 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -289,6 +371,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D03B6F821F9BF9D0009C2F64 /* SwLibTidyConsole.framework in Frameworks */,
 				D0D7C1841F8F9DF70091FFCE /* SwLibTidy.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -297,6 +380,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0C3A2CF1F9B7A22005921F7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D027FFBA1F9BBAFE009A274E /* SwLibTidy.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,6 +403,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D03B6F851F9C1CE3009C2F64 /* SwLibTidyConsole.framework in Frameworks */,
 				D0D7C1871F8F9F960091FFCE /* SwLibTidy.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -327,6 +419,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D03B6F6F1F9BF013009C2F64 /* SwLibTidyConsole */ = {
+			isa = PBXGroup;
+			children = (
+				D03B6F711F9BF044009C2F64 /* SwLibTidyConsole.swift */,
+				D03B6F701F9BF044009C2F64 /* Info.plist */,
+			);
+			path = SwLibTidyConsole;
+			sourceTree = "<group>";
+		};
 		D06AD6B11F3CF33E00199B88 /* gui */ = {
 			isa = PBXGroup;
 			children = (
@@ -340,6 +441,25 @@
 			name = gui;
 			path = Apps/gui;
 			sourceTree = SOURCE_ROOT;
+		};
+		D06D94CA1F9A41FF00A0E300 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				D0C3A2CD1F9AD454005921F7 /* README.md */,
+				D0AB75551F9A44ED0072028C /* Common-Shared.xcconfig */,
+				D0AB754E1F9A44EC0072028C /* Common-Debug.xcconfig */,
+				D0AB754F1F9A44EC0072028C /* Common-Release.xcconfig */,
+				D0AB754C1F9A44EC0072028C /* console.xcconfig */,
+				D0AB75531F9A44ED0072028C /* console-objc.xcconfig */,
+				D0AB75581F9A44ED0072028C /* gui.xcconfig */,
+				D027FFB51F9B7ABF009A274E /* iOS.xcconfig */,
+				D0AB75451F9A44EB0072028C /* SwLibTidy Tests.xcconfig */,
+				D03B6F741F9BF091009C2F64 /* SwLibTidyConsole.xcconfig */,
+				D0AB754D1F9A44EC0072028C /* SwLibTidy.xcconfig */,
+				D0AB75521F9A44ED0072028C /* tidy-sw.xcconfig */,
+			);
+			path = Config;
+			sourceTree = "<group>";
 		};
 		D082E79B1F8D4CE100C8C192 /* console-objc */ = {
 			isa = PBXGroup;
@@ -356,18 +476,34 @@
 				D0C3BDC51F3CC0510007BB54 /* console */,
 				D082E79B1F8D4CE100C8C192 /* console-objc */,
 				D06AD6B11F3CF33E00199B88 /* gui */,
+				D0C3A2D31F9B7A22005921F7 /* iOS */,
 			);
 			path = Apps;
 			sourceTree = SOURCE_ROOT;
+		};
+		D0C3A2D31F9B7A22005921F7 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				D0C3A2E41F9B7A48005921F7 /* Default-568h@2x.png */,
+				D0C3A2D41F9B7A22005921F7 /* AppDelegate.swift */,
+				D0C3A2D61F9B7A22005921F7 /* ViewController.swift */,
+				D0C3A2D81F9B7A22005921F7 /* Main.storyboard */,
+				D0C3A2DB1F9B7A22005921F7 /* Assets.xcassets */,
+				D0C3A2E01F9B7A22005921F7 /* Info.plist */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
 		};
 		D0C3BCFF1F3CB3680007BB54 = {
 			isa = PBXGroup;
 			children = (
 				D043B72F1F92DAA3009A61BE /* README.md */,
 				D06D947F1F98EBB000A0E300 /* README-Linking.md */,
+				D06D94CA1F9A41FF00A0E300 /* Config */,
 				D0A5C6AD1F92B71900CABB67 /* Apps */,
 				D0F640CD1F8F998A005A945B /* SwLibTidy */,
 				D0D06CCE1F8AE6ED00370E9D /* CLibTidy */,
+				D03B6F6F1F9BF013009C2F64 /* SwLibTidyConsole */,
 				D0C3BD161F3CB3690007BB54 /* SwLibTidyTests */,
 				D0C3BD0A1F3CB3680007BB54 /* Products */,
 				D0D06F4B1F8AF13A00370E9D /* Frameworks */,
@@ -377,12 +513,14 @@
 		D0C3BD0A1F3CB3680007BB54 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D0C3BD121F3CB3690007BB54 /* SwLibTidy Tests.xctest */,
+				D0C3BD121F3CB3690007BB54 /* Swift LibTidy Tests.xctest */,
 				D0C3BDC41F3CC0510007BB54 /* console */,
 				D06AD6B01F3CF33E00199B88 /* gui.app */,
 				D082E79A1F8D4CE100C8C192 /* console-objc */,
 				D0F640CC1F8F998A005A945B /* SwLibTidy.framework */,
 				D0B32C8F1F917C7A00477C4B /* libtidy-sw.dylib */,
+				D0C3A2D21F9B7A22005921F7 /* iOS.app */,
+				D03B6F6D1F9BEFF0009C2F64 /* SwLibTidyConsole.framework */,
 			);
 			name = Products;
 			sourceTree = SOURCE_ROOT;
@@ -509,6 +647,7 @@
 		D0D06F4B1F8AF13A00370E9D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D03B6F781F9BF246009C2F64 /* Foundation.framework */,
 				D0D7C18B1F8FAA6A0091FFCE /* AppKit.framework */,
 				D0AD28781F8BE6B400972DB7 /* XCTest.framework */,
 			);
@@ -543,6 +682,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		D03B6F5C1F9BEFF0009C2F64 /* SwLibTidyConsole */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D03B6F6A1F9BEFF0009C2F64 /* Build configuration list for PBXNativeTarget "SwLibTidyConsole" */;
+			buildPhases = (
+				D03B6F5F1F9BEFF0009C2F64 /* Sources */,
+				D03B6F7E1F9BF9B0009C2F64 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D03B6F7D1F9BF9A9009C2F64 /* PBXTargetDependency */,
+			);
+			name = SwLibTidyConsole;
+			productName = SwLibTidy;
+			productReference = D03B6F6D1F9BEFF0009C2F64 /* SwLibTidyConsole.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		D06AD6AF1F3CF33E00199B88 /* gui */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D06AD6BC1F3CF33E00199B88 /* Build configuration list for PBXNativeTarget "gui" */;
@@ -573,6 +729,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D03B6F811F9BF9CC009C2F64 /* PBXTargetDependency */,
 				D0D7C1831F8F9DF30091FFCE /* PBXTargetDependency */,
 			);
 			name = "console-objc";
@@ -598,22 +755,40 @@
 			productReference = D0B32C8F1F917C7A00477C4B /* libtidy-sw.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
-		D0C3BD111F3CB3690007BB54 /* SwLibTidy Tests */ = {
+		D0C3A2D11F9B7A22005921F7 /* iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D0C3BD201F3CB3690007BB54 /* Build configuration list for PBXNativeTarget "SwLibTidy Tests" */;
+			buildConfigurationList = D0C3A2E11F9B7A22005921F7 /* Build configuration list for PBXNativeTarget "iOS" */;
+			buildPhases = (
+				D0C3A2CE1F9B7A22005921F7 /* Sources */,
+				D0C3A2CF1F9B7A22005921F7 /* Frameworks */,
+				D0C3A2D01F9B7A22005921F7 /* Resources */,
+				D027FFBB1F9BBB05009A274E /* Copy Frameworks to Bundle */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D027FFB81F9BBAEC009A274E /* PBXTargetDependency */,
+			);
+			name = iOS;
+			productName = iOS;
+			productReference = D0C3A2D21F9B7A22005921F7 /* iOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D0C3BD111F3CB3690007BB54 /* Swift LibTidy Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D0C3BD201F3CB3690007BB54 /* Build configuration list for PBXNativeTarget "Swift LibTidy Tests" */;
 			buildPhases = (
 				D0C3BD0E1F3CB3690007BB54 /* Sources */,
 				D0C3BD0F1F3CB3690007BB54 /* Frameworks */,
-				D0C3BD101F3CB3690007BB54 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				D0D7C17D1F8F9BF30091FFCE /* PBXTargetDependency */,
 			);
-			name = "SwLibTidy Tests";
+			name = "Swift LibTidy Tests";
 			productName = LibTidyTests;
-			productReference = D0C3BD121F3CB3690007BB54 /* SwLibTidy Tests.xctest */;
+			productReference = D0C3BD121F3CB3690007BB54 /* Swift LibTidy Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		D0C3BDC31F3CC0510007BB54 /* console */ = {
@@ -627,6 +802,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D03B6F841F9C1CDF009C2F64 /* PBXTargetDependency */,
 				D0D7C1861F8F9F920091FFCE /* PBXTargetDependency */,
 			);
 			name = console;
@@ -659,7 +835,7 @@
 		D0C3BD001F3CB3680007BB54 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0830;
+				LastSwiftUpdateCheck = 0900;
 				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "Jim Derry";
 				TargetAttributes = {
@@ -673,6 +849,11 @@
 					};
 					D0B32C8E1F917C7A00477C4B = {
 						CreatedOnToolsVersion = 9.0;
+					};
+					D0C3A2D11F9B7A22005921F7 = {
+						CreatedOnToolsVersion = 9.0.1;
+						DevelopmentTeam = 9PN2JXXG7Y;
+						ProvisioningStyle = Automatic;
 					};
 					D0C3BD111F3CB3690007BB54 = {
 						CreatedOnToolsVersion = 8.3.3;
@@ -691,7 +872,7 @@
 					};
 				};
 			};
-			buildConfigurationList = D0C3BD031F3CB3680007BB54 /* Build configuration list for PBXProject "SwLibTidy" */;
+			buildConfigurationList = D0C3BD031F3CB3680007BB54 /* Build configuration list for PBXProject "Swift LibTidy" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -707,9 +888,11 @@
 				D0C3BDC31F3CC0510007BB54 /* console */,
 				D082E7991F8D4CE100C8C192 /* console-objc */,
 				D06AD6AF1F3CF33E00199B88 /* gui */,
+				D0C3A2D11F9B7A22005921F7 /* iOS */,
+				D0C3BD111F3CB3690007BB54 /* Swift LibTidy Tests */,
 				D0F640CB1F8F998A005A945B /* SwLibTidy */,
-				D0C3BD111F3CB3690007BB54 /* SwLibTidy Tests */,
 				D0B32C8E1F917C7A00477C4B /* tidy-sw */,
+				D03B6F5C1F9BEFF0009C2F64 /* SwLibTidyConsole */,
 			);
 		};
 /* End PBXProject section */
@@ -724,16 +907,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D0C3BD101F3CB3690007BB54 /* Resources */ = {
+		D0C3A2D01F9B7A22005921F7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0C3A2E51F9B7A48005921F7 /* Default-568h@2x.png in Resources */,
+				D0C3A2DC1F9B7A22005921F7 /* Assets.xcassets in Resources */,
+				D0C3A2DA1F9B7A22005921F7 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		D03B6F5F1F9BEFF0009C2F64 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D03B6F731F9BF052009C2F64 /* SwLibTidyConsole.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D06AD6AC1F3CF33E00199B88 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -787,6 +981,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D0C3A2CE1F9B7A22005921F7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0C3A2D71F9B7A22005921F7 /* ViewController.swift in Sources */,
+				D0C3A2D51F9B7A22005921F7 /* AppDelegate.swift in Sources */,
+				D027FFB91F9BBAF5009A274E /* tidyRunner.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D0C3BD0E1F3CB3690007BB54 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -819,6 +1023,26 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		D027FFB81F9BBAEC009A274E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D0F640CB1F8F998A005A945B /* SwLibTidy */;
+			targetProxy = D027FFB71F9BBAEC009A274E /* PBXContainerItemProxy */;
+		};
+		D03B6F7D1F9BF9A9009C2F64 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D0F640CB1F8F998A005A945B /* SwLibTidy */;
+			targetProxy = D03B6F7C1F9BF9A9009C2F64 /* PBXContainerItemProxy */;
+		};
+		D03B6F811F9BF9CC009C2F64 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D03B6F5C1F9BEFF0009C2F64 /* SwLibTidyConsole */;
+			targetProxy = D03B6F801F9BF9CC009C2F64 /* PBXContainerItemProxy */;
+		};
+		D03B6F841F9C1CDF009C2F64 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D03B6F5C1F9BEFF0009C2F64 /* SwLibTidyConsole */;
+			targetProxy = D03B6F831F9C1CDF009C2F64 /* PBXContainerItemProxy */;
+		};
 		D0B32CDC1F91881700477C4B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D0B32C8E1F917C7A00477C4B /* tidy-sw */;
@@ -855,298 +1079,157 @@
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
+		D0C3A2D81F9B7A22005921F7 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D0C3A2D91F9B7A22005921F7 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		D03B6F6B1F9BEFF0009C2F64 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D03B6F741F9BF091009C2F64 /* SwLibTidyConsole.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		D03B6F6C1F9BEFF0009C2F64 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D03B6F741F9BF091009C2F64 /* SwLibTidyConsole.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
 		D06AD6BD1F3CF33E00199B88 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0AB75581F9A44ED0072028C /* gui.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = Apps/gui/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.gui;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_INCLUDE_PATHS = "";
 			};
 			name = Debug;
 		};
 		D06AD6BE1F3CF33E00199B88 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0AB75581F9A44ED0072028C /* gui.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = Apps/gui/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.gui;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_INCLUDE_PATHS = "";
 			};
 			name = Release;
 		};
 		D082E79F1F8D4CE100C8C192 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0AB75531F9A44ED0072028C /* console-objc.xcconfig */;
 			buildSettings = {
-				GCC_C_LANGUAGE_STANDARD = gnu89;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks/Swift",
-				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
 		D082E7A01F8D4CE100C8C192 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0AB75531F9A44ED0072028C /* console-objc.xcconfig */;
 			buildSettings = {
-				GCC_C_LANGUAGE_STANDARD = gnu89;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks/Swift",
-				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
 		D0B32C911F917C7A00477C4B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0AB75521F9A44ED0072028C /* tidy-sw.xcconfig */;
 			buildSettings = {
-				EXECUTABLE_PREFIX = lib;
-				GCC_PREFIX_HEADER = "${SRCROOT}/CLibTidy/tidy-html5-version.h";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"DEBUG=1",
-					SUPPORT_GETPWNAM,
-				);
-				INSTALL_PATH = "@rpath";
-				MODULEMAP_FILE = "$(SOURCE_ROOT)/CLibTidy/module.modulemap";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
 		D0B32C931F917C7A00477C4B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0AB75521F9A44ED0072028C /* tidy-sw.xcconfig */;
 			buildSettings = {
-				EXECUTABLE_PREFIX = lib;
-				GCC_PREFIX_HEADER = "${SRCROOT}/CLibTidy/tidy-html5-version.h";
-				GCC_PREPROCESSOR_DEFINITIONS = SUPPORT_GETPWNAM;
-				INSTALL_PATH = "@rpath";
-				MODULEMAP_FILE = "$(SOURCE_ROOT)/CLibTidy/module.modulemap";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		D0C3A2E21F9B7A22005921F7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D027FFB51F9B7ABF009A274E /* iOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		D0C3A2E31F9B7A22005921F7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D027FFB51F9B7ABF009A274E /* iOS.xcconfig */;
+			buildSettings = {
 			};
 			name = Release;
 		};
 		D0C3BD1B1F3CB3690007BB54 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0AB754E1F9A44EC0072028C /* Common-Debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = NO;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = NO;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu89;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_INCLUDE_PATHS = "${SRCROOT}";
-				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
-				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
 		D0C3BD1C1F3CB3690007BB54 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0AB754F1F9A44EC0072028C /* Common-Release.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = NO;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = NO;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu89;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				SWIFT_INCLUDE_PATHS = "${SRCROOT}";
-				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 4.0;
-				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};
 		D0C3BD211F3CB3690007BB54 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0AB75451F9A44EB0072028C /* SwLibTidy Tests.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu89;
-				INFOPLIST_FILE = SwLibTidyTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.LibTidyTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_INCLUDE_PATHS = "";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
 		D0C3BD221F3CB3690007BB54 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0AB75451F9A44EB0072028C /* SwLibTidy Tests.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu89;
-				INFOPLIST_FILE = SwLibTidyTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.LibTidyTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_INCLUDE_PATHS = "";
-				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
 		D0C3BDC91F3CC0510007BB54 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0AB754C1F9A44EC0072028C /* console.xcconfig */;
 			buildSettings = {
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path";
-				LIBRARY_SEARCH_PATHS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
-				SWIFT_FORCE_STATIC_LINK_STDLIB = NO;
-				SWIFT_INCLUDE_PATHS = "";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		D0C3BDCA1F3CC0510007BB54 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0AB754C1F9A44EC0072028C /* console.xcconfig */;
 			buildSettings = {
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path";
-				LIBRARY_SEARCH_PATHS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
-				SWIFT_FORCE_STATIC_LINK_STDLIB = NO;
-				SWIFT_INCLUDE_PATHS = "";
 			};
 			name = Release;
 		};
 		D0F640D21F8F998A005A945B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0AB754D1F9A44EC0072028C /* SwLibTidy.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 5.5;
-				DYLIB_CURRENT_VERSION = 5.5;
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = SwLibTidy/Info.plist;
-				INSTALL_PATH = "@rpath";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) /usr/local/lib @executable_path/../Frameworks @loader_path/Frameworks @loader_path";
-				PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.SwLibTidy;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_FORCE_STATIC_LINK_STDLIB = YES;
-				SWIFT_INCLUDE_PATHS = "";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		D0F640D31F8F998A005A945B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0AB754D1F9A44EC0072028C /* SwLibTidy.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 5.5;
-				DYLIB_CURRENT_VERSION = 5.5;
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = SwLibTidy/Info.plist;
-				INSTALL_PATH = "@rpath";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) /usr/local/lib @executable_path/../Frameworks @loader_path/Frameworks @loader_path";
-				PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.SwLibTidy;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_FORCE_STATIC_LINK_STDLIB = YES;
-				SWIFT_INCLUDE_PATHS = "";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		D03B6F6A1F9BEFF0009C2F64 /* Build configuration list for PBXNativeTarget "SwLibTidyConsole" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D03B6F6B1F9BEFF0009C2F64 /* Debug */,
+				D03B6F6C1F9BEFF0009C2F64 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		D06AD6BC1F3CF33E00199B88 /* Build configuration list for PBXNativeTarget "gui" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1174,7 +1257,16 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D0C3BD031F3CB3680007BB54 /* Build configuration list for PBXProject "SwLibTidy" */ = {
+		D0C3A2E11F9B7A22005921F7 /* Build configuration list for PBXNativeTarget "iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0C3A2E21F9B7A22005921F7 /* Debug */,
+				D0C3A2E31F9B7A22005921F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D0C3BD031F3CB3680007BB54 /* Build configuration list for PBXProject "Swift LibTidy" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D0C3BD1B1F3CB3690007BB54 /* Debug */,
@@ -1183,7 +1275,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D0C3BD201F3CB3690007BB54 /* Build configuration list for PBXNativeTarget "SwLibTidy Tests" */ = {
+		D0C3BD201F3CB3690007BB54 /* Build configuration list for PBXNativeTarget "Swift LibTidy Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D0C3BD211F3CB3690007BB54 /* Debug */,

@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D082E7991F8D4CE100C8C192"
-               BuildableName = "console-objc"
-               BlueprintName = "console-objc"
-               ReferencedContainer = "container:SwLibTidy.xcodeproj">
+               BlueprintIdentifier = "D0C3A2D11F9B7A22005921F7"
+               BuildableName = "iOS.app"
+               BlueprintName = "iOS"
+               ReferencedContainer = "container:Swift LibTidy.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,10 +33,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D082E7991F8D4CE100C8C192"
-            BuildableName = "console-objc"
-            BlueprintName = "console-objc"
-            ReferencedContainer = "container:SwLibTidy.xcodeproj">
+            BlueprintIdentifier = "D0C3A2D11F9B7A22005921F7"
+            BuildableName = "iOS.app"
+            BlueprintName = "iOS"
+            ReferencedContainer = "container:Swift LibTidy.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -57,10 +57,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D082E7991F8D4CE100C8C192"
-            BuildableName = "console-objc"
-            BlueprintName = "console-objc"
-            ReferencedContainer = "container:SwLibTidy.xcodeproj">
+            BlueprintIdentifier = "D0C3A2D11F9B7A22005921F7"
+            BuildableName = "iOS.app"
+            BlueprintName = "iOS"
+            ReferencedContainer = "container:Swift LibTidy.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -76,10 +76,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D082E7991F8D4CE100C8C192"
-            BuildableName = "console-objc"
-            BlueprintName = "console-objc"
-            ReferencedContainer = "container:SwLibTidy.xcodeproj">
+            BlueprintIdentifier = "D0C3A2D11F9B7A22005921F7"
+            BuildableName = "iOS.app"
+            BlueprintName = "iOS"
+            ReferencedContainer = "container:Swift LibTidy.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

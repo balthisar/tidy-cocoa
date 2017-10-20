@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D0B32C8E1F917C7A00477C4B"
-               BuildableName = "libtidy-sw.dylib"
-               BlueprintName = "tidy-sw"
-               ReferencedContainer = "container:SwLibTidy.xcodeproj">
+               BlueprintIdentifier = "D06AD6AF1F3CF33E00199B88"
+               BuildableName = "gui.app"
+               BlueprintName = "gui"
+               ReferencedContainer = "container:Swift LibTidy.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -29,7 +29,26 @@
       language = ""
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D0C3BD111F3CB3690007BB54"
+               BuildableName = "Swift LibTidy Tests.xctest"
+               BlueprintName = "Swift LibTidy Tests"
+               ReferencedContainer = "container:Swift LibTidy.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "D06AD6AF1F3CF33E00199B88"
+            BuildableName = "gui.app"
+            BlueprintName = "gui"
+            ReferencedContainer = "container:Swift LibTidy.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -44,15 +63,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D0B32C8E1F917C7A00477C4B"
-            BuildableName = "libtidy-sw.dylib"
-            BlueprintName = "tidy-sw"
-            ReferencedContainer = "container:SwLibTidy.xcodeproj">
+            BlueprintIdentifier = "D06AD6AF1F3CF33E00199B88"
+            BuildableName = "gui.app"
+            BlueprintName = "gui"
+            ReferencedContainer = "container:Swift LibTidy.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -62,15 +82,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D0B32C8E1F917C7A00477C4B"
-            BuildableName = "libtidy-sw.dylib"
-            BlueprintName = "tidy-sw"
-            ReferencedContainer = "container:SwLibTidy.xcodeproj">
+            BlueprintIdentifier = "D06AD6AF1F3CF33E00199B88"
+            BuildableName = "gui.app"
+            BlueprintName = "gui"
+            ReferencedContainer = "container:Swift LibTidy.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
