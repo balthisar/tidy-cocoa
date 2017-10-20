@@ -77,7 +77,7 @@ import CLibTidy
 
 
 /** Enforce a minimum LibTidy version for compatibility. */
-fileprivate let MINIMUM_LIBTIDY_VERSION = "5.5.68"
+fileprivate let MINIMUM_LIBTIDY_VERSION = "5.5.70"
 
 
 /******************************************************************************
