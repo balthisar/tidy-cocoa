@@ -1,0 +1,10 @@
+//
+// console-Debug.xcconfig
+//
+//  Created by Jim Derry on 2017/10/20 with help by BuildSettingExtractor
+//
+
+#include "console-Shared.xcconfig"
+
+
+SWIFT_OPTIMIZATION_LEVEL = -Onone
