@@ -41,6 +41,7 @@ GCC_PREFIX_HEADER = ${SRCROOT}/CLibTidy/tidy-html5-version.h
 // Preprocessor Macros
 //
 // Space-separated list of preprocessor macros of the form "foo" or "foo=bar".
+//
 // LibTidy has some macro definitions available to control the build.
 // SUPPORT_GETPWNAM - define to use getpwnam() in file paths.
 // SUPPORT_LOCALIZATIONS - define to support Tidy's native localization.

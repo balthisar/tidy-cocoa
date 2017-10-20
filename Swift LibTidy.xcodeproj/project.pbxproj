@@ -197,9 +197,30 @@
 		D0A5C6AE1F92B81600CABB67 /* tidyRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tidyRunner.swift; sourceTree = "<group>"; };
 		D0A8A9DC1F41F74500A2DB63 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D0A8A9DD1F41F74500A2DB63 /* SwLibTidyTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwLibTidyTests.swift; sourceTree = "<group>"; };
+		D0AB75451F9A44EB0072028C /* SwLibTidy Tests-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SwLibTidy Tests-Shared.xcconfig"; sourceTree = "<group>"; };
+		D0AB75461F9A44EB0072028C /* tidy-sw-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "tidy-sw-Debug.xcconfig"; sourceTree = "<group>"; };
+		D0AB75471F9A44EB0072028C /* console-objc-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "console-objc-Debug.xcconfig"; sourceTree = "<group>"; };
+		D0AB75481F9A44EC0072028C /* console-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "console-Release.xcconfig"; sourceTree = "<group>"; };
+		D0AB75491F9A44EC0072028C /* gui-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "gui-Debug.xcconfig"; sourceTree = "<group>"; };
+		D0AB754A1F9A44EC0072028C /* SwLibTidy-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SwLibTidy-Debug.xcconfig"; sourceTree = "<group>"; };
+		D0AB754B1F9A44EC0072028C /* console-objc-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "console-objc-Release.xcconfig"; sourceTree = "<group>"; };
+		D0AB754C1F9A44EC0072028C /* console-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "console-Shared.xcconfig"; sourceTree = "<group>"; };
+		D0AB754D1F9A44EC0072028C /* SwLibTidy-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SwLibTidy-Shared.xcconfig"; sourceTree = "<group>"; };
+		D0AB754E1F9A44EC0072028C /* Common-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Common-Debug.xcconfig"; sourceTree = "<group>"; };
+		D0AB754F1F9A44EC0072028C /* Common-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Common-Release.xcconfig"; sourceTree = "<group>"; };
+		D0AB75501F9A44EC0072028C /* SwLibTidy-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SwLibTidy-Release.xcconfig"; sourceTree = "<group>"; };
+		D0AB75511F9A44EC0072028C /* tidy-sw-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "tidy-sw-Release.xcconfig"; sourceTree = "<group>"; };
+		D0AB75521F9A44ED0072028C /* tidy-sw-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "tidy-sw-Shared.xcconfig"; sourceTree = "<group>"; };
+		D0AB75531F9A44ED0072028C /* console-objc-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "console-objc-Shared.xcconfig"; sourceTree = "<group>"; };
+		D0AB75541F9A44ED0072028C /* SwLibTidy Tests-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SwLibTidy Tests-Debug.xcconfig"; sourceTree = "<group>"; };
+		D0AB75551F9A44ED0072028C /* Common-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Common-Shared.xcconfig"; sourceTree = "<group>"; };
+		D0AB75561F9A44ED0072028C /* console-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "console-Debug.xcconfig"; sourceTree = "<group>"; };
+		D0AB75571F9A44ED0072028C /* gui-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "gui-Release.xcconfig"; sourceTree = "<group>"; };
+		D0AB75581F9A44ED0072028C /* gui-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "gui-Shared.xcconfig"; sourceTree = "<group>"; };
+		D0AB75591F9A44ED0072028C /* SwLibTidy Tests-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SwLibTidy Tests-Release.xcconfig"; sourceTree = "<group>"; };
 		D0AD28781F8BE6B400972DB7 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		D0B32C8F1F917C7A00477C4B /* libtidy-sw.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "libtidy-sw.dylib"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D0C3BD121F3CB3690007BB54 /* SwLibTidy Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SwLibTidy Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0C3BD121F3CB3690007BB54 /* Swift LibTidy Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Swift LibTidy Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0C3BDC41F3CC0510007BB54 /* console */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = console; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0D06E671F8AE7AC00370E9D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
 		D0D06E8B1F8AE7CE00370E9D /* tidy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tidy.h; sourceTree = "<group>"; };
@@ -341,6 +362,34 @@
 			path = Apps/gui;
 			sourceTree = SOURCE_ROOT;
 		};
+		D06D94CA1F9A41FF00A0E300 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				D0AB75551F9A44ED0072028C /* Common-Shared.xcconfig */,
+				D0AB754E1F9A44EC0072028C /* Common-Debug.xcconfig */,
+				D0AB754F1F9A44EC0072028C /* Common-Release.xcconfig */,
+				D0AB754C1F9A44EC0072028C /* console-Shared.xcconfig */,
+				D0AB75561F9A44ED0072028C /* console-Debug.xcconfig */,
+				D0AB75481F9A44EC0072028C /* console-Release.xcconfig */,
+				D0AB75531F9A44ED0072028C /* console-objc-Shared.xcconfig */,
+				D0AB75471F9A44EB0072028C /* console-objc-Debug.xcconfig */,
+				D0AB754B1F9A44EC0072028C /* console-objc-Release.xcconfig */,
+				D0AB75581F9A44ED0072028C /* gui-Shared.xcconfig */,
+				D0AB75491F9A44EC0072028C /* gui-Debug.xcconfig */,
+				D0AB75571F9A44ED0072028C /* gui-Release.xcconfig */,
+				D0AB75451F9A44EB0072028C /* SwLibTidy Tests-Shared.xcconfig */,
+				D0AB75541F9A44ED0072028C /* SwLibTidy Tests-Debug.xcconfig */,
+				D0AB75591F9A44ED0072028C /* SwLibTidy Tests-Release.xcconfig */,
+				D0AB754D1F9A44EC0072028C /* SwLibTidy-Shared.xcconfig */,
+				D0AB754A1F9A44EC0072028C /* SwLibTidy-Debug.xcconfig */,
+				D0AB75501F9A44EC0072028C /* SwLibTidy-Release.xcconfig */,
+				D0AB75521F9A44ED0072028C /* tidy-sw-Shared.xcconfig */,
+				D0AB75461F9A44EB0072028C /* tidy-sw-Debug.xcconfig */,
+				D0AB75511F9A44EC0072028C /* tidy-sw-Release.xcconfig */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
 		D082E79B1F8D4CE100C8C192 /* console-objc */ = {
 			isa = PBXGroup;
 			children = (
@@ -365,6 +414,7 @@
 			children = (
 				D043B72F1F92DAA3009A61BE /* README.md */,
 				D06D947F1F98EBB000A0E300 /* README-Linking.md */,
+				D06D94CA1F9A41FF00A0E300 /* Config */,
 				D0A5C6AD1F92B71900CABB67 /* Apps */,
 				D0F640CD1F8F998A005A945B /* SwLibTidy */,
 				D0D06CCE1F8AE6ED00370E9D /* CLibTidy */,
@@ -377,7 +427,7 @@
 		D0C3BD0A1F3CB3680007BB54 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D0C3BD121F3CB3690007BB54 /* SwLibTidy Tests.xctest */,
+				D0C3BD121F3CB3690007BB54 /* Swift LibTidy Tests.xctest */,
 				D0C3BDC41F3CC0510007BB54 /* console */,
 				D06AD6B01F3CF33E00199B88 /* gui.app */,
 				D082E79A1F8D4CE100C8C192 /* console-objc */,
@@ -598,9 +648,9 @@
 			productReference = D0B32C8F1F917C7A00477C4B /* libtidy-sw.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
-		D0C3BD111F3CB3690007BB54 /* SwLibTidy Tests */ = {
+		D0C3BD111F3CB3690007BB54 /* Swift LibTidy Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D0C3BD201F3CB3690007BB54 /* Build configuration list for PBXNativeTarget "SwLibTidy Tests" */;
+			buildConfigurationList = D0C3BD201F3CB3690007BB54 /* Build configuration list for PBXNativeTarget "Swift LibTidy Tests" */;
 			buildPhases = (
 				D0C3BD0E1F3CB3690007BB54 /* Sources */,
 				D0C3BD0F1F3CB3690007BB54 /* Frameworks */,
@@ -611,9 +661,9 @@
 			dependencies = (
 				D0D7C17D1F8F9BF30091FFCE /* PBXTargetDependency */,
 			);
-			name = "SwLibTidy Tests";
+			name = "Swift LibTidy Tests";
 			productName = LibTidyTests;
-			productReference = D0C3BD121F3CB3690007BB54 /* SwLibTidy Tests.xctest */;
+			productReference = D0C3BD121F3CB3690007BB54 /* Swift LibTidy Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		D0C3BDC31F3CC0510007BB54 /* console */ = {
@@ -691,7 +741,7 @@
 					};
 				};
 			};
-			buildConfigurationList = D0C3BD031F3CB3680007BB54 /* Build configuration list for PBXProject "SwLibTidy" */;
+			buildConfigurationList = D0C3BD031F3CB3680007BB54 /* Build configuration list for PBXProject "Swift LibTidy" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -708,7 +758,7 @@
 				D082E7991F8D4CE100C8C192 /* console-objc */,
 				D06AD6AF1F3CF33E00199B88 /* gui */,
 				D0F640CB1F8F998A005A945B /* SwLibTidy */,
-				D0C3BD111F3CB3690007BB54 /* SwLibTidy Tests */,
+				D0C3BD111F3CB3690007BB54 /* Swift LibTidy Tests */,
 				D0B32C8E1F917C7A00477C4B /* tidy-sw */,
 			);
 		};
@@ -860,6 +910,7 @@
 /* Begin XCBuildConfiguration section */
 		D06AD6BD1F3CF33E00199B88 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0AB75491F9A44EC0072028C /* gui-Debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -873,6 +924,7 @@
 		};
 		D06AD6BE1F3CF33E00199B88 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0AB75571F9A44ED0072028C /* gui-Release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -886,6 +938,7 @@
 		};
 		D082E79F1F8D4CE100C8C192 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0AB75471F9A44EB0072028C /* console-objc-Debug.xcconfig */;
 			buildSettings = {
 				GCC_C_LANGUAGE_STANDARD = gnu89;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path";
@@ -899,6 +952,7 @@
 		};
 		D082E7A01F8D4CE100C8C192 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0AB754B1F9A44EC0072028C /* console-objc-Release.xcconfig */;
 			buildSettings = {
 				GCC_C_LANGUAGE_STANDARD = gnu89;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path";
@@ -912,143 +966,37 @@
 		};
 		D0B32C911F917C7A00477C4B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0AB75461F9A44EB0072028C /* tidy-sw-Debug.xcconfig */;
 			buildSettings = {
-				EXECUTABLE_PREFIX = lib;
-				GCC_PREFIX_HEADER = "${SRCROOT}/CLibTidy/tidy-html5-version.h";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"DEBUG=1",
-					SUPPORT_GETPWNAM,
-				);
-				INSTALL_PATH = "@rpath";
-				MODULEMAP_FILE = "$(SOURCE_ROOT)/CLibTidy/module.modulemap";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
 		D0B32C931F917C7A00477C4B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0AB75511F9A44EC0072028C /* tidy-sw-Release.xcconfig */;
 			buildSettings = {
-				EXECUTABLE_PREFIX = lib;
-				GCC_PREFIX_HEADER = "${SRCROOT}/CLibTidy/tidy-html5-version.h";
-				GCC_PREPROCESSOR_DEFINITIONS = SUPPORT_GETPWNAM;
-				INSTALL_PATH = "@rpath";
-				MODULEMAP_FILE = "$(SOURCE_ROOT)/CLibTidy/module.modulemap";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
 		D0C3BD1B1F3CB3690007BB54 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0AB754E1F9A44EC0072028C /* Common-Debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = NO;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = NO;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu89;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_INCLUDE_PATHS = "${SRCROOT}";
-				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
-				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
 		D0C3BD1C1F3CB3690007BB54 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0AB754F1F9A44EC0072028C /* Common-Release.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = NO;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = NO;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu89;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				SWIFT_INCLUDE_PATHS = "${SRCROOT}";
-				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 4.0;
-				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};
 		D0C3BD211F3CB3690007BB54 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0AB75541F9A44ED0072028C /* SwLibTidy Tests-Debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1065,6 +1013,7 @@
 		};
 		D0C3BD221F3CB3690007BB54 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0AB75591F9A44ED0072028C /* SwLibTidy Tests-Release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1080,67 +1029,43 @@
 		};
 		D0C3BDC91F3CC0510007BB54 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0AB75561F9A44ED0072028C /* console-Debug.xcconfig */;
 			buildSettings = {
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path";
-				LIBRARY_SEARCH_PATHS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
-				SWIFT_FORCE_STATIC_LINK_STDLIB = NO;
-				SWIFT_INCLUDE_PATHS = "";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		D0C3BDCA1F3CC0510007BB54 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0AB75481F9A44EC0072028C /* console-Release.xcconfig */;
 			buildSettings = {
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path";
-				LIBRARY_SEARCH_PATHS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
-				SWIFT_FORCE_STATIC_LINK_STDLIB = NO;
-				SWIFT_INCLUDE_PATHS = "";
 			};
 			name = Release;
 		};
 		D0F640D21F8F998A005A945B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0AB754A1F9A44EC0072028C /* SwLibTidy-Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 5.5;
 				DYLIB_CURRENT_VERSION = 5.5;
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = SwLibTidy/Info.plist;
 				INSTALL_PATH = "@rpath";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) /usr/local/lib @executable_path/../Frameworks @loader_path/Frameworks @loader_path";
-				PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.SwLibTidy;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_FORCE_STATIC_LINK_STDLIB = YES;
-				SWIFT_INCLUDE_PATHS = "";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		D0F640D31F8F998A005A945B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0AB75501F9A44EC0072028C /* SwLibTidy-Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 5.5;
 				DYLIB_CURRENT_VERSION = 5.5;
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = SwLibTidy/Info.plist;
 				INSTALL_PATH = "@rpath";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) /usr/local/lib @executable_path/../Frameworks @loader_path/Frameworks @loader_path";
-				PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.SwLibTidy;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_FORCE_STATIC_LINK_STDLIB = YES;
-				SWIFT_INCLUDE_PATHS = "";
 			};
 			name = Release;
 		};
@@ -1174,7 +1099,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D0C3BD031F3CB3680007BB54 /* Build configuration list for PBXProject "SwLibTidy" */ = {
+		D0C3BD031F3CB3680007BB54 /* Build configuration list for PBXProject "Swift LibTidy" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D0C3BD1B1F3CB3690007BB54 /* Debug */,
@@ -1183,7 +1108,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D0C3BD201F3CB3690007BB54 /* Build configuration list for PBXNativeTarget "SwLibTidy Tests" */ = {
+		D0C3BD201F3CB3690007BB54 /* Build configuration list for PBXNativeTarget "Swift LibTidy Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D0C3BD211F3CB3690007BB54 /* Debug */,
