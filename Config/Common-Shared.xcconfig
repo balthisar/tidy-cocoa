@@ -1,0 +1,387 @@
+//
+//  Common-Shared.xcconfig
+//
+//  Created by Jim Derry on 2017/10/20 with help by BuildSettingExtractor
+//
+//  This file consists of settings that differ from the "macOS Default"
+//  project wide. There are additional configurations for each of Debug
+//  and release, as well.
+
+
+
+//////////////////////////////////////////////////////////
+// MARK: - DEPLOYMENT
+//////////////////////////////////////////////////////////
+
+
+
+// MARK: Strip Debug Symbols During Copy
+//
+// Specifies whether binary files which are copied during the build (e.g., in
+// a Copy Bundle Resources or Copy Files build phase) should be stripped of
+// debugging symbols. It does not cause the linked product of a target to be
+// stripped (use Strip Linked Product for that).
+
+COPY_PHASE_STRIP = NO
+
+
+
+// MARK: macOS Deployment Target
+//
+// Code will load on this and later versions of macOS.  Framework APIs that are
+// unavailable in earlier versions will be weak-linked; your code should check
+// for null function pointers or specific system versions before calling newer
+// APIs.
+
+MACOSX_DEPLOYMENT_TARGET = 10.10
+
+
+
+//////////////////////////////////////////////////////////
+// MARK: - SEARCH PATHS
+//////////////////////////////////////////////////////////
+
+
+
+// MARK: Always Search User Paths
+//
+// For backwards compatibility reasons, this setting is enabled by default,
+// but disabling it is strongly recommended.
+
+ALWAYS_SEARCH_USER_PATHS = NO
+
+
+
+//////////////////////////////////////////////////////////
+// MARK: - STATIC ANALYZER - GENERIC ISSUES
+//////////////////////////////////////////////////////////
+
+
+
+// MARK: Misuse of 'nonnull'
+// 
+// Check for misuses of nonnull parameter and return types.
+
+CLANG_ANALYZER_NONNULL = YES
+
+
+
+//////////////////////////////////////////////////////////
+// MARK: - STATIC ANALYZER - ISSUES - APPLE APIs
+//////////////////////////////////////////////////////////
+
+
+
+// MARK: Suspicious Conversions of NSNumber and CFNumberRef
+//
+// Warn when a number object, such as an instance of NSNumber, CFNumberRef,
+// OSNumber, or OSBoolean is compared or converted to a primitive value
+// instead of another object.
+
+CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE
+
+
+
+//////////////////////////////////////////////////////////
+// MARK: - APPLE LLVM - CODE GENERATION
+//////////////////////////////////////////////////////////
+
+
+
+// MARK: No Common Blocks
+//
+// In C, allocate even uninitialized global variables in the data section of
+// the object file, rather than generating them as common blocks.  This has
+// the effect that if the same variable is declared (without extern ) in two
+// different compilations, you will get an error when you link them.
+
+GCC_NO_COMMON_BLOCKS = YES
+
+
+
+//////////////////////////////////////////////////////////
+// MARK: - APPLE LLVM - LANGUAGE - MODULES
+//////////////////////////////////////////////////////////
+
+
+
+// MARK: Enable Modules (C and Objective-C)
+// 
+// Enables the use of modules for system APIs.  System headers are imported as
+// semantic modules instead of raw headers. This can result in faster builds
+// and project indexing.
+
+CLANG_ENABLE_MODULES = YES
+
+
+
+//////////////////////////////////////////////////////////
+// MARK: - APPLE LLVM - LANGUAGE - OBJECTIVE-C
+//////////////////////////////////////////////////////////
+
+
+
+// MARK: Objective-C Automatic Reference Counting
+// 
+// Compiles reference-counted Objective-C to use Automatic Reference Counting.
+
+CLANG_ENABLE_OBJC_ARC = YES
+
+
+
+// MARK: Implicit Objective-C Literal Conversions
+//
+// Warn about implicit conversions from Objective-C literals to values of
+// incompatible type.
+
+CLANG_WARN_OBJC_LITERAL_CONVERSION = YES
+
+
+
+//////////////////////////////////////////////////////////
+// MARK: - APPLE LLVM - WARNINGS - OBJECTIVE-C
+//////////////////////////////////////////////////////////
+
+
+
+// MARK: Duplicate Method Definitions
+// 
+// Warn about declaring the same method more than once within the same
+// @interface.
+
+CLANG_WARN__DUPLICATE_METHOD_MATCH = YES
+
+
+
+// MARK: Direct usage of 'isa'
+//
+// Warn about direct accesses to the Objective-C 'isa' pointer instead of using
+// a runtime API.
+
+CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR
+
+
+
+// MARK: Unintentional Root Class
+//
+// Warn about classes that unintentionally do not subclass a root class (such
+// as NSObject).
+
+CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR
+
+
+
+// MARK: Undeclared Selector
+//
+// Warn if a "@selector(...)" expression referring to an undeclared selector
+// is found. A selector is considered undeclared if no method with that name
+// has been declared before the "@selector(...)" expression, either explicitly
+// in an @interface or @protocol declaration, or implicitly in an
+// @implementation section. This option always performs its checks as soon as
+// a "@selector(...)" expression is found, while -Wselector only performs its
+// checks in the final stage of compilation. This also enforces the coding
+// style convention that methods and selectors must be declared before being
+// used.
+
+GCC_WARN_UNDECLARED_SELECTOR = YES
+
+
+
+//////////////////////////////////////////////////////////
+// MARK: - APPLE LLVM - PREPROCESSING
+//////////////////////////////////////////////////////////
+
+
+
+// MARK: Enable Strict Checking of objc_msgSend Calls
+//
+// Controls whether objc_msgSend calls must be cast to the appropriate function
+// pointer type before being called.
+
+ENABLE_STRICT_OBJC_MSGSEND = YES
+
+
+
+//////////////////////////////////////////////////////////
+// MARK: - APPLE LLVM - WARNINGS - ALL LANGUAGES
+//////////////////////////////////////////////////////////
+
+
+
+// MARK: Block Capture of Autoreleasing
+// 
+// Warn about block captures of implicitly autoreleasing parameters.
+
+CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES
+
+
+
+// MARK: Implicit Boolean Conversions
+// 
+// Warn about implicit conversions to boolean values that are suspicious. For
+// example, writing 'if (foo)' with 'foo' being the name a function will
+// trigger a warning.
+
+CLANG_WARN_BOOL_CONVERSION = YES
+
+
+
+// MARK: Implicit Constant Conversions
+// 
+// Warn about implicit conversions of constant values that cause the constant
+// value to change, either through a loss of precision, or entirely in its
+// meaning.
+
+CLANG_WARN_CONSTANT_CONVERSION = YES
+
+
+
+// MARK: Documentation Comments
+// 
+// Warns about issues in documentation comments (doxygen-style) such as missing
+// or incorrect documentation tags.
+
+CLANG_WARN_DOCUMENTATION_COMMENTS = YES
+
+
+
+// MARK: Empty Loop Bodies
+// 
+// Warn about loop bodies that are suspiciously empty.
+
+CLANG_WARN_EMPTY_BODY = YES
+
+
+
+// MARK: Implicit Enum Conversions
+// 
+// Warn about implicit conversions between different kinds of enum values. For
+// example, this can catch issues when using the wrong enum flag as an argument
+// to a function or method.
+
+CLANG_WARN_ENUM_CONVERSION = YES
+
+
+
+// MARK: Infinite Recursion
+// 
+// Warn if all paths through a function call itself.
+
+CLANG_WARN_INFINITE_RECURSION = YES
+
+
+
+// MARK: Implicit Integer to Pointer Conversions
+// 
+// Warn about implicit conversions between pointers and integers. For example,
+// this can catch issues when one incorrectly intermixes using NSNumber*'s and
+// raw integers.
+
+CLANG_WARN_INT_CONVERSION = YES
+
+
+
+// MARK: Implicit Non-Literal Null Conversions
+// 
+// Warn about non-literal expressions that evaluate to zero being treated as a
+// null pointer.
+
+CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES
+
+
+
+// MARK: Strict Prototypes
+// 
+// Warn about non-prototype declarations.
+
+CLANG_WARN_STRICT_PROTOTYPES = YES
+
+
+
+// MARK: Unreachable Code
+// 
+// Warns about potentially unreachable code.
+
+CLANG_WARN_UNREACHABLE_CODE = YES
+
+
+
+// MARK: Implicit Conversion to 32 Bit Type
+//
+// Warn if a value is implicitly converted from a 64 bit type to a 32 bit type.
+// This is a subset of the warnings provided by -Wconversion.
+
+GCC_WARN_64_TO_32_BIT_CONVERSION = NO
+
+
+
+// MARK: Mismatched Return Type
+// 
+// Causes warnings to be emitted when a function with a defined return type
+// (not void) contains a return statement without a return-value. Also emits
+// a warning when a function is defined without specifying a return type.
+
+GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR
+
+
+
+// MARK: Uninitialized Variables
+// 
+// Warn if a variable might be clobbered by a setjmp call or if an automatic
+// variable is used without prior initialization.
+// 
+// Note that the compiler may not detect all cases where an automatic variable
+// is initialized or all usage patterns that may lead to use prior to
+// initialization.  You can toggle between the normal uninitialized value
+// checking or the more aggressive (conservative) checking which finds more
+// issues but the checking is much stricter.
+
+GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE
+
+
+
+// MARK: Unused Functions
+// 
+// Warn whenever a static function is declared but not defined or a non-inline
+// static function is unused.
+
+GCC_WARN_UNUSED_FUNCTION = YES
+
+
+
+// MARK: Unused Variables
+// 
+// Warn whenever a local variable or non-constant static variable is unused
+// aside from its declaration.
+
+GCC_WARN_UNUSED_VARIABLE = YES
+
+
+
+//////////////////////////////////////////////////////////
+// MARK: - Swift Compiler - General
+//////////////////////////////////////////////////////////
+
+
+
+// MARK: Objective-C Bridging Header
+// 
+// Path to the header defining the Objective-C interfaces to be exposed
+// in Swift.
+
+SWIFT_OBJC_BRIDGING_HEADER = 
+
+
+
+//////////////////////////////////////////////////////////
+// MARK: - Swift Compiler - Language
+//////////////////////////////////////////////////////////
+
+
+
+// MARK: Swift Language Version
+// 
+// 
+
+SWIFT_VERSION = 4.0
+
