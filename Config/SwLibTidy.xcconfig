@@ -5,181 +5,94 @@
 //
 
 
+//////////////////////////////////////////////////////////
 // Framework Setup and Configuration
+//////////////////////////////////////////////////////////
+
 INFOPLIST_FILE = SwLibTidy/Info.plist
 PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.SwLibTidy
 PRODUCT_NAME = $(TARGET_NAME:c99extidentifier)
 
 
+//////////////////////////////////////////////////////////
+// Code Signing - Required on iOS
+//////////////////////////////////////////////////////////
+
+CODE_SIGN_IDENTITY[sdk=iphoneos*] = iPhone Developer
+CODE_SIGN_STYLE[sdk=iphoneos*] = Automatic
+DEVELOPMENT_TEAM[sdk=iphoneos*] = 9PN2JXXG7Y
+
+
+//////////////////////////////////////////////////////////
 // Cross Platform setup
-SDKROOT = iphoneos11.0
-VALID_ARCHS = arm64 armv7 armv7s
-//VALID_ARCHS = i386 x86_64 arm64 armv7 armv7s
-TARGETED_DEVICE_FAMILY = 1,2
-SUPPORTED_PLATFORMS = iphonesimulator iphoneos
-SWIFT_INCLUDE_PATHS =
-//SUPPORTED_PLATFORMS = iphonesimulator iphoneos macosx
-GCC_SYMBOLS_PRIVATE_EXTERN = YES
-SWIFT_OPTIMIZATION_LEVEL = -Onone
-SKIP_INSTALL = YES
+//////////////////////////////////////////////////////////
 
-//VALID_ARCHS[sdk=macosx*] = x86_64
-//VALID_ARCHS[sdk=iphoneos*] = arm64 armv7 armv7s
-//VALID_ARCHS[sdk=iphonesimulator*] = i386 x86_64
-//TARGETED_DEVICE_FAMILY[sdk=iphoneos*] = 1,2
-//TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*] = 1,2
-//SDKROOT[sdk=macosx*] = macosx
-//SDKROOT[sdk=iphoneos*] = iphoneos
-//SDKROOT[sdk=iphonesimulator*] = iphonesimulator
+SUPPORTED_PLATFORMS = iphonesimulator iphoneos macosx
+VALID_ARCHS[sdk=macosx*] = x86_64
+VALID_ARCHS[sdk=iphoneos*] = arm64 armv7 armv7s
+VALID_ARCHS[sdk=iphonesimulator*] = i386 x86_64
 
 
-//CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO
-//GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-//SWIFT_OPTIMIZATION_LEVEL = -Onone
-//SWIFT_LIBRARY_PATH = $(PROJECT_DIR)
-//SWIFT_LIBRARY_PATH[sdk=iphonesimulator*] = $(PROJECT_PATH)
+//////////////////////////////////////////////////////////
+// Library and Module Setup
+//////////////////////////////////////////////////////////
 
-
-// Always Embed Swift Standard Libraries
-// 
-// Always embed the Swift standard libraries in the target's products, even if
-// the target does not contain any Swift code. For example, this should be
-// enabled if the target is embedding other products which contain Swift, or if
-// it is a test target which does not contain Swift but which is testing a
-// product which does. This setting only applies to wrapped products, not to
-// standalone binary products.
-//
-// In the case of this library, we do *not* want to embed the Swift Standard
-// libraries, which would result in a copy of the dylibs in the bundle.
-// Instead, this framework uses SWIFT_FORCE_STATIC_LINK_STDLIB, which will
-// include them in the framework's dylib, and the symbols will be exported
-// for the main application to use. Note that this might conflict with other
-// frameworks, so look for these conflicts manually if necessary. This is a
-// current limitation of Swift's experimental nature.
-
-//ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO
-ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES
-
-
-
-// Combine High Resolution Artwork
-// 
-// Combines image files at different resolutions into one multi-page TIFF file
-// that is HiDPI compliant for macOS 10.7 and later. Only image files in the
-// same directory and with the same base name and extension are combined. The
-// file names must conform to the naming convention used in HiDPI.
-
-COMBINE_HIDPI_IMAGES = YES
-
-
-
-// Defines Module
-// 
-// If enabled, the product will be treated as defining its own module. This
-// enables automatic production of LLVM module map files when appropriate, and
-// allows the product to be imported as a module.
-
+// Defines Module. We'll let Xcode generate the module automatically. This
+// enables the use of a simple import SwLibTidy.
 DEFINES_MODULE = YES
 
-
-
-// Compatibility Version
-//
-// Determines the compatibility version of the resulting library, bundle, or
-// framework binary.
-//
 // Note that we are tracking LibTidy's major version 5, which is implied
 // below. For example, 5.7 refers to LibTidy 5.5.70 and better. This makes
 // it difficult to support versions such at 5.78, as we are limited to
 // supporting only 5.70 and better, given the decimal nature of this setting.
-
 DYLIB_COMPATIBILITY_VERSION = 5.7
-
-
-
-// Current Library Version
-//
-// This setting defines the current version of any framework built by the
-// project. As with "Current Project Version", the value must be an integer
-// or floating point number like 57 or 365.8.
-//
-// Note that we are tracking LibTidy's major version 5, which is implied
-// below. For example, 5.7 refers to LibTidy 5.5.70 and better. This makes
-// it difficult to support versions such at 5.78, as we are limited to
-// supporting only 5.70 and better, given the decimal nature of this setting.
-
 DYLIB_CURRENT_VERSION = 5.7
 
-
-
 // Framework Version
-// 
-// Framework bundles are versioned by having contents in subfolders of a
-// version folder that has links to the current version and its contents.
-
 FRAMEWORK_VERSION = A
 
-
-
-// Installation Directory
-// 
-// The directory to install the build products in. This path is prepended by
-// the 'Installation Build Products Location' (i.e., $(DSTROOT)). Because
-// this framework is meant to be installed anywhere, we give it this simple
-// value.
-
+// Installation Directory. This framework can be installed anywhere.
 INSTALL_PATH = @rpath
 
 
+//////////////////////////////////////////////////////////
+// Linking
+//////////////////////////////////////////////////////////
 
-// Runpath Search Paths
+// On macOS, we support console applications, so we have to be sure that
+// this framework does NOT include the Swift Standard Library dylibs, but
+// that we static link the dylibs into our framework's dylib. The symbols
+// we be exported, so the main executable can still dynamically link to it.
 //
-// This is a list of paths to be added to the runpath search path list for the
-// image being created.  At runtime, dyld uses the runpath when searching for
-// dylibs whose load path begins with '@rpath/'.
-//
-// Since this framework depends on libtidy-sw.dylib, it could be in various
-// locations, and so this path supports those possibilities, in the specified
-// order.
-// - /usr/local/lib is a traditional spot for pure Unix dylibs. If the dylib
-//     is found here, it will be used first. This allows users to upgrade Tidy
-//     without any input from the developer, if they know they can.
-// - @executable_path/../Frameworks is where a macOS application might have put
-//     the dylib, overriding the dylib produced by this framework. This gives
-//     developers the chance to include their own versions of dylibs.
-// - @loader_path is where we put libtidy-sw.dylib, where is resides side-by-
-//     side with this framework's dylib.
-//
-// Note that dylibs and frameworks in /Library/Frameworks/ and
-// ~/Library/Frameworks/ would be detected automatically, too.
-
-//LD_RUNPATH_SEARCH_PATHS = $(inherited) /usr/local/lib @executable_path/../Frameworks @loader_path
-LD_RUNPATH_SEARCH_PATHS = $(inherited) /usr/local/lib @executable_path/../Frameworks @loader_path/Frameworks @loader_path
-
-
-
-// SWIFT_FORCE_STATIC_LINK_STDLIB
-//
-// We want this library to statically bind to the Swift Standard Library,
-// as this framework is the least common denominator of every sample app
-// in this project. YOUR MILEAGE MAY VARY.
-//
-// There can only be ONE Swift Standard Library, and this is the designated
-// location, which works for console applications, bundle projects, and so
-// on. Swift's symbols will be exported, and so console applications and others
-// that are configured for dynamic linking WILL be able to connect to the
-// Swift Standard Library via this framework.
+// On iOS, though we don't have these issues with console applications because
+// we *always* have a bundle, so we will build normally.
 //
 // Your projects are probably more complicated, and so you're going to have
 // to figure out which frameworks are ALSO including the Swift Standard Library.
 // This sucks for now, but it's a consequence of macOS not including the
 // Standard Library as part of the OS during Swift's development.
+ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES[sdk=macosx*] = NO
+SWIFT_FORCE_STATIC_LINK_STDLIB[sdk=macosx*] = YES
 
-//SWIFT_FORCE_STATIC_LINK_STDLIB = YES
-SWIFT_FORCE_STATIC_LINK_STDLIB = NO
 
+// Since this framework depends on libtidy-sw.dylib, it could be in various
+// locations, and so this path supports those possibilities, in the specified
+// order.
+//   /usr/local/lib is a traditional spot for pure Unix dylibs. If the dylib
+//     is found here, it will be used first. This allows users to upgrade Tidy
+//     without any input from the developer, if they know they can.
+//
+//   @executable_path/../Frameworks is where a macOS application might have put
+//     the dylib, overriding the dylib produced by this framework. This gives
+//     developers the chance to include their own versions of dylibs.
+//
+//  @executable_path/Frameworks is where an iOS application might have put the
+//    dylib, override the dylib included in this framework.
+//
+//   @loader_path is where we put libtidy-sw.dylib, where is resides side-by-
+//     side with this framework's dylib.
+//
+// Note that dylibs and frameworks in /Library/Frameworks/ and
+// ~/Library/Frameworks/ would be detected automatically, too.
 
-// Code Signing
-CODE_SIGN_IDENTITY[sdk=iphoneos*] = iPhone Developer
-DEVELOPMENT_TEAM = 9PN2JXXG7Y
-
+LD_RUNPATH_SEARCH_PATHS = $(inherited) /usr/local/lib @executable_path/../Frameworks @executable_path/Frameworks @loader_path

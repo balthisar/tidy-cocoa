@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D027FFB91F9BBAF5009A274E /* tidyRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A5C6AE1F92B81600CABB67 /* tidyRunner.swift */; };
+		D027FFBA1F9BBAFE009A274E /* SwLibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; };
+		D027FFBC1F9BBB1C009A274E /* SwLibTidy.framework in Copy Frameworks to Bundle */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		D06AD6A31F3CED5A00199B88 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06AD6A21F3CED5A00199B88 /* main.swift */; };
 		D06AD6B31F3CF33E00199B88 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06AD6B21F3CF33E00199B88 /* AppDelegate.swift */; };
 		D06AD6B51F3CF33E00199B88 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06AD6B41F3CF33E00199B88 /* ViewController.swift */; };
@@ -51,7 +54,7 @@
 		D0B32CD91F9187F400477C4B /* tidyenum.h in Copy Headers and Module Map */ = {isa = PBXBuildFile; fileRef = D0D06E8D1F8AE7CE00370E9D /* tidyenum.h */; };
 		D0B32CDA1F9187F400477C4B /* tidyplatform.h in Copy Headers and Module Map */ = {isa = PBXBuildFile; fileRef = D0D06E8E1F8AE7CE00370E9D /* tidyplatform.h */; };
 		D0B32CDD1F91881D00477C4B /* libtidy-sw.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D0B32C8F1F917C7A00477C4B /* libtidy-sw.dylib */; };
-		D0B32CE11F918A6B00477C4B /* libtidy-sw.dylib in Copy Dylib to Bundle */ = {isa = PBXBuildFile; fileRef = D0B32C8F1F917C7A00477C4B /* libtidy-sw.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		D0B32CE11F918A6B00477C4B /* libtidy-sw.dylib in Copy Dylib to Bundle */ = {isa = PBXBuildFile; fileRef = D0B32C8F1F917C7A00477C4B /* libtidy-sw.dylib */; };
 		D0B32CE31F918B4500477C4B /* SwLibTidy.framework in Copy Frameworks to Bundle */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D0C2E2741F92A7E500FC7E00 /* SwLibTidyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D09014CB1F8BFB3F00B56A62 /* SwLibTidyTests.m */; };
 		D0C3A2D51F9B7A22005921F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C3A2D41F9B7A22005921F7 /* AppDelegate.swift */; };
@@ -85,6 +88,13 @@
 /* End PBXBuildRule section */
 
 /* Begin PBXContainerItemProxy section */
+		D027FFB71F9BBAEC009A274E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D0C3BD001F3CB3680007BB54 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D0F640CB1F8F998A005A945B;
+			remoteInfo = SwLibTidy;
+		};
 		D0B32CDB1F91881700477C4B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D0C3BD001F3CB3680007BB54 /* Project object */;
@@ -123,6 +133,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		D027FFBB1F9BBB05009A274E /* Copy Frameworks to Bundle */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				D027FFBC1F9BBB1C009A274E /* SwLibTidy.framework in Copy Frameworks to Bundle */,
+			);
+			name = "Copy Frameworks to Bundle";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D0692FC81F3CE4DE0045AB69 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -327,6 +348,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D027FFBA1F9BBAFE009A274E /* SwLibTidy.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -669,10 +691,12 @@
 				D0C3A2CE1F9B7A22005921F7 /* Sources */,
 				D0C3A2CF1F9B7A22005921F7 /* Frameworks */,
 				D0C3A2D01F9B7A22005921F7 /* Resources */,
+				D027FFBB1F9BBB05009A274E /* Copy Frameworks to Bundle */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				D027FFB81F9BBAEC009A274E /* PBXTargetDependency */,
 			);
 			name = iOS;
 			productName = iOS;
@@ -754,6 +778,8 @@
 					};
 					D0B32C8E1F917C7A00477C4B = {
 						CreatedOnToolsVersion = 9.0;
+						DevelopmentTeam = 9PN2JXXG7Y;
+						ProvisioningStyle = Automatic;
 					};
 					D0C3A2D11F9B7A22005921F7 = {
 						CreatedOnToolsVersion = 9.0.1;
@@ -772,6 +798,7 @@
 					};
 					D0F640CB1F8F998A005A945B = {
 						CreatedOnToolsVersion = 9.0;
+						DevelopmentTeam = 9PN2JXXG7Y;
 						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
@@ -890,6 +917,7 @@
 			files = (
 				D0C3A2D71F9B7A22005921F7 /* ViewController.swift in Sources */,
 				D0C3A2D51F9B7A22005921F7 /* AppDelegate.swift in Sources */,
+				D027FFB91F9BBAF5009A274E /* tidyRunner.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -925,6 +953,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		D027FFB81F9BBAEC009A274E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D0F640CB1F8F998A005A945B /* SwLibTidy */;
+			targetProxy = D027FFB71F9BBAEC009A274E /* PBXContainerItemProxy */;
+		};
 		D0B32CDC1F91881700477C4B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D0B32C8E1F917C7A00477C4B /* tidy-sw */;

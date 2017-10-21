@@ -1,7 +1,5 @@
-#import <Cocoa/Cocoa.h>
-
-FOUNDATION_EXPORT double CLibTidyModuleVersionNumber;
-FOUNDATION_EXPORT const unsigned char CLibTidyModuleVersionString[];
+extern double CLibTidyModuleVersionNumber;
+extern const unsigned char CLibTidyModuleVersionString[];
 
 #import "tidy.h"
 #import "tidybuffio.h"

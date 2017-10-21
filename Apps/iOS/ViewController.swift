@@ -13,22 +13,19 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var textView: UITextView!
 
+    /* Use the same output creator as the sample console application. */
+    var myExample = TidyRunner.init()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        myExample.output = { arg in
-//            self.textView.font = UIFont(name: "Menlo", size: 12)
-//            self.textView.textStorage.append(NSAttributedString(string: "\(arg)\n"))
-//        }
+        myExample.output = { arg in
+            self.textView.font = UIFont(name: "Menlo", size: 12)
+            self.textView.textStorage.append(NSAttributedString(string: "\(arg)\n"))
+        }
 
-        self.textView.textStorage.append(NSAttributedString( string: "HELLO" ) )
+        myExample.RunTidy()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
 
 }
 
