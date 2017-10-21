@@ -212,6 +212,7 @@
 		D0AB75581F9A44ED0072028C /* gui.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = gui.xcconfig; sourceTree = "<group>"; };
 		D0AD28781F8BE6B400972DB7 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		D0B32C8F1F917C7A00477C4B /* libtidy-sw.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "libtidy-sw.dylib"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0C3A2CD1F9AD454005921F7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
 		D0C3BD121F3CB3690007BB54 /* Swift LibTidy Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Swift LibTidy Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0C3BDC41F3CC0510007BB54 /* console */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = console; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0D06E671F8AE7AC00370E9D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
@@ -357,6 +358,7 @@
 		D06D94CA1F9A41FF00A0E300 /* Config */ = {
 			isa = PBXGroup;
 			children = (
+				D0C3A2CD1F9AD454005921F7 /* README.md */,
 				D0AB75551F9A44ED0072028C /* Common-Shared.xcconfig */,
 				D0AB754E1F9A44EC0072028C /* Common-Debug.xcconfig */,
 				D0AB754F1F9A44EC0072028C /* Common-Release.xcconfig */,
@@ -982,13 +984,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0AB754A1F9A44EC0072028C /* SwLibTidy-Debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				COMBINE_HIDPI_IMAGES = YES;
-				DYLIB_COMPATIBILITY_VERSION = 5.5;
-				DYLIB_CURRENT_VERSION = 5.5;
-				INSTALL_PATH = "@rpath";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) /usr/local/lib @executable_path/../Frameworks @loader_path/Frameworks @loader_path";
-				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
@@ -996,13 +991,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0AB75501F9A44EC0072028C /* SwLibTidy-Release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				COMBINE_HIDPI_IMAGES = YES;
-				DYLIB_COMPATIBILITY_VERSION = 5.5;
-				DYLIB_CURRENT_VERSION = 5.5;
-				INSTALL_PATH = "@rpath";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) /usr/local/lib @executable_path/../Frameworks @loader_path/Frameworks @loader_path";
-				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
