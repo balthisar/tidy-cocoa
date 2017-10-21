@@ -1,0 +1,35 @@
+//
+// iOS-Shared.xcconfig
+//
+//  Created by Jim Derry on 2017/10/21 with help by BuildSettingExtractor
+//
+
+
+// App Setup and Configuration
+INFOPLIST_FILE = Apps/iOS/Info.plist
+PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.iOS
+PRODUCT_NAME = $(TARGET_NAME)
+
+
+// Base SDK and Products
+SDKROOT = iphoneos
+TARGETED_DEVICE_FAMILY = 1,2
+
+
+// Code Signing
+CODE_SIGN_IDENTITY = iPhone Developer
+CODE_SIGN_STYLE = Automatic
+DEVELOPMENT_TEAM = 9PN2JXXG7Y
+
+
+// Runpath Search Paths
+//
+// This is a list of paths to be added to the runpath search path list for the
+// image being created.  At runtime, dyld uses the runpath when searching for
+// dylibs whose load path begins with '@rpath/'.
+//
+// With this setting, we expect to find required frameworks in the same bundle
+// as the application, which is true because of the Copy Frameworks to Bundle
+// build phase for this application.
+
+LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/Frameworks
