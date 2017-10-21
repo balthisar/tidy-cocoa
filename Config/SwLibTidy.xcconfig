@@ -12,10 +12,17 @@ PRODUCT_NAME = $(TARGET_NAME:c99extidentifier)
 
 
 // Cross Platform setup
-SDKROOT = iphoneos
-VALID_ARCHS = i386 x86_64 arm64 armv7 armv7s
+SDKROOT = iphoneos11.0
+VALID_ARCHS = arm64 armv7 armv7s
+//VALID_ARCHS = i386 x86_64 arm64 armv7 armv7s
 TARGETED_DEVICE_FAMILY = 1,2
-SUPPORTED_PLATFORMS = iphonesimulator iphoneos macosx
+SUPPORTED_PLATFORMS = iphonesimulator iphoneos
+SWIFT_INCLUDE_PATHS =
+//SUPPORTED_PLATFORMS = iphonesimulator iphoneos macosx
+GCC_SYMBOLS_PRIVATE_EXTERN = YES
+SWIFT_OPTIMIZATION_LEVEL = -Onone
+SKIP_INSTALL = YES
+
 //VALID_ARCHS[sdk=macosx*] = x86_64
 //VALID_ARCHS[sdk=iphoneos*] = arm64 armv7 armv7s
 //VALID_ARCHS[sdk=iphonesimulator*] = i386 x86_64
@@ -50,7 +57,8 @@ SUPPORTED_PLATFORMS = iphonesimulator iphoneos macosx
 // frameworks, so look for these conflicts manually if necessary. This is a
 // current limitation of Swift's experimental nature.
 
-ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO
+//ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO
+ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES
 
 
 
@@ -145,7 +153,8 @@ INSTALL_PATH = @rpath
 // Note that dylibs and frameworks in /Library/Frameworks/ and
 // ~/Library/Frameworks/ would be detected automatically, too.
 
-LD_RUNPATH_SEARCH_PATHS = $(inherited) /usr/local/lib @executable_path/../Frameworks @loader_path
+//LD_RUNPATH_SEARCH_PATHS = $(inherited) /usr/local/lib @executable_path/../Frameworks @loader_path
+LD_RUNPATH_SEARCH_PATHS = $(inherited) /usr/local/lib @executable_path/../Frameworks @loader_path/Frameworks @loader_path
 
 
 
@@ -166,5 +175,11 @@ LD_RUNPATH_SEARCH_PATHS = $(inherited) /usr/local/lib @executable_path/../Framew
 // This sucks for now, but it's a consequence of macOS not including the
 // Standard Library as part of the OS during Swift's development.
 
-SWIFT_FORCE_STATIC_LINK_STDLIB = YES
+//SWIFT_FORCE_STATIC_LINK_STDLIB = YES
+SWIFT_FORCE_STATIC_LINK_STDLIB = NO
+
+
+// Code Signing
+CODE_SIGN_IDENTITY[sdk=iphoneos*] = iPhone Developer
+DEVELOPMENT_TEAM = 9PN2JXXG7Y
 

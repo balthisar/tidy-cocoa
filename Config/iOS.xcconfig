@@ -34,3 +34,11 @@ DEVELOPMENT_TEAM = 9PN2JXXG7Y
 
 LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/Frameworks
 
+
+
+
+// Import Paths
+//
+// A list of paths to be searched by the Swift compiler for additional Swift modules.
+
+SWIFT_INCLUDE_PATHS =
