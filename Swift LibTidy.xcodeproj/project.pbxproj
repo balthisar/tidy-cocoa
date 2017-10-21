@@ -709,7 +709,6 @@
 			buildPhases = (
 				D0C3BD0E1F3CB3690007BB54 /* Sources */,
 				D0C3BD0F1F3CB3690007BB54 /* Frameworks */,
-				D0C3BD101F3CB3690007BB54 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -778,8 +777,6 @@
 					};
 					D0B32C8E1F917C7A00477C4B = {
 						CreatedOnToolsVersion = 9.0;
-						DevelopmentTeam = 9PN2JXXG7Y;
-						ProvisioningStyle = Automatic;
 					};
 					D0C3A2D11F9B7A22005921F7 = {
 						CreatedOnToolsVersion = 9.0.1;
@@ -798,7 +795,6 @@
 					};
 					D0F640CB1F8F998A005A945B = {
 						CreatedOnToolsVersion = 9.0;
-						DevelopmentTeam = 9PN2JXXG7Y;
 						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
@@ -845,13 +841,6 @@
 				D0C3A2E51F9B7A48005921F7 /* Default-568h@2x.png in Resources */,
 				D0C3A2DC1F9B7A22005921F7 /* Assets.xcassets in Resources */,
 				D0C3A2DA1F9B7A22005921F7 /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D0C3BD101F3CB3690007BB54 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

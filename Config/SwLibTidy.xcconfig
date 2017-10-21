@@ -73,6 +73,7 @@ INSTALL_PATH = @rpath
 // Standard Library as part of the OS during Swift's development.
 ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES[sdk=macosx*] = NO
 SWIFT_FORCE_STATIC_LINK_STDLIB[sdk=macosx*] = YES
+SWIFT_FORCE_DYNAMIC_LINK_STDLIB[sdk=macosx] = NO
 
 
 // Since this framework depends on libtidy-sw.dylib, it could be in various
