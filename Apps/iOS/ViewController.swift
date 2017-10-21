@@ -7,12 +7,21 @@
 //
 
 import UIKit
+import SwLibTidy
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var textView: UITextView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+
+//        myExample.output = { arg in
+//            self.textView.font = UIFont(name: "Menlo", size: 12)
+//            self.textView.textStorage.append(NSAttributedString(string: "\(arg)\n"))
+//        }
+
+        self.textView.textStorage.append(NSAttributedString( string: "HELLO" ) )
     }
 
     override func didReceiveMemoryWarning() {

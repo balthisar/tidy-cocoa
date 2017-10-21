@@ -11,6 +11,25 @@ PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.SwLibTidy
 PRODUCT_NAME = $(TARGET_NAME:c99extidentifier)
 
 
+// Cross Platform setup
+//SDKROOT = iphoneos
+//SUPPORTED_PLATFORMS = iphonesimulator iphoneos macosx
+//VALID_ARCHS[sdk=macosx*] = x86_64
+//VALID_ARCHS[sdk=iphoneos*] = arm64 armv7 armv7s
+//VALID_ARCHS[sdk=iphonesimulator*] = i386 x86_64
+//TARGETED_DEVICE_FAMILY[sdk=iphoneos*] = 1,2
+//TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*] = 1,2
+//SDKROOT[sdk=macosx*] = macosx
+//SDKROOT[sdk=iphoneos*] = iphoneos
+//SDKROOT[sdk=iphonesimulator*] = iphonesimulator
+
+
+//CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO
+//GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+//SWIFT_OPTIMIZATION_LEVEL = -Onone
+//SWIFT_LIBRARY_PATH = $(PROJECT_DIR)
+//SWIFT_LIBRARY_PATH[sdk=iphonesimulator*] = $(PROJECT_PATH)
+
 
 // Always Embed Swift Standard Libraries
 // 
