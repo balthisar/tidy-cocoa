@@ -197,27 +197,19 @@
 		D0A5C6AE1F92B81600CABB67 /* tidyRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tidyRunner.swift; sourceTree = "<group>"; };
 		D0A8A9DC1F41F74500A2DB63 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D0A8A9DD1F41F74500A2DB63 /* SwLibTidyTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwLibTidyTests.swift; sourceTree = "<group>"; };
-		D0AB75451F9A44EB0072028C /* SwLibTidy Tests-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SwLibTidy Tests-Shared.xcconfig"; sourceTree = "<group>"; };
+		D0AB75451F9A44EB0072028C /* SwLibTidy Tests.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SwLibTidy Tests.xcconfig"; sourceTree = "<group>"; };
 		D0AB75461F9A44EB0072028C /* tidy-sw-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "tidy-sw-Debug.xcconfig"; sourceTree = "<group>"; };
-		D0AB75471F9A44EB0072028C /* console-objc-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "console-objc-Debug.xcconfig"; sourceTree = "<group>"; };
-		D0AB75481F9A44EC0072028C /* console-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "console-Release.xcconfig"; sourceTree = "<group>"; };
-		D0AB75491F9A44EC0072028C /* gui-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "gui-Debug.xcconfig"; sourceTree = "<group>"; };
 		D0AB754A1F9A44EC0072028C /* SwLibTidy-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SwLibTidy-Debug.xcconfig"; sourceTree = "<group>"; };
-		D0AB754B1F9A44EC0072028C /* console-objc-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "console-objc-Release.xcconfig"; sourceTree = "<group>"; };
-		D0AB754C1F9A44EC0072028C /* console-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "console-Shared.xcconfig"; sourceTree = "<group>"; };
+		D0AB754C1F9A44EC0072028C /* console.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = console.xcconfig; sourceTree = "<group>"; };
 		D0AB754D1F9A44EC0072028C /* SwLibTidy-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SwLibTidy-Shared.xcconfig"; sourceTree = "<group>"; };
 		D0AB754E1F9A44EC0072028C /* Common-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Common-Debug.xcconfig"; sourceTree = "<group>"; };
 		D0AB754F1F9A44EC0072028C /* Common-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Common-Release.xcconfig"; sourceTree = "<group>"; };
 		D0AB75501F9A44EC0072028C /* SwLibTidy-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SwLibTidy-Release.xcconfig"; sourceTree = "<group>"; };
 		D0AB75511F9A44EC0072028C /* tidy-sw-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "tidy-sw-Release.xcconfig"; sourceTree = "<group>"; };
 		D0AB75521F9A44ED0072028C /* tidy-sw-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "tidy-sw-Shared.xcconfig"; sourceTree = "<group>"; };
-		D0AB75531F9A44ED0072028C /* console-objc-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "console-objc-Shared.xcconfig"; sourceTree = "<group>"; };
-		D0AB75541F9A44ED0072028C /* SwLibTidy Tests-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SwLibTidy Tests-Debug.xcconfig"; sourceTree = "<group>"; };
+		D0AB75531F9A44ED0072028C /* console-objc.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "console-objc.xcconfig"; sourceTree = "<group>"; };
 		D0AB75551F9A44ED0072028C /* Common-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Common-Shared.xcconfig"; sourceTree = "<group>"; };
-		D0AB75561F9A44ED0072028C /* console-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "console-Debug.xcconfig"; sourceTree = "<group>"; };
-		D0AB75571F9A44ED0072028C /* gui-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "gui-Release.xcconfig"; sourceTree = "<group>"; };
-		D0AB75581F9A44ED0072028C /* gui-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "gui-Shared.xcconfig"; sourceTree = "<group>"; };
-		D0AB75591F9A44ED0072028C /* SwLibTidy Tests-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SwLibTidy Tests-Release.xcconfig"; sourceTree = "<group>"; };
+		D0AB75581F9A44ED0072028C /* gui.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = gui.xcconfig; sourceTree = "<group>"; };
 		D0AD28781F8BE6B400972DB7 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		D0B32C8F1F917C7A00477C4B /* libtidy-sw.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "libtidy-sw.dylib"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0C3BD121F3CB3690007BB54 /* Swift LibTidy Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Swift LibTidy Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -368,18 +360,10 @@
 				D0AB75551F9A44ED0072028C /* Common-Shared.xcconfig */,
 				D0AB754E1F9A44EC0072028C /* Common-Debug.xcconfig */,
 				D0AB754F1F9A44EC0072028C /* Common-Release.xcconfig */,
-				D0AB754C1F9A44EC0072028C /* console-Shared.xcconfig */,
-				D0AB75561F9A44ED0072028C /* console-Debug.xcconfig */,
-				D0AB75481F9A44EC0072028C /* console-Release.xcconfig */,
-				D0AB75531F9A44ED0072028C /* console-objc-Shared.xcconfig */,
-				D0AB75471F9A44EB0072028C /* console-objc-Debug.xcconfig */,
-				D0AB754B1F9A44EC0072028C /* console-objc-Release.xcconfig */,
-				D0AB75581F9A44ED0072028C /* gui-Shared.xcconfig */,
-				D0AB75491F9A44EC0072028C /* gui-Debug.xcconfig */,
-				D0AB75571F9A44ED0072028C /* gui-Release.xcconfig */,
-				D0AB75451F9A44EB0072028C /* SwLibTidy Tests-Shared.xcconfig */,
-				D0AB75541F9A44ED0072028C /* SwLibTidy Tests-Debug.xcconfig */,
-				D0AB75591F9A44ED0072028C /* SwLibTidy Tests-Release.xcconfig */,
+				D0AB754C1F9A44EC0072028C /* console.xcconfig */,
+				D0AB75531F9A44ED0072028C /* console-objc.xcconfig */,
+				D0AB75581F9A44ED0072028C /* gui.xcconfig */,
+				D0AB75451F9A44EB0072028C /* SwLibTidy Tests.xcconfig */,
 				D0AB754D1F9A44EC0072028C /* SwLibTidy-Shared.xcconfig */,
 				D0AB754A1F9A44EC0072028C /* SwLibTidy-Debug.xcconfig */,
 				D0AB75501F9A44EC0072028C /* SwLibTidy-Release.xcconfig */,
@@ -910,57 +894,29 @@
 /* Begin XCBuildConfiguration section */
 		D06AD6BD1F3CF33E00199B88 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D0AB75491F9A44EC0072028C /* gui-Debug.xcconfig */;
+			baseConfigurationReference = D0AB75581F9A44ED0072028C /* gui.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = Apps/gui/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.gui;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_INCLUDE_PATHS = "";
 			};
 			name = Debug;
 		};
 		D06AD6BE1F3CF33E00199B88 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D0AB75571F9A44ED0072028C /* gui-Release.xcconfig */;
+			baseConfigurationReference = D0AB75581F9A44ED0072028C /* gui.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = Apps/gui/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.gui;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_INCLUDE_PATHS = "";
 			};
 			name = Release;
 		};
 		D082E79F1F8D4CE100C8C192 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D0AB75471F9A44EB0072028C /* console-objc-Debug.xcconfig */;
+			baseConfigurationReference = D0AB75531F9A44ED0072028C /* console-objc.xcconfig */;
 			buildSettings = {
-				GCC_C_LANGUAGE_STANDARD = gnu89;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks/Swift",
-				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
 		D082E7A01F8D4CE100C8C192 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D0AB754B1F9A44EC0072028C /* console-objc-Release.xcconfig */;
+			baseConfigurationReference = D0AB75531F9A44ED0072028C /* console-objc.xcconfig */;
 			buildSettings = {
-				GCC_C_LANGUAGE_STANDARD = gnu89;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks/Swift",
-				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -996,47 +952,28 @@
 		};
 		D0C3BD211F3CB3690007BB54 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D0AB75541F9A44ED0072028C /* SwLibTidy Tests-Debug.xcconfig */;
+			baseConfigurationReference = D0AB75451F9A44EB0072028C /* SwLibTidy Tests.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu89;
-				INFOPLIST_FILE = SwLibTidyTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.LibTidyTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_INCLUDE_PATHS = "";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
 		D0C3BD221F3CB3690007BB54 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D0AB75591F9A44ED0072028C /* SwLibTidy Tests-Release.xcconfig */;
+			baseConfigurationReference = D0AB75451F9A44EB0072028C /* SwLibTidy Tests.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu89;
-				INFOPLIST_FILE = SwLibTidyTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.LibTidyTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_INCLUDE_PATHS = "";
-				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
 		D0C3BDC91F3CC0510007BB54 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D0AB75561F9A44ED0072028C /* console-Debug.xcconfig */;
+			baseConfigurationReference = D0AB754C1F9A44EC0072028C /* console.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
 		};
 		D0C3BDCA1F3CC0510007BB54 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D0AB75481F9A44EC0072028C /* console-Release.xcconfig */;
+			baseConfigurationReference = D0AB754C1F9A44EC0072028C /* console.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;

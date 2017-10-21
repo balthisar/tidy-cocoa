@@ -1,8 +1,0 @@
-//
-// console-Release.xcconfig
-//
-//  Created by Jim Derry on 2017/10/20 with help by BuildSettingExtractor
-//
-
-#include "console-Shared.xcconfig"
-
