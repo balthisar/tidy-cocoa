@@ -24,6 +24,7 @@ class ViewController: UIViewController {
             self.textView.textStorage.append(NSAttributedString(string: "\(arg)\n"))
         }
 
+        self.textView.text = ""
         myExample.RunTidy()
     }
 

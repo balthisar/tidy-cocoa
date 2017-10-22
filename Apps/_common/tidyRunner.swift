@@ -126,19 +126,20 @@ class TidyRunner {
         let _ = tidySetPrettyPrinterCallback( tdoc, self.ppCallback)
 
 
-        /*
-         Let's load a configuration file.
-         This is broken, because ideally we'd load it from a bundle, but
-         console applications don't have bundles, so I need to work this out.
-         */
-        let configFile = "~/Development/tidy-cocoa/_test_files/sample_01.cfg"
-        let _ = tidyLoadConfig(tdoc, configFile)
+        /* Let's load a configuration file, which we've store in the bundle. */
+        if let file = Bundle.main.path(forResource: "case-001", ofType: "conf") {
+            let _ = tidyLoadConfig(tdoc, file)
+        }
         output(horizontal_rule)
 
 
-        /* Let's parse a string, and check the status. */
-        _ = tidyParseString( tdoc, "Hello, world")
-        output("After parsing a simple string, tidyStatus is \(tidyStatus(tdoc))")
+        /* Let's parse an HTML file, and check the status. */
+        if let file = Bundle.main.path(forResource: "case-001", ofType: "html") {
+            _ = tidyParseFile( tdoc, file )
+            output("After parsing a simple string, tidyStatus is \(tidyStatus(tdoc))")
+        } else {
+            output("Couldn't find the HTML file for some reason.")
+        }
 
         /* Try out tidyDetectedXhtml — NEED TO PROCESS A DOCUMENT FIRST */
         output(horizontal_rule)
@@ -165,7 +166,6 @@ class TidyRunner {
         output(horizontal_rule)
         output(pppList)
 
-
         /* Display the results of the picklist of the first option. */
         let myOpts = tidyGetOptionList( tdoc )
         output(horizontal_rule)
@@ -183,7 +183,7 @@ class TidyRunner {
         tidyRelease( tdoc )
 
         output(horizontal_rule)
-}
+    }
 
 
 }
