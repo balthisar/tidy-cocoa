@@ -4,25 +4,25 @@
 //  Created by Jim Derry on 2017/10/20 with help by BuildSettingExtractor
 //
 
-
 // App Setup and Configuration
+INFOPLIST_FILE = Apps/console/Info.plist
+PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.console
 PRODUCT_NAME = $(TARGET_NAME)
-
+WRAPPER_EXTENSION = bundle
 
 // Runpath Search Paths
-// 
-// Because this is a console application, we want to attempt to load frameworks
-// from the same directory as the executable (@executable path), as well as
-// from /Library/Frameworks/ (automatic behavior) and ~/Library/Frameworks/
-// (automatic behavior).
 //
-// We also have to point it to the SwLibTidyConsole.framework at each of these
-// locations to that the Swift Standard Library can be found.
+// This is a list of paths to be added to the runpath search path list for the
+// image being created.  At runtime, dyld uses the runpath when searching for
+// dylibs whose load path begins with '@rpath/'.
+//
+// With this setting, we expect to find required frameworks in the same bundle
+// as the application, which is true because of the Copy Frameworks to Bundle
+// build phase for this application. Note that frameworks in
+// /Library/Frameworks/ and ~/Library/Frameworks/ would be detected
+// automatically, too.
 
-SWLIBTIDYCONSOLE = SwLibTidyConsole.framework/Versions/A/Frameworks
-
-LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path @executable_path/$(SWLIBTIDYCONSOLE) "Users/**/Library/Frameworks/$(SWLIBTIDYCONSOLE)" /Library/Frameworks/$(SWLIBTIDYCONSOLE)
-//LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path
+LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/../Frameworks
 
 
 // We want to ensure that this console application does *not* embed the
@@ -32,8 +32,10 @@ LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path @executable_path/$(SWLIB
 // linking, we have to make sure that the LD_RUNPATH_SEARCH_PATHS is pointing
 // to a framework that *does* include the Swift Standard Library.
 
-SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES
-SWIFT_FORCE_STATIC_LINK_STDLIB = NO
+ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES
+
+//SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES
+//SWIFT_FORCE_STATIC_LINK_STDLIB = NO
 //SWIFT_FORCE_DYNAMIC_LINK_STDLIB = NO
 //SWIFT_FORCE_STATIC_LINK_STDLIB = YES
 

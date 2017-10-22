@@ -10,18 +10,12 @@
 		D027FFB91F9BBAF5009A274E /* tidyRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A5C6AE1F92B81600CABB67 /* tidyRunner.swift */; };
 		D027FFBA1F9BBAFE009A274E /* SwLibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; };
 		D027FFBC1F9BBB1C009A274E /* SwLibTidy.framework in Copy Frameworks to Bundle */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		D03B6F731F9BF052009C2F64 /* SwLibTidyConsole.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B6F711F9BF044009C2F64 /* SwLibTidyConsole.swift */; };
-		D03B6F7F1F9BF9B4009C2F64 /* SwLibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; };
-		D03B6F821F9BF9D0009C2F64 /* SwLibTidyConsole.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D03B6F6D1F9BEFF0009C2F64 /* SwLibTidyConsole.framework */; };
-		D03B6F851F9C1CE3009C2F64 /* SwLibTidyConsole.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D03B6F6D1F9BEFF0009C2F64 /* SwLibTidyConsole.framework */; };
-		D06AD6A31F3CED5A00199B88 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06AD6A21F3CED5A00199B88 /* main.swift */; };
 		D06AD6B31F3CF33E00199B88 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06AD6B21F3CF33E00199B88 /* AppDelegate.swift */; };
 		D06AD6B51F3CF33E00199B88 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06AD6B41F3CF33E00199B88 /* ViewController.swift */; };
 		D06AD6B71F3CF33E00199B88 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D06AD6B61F3CF33E00199B88 /* Assets.xcassets */; };
 		D06AD6BA1F3CF33E00199B88 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D06AD6B81F3CF33E00199B88 /* Main.storyboard */; };
 		D082E79D1F8D4CE100C8C192 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D082E79C1F8D4CE100C8C192 /* main.m */; };
 		D0A5C6931F92AA7100CABB67 /* CLibTidyModule.h in Copy Headers and Module Map */ = {isa = PBXBuildFile; fileRef = D082E77D1F8D401100C8C192 /* CLibTidyModule.h */; };
-		D0A5C6AF1F92B81600CABB67 /* tidyRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A5C6AE1F92B81600CABB67 /* tidyRunner.swift */; };
 		D0A5C6B01F92C26B00CABB67 /* tidyRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A5C6AE1F92B81600CABB67 /* tidyRunner.swift */; };
 		D0A8A9DF1F41F74E00A2DB63 /* SwLibTidyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A8A9DD1F41F74500A2DB63 /* SwLibTidyTests.swift */; };
 		D0B32C951F917CA800477C4B /* access.c in Sources */ = {isa = PBXBuildFile; fileRef = D0D06EB31F8AE7CE00370E9D /* access.c */; };
@@ -68,8 +62,11 @@
 		D0C3A2E51F9B7A48005921F7 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0C3A2E41F9B7A48005921F7 /* Default-568h@2x.png */; };
 		D0D7C17E1F8F9BF80091FFCE /* SwLibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; };
 		D0D7C1841F8F9DF70091FFCE /* SwLibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; };
-		D0D7C1871F8F9F960091FFCE /* SwLibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; };
 		D0D7C18A1F8FA5130091FFCE /* SwLibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; };
+		D0DBB59A1F9CEC66001F2021 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06AD6A21F3CED5A00199B88 /* main.swift */; };
+		D0DBB59B1F9CEC69001F2021 /* tidyRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A5C6AE1F92B81600CABB67 /* tidyRunner.swift */; };
+		D0DBB59E1F9CECC5001F2021 /* SwLibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; };
+		D0DBB5A01F9CED00001F2021 /* SwLibTidy.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D0F640D01F8F998A005A945B /* SwLibTidy.h in Headers */ = {isa = PBXBuildFile; fileRef = D0F640CE1F8F998A005A945B /* SwLibTidy.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0F640D81F8F9AC7005A945B /* TidyBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F640D41F8F9AC6005A945B /* TidyBuffer.swift */; };
 		D0F640D91F8F9AC7005A945B /* TidyConfigReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F640D51F8F9AC6005A945B /* TidyConfigReport.swift */; };
@@ -99,27 +96,6 @@
 			remoteGlobalIDString = D0F640CB1F8F998A005A945B;
 			remoteInfo = SwLibTidy;
 		};
-		D03B6F7C1F9BF9A9009C2F64 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D0C3BD001F3CB3680007BB54 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D0F640CB1F8F998A005A945B;
-			remoteInfo = SwLibTidy;
-		};
-		D03B6F801F9BF9CC009C2F64 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D0C3BD001F3CB3680007BB54 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D03B6F5C1F9BEFF0009C2F64;
-			remoteInfo = SwLibTidyConsole;
-		};
-		D03B6F831F9C1CDF009C2F64 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D0C3BD001F3CB3680007BB54 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D03B6F5C1F9BEFF0009C2F64;
-			remoteInfo = SwLibTidyConsole;
-		};
 		D0B32CDB1F91881700477C4B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D0C3BD001F3CB3680007BB54 /* Project object */;
@@ -141,14 +117,14 @@
 			remoteGlobalIDString = D0F640CB1F8F998A005A945B;
 			remoteInfo = SwLibTidy;
 		};
-		D0D7C1851F8F9F920091FFCE /* PBXContainerItemProxy */ = {
+		D0D7C1881F8FA50E0091FFCE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D0C3BD001F3CB3680007BB54 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = D0F640CB1F8F998A005A945B;
 			remoteInfo = SwLibTidy;
 		};
-		D0D7C1881F8FA50E0091FFCE /* PBXContainerItemProxy */ = {
+		D0DBB59C1F9CEC7D001F2021 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D0C3BD001F3CB3680007BB54 /* Project object */;
 			proxyType = 1;
@@ -167,15 +143,6 @@
 				D027FFBC1F9BBB1C009A274E /* SwLibTidy.framework in Copy Frameworks to Bundle */,
 			);
 			name = "Copy Frameworks to Bundle";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D0692FC81F3CE4DE0045AB69 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 7;
-			files = (
-			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		D082E7981F8D4CE100C8C192 /* CopyFiles */ = {
@@ -225,14 +192,22 @@
 			name = "Copy Frameworks to Bundle";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D0DBB59F1F9CECF5001F2021 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				D0DBB5A01F9CED00001F2021 /* SwLibTidy.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		D027FFB51F9B7ABF009A274E /* iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
-		D03B6F6D1F9BEFF0009C2F64 /* SwLibTidyConsole.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwLibTidyConsole.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D03B6F701F9BF044009C2F64 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D03B6F711F9BF044009C2F64 /* SwLibTidyConsole.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwLibTidyConsole.swift; sourceTree = "<group>"; };
-		D03B6F741F9BF091009C2F64 /* SwLibTidyConsole.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SwLibTidyConsole.xcconfig; sourceTree = "<group>"; };
 		D03B6F781F9BF246009C2F64 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D04034871F43659C00A2A9DC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
 		D043B72F1F92DAA3009A61BE /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
@@ -274,7 +249,6 @@
 		D0C3A2E01F9B7A22005921F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D0C3A2E41F9B7A48005921F7 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		D0C3BD121F3CB3690007BB54 /* Swift LibTidy Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Swift LibTidy Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D0C3BDC41F3CC0510007BB54 /* console */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = console; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0D06E671F8AE7AC00370E9D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
 		D0D06E8B1F8AE7CE00370E9D /* tidy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tidy.h; sourceTree = "<group>"; };
 		D0D06E8C1F8AE7CE00370E9D /* tidybuffio.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tidybuffio.h; sourceTree = "<group>"; };
@@ -341,6 +315,8 @@
 		D0D06EEC1F8AE7CE00370E9D /* version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
 		D0D06EEE1F8AE7CE00370E9D /* version.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = version.txt; sourceTree = "<group>"; };
 		D0D7C18B1F8FAA6A0091FFCE /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		D0DBB5921F9CE75F001F2021 /* console.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = console.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0DBB5931F9CE75F001F2021 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = "/Users/jderry/Development/tidy-cocoa/Apps/console/Info.plist"; sourceTree = "<absolute>"; };
 		D0F640CC1F8F998A005A945B /* SwLibTidy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwLibTidy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0F640CE1F8F998A005A945B /* SwLibTidy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwLibTidy.h; sourceTree = "<group>"; };
 		D0F640CF1F8F998A005A945B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -351,14 +327,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		D03B6F7E1F9BF9B0009C2F64 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D03B6F7F1F9BF9B4009C2F64 /* SwLibTidy.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		D06AD6AD1F3CF33E00199B88 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -371,7 +339,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D03B6F821F9BF9D0009C2F64 /* SwLibTidyConsole.framework in Frameworks */,
 				D0D7C1841F8F9DF70091FFCE /* SwLibTidy.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -399,12 +366,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D0C3BDC11F3CC0510007BB54 /* Frameworks */ = {
+		D0DBB5881F9CE75F001F2021 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D03B6F851F9C1CE3009C2F64 /* SwLibTidyConsole.framework in Frameworks */,
-				D0D7C1871F8F9F960091FFCE /* SwLibTidy.framework in Frameworks */,
+				D0DBB59E1F9CECC5001F2021 /* SwLibTidy.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -454,7 +420,6 @@
 				D0AB75581F9A44ED0072028C /* gui.xcconfig */,
 				D027FFB51F9B7ABF009A274E /* iOS.xcconfig */,
 				D0AB75451F9A44EB0072028C /* SwLibTidy Tests.xcconfig */,
-				D03B6F741F9BF091009C2F64 /* SwLibTidyConsole.xcconfig */,
 				D0AB754D1F9A44EC0072028C /* SwLibTidy.xcconfig */,
 				D0AB75521F9A44ED0072028C /* tidy-sw.xcconfig */,
 			);
@@ -514,13 +479,12 @@
 			isa = PBXGroup;
 			children = (
 				D0C3BD121F3CB3690007BB54 /* Swift LibTidy Tests.xctest */,
-				D0C3BDC41F3CC0510007BB54 /* console */,
 				D06AD6B01F3CF33E00199B88 /* gui.app */,
 				D082E79A1F8D4CE100C8C192 /* console-objc */,
 				D0F640CC1F8F998A005A945B /* SwLibTidy.framework */,
 				D0B32C8F1F917C7A00477C4B /* libtidy-sw.dylib */,
 				D0C3A2D21F9B7A22005921F7 /* iOS.app */,
-				D03B6F6D1F9BEFF0009C2F64 /* SwLibTidyConsole.framework */,
+				D0DBB5921F9CE75F001F2021 /* console.bundle */,
 			);
 			name = Products;
 			sourceTree = SOURCE_ROOT;
@@ -541,6 +505,7 @@
 				D0692FC91F3CE8930045AB69 /* README.md */,
 				D06AD6A21F3CED5A00199B88 /* main.swift */,
 				D0A5C6AE1F92B81600CABB67 /* tidyRunner.swift */,
+				D0DBB5931F9CE75F001F2021 /* Info.plist */,
 			);
 			name = console;
 			path = Apps/console;
@@ -682,23 +647,6 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		D03B6F5C1F9BEFF0009C2F64 /* SwLibTidyConsole */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D03B6F6A1F9BEFF0009C2F64 /* Build configuration list for PBXNativeTarget "SwLibTidyConsole" */;
-			buildPhases = (
-				D03B6F5F1F9BEFF0009C2F64 /* Sources */,
-				D03B6F7E1F9BF9B0009C2F64 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				D03B6F7D1F9BF9A9009C2F64 /* PBXTargetDependency */,
-			);
-			name = SwLibTidyConsole;
-			productName = SwLibTidy;
-			productReference = D03B6F6D1F9BEFF0009C2F64 /* SwLibTidyConsole.framework */;
-			productType = "com.apple.product-type.framework";
-		};
 		D06AD6AF1F3CF33E00199B88 /* gui */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D06AD6BC1F3CF33E00199B88 /* Build configuration list for PBXNativeTarget "gui" */;
@@ -729,7 +677,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				D03B6F811F9BF9CC009C2F64 /* PBXTargetDependency */,
 				D0D7C1831F8F9DF30091FFCE /* PBXTargetDependency */,
 			);
 			name = "console-objc";
@@ -791,24 +738,23 @@
 			productReference = D0C3BD121F3CB3690007BB54 /* Swift LibTidy Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		D0C3BDC31F3CC0510007BB54 /* console */ = {
+		D0DBB5811F9CE75F001F2021 /* console */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D0C3BDC81F3CC0510007BB54 /* Build configuration list for PBXNativeTarget "console" */;
+			buildConfigurationList = D0DBB58F1F9CE75F001F2021 /* Build configuration list for PBXNativeTarget "console" */;
 			buildPhases = (
-				D0C3BDC01F3CC0510007BB54 /* Sources */,
-				D0C3BDC11F3CC0510007BB54 /* Frameworks */,
-				D0692FC81F3CE4DE0045AB69 /* CopyFiles */,
+				D0DBB5841F9CE75F001F2021 /* Sources */,
+				D0DBB5881F9CE75F001F2021 /* Frameworks */,
+				D0DBB59F1F9CECF5001F2021 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				D03B6F841F9C1CDF009C2F64 /* PBXTargetDependency */,
-				D0D7C1861F8F9F920091FFCE /* PBXTargetDependency */,
+				D0DBB59D1F9CEC7D001F2021 /* PBXTargetDependency */,
 			);
 			name = console;
-			productName = tidy;
-			productReference = D0C3BDC41F3CC0510007BB54 /* console */;
-			productType = "com.apple.product-type.tool";
+			productName = gui;
+			productReference = D0DBB5921F9CE75F001F2021 /* console.bundle */;
+			productType = "com.apple.product-type.application";
 		};
 		D0F640CB1F8F998A005A945B /* SwLibTidy */ = {
 			isa = PBXNativeTarget;
@@ -860,11 +806,6 @@
 						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
-					D0C3BDC31F3CC0510007BB54 = {
-						CreatedOnToolsVersion = 8.3.3;
-						LastSwiftMigration = 0900;
-						ProvisioningStyle = Automatic;
-					};
 					D0F640CB1F8F998A005A945B = {
 						CreatedOnToolsVersion = 9.0;
 						LastSwiftMigration = 0900;
@@ -885,14 +826,13 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D0C3BDC31F3CC0510007BB54 /* console */,
+				D0DBB5811F9CE75F001F2021 /* console */,
 				D082E7991F8D4CE100C8C192 /* console-objc */,
 				D06AD6AF1F3CF33E00199B88 /* gui */,
 				D0C3A2D11F9B7A22005921F7 /* iOS */,
 				D0C3BD111F3CB3690007BB54 /* Swift LibTidy Tests */,
 				D0F640CB1F8F998A005A945B /* SwLibTidy */,
 				D0B32C8E1F917C7A00477C4B /* tidy-sw */,
-				D03B6F5C1F9BEFF0009C2F64 /* SwLibTidyConsole */,
 			);
 		};
 /* End PBXProject section */
@@ -920,14 +860,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		D03B6F5F1F9BEFF0009C2F64 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D03B6F731F9BF052009C2F64 /* SwLibTidyConsole.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		D06AD6AC1F3CF33E00199B88 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1000,12 +932,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D0C3BDC01F3CC0510007BB54 /* Sources */ = {
+		D0DBB5841F9CE75F001F2021 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D06AD6A31F3CED5A00199B88 /* main.swift in Sources */,
-				D0A5C6AF1F92B81600CABB67 /* tidyRunner.swift in Sources */,
+				D0DBB59A1F9CEC66001F2021 /* main.swift in Sources */,
+				D0DBB59B1F9CEC69001F2021 /* tidyRunner.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1028,21 +960,6 @@
 			target = D0F640CB1F8F998A005A945B /* SwLibTidy */;
 			targetProxy = D027FFB71F9BBAEC009A274E /* PBXContainerItemProxy */;
 		};
-		D03B6F7D1F9BF9A9009C2F64 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = D0F640CB1F8F998A005A945B /* SwLibTidy */;
-			targetProxy = D03B6F7C1F9BF9A9009C2F64 /* PBXContainerItemProxy */;
-		};
-		D03B6F811F9BF9CC009C2F64 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = D03B6F5C1F9BEFF0009C2F64 /* SwLibTidyConsole */;
-			targetProxy = D03B6F801F9BF9CC009C2F64 /* PBXContainerItemProxy */;
-		};
-		D03B6F841F9C1CDF009C2F64 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = D03B6F5C1F9BEFF0009C2F64 /* SwLibTidyConsole */;
-			targetProxy = D03B6F831F9C1CDF009C2F64 /* PBXContainerItemProxy */;
-		};
 		D0B32CDC1F91881700477C4B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D0B32C8E1F917C7A00477C4B /* tidy-sw */;
@@ -1058,15 +975,15 @@
 			target = D0F640CB1F8F998A005A945B /* SwLibTidy */;
 			targetProxy = D0D7C1821F8F9DF30091FFCE /* PBXContainerItemProxy */;
 		};
-		D0D7C1861F8F9F920091FFCE /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = D0F640CB1F8F998A005A945B /* SwLibTidy */;
-			targetProxy = D0D7C1851F8F9F920091FFCE /* PBXContainerItemProxy */;
-		};
 		D0D7C1891F8FA50E0091FFCE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D0F640CB1F8F998A005A945B /* SwLibTidy */;
 			targetProxy = D0D7C1881F8FA50E0091FFCE /* PBXContainerItemProxy */;
+		};
+		D0DBB59D1F9CEC7D001F2021 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D0F640CB1F8F998A005A945B /* SwLibTidy */;
+			targetProxy = D0DBB59C1F9CEC7D001F2021 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1090,20 +1007,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		D03B6F6B1F9BEFF0009C2F64 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = D03B6F741F9BF091009C2F64 /* SwLibTidyConsole.xcconfig */;
-			buildSettings = {
-			};
-			name = Debug;
-		};
-		D03B6F6C1F9BEFF0009C2F64 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = D03B6F741F9BF091009C2F64 /* SwLibTidyConsole.xcconfig */;
-			buildSettings = {
-			};
-			name = Release;
-		};
 		D06AD6BD1F3CF33E00199B88 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0AB75581F9A44ED0072028C /* gui.xcconfig */;
@@ -1190,14 +1093,14 @@
 			};
 			name = Release;
 		};
-		D0C3BDC91F3CC0510007BB54 /* Debug */ = {
+		D0DBB5901F9CE75F001F2021 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0AB754C1F9A44EC0072028C /* console.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
 		};
-		D0C3BDCA1F3CC0510007BB54 /* Release */ = {
+		D0DBB5911F9CE75F001F2021 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0AB754C1F9A44EC0072028C /* console.xcconfig */;
 			buildSettings = {
@@ -1221,15 +1124,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D03B6F6A1F9BEFF0009C2F64 /* Build configuration list for PBXNativeTarget "SwLibTidyConsole" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				D03B6F6B1F9BEFF0009C2F64 /* Debug */,
-				D03B6F6C1F9BEFF0009C2F64 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		D06AD6BC1F3CF33E00199B88 /* Build configuration list for PBXNativeTarget "gui" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1284,11 +1178,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D0C3BDC81F3CC0510007BB54 /* Build configuration list for PBXNativeTarget "console" */ = {
+		D0DBB58F1F9CE75F001F2021 /* Build configuration list for PBXNativeTarget "console" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D0C3BDC91F3CC0510007BB54 /* Debug */,
-				D0C3BDCA1F3CC0510007BB54 /* Release */,
+				D0DBB5901F9CE75F001F2021 /* Debug */,
+				D0DBB5911F9CE75F001F2021 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -14,8 +14,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D0C3BDC31F3CC0510007BB54"
-               BuildableName = "console"
+               BlueprintIdentifier = "D0DBB5811F9CE75F001F2021"
+               BuildableName = "console.app"
                BlueprintName = "console"
                ReferencedContainer = "container:Swift LibTidy.xcodeproj">
             </BuildableReference>
@@ -29,22 +29,12 @@
       language = ""
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D0C3BD111F3CB3690007BB54"
-               BuildableName = "Swift LibTidy Tests.xctest"
-               BlueprintName = "Swift LibTidy Tests"
-               ReferencedContainer = "container:Swift LibTidy.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D0C3BDC31F3CC0510007BB54"
-            BuildableName = "console"
+            BlueprintIdentifier = "D0DBB5811F9CE75F001F2021"
+            BuildableName = "console.app"
             BlueprintName = "console"
             ReferencedContainer = "container:Swift LibTidy.xcodeproj">
          </BuildableReference>
@@ -67,8 +57,8 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D0C3BDC31F3CC0510007BB54"
-            BuildableName = "console"
+            BlueprintIdentifier = "D0DBB5811F9CE75F001F2021"
+            BuildableName = "console.app"
             BlueprintName = "console"
             ReferencedContainer = "container:Swift LibTidy.xcodeproj">
          </BuildableReference>
@@ -86,8 +76,8 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D0C3BDC31F3CC0510007BB54"
-            BuildableName = "console"
+            BlueprintIdentifier = "D0DBB5811F9CE75F001F2021"
+            BuildableName = "console.app"
             BlueprintName = "console"
             ReferencedContainer = "container:Swift LibTidy.xcodeproj">
          </BuildableReference>
