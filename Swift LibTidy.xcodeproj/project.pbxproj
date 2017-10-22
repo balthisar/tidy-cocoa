@@ -68,6 +68,16 @@
 		D0DBB5A81F9CF489001F2021 /* SwLibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; };
 		D0DBB5AA1F9CF489001F2021 /* SwLibTidy.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D0DBB5B01F9CF4A3001F2021 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D082E79C1F8D4CE100C8C192 /* main.m */; };
+		D0DBB5B71F9CFD7A001F2021 /* case-001.conf in Resources */ = {isa = PBXBuildFile; fileRef = D0DBB5B51F9CFD3A001F2021 /* case-001.conf */; };
+		D0DBB5B81F9CFD7D001F2021 /* case-001.html in Resources */ = {isa = PBXBuildFile; fileRef = D0DBB5B41F9CFD3A001F2021 /* case-001.html */; };
+		D0DBB5BA1F9CFDC2001F2021 /* case-001.conf in Resources */ = {isa = PBXBuildFile; fileRef = D0DBB5B51F9CFD3A001F2021 /* case-001.conf */; };
+		D0DBB5BB1F9CFDC5001F2021 /* case-001.html in Resources */ = {isa = PBXBuildFile; fileRef = D0DBB5B41F9CFD3A001F2021 /* case-001.html */; };
+		D0DBB5BC1F9CFDCE001F2021 /* case-001.conf in Resources */ = {isa = PBXBuildFile; fileRef = D0DBB5B51F9CFD3A001F2021 /* case-001.conf */; };
+		D0DBB5BD1F9CFDD1001F2021 /* case-001.html in Resources */ = {isa = PBXBuildFile; fileRef = D0DBB5B41F9CFD3A001F2021 /* case-001.html */; };
+		D0DBB5BE1F9CFDD8001F2021 /* case-001.conf in Resources */ = {isa = PBXBuildFile; fileRef = D0DBB5B51F9CFD3A001F2021 /* case-001.conf */; };
+		D0DBB5BF1F9CFDDB001F2021 /* case-001.html in Resources */ = {isa = PBXBuildFile; fileRef = D0DBB5B41F9CFD3A001F2021 /* case-001.html */; };
+		D0DBB5C11F9CFDE9001F2021 /* case-001.conf in Resources */ = {isa = PBXBuildFile; fileRef = D0DBB5B51F9CFD3A001F2021 /* case-001.conf */; };
+		D0DBB5C21F9CFDEC001F2021 /* case-001.html in Resources */ = {isa = PBXBuildFile; fileRef = D0DBB5B41F9CFD3A001F2021 /* case-001.html */; };
 		D0F640D01F8F998A005A945B /* SwLibTidy.h in Headers */ = {isa = PBXBuildFile; fileRef = D0F640CE1F8F998A005A945B /* SwLibTidy.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0F640D81F8F9AC7005A945B /* TidyBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F640D41F8F9AC6005A945B /* TidyBuffer.swift */; };
 		D0F640D91F8F9AC7005A945B /* TidyConfigReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F640D51F8F9AC6005A945B /* TidyConfigReport.swift */; };
@@ -320,6 +330,8 @@
 		D0DBB5AF1F9CF489001F2021 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = "/Users/jderry/Development/tidy-cocoa/Apps/console-objc/Info.plist"; sourceTree = "<absolute>"; };
 		D0DBB5B11F9CF972001F2021 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
 		D0DBB5B21F9CF9C5001F2021 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
+		D0DBB5B41F9CFD3A001F2021 /* case-001.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "case-001.html"; sourceTree = "<group>"; };
+		D0DBB5B51F9CFD3A001F2021 /* case-001.conf */ = {isa = PBXFileReference; lastKnownFileType = text; path = "case-001.conf"; sourceTree = "<group>"; };
 		D0F640CC1F8F998A005A945B /* SwLibTidy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwLibTidy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0F640CE1F8F998A005A945B /* SwLibTidy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwLibTidy.h; sourceTree = "<group>"; };
 		D0F640CF1F8F998A005A945B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -434,6 +446,7 @@
 		D0A5C6AD1F92B71900CABB67 /* Apps */ = {
 			isa = PBXGroup;
 			children = (
+				D0DBB5B31F9CFC93001F2021 /* _common */,
 				D0C3BDC51F3CC0510007BB54 /* console */,
 				D082E79B1F8D4CE100C8C192 /* console-objc */,
 				D06AD6B11F3CF33E00199B88 /* gui */,
@@ -500,7 +513,6 @@
 			children = (
 				D0692FC91F3CE8930045AB69 /* README.md */,
 				D06AD6A21F3CED5A00199B88 /* main.swift */,
-				D0A5C6AE1F92B81600CABB67 /* tidyRunner.swift */,
 				D0DBB5931F9CE75F001F2021 /* Info.plist */,
 			);
 			name = console;
@@ -615,6 +627,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		D0DBB5B31F9CFC93001F2021 /* _common */ = {
+			isa = PBXGroup;
+			children = (
+				D0A5C6AE1F92B81600CABB67 /* tidyRunner.swift */,
+				D0DBB5B51F9CFD3A001F2021 /* case-001.conf */,
+				D0DBB5B41F9CFD3A001F2021 /* case-001.html */,
+			);
+			name = _common;
+			path = Apps/_common;
+			sourceTree = SOURCE_ROOT;
+		};
 		D0F640CD1F8F998A005A945B /* SwLibTidy */ = {
 			isa = PBXGroup;
 			children = (
@@ -705,6 +728,7 @@
 			buildPhases = (
 				D0C3BD0E1F3CB3690007BB54 /* Sources */,
 				D0C3BD0F1F3CB3690007BB54 /* Frameworks */,
+				D0DBB5C01F9CFDE6001F2021 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -723,6 +747,7 @@
 				D0DBB5841F9CE75F001F2021 /* Sources */,
 				D0DBB5881F9CE75F001F2021 /* Frameworks */,
 				D0DBB59F1F9CECF5001F2021 /* CopyFiles */,
+				D0DBB5B61F9CFD6E001F2021 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -741,6 +766,7 @@
 				D0DBB5A41F9CF489001F2021 /* Sources */,
 				D0DBB5A71F9CF489001F2021 /* Frameworks */,
 				D0DBB5A91F9CF489001F2021 /* CopyFiles */,
+				D0DBB5B91F9CFDBF001F2021 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -836,6 +862,8 @@
 			files = (
 				D06AD6B71F3CF33E00199B88 /* Assets.xcassets in Resources */,
 				D06AD6BA1F3CF33E00199B88 /* Main.storyboard in Resources */,
+				D0DBB5BC1F9CFDCE001F2021 /* case-001.conf in Resources */,
+				D0DBB5BD1F9CFDD1001F2021 /* case-001.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -846,6 +874,35 @@
 				D0C3A2E51F9B7A48005921F7 /* Default-568h@2x.png in Resources */,
 				D0C3A2DC1F9B7A22005921F7 /* Assets.xcassets in Resources */,
 				D0C3A2DA1F9B7A22005921F7 /* Main.storyboard in Resources */,
+				D0DBB5BE1F9CFDD8001F2021 /* case-001.conf in Resources */,
+				D0DBB5BF1F9CFDDB001F2021 /* case-001.html in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0DBB5B61F9CFD6E001F2021 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0DBB5B71F9CFD7A001F2021 /* case-001.conf in Resources */,
+				D0DBB5B81F9CFD7D001F2021 /* case-001.html in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0DBB5B91F9CFDBF001F2021 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0DBB5BA1F9CFDC2001F2021 /* case-001.conf in Resources */,
+				D0DBB5BB1F9CFDC5001F2021 /* case-001.html in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0DBB5C01F9CFDE6001F2021 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0DBB5C11F9CFDE9001F2021 /* case-001.conf in Resources */,
+				D0DBB5C21F9CFDEC001F2021 /* case-001.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
