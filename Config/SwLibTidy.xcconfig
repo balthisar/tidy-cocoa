@@ -59,18 +59,10 @@ INSTALL_PATH = @rpath
 // Linking
 //////////////////////////////////////////////////////////
 
-// On macOS, we support console applications, so we have to be sure that
-// this framework does NOT include the Swift Standard Library dylibs, but
-// that we static link the dylibs into our framework's dylib. The symbols
-// we be exported, so the main executable can still dynamically link to it.
-//
-// On iOS, though we don't have these issues with console applications because
-// we *always* have a bundle, so we will build normally.
-//
-// Your projects are probably more complicated, and so you're going to have
-// to figure out which frameworks are ALSO including the Swift Standard Library.
-// This sucks for now, but it's a consequence of macOS not including the
-// Standard Library as part of the OS during Swift's development.
+// Swift is still unstable, so we have to distribute the Swift Standard
+// library in our built apps. To prevent symbol collisions, we'll put this
+// responsibility on the host application, so here we will specifically
+// exclude the standard libraries.
 ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO
 
 

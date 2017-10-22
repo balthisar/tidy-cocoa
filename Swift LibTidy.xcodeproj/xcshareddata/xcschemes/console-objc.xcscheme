@@ -14,8 +14,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D082E7991F8D4CE100C8C192"
-               BuildableName = "console-objc"
+               BlueprintIdentifier = "D0DBB5A11F9CF489001F2021"
+               BuildableName = "console-objc.bundle"
                BlueprintName = "console-objc"
                ReferencedContainer = "container:Swift LibTidy.xcodeproj">
             </BuildableReference>
@@ -43,8 +43,8 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D082E7991F8D4CE100C8C192"
-            BuildableName = "console-objc"
+            BlueprintIdentifier = "D0DBB5A11F9CF489001F2021"
+            BuildableName = "console-objc.bundle"
             BlueprintName = "console-objc"
             ReferencedContainer = "container:Swift LibTidy.xcodeproj">
          </BuildableReference>
@@ -67,8 +67,8 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D082E7991F8D4CE100C8C192"
-            BuildableName = "console-objc"
+            BlueprintIdentifier = "D0DBB5A11F9CF489001F2021"
+            BuildableName = "console-objc.bundle"
             BlueprintName = "console-objc"
             ReferencedContainer = "container:Swift LibTidy.xcodeproj">
          </BuildableReference>
@@ -86,8 +86,8 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D082E7991F8D4CE100C8C192"
-            BuildableName = "console-objc"
+            BlueprintIdentifier = "D0DBB5A11F9CF489001F2021"
+            BuildableName = "console-objc.bundle"
             BlueprintName = "console-objc"
             ReferencedContainer = "container:Swift LibTidy.xcodeproj">
          </BuildableReference>

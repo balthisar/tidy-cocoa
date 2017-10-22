@@ -4,42 +4,17 @@
 //  Created by Jim Derry on 2017/10/20 with help by BuildSettingExtractor
 //
 
+
 // App Setup and Configuration
 INFOPLIST_FILE = Apps/console/Info.plist
 PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.console
 PRODUCT_NAME = $(TARGET_NAME)
 WRAPPER_EXTENSION = bundle
 
-// Runpath Search Paths
-//
-// This is a list of paths to be added to the runpath search path list for the
-// image being created.  At runtime, dyld uses the runpath when searching for
-// dylibs whose load path begins with '@rpath/'.
-//
-// With this setting, we expect to find required frameworks in the same bundle
-// as the application, which is true because of the Copy Frameworks to Bundle
-// build phase for this application. Note that frameworks in
-// /Library/Frameworks/ and ~/Library/Frameworks/ would be detected
-// automatically, too.
 
+// Runpath Search Paths
 LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/../Frameworks
 
 
-// We want to ensure that this console application does *not* embed the
-// Swift Standard Library into its executable, which is normally automatic
-// because it has no bundle to package frameworks in, and macOS doesn't
-// include them as part of the operating system yet. By forcing dynamic
-// linking, we have to make sure that the LD_RUNPATH_SEARCH_PATHS is pointing
-// to a framework that *does* include the Swift Standard Library.
-
+// Ensure all the Swift stuff can access the standard libraries.
 ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES
-
-//SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES
-//SWIFT_FORCE_STATIC_LINK_STDLIB = NO
-//SWIFT_FORCE_DYNAMIC_LINK_STDLIB = NO
-//SWIFT_FORCE_STATIC_LINK_STDLIB = YES
-
-
-// Since this is a demo application, we don't care if the releases differ,
-// and so we'll just not optimize anything at all.
-SWIFT_OPTIMIZATION_LEVEL = -Onone

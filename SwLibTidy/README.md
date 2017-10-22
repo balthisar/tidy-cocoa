@@ -21,6 +21,3 @@ framework bundle where the dynamic linker will find it. Additionally the dynamic
 linker will first search `/usr/local/lib`, so that end-user applications can
 update their versions of Tidy if your provide instructions.
 
-## Swift Libraries, Swift Applications, and Objective-C
-
-See [README-Linking.md](../README-Linking.md).

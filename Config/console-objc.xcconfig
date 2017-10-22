@@ -6,18 +6,17 @@
 
 
 // App Setup and Configuration
+INFOPLIST_FILE = Apps/console-objc/Info.plist
+PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.console-objc
 PRODUCT_NAME = $(TARGET_NAME)
+WRAPPER_EXTENSION = bundle
 
 
 // Runpath Search Paths
-//
-// This is a list of paths to be added to the runpath search path list for the
-// image being created.  At runtime, dyld uses the runpath when searching for
-// dylibs whose load path begins with '@rpath/'.
-//
-// Because this is a console application, we want to attempt to load frameworks
-// from the same directory as the executable (@executable path), as well as
-// from /Library/Frameworks/ (automatic behavior) and ~/Library/Frameworks/
-// (automatic behavior).
+LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/../Frameworks
 
-LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path @executable_path/SwLibTidyConsole.framework/Versions/A/Frameworks
+
+// Ensure all the Swift stuff can access the standard libraries.
+ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES
+
+
