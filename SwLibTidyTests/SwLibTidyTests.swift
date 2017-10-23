@@ -130,7 +130,7 @@ class SwiftTests: XCTestCase {
             let _ = tidyLoadConfig( tdoc!, file )
         }
 
-        XCTAssert( tidyOptGetInt( tdoc!, TidyAccessibilityCheckLevel ) == 3, "Expected " )
+        XCTAssert( tidyOptGetInt( tdoc!, TidyAccessibilityCheckLevel ) == 3, "Expected 3, but got something else." )
     }
 
 
@@ -192,6 +192,48 @@ class SwiftTests: XCTestCase {
         XCTAssert( tidyAccessWarningCount( tdoc! ) == 4, "Expected tidyAccessWarningCount() == 4" )
 
         XCTAssert( tidyConfigErrorCount( tdoc! ) == 1, "Expected tidyConfigErrorCount() == 1" )
+    }
+
+
+    /*************************************************************************
+      After parsing, Tidy makes available an error summary as well as some
+      static general information. In a console application these are normally
+      dumped to STDOUT, but as we're not building console applications, we
+      want to capture them in a buffer.
+
+      - tidySetErrorBuffer()
+      - tidyErrorSummary()
+      - tidyGeneralInfo()
+      - tidyLocalizedString()
+     *************************************************************************/
+    func test_errorBufferAndSummaries() {
+
+        guard let mydoc = tidyCreate() else { return }
+
+        /* Output goes to STDOUT for this. */
+        let _ = tidyParseString( mydoc, "<img src='#'>")
+
+        /* Now let's setup error buffers. */
+        let errorBuffer = TidyBuffer()
+        let err = tidySetErrorBuffer( mydoc, errbuf: errorBuffer )
+        XCTAssert( err == 0, "tidySetErrorBuffer() returned \(err) instead of 0.")
+
+        tidyErrorSummary( mydoc )
+        tidyGeneralInfo( mydoc )
+
+        /*
+         Our test HTML generates this footnote as part of tidyErrorSummary(),
+         and tidyGeneralInfo() finishes with the specified text and newline.
+         */
+        let messg_expects = tidyLocalizedString( TEXT_M_IMAGE_ALT )
+        let messg_ends = "/README/LOCALIZE.md\n"
+
+        if let output = errorBuffer.StringValue() {
+            XCTAssert( output.hasPrefix(messg_expects), "The buffer did not start with the expected message." )
+            XCTAssert( output.hasSuffix(messg_ends), "The buffer did not end with the expected message." )
+        } else {
+            XCTAssert( false, "The output buffer was empty!" )
+        }
     }
 
 }

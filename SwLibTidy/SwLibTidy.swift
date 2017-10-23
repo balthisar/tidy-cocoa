@@ -206,7 +206,7 @@ public func tidyCreate() -> TidyDoc? {
             let tmessage = tmessage,
             let tdoc = CLibTidy.tidyGetMessageDoc( tmessage ),
             let ptrStorage = CLibTidy.tidyGetAppData( tdoc )
-            else { return no }
+            else { return yes }
         
         let storage = Unmanaged<ApplicationData>
             .fromOpaque(ptrStorage)
@@ -215,7 +215,7 @@ public func tidyCreate() -> TidyDoc? {
         if let callback = storage.tidyMessageCallback {
             return callback( tmessage ) ? yes : no
         } else {
-            return no
+            return yes
         }
     }) else { tidyRelease( tdoc ); return nil }
     
@@ -2642,9 +2642,9 @@ public func TidyLangPosixName( _ item: tidyLocaleMapItem ) -> String {
  - returns: 
      Returns the desired string.
 */
-public func tidyLocalizedStringN( _ messageType: UInt, _ quantity: UInt ) -> String {
+public func tidyLocalizedStringN( _ messageType: tidyStrings, _ quantity: UInt ) -> String {
  
-    return String( cString: CLibTidy.tidyLocalizedStringN( uint(messageType), uint(quantity) ) )
+    return String( cString: CLibTidy.tidyLocalizedStringN( messageType, uint(quantity) ) )
 }
 
  
@@ -2657,9 +2657,10 @@ public func tidyLocalizedStringN( _ messageType: UInt, _ quantity: UInt ) -> Str
  - returns:
      Returns the desired string.
 */
-public func tidyLocalizedString( _ messageType: UInt ) -> String {
- 
-    return String( cString: CLibTidy.tidyLocalizedString( uint(messageType) ) )
+public func tidyLocalizedString( _ messageType: tidyStrings ) -> String {
+
+//    return String( cString: CLibTidy.tidyLocalizedString( uint(messageType.rawValue) ) )
+    return String( cString: CLibTidy.tidyLocalizedString( messageType ) )
 }
 
  
