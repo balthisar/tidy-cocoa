@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 @import SwLibTidy;
-@import CLibTidy;
+@import CLibTidyEnum;
 
 
 int main(int argc, const char * argv[]) {

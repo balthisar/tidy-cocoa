@@ -16,7 +16,7 @@
 
 import XCTest
 @testable import SwLibTidy
-//import CLibTidy
+import CLibTidyEnum
 
 class SwiftTests: XCTestCase {
     
@@ -24,12 +24,12 @@ class SwiftTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        tdoc = SwLibTidy.tidyCreate()!
+        tdoc = tidyCreate()!
     }
     
     
     override func tearDown() {
-        SwLibTidy.tidyRelease( tdoc! )
+        tidyRelease( tdoc! )
         super.tearDown()
     }
 
@@ -41,12 +41,12 @@ class SwiftTests: XCTestCase {
 
         if let config = config {
             if let file = testBundle.path(forResource: config, ofType: "conf") {
-                let _ = SwLibTidy.tidyLoadConfig( doc, file )
+                let _ = tidyLoadConfig( doc, file )
             }
         }
 
         if let file = testBundle.path(forResource: file, ofType: "html") {
-           let _ = SwLibTidy.tidyParseFile( doc, file )
+           let _ = tidyParseFile( doc, file )
         } else {
             return false
         }
@@ -56,13 +56,20 @@ class SwiftTests: XCTestCase {
 
 
     /*************************************************************************
-      Although the setUp() and tearDown() do this for every test, let's test
-      it for the sake of coverage.
+      In order to do anything at all with Tidy, we need an instance of a Tidy
+      document (TidyDoc), and when we're done with it, we have to release it
+      in order to free its memory and resources.
+
+      Although the setUp() and tearDown() do this for every other unit test,
+      this case demonstrates how to create and free a TidyDoc.
+
+      - tidyCreate()
+      - tidyRelease()
      *************************************************************************/
     func test_tidyCreate() {
 
-        if let localDoc = SwLibTidy.tidyCreate() {
-            SwLibTidy.tidyRelease( localDoc )
+        if let localDoc = tidyCreate() {
+            tidyRelease( localDoc )
         } else {
             XCTAssert ( false, "Could not create a Tidy document." )
         }
@@ -70,38 +77,96 @@ class SwiftTests: XCTestCase {
 
 
     /*************************************************************************
-      Ensure that we can set and get Tidy's app data properly. Proper storage
-      is required so that we can properly execute Tidy's callbacks, if used.
+      If you are going to use Tidy's callbacks, then Tidy needs some context
+      information so that when the callback occurs, your callback knows the
+      where it originates. For example, you might set a reference to the
+      instance of your class that is invoking Tidy.
+
       - tidySetAppData()
       - tidyGetAppData()
      *************************************************************************/
     func test_tidySetAppData_tidyGetAppData() {
 
-        SwLibTidy.tidySetAppData( tdoc!, self )
-        let gotObject = SwLibTidy.tidyGetAppData( tdoc! )
+        tidySetAppData( tdoc!, self )
+        let gotObject = tidyGetAppData( tdoc! )
     
         XCTAssert( gotObject === self, "The object stored is not that same as the object retrieved." )
     }
     
     
     /*************************************************************************
-      Test basic function:
+      Tidy is able to report basic information about itself, such as its
+      release date, its current version, and the platform for which is was
+      compiled.
+
       - tidyReleaseDate()
       - tidyLibraryVersion()
       - tidyPlatform()
      *************************************************************************/
     func test_tidyReleaseInformation() {
 
-        XCTAssert( SwLibTidy.tidyReleaseDate().hasPrefix("2017."), "The release date does not begin with 2017." )
+        XCTAssert( tidyReleaseDate().hasPrefix("2017."), "The release date does not begin with 2017." )
 
-        XCTAssert( SwLibTidy.tidyLibraryVersion().hasPrefix("5.5"), "The library version does not begin with 5.5." )
+        XCTAssert( tidyLibraryVersion().hasPrefix("5.5"), "The library version does not begin with 5.5." )
 
-        XCTAssert( (SwLibTidy.tidyPlatform()?.hasPrefix("Apple"))!, "The platform does not begin with \"Apple\"" )
+        XCTAssert( (tidyPlatform()?.hasPrefix("Apple"))!, "The platform does not begin with \"Apple\"" )
     }
     
     
     /*************************************************************************
-      Test basic function:
+      Tidy is able to use a configuration loaded from a configuration file,
+      and so this case indicates how to load such a file which has been
+      included in the bundle. We will judge that this operation is successful
+      if one of the configuration values we loaded matches what we expect,
+      which is different from the built-in default value.
+
+      - tidyLoadConfig()
+     *************************************************************************/
+    func test_tidyLoadConfig() {
+
+        let testBundle = Bundle(for: type(of: self))
+
+        if let file = testBundle.path(forResource: "case-001", ofType: "conf") {
+            let _ = tidyLoadConfig( tdoc!, file )
+        }
+
+        XCTAssert( tidyOptGetInt( tdoc!, TidyAccessibilityCheckLevel ) == 3, "Expected " )
+    }
+
+
+    /*************************************************************************
+      Tidy, of course, has to be able to parse HTML from a variety of sources
+      before clean and repair operations can take place, and before most
+      operations can take place on a TidyDoc. Here we will demonstrate that
+      parsing is successful via examining the tidyStatus() after parsing. In
+      each case, the status should be 1, indicating that warnings were found,
+      but not errors.
+
+      - tidyStatus()
+      - tidyParseString()
+      - tidyParseFile()
+     *************************************************************************/
+    func test_tidyParseStuff() {
+
+        let _ = tidyParseString( tdoc!, "<h1>Hello, world!</h2>" )
+
+        XCTAssert( tidyStatus( tdoc! ) == 1, "Expected tidyStatus() == 1" )
+
+        let testBundle = Bundle(for: type(of: self))
+
+        if let file = testBundle.path(forResource: "case-001", ofType: "html") {
+            let _ = tidyParseFile( tdoc!, file )
+        }
+
+        XCTAssert( tidyStatus( tdoc! ) == 1, "Expected tidyStatus() == 1" )
+    }
+
+
+    /*************************************************************************
+      After parsing, Tidy makes available a lot of status information about
+      the document it's parsed, such as error and warning counts and some
+      general information.
+
       - tidyStatus()
       - tidyDetectedXhtml()
       - tidyDetectedGenericXml()
@@ -109,35 +174,24 @@ class SwiftTests: XCTestCase {
       - tidyWarningCount()
       - tidyAccessWarningCount()
       - tidyConfigErrorCount()
-      - tidyLoadConfig()
      *************************************************************************/
     func test_tidyStatusInformation() {
 
         XCTAssert( tidy( doc: tdoc!, file: "case-001", config: "case-001" ), "Could not locate the file for testing." )
 
-        XCTAssert( SwLibTidy.tidyStatus( tdoc! ) == 1, "Expected tidyStatus() == 1" )
+        XCTAssert( tidyStatus( tdoc! ) == 1, "Expected tidyStatus() == 1" )
 
-        XCTAssert( SwLibTidy.tidyDetectedXhtml( tdoc! ) == false, "Expected tidyDetectedXhtml() == false" )
+        XCTAssert( tidyDetectedXhtml( tdoc! ) == false, "Expected tidyDetectedXhtml() == false" )
 
-        XCTAssert( SwLibTidy.tidyDetectedGenericXml( tdoc! ) == false, "Expected tidyDetectedGenericXml() == false" )
+        XCTAssert( tidyDetectedGenericXml( tdoc! ) == false, "Expected tidyDetectedGenericXml() == false" )
 
-        XCTAssert( SwLibTidy.tidyErrorCount( tdoc! ) == 0, "Expected tidyErrorCount() == 0" )
+        XCTAssert( tidyErrorCount( tdoc! ) == 0, "Expected tidyErrorCount() == 0" )
 
-        XCTAssert( SwLibTidy.tidyWarningCount( tdoc! ) == 3, "Expected tidyWarningCount() == 3" )
+        XCTAssert( tidyWarningCount( tdoc! ) == 3, "Expected tidyWarningCount() == 3" )
 
-        XCTAssert( SwLibTidy.tidyAccessWarningCount( tdoc! ) == 4, "Expected tidyAccessWarningCount() == 4" )
+        XCTAssert( tidyAccessWarningCount( tdoc! ) == 4, "Expected tidyAccessWarningCount() == 4" )
 
-        XCTAssert( SwLibTidy.tidyConfigErrorCount( tdoc! ) == 1, "Expected tidyConfigErrorCount() == 1" )
-
-        /*
-         Prove that we loaded a config file by checking the value of
-         TidyAccessibilityCheckLevel, thus, tidyLoadConfig() worked.
-         */
-
-        let x: TidyOptionId = TidyVertSpace // how to re-export this symbol without needing the CLibTidy?
-        XCTAssert( SwLibTidy.tidyOptGetInt( tdoc!, x ) == 3, "Expected " )
-
-
+        XCTAssert( tidyConfigErrorCount( tdoc! ) == 1, "Expected tidyConfigErrorCount() == 1" )
     }
 
 }

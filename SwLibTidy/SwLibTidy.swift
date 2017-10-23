@@ -39,6 +39,9 @@
  
       tidySaveString() is not supported; there's not really a use case in Swift;
       use tidySaveBuffer() instead.
+
+      tidyParseBuffer() is not supported; there's no really a use case in Swift;
+      use tidyParseString() instead.
  
     Localization API
       CLibTidy will always perform in its default (`en`) locale unless you use
@@ -1840,24 +1843,7 @@ public func tidyParseString( _ tdoc: TidyDoc, _ content: String ) -> Int {
 }
 
 
-/**
- Parse markup in given buffer.
- 
- - parameters:
-   - tdoc: The tidy document to use for parsing.
-   - buf: The TidyBuffer containing data to parse.
- - returns: 
-     Returns the highest of `2` indicating that errors were present in the 
-     docment, `1` indicating warnings, and `0` in the case of everything being 
-     okay.
-*/
-public func tidyParseBuffer( _ tdoc: TidyDoc, _ buf: TidyBufferProtocol ) -> Int {
- 
-    return Int( CLibTidy.tidyParseBuffer( tdoc, buf.tidyBuffer) )
-}
 
- 
- 
 /***************************************************************************//**
  ** After parsing the document, you can use these functions to attempt cleanup,
  ** repair, get additional diagnostics, and determine the document type.

@@ -3,3 +3,7 @@ module CLibTidy {
     export *
 }
 
+module CLibTidyEnum {
+    header "tidyenum.h"
+    export *
+}
