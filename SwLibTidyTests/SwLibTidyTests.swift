@@ -236,4 +236,50 @@ class SwiftTests: XCTestCase {
         }
     }
 
+
+    /*************************************************************************
+      Tidy natively supports localization, although your higher-level classes
+      may choose to use macOS localization instead. Tidy always gets strings
+      of type `tidyStrings`, except when it doesn't, because in addition to
+      strings for each `tidyStrings`, it also has strings for `TidyOptionID`
+      `TidyConfigCategory` and `TidyReportLevel`. This compromise between
+      sloppiness and functionality make it difficult for us to enforce type
+      safety in Swift, but there are always workarounds.
+
+      - tidyLocalizedString()
+      - tidyLocalizedStringN()
+      - tidyDefaultString()
+      - tidySetLanguage()
+     *************************************************************************/
+    func test_tidyLocalizedString() {
+
+        var messg_expects: String
+
+        /*
+         The singular for the given message. Because the current locale is
+         the default locale, we get same result as tidyDefaultString().
+         */
+        messg_expects = tidyLocalizedString( STRING_ERROR_COUNT_ERROR )
+        XCTAssert( messg_expects == "error", "The string 'error' was not returned." )
+
+        /*
+         The form of the message if there are five of whatever we're looking
+         for. There are only a few plural strings used in Tidy.
+         */
+        messg_expects = tidyLocalizedStringN( STRING_ERROR_COUNT_ERROR, 5 )
+        XCTAssert( messg_expects == "errors", "The string 'errors' was not returned." )
+
+        /*
+         Oops! We want a TidyReportLevel as a string! This works for any of
+         the other types that have strings defined, too.
+         */
+        messg_expects = tidyDefaultString( tidyStrings.init( TidyInfo.rawValue) )
+        XCTAssert( messg_expects == "Info: ", "The string 'Info: ' was not returned." )
+
+        /* Let's set the language and lookup a French string. */
+        let _ = tidySetLanguage("fr")
+        messg_expects = tidyLocalizedString( STRING_SPECIFIED )
+        XCTAssert( messg_expects == "précisé", "The string 'précisé' was not returned." )
+    }
+
 }

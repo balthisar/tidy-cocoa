@@ -2643,8 +2643,9 @@ public func TidyLangPosixName( _ item: tidyLocaleMapItem ) -> String {
      Returns the desired string.
 */
 public func tidyLocalizedStringN( _ messageType: tidyStrings, _ quantity: UInt ) -> String {
- 
-    return String( cString: CLibTidy.tidyLocalizedStringN( messageType, uint(quantity) ) )
+
+    /* The actual method doesn't take this type, but a uint. */
+    return String( cString: CLibTidy.tidyLocalizedStringN( uint(messageType.rawValue), uint(quantity) ) )
 }
 
  
@@ -2659,8 +2660,8 @@ public func tidyLocalizedStringN( _ messageType: tidyStrings, _ quantity: UInt )
 */
 public func tidyLocalizedString( _ messageType: tidyStrings ) -> String {
 
-//    return String( cString: CLibTidy.tidyLocalizedString( uint(messageType.rawValue) ) )
-    return String( cString: CLibTidy.tidyLocalizedString( messageType ) )
+    /* The actual method doesn't take this type, but a uint. */
+    return String( cString: CLibTidy.tidyLocalizedString( uint(messageType.rawValue) ) )
 }
 
  
@@ -2673,9 +2674,9 @@ public func tidyLocalizedString( _ messageType: tidyStrings ) -> String {
  - returns: 
      Returns the desired string.
 */
-public func tidyDefaultString( _ messageType: UInt ) -> String {
+public func tidyDefaultString( _ messageType: tidyStrings ) -> String {
  
-    return String( cString: CLibTidy.tidyDefaultString( uint(messageType) ) )
+    return String( cString: CLibTidy.tidyDefaultString( uint(messageType.rawValue) ) )
 }
 
  
