@@ -843,7 +843,7 @@ public func tidyOptGetDefault( _ opt: TidyOption ) -> String {
 */
 public func tidyOptGetDefaultInt( _ opt: TidyOption ) -> UInt {
  
-    return UInt( tidyOptGetDefaultInt( opt ) )
+    return UInt( CLibTidy.tidyOptGetDefaultInt( opt ) )
 }
 
  

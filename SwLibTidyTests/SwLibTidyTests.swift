@@ -20,10 +20,13 @@ import CLibTidyEnum
 
 class SwiftTests: XCTestCase {
     
-    private var tdoc: TidyDoc?
+    private var tdoc: TidyDoc?      // used for most tests, assigned in setUp()
+    private var testBundle: Bundle?  // reference to the test case bundle
+
 
     override func setUp() {
         super.setUp()
+        testBundle = Bundle(for: type(of: self))
         tdoc = tidyCreate()!
     }
     
@@ -37,15 +40,13 @@ class SwiftTests: XCTestCase {
     /* Many of our tests require Tidy to Tidy a file first. */
     func tidy( doc: TidyDoc, file: String, config: String? = nil) -> Swift.Bool {
 
-        let testBundle = Bundle(for: type(of: self))
-
         if let config = config {
-            if let file = testBundle.path(forResource: config, ofType: "conf") {
+            if let file = testBundle!.path(forResource: config, ofType: "conf") {
                 let _ = tidyLoadConfig( doc, file )
             }
         }
 
-        if let file = testBundle.path(forResource: file, ofType: "html") {
+        if let file = testBundle!.path(forResource: file, ofType: "html") {
            let _ = tidyParseFile( doc, file )
         } else {
             return false
@@ -120,17 +121,29 @@ class SwiftTests: XCTestCase {
       if one of the configuration values we loaded matches what we expect,
       which is different from the built-in default value.
 
+      Because we're also testing the encoding version of the configuration
+      loader, we'll opportunistically test tidyOptResetAllToDefault().
+
       - tidyLoadConfig()
+      - tidyLoadConfigEnc()
+      - tidyOptResetAllToDefault()
      *************************************************************************/
     func test_tidyLoadConfig() {
 
-        let testBundle = Bundle(for: type(of: self))
+        if let file = testBundle!.path(forResource: "case-001", ofType: "conf") {
 
-        if let file = testBundle.path(forResource: "case-001", ofType: "conf") {
             let _ = tidyLoadConfig( tdoc!, file )
-        }
+            XCTAssert( tidyOptGetInt( tdoc!, TidyAccessibilityCheckLevel ) == 3, "Expected 3, but got something else." )
 
-        XCTAssert( tidyOptGetInt( tdoc!, TidyAccessibilityCheckLevel ) == 3, "Expected 3, but got something else." )
+            let _ = tidyOptResetAllToDefault( tdoc! )
+            XCTAssert( tidyOptGetInt( tdoc!, TidyAccessibilityCheckLevel ) == 0, "Expected 0, but got something else." )
+
+            let _ = tidyLoadConfigEnc( tdoc!, file, "ascii")
+            XCTAssert( tidyOptGetInt( tdoc!, TidyAccessibilityCheckLevel ) == 3, "Expected 3, but got something else." )
+
+        } else {
+            XCTAssert( false, "Couldn't load the configuration file." )
+        }
     }
 
 
@@ -152,9 +165,7 @@ class SwiftTests: XCTestCase {
 
         XCTAssert( tidyStatus( tdoc! ) == 1, "Expected tidyStatus() == 1" )
 
-        let testBundle = Bundle(for: type(of: self))
-
-        if let file = testBundle.path(forResource: "case-001", ofType: "html") {
+        if let file = testBundle!.path(forResource: "case-001", ofType: "html") {
             let _ = tidyParseFile( tdoc!, file )
         }
 
@@ -238,6 +249,63 @@ class SwiftTests: XCTestCase {
 
 
     /*************************************************************************
+      Tidy offers a cross-platform file exists function, which is good if
+      you're writing cross-platform applications. Let's try it out.
+
+      - tidyFileExists()
+     *************************************************************************/
+    func test_tidyFileExists() {
+
+        if var file = testBundle!.path(forResource: "case-001", ofType: "conf") {
+
+            XCTAssert( tidyFileExists( tdoc!, file ), "File \(file) does not exist." )
+
+            file += ".xfghjkh"
+
+            XCTAssert( !tidyFileExists( tdoc!, file ), "By some strange fluke, file \(file) exists!" )
+        }
+    }
+
+
+    /*************************************************************************
+      Tidy can work with multiple combinations of input and out character
+      encodings. We're not going to test that Tidy actually works, but we
+      will test that Tidy accepts our wrapped methods.
+
+      - tidySetCharEncoding()
+      - tidySetInCharEncoding()
+      - tidySetOutCharEncoding()
+      - tidyOptGetInt()
+     *************************************************************************/
+    func test_tidySetCharEncoding() {
+
+        /* Our default input and output encodings should both be 4: UTF8 */
+        var inputVal = tidyOptGetInt( tdoc!, TidyInCharEncoding )
+        var outputVal = tidyOptGetInt( tdoc!, TidyOutCharEncoding )
+
+        XCTAssert( inputVal == 4 && outputVal == 4, "The in and out character encoding defaults seem to be wrong.")
+
+        /* tidySetCharEncoding() affects both input and output encodings. */
+        let _ = tidySetCharEncoding( tdoc!, "mac")
+        inputVal = tidyOptGetInt( tdoc!, TidyInCharEncoding )   // should be 6
+        outputVal = tidyOptGetInt( tdoc!, TidyOutCharEncoding ) // should be 1
+        XCTAssert( inputVal == 6 && outputVal == 1, "The in and out character encoding settings seem to be wrong.")
+
+        /* Only affect input encoding. */
+        let _ = tidySetInCharEncoding( tdoc!, "big5")
+        inputVal = tidyOptGetInt( tdoc!, TidyInCharEncoding )   // should be 12
+        outputVal = tidyOptGetInt( tdoc!, TidyOutCharEncoding ) // should be 1
+        XCTAssert( inputVal == 12 && outputVal == 1, "The in and out character encoding settings seem to be wrong.")
+
+        /* Only affect output encoding. */
+        let _ = tidySetOutCharEncoding( tdoc!, "win1252")
+        inputVal = tidyOptGetInt( tdoc!, TidyInCharEncoding )   // should be 12
+        outputVal = tidyOptGetInt( tdoc!, TidyOutCharEncoding ) // should be 7
+        XCTAssert( inputVal == 12 && outputVal == 7, "The in and out character encoding settings seem to be wrong.")
+    }
+
+
+    /*************************************************************************
       Tidy natively supports localization, although your higher-level classes
       may choose to use macOS localization instead. Tidy always gets strings
       of type `tidyStrings`, except when it doesn't, because in addition to
@@ -280,6 +348,8 @@ class SwiftTests: XCTestCase {
         let _ = tidySetLanguage("fr")
         messg_expects = tidyLocalizedString( STRING_SPECIFIED )
         XCTAssert( messg_expects == "précisé", "The string 'précisé' was not returned." )
+        let _ = tidySetLanguage("en")
     }
+
 
 }
