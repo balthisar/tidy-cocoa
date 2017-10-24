@@ -388,10 +388,323 @@ class SwiftTests: XCTestCase {
         /*
          Our sample config should have generated at least one record. Using
          tidyConfigRecords() is an SwLibTidy alternative to using a callback.
+         The first unknown configuration record in our sample file should be
+         for a proposed option 'mynewconfig'.
          */
-//        let firstOption = tidyConfigRecords(forTidyDoc: tdoc! ).report[0]["option"]!
-//        XCTAssert( firstOption == "mynewconfig", "Didn't find the option we thought we would." )
+        if let firstOption = tidyConfigRecords(forTidyDoc: tdoc! ).first?.option {
+            XCTAssert( firstOption == "mynewconfig", "The first bad option is supposed to be 'mynewconfig'." )
+        } else {
+            XCTAssert( false, "No configuration records exist." )
+        }
     }
+
+
+    /*************************************************************************
+      A whole lot of Tidy is dedicated to managing options, and clients will
+      want to manage options as well.
+
+      Tidy uses the TidyOptionId where it's possible, and instances of
+      TidyOption where contextual information is needed.
+
+      This test deals primarily with discovery of options and getting
+      instances of options, as well as querying options for information
+      about options.
+
+      - tidyOptGetId()
+      - tidyOptGetIdForName()
+      - tidyGetOptionList()
+      - tidyGetOption()
+      - tidyGetOptionByName()
+      - tidyOptGetName()
+      - tidyOptGetType()
+      - tidyOptIsReadOnly()
+      - tidyOptGetCategory()
+     *************************************************************************/
+
+
+    /*************************************************************************
+      A whole lot of Tidy is dedicated to managing options, and clients will
+      want to manage options as well.
+
+      This test deals with using options' pick lists, which can be an
+      introspective source of information, particularly for GUI programs.
+
+      - tidyOptGetPickList()
+      - tidyOptGetCurrPick()
+     *************************************************************************/
+
+
+    /*************************************************************************
+      A whole lot of Tidy is dedicated to managing options, and clients will
+      want to manage options as well.
+
+      This test deals with all of the ways to get and set options.
+
+      - tidyOptGetDefault()
+      - tidyOptGetDefaultInt()
+      - tidyOptGetDefaultBool()
+      - tidyOptGetValue()
+      - tidyOptSetValue()
+      - tidyOptParseValue()
+      - tidyOptGetInt()
+      - tidyOptSetInt()
+      - tidyOptGetBool()
+      - tidyOptSetBool()
+      - tidyOptResetToDefault()
+      - tidyOptResetAllToDefault()
+      - tidyOptGetEncName()
+      - tidyOptGetDeclTagList()
+     *************************************************************************/
+
+
+    /*************************************************************************
+      A whole lot of Tidy is dedicated to managing options, and clients will
+      want to manage options as well.
+
+      This test is about option snapshots, and copying options between
+      document instances.
+
+      - tidyOptSnapshot()
+      - tidyOptResetToSnapshot()
+      - tidyOptDiffThanDefault()
+      - tidyOptDiffThanSnapshot()
+      - tidyOptCopyConfig()
+     *************************************************************************/
+
+
+    /*************************************************************************
+      A whole lot of Tidy is dedicated to managing options, and clients will
+      want to manage options as well.
+
+      This test demonstrates how documentation for Tidy options can be
+      generated.
+
+      - tidyOptGetDoc()
+      - tidyOptGetDocLinksList()
+     *************************************************************************/
+
+
+    /*************************************************************************
+      When Tidy is used with the gnu-emacs option, it will display its error
+      reports in a format that's useful to emacs users. The implementing
+      program will have to specify the file and path to be used in this
+      modified report.
+
+      - tidySetEmacsFile()
+      - tidyGetEmacsFile()
+     *************************************************************************/
+
+
+    /*************************************************************************
+      Tidy normally sends message output to STDOUT, which can be useful in
+      command line tools, but luckily Tidy supports other types of output,
+      as demonstrated in this test.
+
+      - tidySetErrorFile()
+      - tidySetErrorBuffer()
+     *************************************************************************/
+
+
+    /*************************************************************************
+      Sophisticated programs will want more control over Tidy's message
+      output, and the use of the message callback enables this. This test
+      demonstrates setting up such a callback.
+
+      - tidySetMessageCallback()
+     *************************************************************************/
+
+
+    /*************************************************************************
+      Tidy's message callback provides instances of TidyMessage, which is an
+      opaque type that uses an API to interrogate, as demonstrated in this
+      test.
+
+      - tidySetMessageCallback()
+      - tidyGetMessageDoc()
+      - tidyGetMessageCode()
+      - tidyGetMessageKey()
+      - tidyGetMessageLine()
+      - tidyGetMessageColumn()
+      - tidyGetMessageLevel()
+      - tidyGetMessageFormatDefault()
+      - tidyGetMessageFormat()
+      - tidyGetMessageDefault()
+      - tidyGetMessage()
+      - tidyGetMessagePosDefault()
+      - tidyGetMessagePos()
+      - tidyGetMessagePrefixDefault()
+      - tidyGetMessagePrefix()
+      - tidyGetMessageOutputDefault()
+      - tidyGetMessageOutput()
+     *************************************************************************/
+
+
+    /*************************************************************************
+      Tidy's message callback provides instances of TidyMessage, which is an
+      opaque type that uses an API to interrogate. This message interrogation
+      API includes tidyGetMessageArguments() to return an array of
+      TidyMessageArgument, which has its own access API for discovering the
+      components of a message's original format string.
+
+      - tidyGetMessageArguments()
+      - tidyGetArgType()
+      - tidyGetArgFormat()
+      - tidyGetArgValueString()
+      - tidyGetArgValueUInt()
+      - tidyGetArgValueInt()
+      - tidyGetArgValueDouble()
+     *************************************************************************/
+
+
+    /*************************************************************************
+      SwLibTidy adds a feature to Tidy that can avoid all of the message
+      callback and nested APIs. The tidyMessageRecords() function provides
+      an instance of a class or structure that captures all of the message
+      related information into a nice, easy to use structure.
+
+      - tidyMessageRecords()
+     *************************************************************************/
+
+
+    /*************************************************************************
+      Tidy provides a simple pretty pretter callback and a convenience
+      function (for avoiding a callback) that can be used to track the
+      progress of the pretty printing process. It correlates (as best as is
+      possible) where location of source document components in the tidied
+      document. This might be useful, for example, in scrolling before and
+      after documents in a synchronized fashion.
+
+      - tidySetPrettyPrinterCallback()
+      - tidyPrettyPrinterRecords()
+     *************************************************************************/
+
+
+    /*************************************************************************
+      Tidy is an error correcting HTML parser, so let's learn how to parse.
+
+      - tidyParseFile()
+      - tidyParseStdin()
+      - tidyParseString()
+     *************************************************************************/
+
+
+    /*************************************************************************
+      A parsed document can have additional clean and repair operations
+      performed upon it, as well as report some related information about
+      the process.
+
+      - tidyCleanAndRepair()
+      - tidyRunDiagnostics()
+      - tidyReportDocType()
+     *************************************************************************/
+
+
+    /*************************************************************************
+      Saving tidied files to different output types is directly supported by
+      Tidy, although it's probably more likely you will take advantage of
+      macOS-native means. Still, you need to learn how to save to a buffer,
+      here.
+
+      - tidySaveFile()
+      - tidySaveStdout()
+      - tidySaveBuffer()
+     *************************************************************************/
+
+
+    /*************************************************************************
+      Tidy supports saving configuration files directly, however it only
+      writes from a given document's configuration, and only for options that
+      have non-default values (it's trivial to do this yourself anyway).
+
+      - tidyOptSaveFile()
+     *************************************************************************/
+
+
+    /*************************************************************************
+      Although Tidy is well known as an error-correcting parser and pretty
+      printer, it's also very capable of being used to work with HTML nodes
+      directly. This test demonstrates how to get the major nodes of a
+      parsed document, as well as how to traverse the document.
+
+      - tidyGetRoot()
+      - tidyGetHtml()
+      - tidyGetHead()
+      - tidyGetBody()
+      - tidyGetParent()
+      - tidyGetChild()
+      - tidyGetNext()
+      - tidyGetPrev()
+      - tidyDiscardElement()
+     *************************************************************************/
+
+
+    /*************************************************************************
+      Given a node, Tidy makes it simple to work with the node's attributes.
+      This test demonstrates this important feature.
+
+      - tidyAttrFirst()
+      - tidyAttrNext()
+      - tidyAttrName()
+      - tidyAttrValue()
+      - tidyAttrDiscard()
+      - tidyAttrGetId()
+      - tidyAttrIsEvent()
+      - tidyAttrGetById()
+     *************************************************************************/
+
+
+    /*************************************************************************
+      Given a node, Tidy makes it simple to work with other information about
+      the node, as tested in this case.
+
+      - tidyNodeGetType()
+      - tidyNodeGetName()
+      - tidyNodeIsText()
+      - tidyNodeIsProp()
+      - tidyNodeIsHeader()
+      - tidyNodeHasText()
+      - tidyNodeGetText()
+      - tidyNodeGetValue()
+      - tidyNodeGetId()
+      - tidyNodeLine()
+      - tidyNodeColumn()
+     *************************************************************************/
+
+
+    /*************************************************************************
+      Tidy works with message codes internally as enums, and these carry over
+      fairly well into Swift and excellently in Objective-C, however the
+      specific values are *never* guaranteed. This means that we need some
+      persistent string-based representation of message codes for use outside
+      of LibTidy and outside of linked applications. For example, for string
+      lookup in localized versions of .strings files.
+
+      These functions provide discovery of these persistent strings.
+
+      - tidyErrorCodeAsKey()
+      - tidyErrorCodeFromKey()
+      - getErrorCodeList()
+     *************************************************************************/
+
+
+    /*************************************************************************
+      Tidy supports string localization out of the box. While macOS and iOS
+      applications will probably use native localization technologies, it's
+      certainly possible to leverage Tidy's translations, too. This test
+      case demonstrates how this can work.
+
+      - tidySystemLocale()
+      - tidySetLanguage()
+      - tidyGetLanguage()
+      - getWindowsLanguageList()
+      - TidyLangWindowsName()
+      - TidyLangPosixName()
+      - tidyLocalizedStringN()
+      - tidyLocalizedString()
+      - tidyDefaultString()
+      - getInstalledLanguageList()
+      - getStringKeyList()
+     *************************************************************************/
 
 
 }

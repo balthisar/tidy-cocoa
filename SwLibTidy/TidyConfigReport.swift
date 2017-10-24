@@ -23,7 +23,7 @@ import CLibTidy
 /**
  This protocol describes an interface for objects that SwLibTidy can use for
  reporting unknown configuration options and proposed values, usually supplied
- by end application users.
+ by end application users. It is usually used as an array.
 */
 public protocol TidyConfigReportProtocol: AnyObject {
 
@@ -32,12 +32,9 @@ public protocol TidyConfigReportProtocol: AnyObject {
      containing the unrecognized config value, and the key `value` containing
      the proposed value.
      */
-    var report: [Dictionary<String, String>] { get }
+    var option: String { get }
 
-    /**
-     Add a configuration and value to the report.
-     */
-    func add( config: String, value: String )
+    var value: String { get }
 
 }
 
@@ -45,15 +42,15 @@ public protocol TidyConfigReportProtocol: AnyObject {
 /** A default implementation of the `TidyConfigReportProtocol`. */
 @objc public class TidyConfigReport: NSObject, TidyConfigReportProtocol {
     
-    public var report: [Dictionary<String, String>] = []
+    public var option: String = ""
+    public var value: String = ""
 
-    public func add( config: String, value: String ) {
+    init(withValue: String, forOption: String) {
 
-        let newDict = [ "config" : config, "value" : value ]
-
-        report.append( newDict )
+        option = forOption;
+        value = withValue;
+        super.init()
     }
-
 }
 
 
