@@ -352,4 +352,46 @@ class SwiftTests: XCTestCase {
     }
 
 
+    /*************************************************************************
+      When Tidy parses a configuration option that it doesn't understand or
+      is deprecated, it can call back to a closure or top-level function that
+      you provide. SwLibTidy also collects this information for you so that
+      you don't have to use callbacks.
+
+      - tidySetConfigCallback()
+      - tidyConfigRecords()
+     *************************************************************************/
+    func test_tidyConfigCallback() {
+
+        let callbackSuccess = XCTestExpectation(description: "The option callback should execute at least once.")
+
+        let _ = tidySetConfigCallback( tdoc!, { (tdoc: TidyDoc, option: String, value: String) -> Swift.Bool in
+
+            callbackSuccess.fulfill()
+
+            /*
+             Return false to indicate that the callback did NOT handle the
+             option, so that Tidy can issue a warning.
+             */
+            return false
+        })
+
+        if let file = testBundle!.path(forResource: "case-001", ofType: "conf") {
+            let _ = tidyLoadConfig( tdoc!, file )
+        } else {
+            XCTAssert( false, "Couldn't load the configuration file." )
+        }
+
+        /* Issue the assert here if the callback doesn't fire at least once. */
+        wait(for: [callbackSuccess], timeout: 1.0)
+
+        /*
+         Our sample config should have generated at least one record. Using
+         tidyConfigRecords() is an SwLibTidy alternative to using a callback.
+         */
+//        let firstOption = tidyConfigRecords(forTidyDoc: tdoc! ).report[0]["option"]!
+//        XCTAssert( firstOption == "mynewconfig", "Didn't find the option we thought we would." )
+    }
+
+
 }

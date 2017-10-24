@@ -21,29 +21,37 @@ import CLibTidy
 
 
 /**
- This protocol describes an interface for objects that CLibTidy can use for
+ This protocol describes an interface for objects that SwLibTidy can use for
  reporting unknown configuration options and proposed values, usually supplied
  by end application users.
 */
 public protocol TidyConfigReportProtocol: AnyObject {
 
-    /** The report consists of a dictionary wherein each unrecognized config
-        option is a key, and the proposed value is the value. Implementations
-        must choose whether or not to discard repeated option values, or to
-        mutate repeat option values in order to make the keys unique.
+    /**
+     The report consists of an array of dictionaries with the key `config`
+     containing the unrecognized config value, and the key `value` containing
+     the proposed value.
      */
-    var report: [ String : String ] { get }
+    var report: [Dictionary<String, String>] { get }
+
+    /**
+     Add a configuration and value to the report.
+     */
+    func add( config: String, value: String )
 
 }
 
 
 /** A default implementation of the `TidyConfigReportProtocol`. */
-public class TidyConfigReport: TidyConfigReportProtocol {
+@objc public class TidyConfigReport: NSObject, TidyConfigReportProtocol {
     
-    public let report: [ String : String ]
+    public var report: [Dictionary<String, String>] = []
 
-    init( withDictionary: Dictionary<String, String> ) {
-        report = withDictionary
+    public func add( config: String, value: String ) {
+
+        let newDict = [ "config" : config, "value" : value ]
+
+        report.append( newDict )
     }
 
 }

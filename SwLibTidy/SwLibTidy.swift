@@ -191,7 +191,7 @@ public func tidyCreate() -> TidyDoc? {
             .fromOpaque(ptrStorage)
             .takeUnretainedValue()
         
-        storage.configCallbackRecords.updateValue( String(cString: value), forKey: String(cString: option) )
+        storage.configCallbackRecords.add( config: String(cString: option), value: String(cString: value) )
         
         if let callback = storage.configCallback {
             return callback( tdoc!, String(cString: option), String(cString: value) ) ? yes : no
@@ -2749,11 +2749,11 @@ public func getInstalledLanguageList() -> [String] {
  and the value indicating the proposed value. This convenience method avoids 
  having to use your own callback to collect this data.
 */
-public func tidyConfigRecords( forTidyDoc: TidyDoc ) -> [ String : String ] {
+public func tidyConfigRecords( forTidyDoc: TidyDoc ) -> TidyConfigReport {
     
     guard
         let ptrStorage = CLibTidy.tidyGetAppData( forTidyDoc )
-    else { return [:] }
+    else { return TidyConfigReport.init() }
     
     let storage = Unmanaged<ApplicationData>
         .fromOpaque(ptrStorage)
@@ -2778,7 +2778,7 @@ public func tidyConfigRecords( forTidyDoc: TidyDoc ) -> [ String : String ] {
 private class ApplicationData {
     var appData: AnyObject?
     var configCallback: TidyConfigCallback?
-    var configCallbackRecords: [ String : String ]
+    var configCallbackRecords: TidyConfigReport
     var tidyMessageCallback: TidyMessageCallback?
     var tidyMessageCallbackRecords: [[ String : String ]]
     var tidyPPCallback: TidyPPProgress?
@@ -2787,7 +2787,7 @@ private class ApplicationData {
     init() {
         self.appData = nil
         self.configCallback = nil
-        self.configCallbackRecords = [:]
+        self.configCallbackRecords = TidyConfigReport.init()
         self.tidyMessageCallback = nil
         self.tidyMessageCallbackRecords = []
         self.tidyPPCallback = nil

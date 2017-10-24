@@ -177,7 +177,9 @@ class TidyRunner {
 
         /* Let's show what happened during the configuration phase. */
         output(horizontal_rule)
-        output( "\(tidyConfigRecords(forTidyDoc: tdoc))" )
+        for record in tidyConfigRecords( forTidyDoc: tdoc ).report {
+            output( "option '\(record["config"]!)' and value '\(record["value"]!)'" )
+        }
 
         /* Don't need this any more. */
         tidyRelease( tdoc )
