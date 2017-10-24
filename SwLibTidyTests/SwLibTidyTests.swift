@@ -306,53 +306,6 @@ class SwiftTests: XCTestCase {
 
 
     /*************************************************************************
-      Tidy natively supports localization, although your higher-level classes
-      may choose to use macOS localization instead. Tidy always gets strings
-      of type `tidyStrings`, except when it doesn't, because in addition to
-      strings for each `tidyStrings`, it also has strings for `TidyOptionID`
-      `TidyConfigCategory` and `TidyReportLevel`. This compromise between
-      sloppiness and functionality make it difficult for us to enforce type
-      safety in Swift, but there are always workarounds.
-
-      - tidyLocalizedString()
-      - tidyLocalizedStringN()
-      - tidyDefaultString()
-      - tidySetLanguage()
-     *************************************************************************/
-    func test_tidyLocalizedString() {
-
-        var messg_expects: String
-
-        /*
-         The singular for the given message. Because the current locale is
-         the default locale, we get same result as tidyDefaultString().
-         */
-        messg_expects = tidyLocalizedString( STRING_ERROR_COUNT_ERROR )
-        XCTAssert( messg_expects == "error", "The string 'error' was not returned." )
-
-        /*
-         The form of the message if there are five of whatever we're looking
-         for. There are only a few plural strings used in Tidy.
-         */
-        messg_expects = tidyLocalizedStringN( STRING_ERROR_COUNT_ERROR, 5 )
-        XCTAssert( messg_expects == "errors", "The string 'errors' was not returned." )
-
-        /*
-         Oops! We want a TidyReportLevel as a string! This works for any of
-         the other types that have strings defined, too.
-         */
-        messg_expects = tidyDefaultString( tidyStrings.init( TidyInfo.rawValue) )
-        XCTAssert( messg_expects == "Info: ", "The string 'Info: ' was not returned." )
-
-        /* Let's set the language and lookup a French string. */
-        let _ = tidySetLanguage("fr")
-        messg_expects = tidyLocalizedString( STRING_SPECIFIED )
-        XCTAssert( messg_expects == "précisé", "The string 'précisé' was not returned." )
-        let _ = tidySetLanguage("en")
-    }
-
-
-    /*************************************************************************
       When Tidy parses a configuration option that it doesn't understand or
       is deprecated, it can call back to a closure or top-level function that
       you provide. SwLibTidy also collects this information for you so that
@@ -410,9 +363,9 @@ class SwiftTests: XCTestCase {
       instances of options, as well as querying options for information
       about options.
 
+      - tidyGetOptionList()
       - tidyOptGetId()
       - tidyOptGetIdForName()
-      - tidyGetOptionList()
       - tidyGetOption()
       - tidyGetOptionByName()
       - tidyOptGetName()
@@ -420,7 +373,31 @@ class SwiftTests: XCTestCase {
       - tidyOptIsReadOnly()
       - tidyOptGetCategory()
      *************************************************************************/
+    func test_tidyOptions_general() {
 
+        guard let tdoc = tdoc else {
+            XCTAssert( false, "The test could not be conducted due to guard conditions." )
+            return
+        }
+
+        let optionList = tidyGetOptionList( tdoc )
+
+        /* Verify that our options list has some options. */
+        XCTAssert( optionList.count > 0, "The options list is empty." )
+
+        /*
+         Verify that the TidyOptionID for the first item is as expected.
+         This test is fragile if LibTidy changes its enum ahead of this item.
+         */
+        if let optionId = tidyOptGetId( optionList[0] ) {
+            XCTAssert( optionId == TidyAccessibilityCheckLevel, "The TidyOptionId is not as expected." )
+
+        } else {
+            XCTAssert( false, "The call to tidyOptGetId() was not successful." )
+        }
+
+
+    }
 
     /*************************************************************************
       A whole lot of Tidy is dedicated to managing options, and clients will
@@ -688,10 +665,60 @@ class SwiftTests: XCTestCase {
 
 
     /*************************************************************************
-      Tidy supports string localization out of the box. While macOS and iOS
-      applications will probably use native localization technologies, it's
-      certainly possible to leverage Tidy's translations, too. This test
-      case demonstrates how this can work.
+      Tidy natively supports localization, although your higher-level classes
+      may choose to use macOS localization instead. Tidy always gets strings
+      of type `tidyStrings`, except when it doesn't, because in addition to
+      strings for each `tidyStrings`, it also has strings for `TidyOptionID`
+      `TidyConfigCategory` and `TidyReportLevel`. This compromise between
+      sloppiness and functionality make it difficult for us to enforce type
+      safety in Swift, but there are always workarounds.
+
+      - tidyLocalizedString()
+      - tidyLocalizedStringN()
+      - tidyDefaultString()
+      - tidySetLanguage()
+     *************************************************************************/
+    func test_tidyLocalizedString() {
+
+        var messg_expects: String
+
+        /*
+         The singular for the given message. Because the current locale is
+         the default locale, we get same result as tidyDefaultString().
+         */
+        messg_expects = tidyLocalizedString( STRING_ERROR_COUNT_ERROR )
+        XCTAssert( messg_expects == "error", "The string 'error' was not returned." )
+
+        /*
+         The form of the message if there are five of whatever we're looking
+         for. There are only a few plural strings used in Tidy.
+         */
+        messg_expects = tidyLocalizedStringN( STRING_ERROR_COUNT_ERROR, 5 )
+        XCTAssert( messg_expects == "errors", "The string 'errors' was not returned." )
+
+        /* Let's set the language and lookup a French string. */
+        let _ = tidySetLanguage("fr")
+
+        messg_expects = tidyLocalizedString( STRING_SPECIFIED )
+        XCTAssert( messg_expects == "précisé", "The string 'précisé' was not returned." )
+
+        /*
+         Oops! We want a TidyReportLevel as a string! This works for any of
+         the other types that have strings defined, too. And if we're in
+         French, we should get the English string anyway.
+         */
+        messg_expects = tidyDefaultString( tidyStrings.init( TidyInfo.rawValue) )
+        XCTAssert( messg_expects == "Info: ", "The string 'Info: ' was not returned." )
+
+        /* XCTest runs these asynchronously, so better reset to English. */
+        let _ = tidySetLanguage("en")
+    }
+
+
+    /*************************************************************************
+      Tidy natively supports localization, although your higher-level classes
+      may choose to use macOS localization instead. These extra utilities
+      make it simple to support Tidy's native localization support.
 
       - tidySystemLocale()
       - tidySetLanguage()
@@ -699,9 +726,6 @@ class SwiftTests: XCTestCase {
       - getWindowsLanguageList()
       - TidyLangWindowsName()
       - TidyLangPosixName()
-      - tidyLocalizedStringN()
-      - tidyLocalizedString()
-      - tidyDefaultString()
       - getInstalledLanguageList()
       - getStringKeyList()
      *************************************************************************/
