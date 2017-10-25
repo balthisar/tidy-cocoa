@@ -830,9 +830,13 @@ public func tidyOptGetCategory( _ opt: TidyOption ) -> TidyConfigCategory {
  - returns:
      A string indicating the default value of the specified option.
 */
-public func tidyOptGetDefault( _ opt: TidyOption ) -> String {
- 
-    return String( cString: CLibTidy.tidyOptGetDefault( opt ) )
+public func tidyOptGetDefault( _ opt: TidyOption ) -> String? {
+
+    if let result = CLibTidy.tidyOptGetDefault( opt ) {
+        return String( cString: result )
+    }
+
+    return nil
 }
 
  
@@ -908,9 +912,13 @@ public func tidyOptGetPickList( _ opt: TidyOption ) -> [String] {
  - returns: 
      The string value of the given optId.
 */
-public func tidyOptGetValue( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> String {
+public func tidyOptGetValue( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> String? {
 
-    return String( cString: CLibTidy.tidyOptGetValue( tdoc, optId ) )
+    if let result = CLibTidy.tidyOptGetValue( tdoc, optId ) {
+        return String( cString: result )
+    }
+
+    return nil
 }
 
  
@@ -976,9 +984,9 @@ public func tidyOptGetInt( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> UInt {
  - returns:
      Returns a bool indicating success or failure.
 */
-public func tidyOptSetInt( _ tdoc: TidyDoc, _ optId: TidyOptionId, _ val: UInt ) -> Swift.Bool {
+public func tidyOptSetInt( _ tdoc: TidyDoc, _ optId: TidyOptionId, _ val: UInt32 ) -> Swift.Bool {
 
-    return CLibTidy.tidyOptSetInt( tdoc, optId, val ) == yes ? true : false
+    return CLibTidy.tidyOptSetInt( tdoc, optId, UInt(val) ) == yes ? true : false
 }
 
  
