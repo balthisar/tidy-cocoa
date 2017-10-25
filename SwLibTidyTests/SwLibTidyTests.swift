@@ -675,6 +675,26 @@ class SwLibTidyTests: XCTestCase {
      *************************************************************************/
     func test_tidyOptions_snapshots() {
 
+        guard
+            let tdoc = tdoc
+        else { XCTFail( "The TidyDoc does not exist." ); return }
+
+        var result: Bool
+
+        result = tidyOptDiffThanDefault( tdoc )
+        /* NOTE: FAILS due to bug in upstream tidy! */
+        XCTAssertFalse( result, "The option values should all be default, but aren't." )
+
+        if let file = testBundle!.path(forResource: "case-001", ofType: "conf") {
+            let _ = tidyLoadConfig( tdoc, file )
+        } else {
+            XCTFail( "Couldn't load the configuration file." )
+        }
+
+        result = tidyOptDiffThanDefault( tdoc )
+        /* NOTE: FAILS due to bug in upstream tidy! */
+        XCTAssertTrue( result, "The option values should be different than default, but aren't.")
+
 
     }
 
