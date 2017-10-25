@@ -18,7 +18,7 @@ import XCTest
 @testable import SwLibTidy
 import CLibTidyEnum
 
-class SwiftTests: XCTestCase {
+class SwLibTidyTests: XCTestCase {
     
     private var tdoc: TidyDoc?      // used for most tests, assigned in setUp()
     private var testBundle: Bundle?  // reference to the test case bundle
@@ -479,8 +479,34 @@ class SwiftTests: XCTestCase {
 
       - tidyOptGetPickList()
       - tidyOptGetCurrPick()
+      - tidyOptGetName()
      *************************************************************************/
+    func test_tidyOptions_picklists() {
 
+        guard
+            let tdoc = tdoc
+            else { XCTFail( "The TidyDoc does not exist." ); return }
+
+        /* The TidyDoctype option has an interesting list. */
+        if let opt = tidyGetOption( tdoc, TidyDoctype ) {
+
+            /* Veryify we have the right option by checking its name. */
+            var result = tidyOptGetName( opt ) == "doctype"
+            XCTAssert( result, "tidyOptGetName() returned an unexpected result." )
+
+            /* The 5th item should be "transitional". */
+            result = tidyOptGetPickList( opt )[4] == "transitional"
+            XCTAssert( result, "tidyOptGetPickList() returned an unexpected result." )
+
+            /* The current value should be "html". */
+            result = tidyOptGetCurrPick( tdoc, TidyDoctype) == "html5"
+            XCTAssert( result, "The current pick should have been 'html5', but wasn't.")
+
+        } else {
+            XCTFail( "tidyGetOption() failed." )
+        }
+
+    }
 
     /*************************************************************************
       A whole lot of Tidy is dedicated to managing options, and clients will
@@ -488,6 +514,7 @@ class SwiftTests: XCTestCase {
 
       This test deals with all of the ways to get and set options.
 
+      - tidyGetOption()
       - tidyOptGetDefault()
       - tidyOptGetDefaultInt()
       - tidyOptGetDefaultBool()
@@ -503,7 +530,126 @@ class SwiftTests: XCTestCase {
       - tidyOptGetEncName()
       - tidyOptGetDeclTagList()
      *************************************************************************/
+    func test_tidyOptions_values() {
+        
+        guard
+            let tdoc = tdoc
+        else { XCTFail( "The TidyDoc does not exist." ); return }
 
+        var result: Bool
+
+        /* Let's work with an option of type TidyString. */
+        if let opt = tidyGetOption( tdoc, TidyBlockTags ) {
+
+            result = tidyOptGetDefault( opt ) == nil
+            XCTAssert( result, "The default for TidyBlockTags should have been nil." )
+
+            result = tidyOptGetValue( tdoc, TidyBlockTags ) == nil
+            XCTAssert( result, "The value for TidyBlockTags should have been nil." )
+
+            /* Note how once set, Tidy comma-formats the list. */
+            let _ = tidyOptSetValue( tdoc, TidyBlockTags, "one two three" )
+            if let result = tidyOptGetValue( tdoc, TidyBlockTags ) {
+                XCTAssert( result == "one, two, three", "The option value is not as expected." )
+            }
+
+            result = tidyOptGetDeclTagList( tdoc, forOptionId: TidyBlockTags )[1] == "two"
+            XCTAssert( result, "The second declared tag should have been 'two'." )
+
+        } else {
+            XCTFail( "tidyGetOption() failed." )
+        }
+
+
+        /* Now let's work with a Bool option. */
+        if let opt = tidyGetOption( tdoc, TidyFixBackslash ) {
+
+            result = tidyOptGetDefaultBool( opt ) == true
+            XCTAssert( result, "The default for TidyFixBackslash should have been true." )
+
+            result = tidyOptGetBool( tdoc, TidyFixBackslash ) == true
+            XCTAssert( result, "The value for TidyFixBackslash should have been true." )
+
+            let _ = tidyOptSetBool( tdoc, TidyFixBackslash, false )
+            result = tidyOptGetBool( tdoc, TidyFixBackslash ) == false
+            XCTAssert( result, "The option value should have been changed to false." )
+
+        } else {
+            XCTFail( "tidyGetOption() failed." )
+        }
+
+
+        /* …and an Integer option. */
+        if let opt = tidyGetOption( tdoc, TidySortAttributes ) {
+
+            /*
+             Note! We return an integer, so if we want to use Tidy's
+             enum values, we need to look at it's integer value!
+             */
+            result = tidyOptGetDefaultInt( opt ) == TidySortAttrNone.rawValue
+            XCTAssert( result, "The default for TidySortAttributes should have been TidySortAttrNone." )
+
+            /*
+             Note! We return an integer, so if we want to use Tidy's
+             enum values, we need to look at it's integer value!
+             */
+            result = tidyOptGetInt( tdoc, TidySortAttributes ) == TidySortAttrNone.rawValue
+            XCTAssert( result, "The value for TidySortAttributes should have been TidySortAttrNone." )
+
+            /*
+             Note! We return an integer, so if we want to use Tidy's
+             enum values, we need to look at it's integer value!
+             */
+            let _ = tidyOptSetInt( tdoc, TidySortAttributes, TidySortAttrAlpha.rawValue )
+            result = tidyOptGetInt( tdoc, TidySortAttributes ) == TidySortAttrAlpha.rawValue
+            XCTAssert( result, "The value for TidySortAttributes should have been TidySortAttrAlpha." )
+
+            /* Can we set this as a string value? It's a pick list. */
+            let _ = tidyOptSetValue( tdoc, TidySortAttributes, "none" )
+            result = tidyOptGetInt( tdoc, TidySortAttributes ) == TidySortAttrNone.rawValue
+            XCTAssert( result, "The value for TidySortAttributes should have been TidySortAttrNone." )
+
+            /* Can we set this as a string value? It's a pick list. */
+            result = tidyOptSetValue( tdoc, TidySortAttributes, "invalid" ) == false
+            XCTAssert( result, "The value for TidySortAttributes should not have been set." )
+
+        } else {
+            XCTFail( "tidyGetOption() failed." )
+        }
+
+
+        /* Let's try to parse a value into a named option. */
+        if tidyOptParseValue( tdoc, "show-info", "no" ) {
+            result = tidyOptGetBool( tdoc, TidyShowInfo ) == false
+            XCTAssert( result, "The value for TidyShowInfo should have been false." )
+        } else {
+            XCTFail( "tidyOptParseValue() failed." )
+        }
+
+
+        /* Ensure that we can reset an option to default. */
+        let _ = tidyOptResetToDefault( tdoc, TidyBlockTags )
+
+        result = tidyOptGetValue( tdoc, TidyBlockTags ) == nil
+        XCTAssert( result, "The value for TidyBlockTags should have been nil." )
+
+        /* Ensure that we can reset all options to default. */
+        let _ = tidyOptResetAllToDefault( tdoc )
+
+        result = tidyOptGetBool( tdoc, TidyFixBackslash ) == true
+        XCTAssert( result, "The value for TidyFixBackslash should have been true." )
+
+        result = tidyOptGetInt( tdoc, TidySortAttributes ) == TidySortAttrNone.rawValue
+        XCTAssert( result, "The value for TidySortAttributes should have been TidySortAttrNone." )
+
+        result = tidyOptGetBool( tdoc, TidyShowInfo ) == true
+        XCTAssert( result, "The value for TidyShowInfo should have been true." )
+
+        /* Let's get the encoding name for one of the options. */
+        result = tidyOptGetEncName( tdoc, TidyInCharEncoding ) == "utf8"
+        XCTAssert( result, "The encoding name for TidyInCharEncoding should have been 'fff'." )
+
+    }
 
     /*************************************************************************
       A whole lot of Tidy is dedicated to managing options, and clients will
