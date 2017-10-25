@@ -685,6 +685,9 @@ class SwLibTidyTests: XCTestCase {
         /* NOTE: FAILS due to bug in upstream tidy! */
         XCTAssertFalse( result, "The option values should all be default, but aren't." )
 
+        result = tidyOptSnapshot( tdoc )
+        XCTAssertTrue( result, "The snapshot should have been taken." )
+
         if let file = testBundle!.path(forResource: "case-001", ofType: "conf") {
             let _ = tidyLoadConfig( tdoc, file )
         } else {
