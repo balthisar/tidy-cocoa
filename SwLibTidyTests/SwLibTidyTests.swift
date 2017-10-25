@@ -172,24 +172,30 @@ class SwLibTidyTests: XCTestCase {
       - tidyStatus()
       - tidyParseString()
       - tidyParseFile()
+      - tidyParseStdin()
      *************************************************************************/
-    func test_tidyParseStuff() {
+    func test_tidyParse() {
 
         guard
             let tdoc = tdoc
         else { XCTFail( "The TidyDoc does not exist." ); return }
 
         let _ = tidyParseString( tdoc, "<h1>Hello, world!</h2>" )
-
         var result = tidyStatus( tdoc )
         XCTAssert( result == 1, "Expected tidyStatus() == 1, but it was \(result)." )
 
         if let file = testBundle!.path(forResource: "case-001", ofType: "html") {
             let _ = tidyParseFile( tdoc, file )
         }
-
         result = tidyStatus( tdoc )
         XCTAssert( result == 1, "Expected tidyStatus() == 1, but it was \(result)." )
+
+        if let file = testBundle!.path(forResource: "case-001", ofType: "html") {
+            freopen( file, "r", stdin )
+            let _ = tidyParseStdin( tdoc )
+            result = tidyStatus( tdoc )
+            XCTAssert( result == 1, "Expected tidyStatus() == 1, but it was \(result)." )
+        }
     }
 
 
@@ -470,6 +476,7 @@ class SwLibTidyTests: XCTestCase {
         }
     }
 
+
     /*************************************************************************
       A whole lot of Tidy is dedicated to managing options, and clients will
       want to manage options as well.
@@ -507,6 +514,7 @@ class SwLibTidyTests: XCTestCase {
         }
 
     }
+
 
     /*************************************************************************
       A whole lot of Tidy is dedicated to managing options, and clients will
@@ -651,6 +659,7 @@ class SwLibTidyTests: XCTestCase {
 
     }
 
+
     /*************************************************************************
       A whole lot of Tidy is dedicated to managing options, and clients will
       want to manage options as well.
@@ -664,6 +673,10 @@ class SwLibTidyTests: XCTestCase {
       - tidyOptDiffThanSnapshot()
       - tidyOptCopyConfig()
      *************************************************************************/
+    func test_tidyOptions_snapshots() {
+
+
+    }
 
 
     /*************************************************************************
@@ -676,6 +689,9 @@ class SwLibTidyTests: XCTestCase {
       - tidyOptGetDoc()
       - tidyOptGetDocLinksList()
      *************************************************************************/
+    func test_tidyOptions_documentation() {
+
+    }
 
 
     /*************************************************************************
@@ -687,6 +703,9 @@ class SwLibTidyTests: XCTestCase {
       - tidySetEmacsFile()
       - tidyGetEmacsFile()
      *************************************************************************/
+    func test_tidyOptions_emacs() {
+
+    }
 
 
     /*************************************************************************
@@ -697,6 +716,9 @@ class SwLibTidyTests: XCTestCase {
       - tidySetErrorFile()
       - tidySetErrorBuffer()
      *************************************************************************/
+    func test_errorOut() {
+
+    }
 
 
     /*************************************************************************
@@ -706,6 +728,9 @@ class SwLibTidyTests: XCTestCase {
 
       - tidySetMessageCallback()
      *************************************************************************/
+    func test_messageCallback() {
+
+    }
 
 
     /*************************************************************************
@@ -731,6 +756,9 @@ class SwLibTidyTests: XCTestCase {
       - tidyGetMessageOutputDefault()
       - tidyGetMessageOutput()
      *************************************************************************/
+    func test_tidyMessage() {
+
+    }
 
 
     /*************************************************************************
@@ -748,6 +776,9 @@ class SwLibTidyTests: XCTestCase {
       - tidyGetArgValueInt()
       - tidyGetArgValueDouble()
      *************************************************************************/
+    func test_tidyMessageArguments() {
+
+    }
 
 
     /*************************************************************************
@@ -758,6 +789,9 @@ class SwLibTidyTests: XCTestCase {
 
       - tidyMessageRecords()
      *************************************************************************/
+    func test_tidyMessageRecords() {
+
+    }
 
 
     /*************************************************************************
@@ -771,15 +805,9 @@ class SwLibTidyTests: XCTestCase {
       - tidySetPrettyPrinterCallback()
       - tidyPrettyPrinterRecords()
      *************************************************************************/
+    func test_ppCallback() {
 
-
-    /*************************************************************************
-      Tidy is an error correcting HTML parser, so let's learn how to parse.
-
-      - tidyParseFile()
-      - tidyParseStdin()
-      - tidyParseString()
-     *************************************************************************/
+    }
 
 
     /*************************************************************************
@@ -791,6 +819,9 @@ class SwLibTidyTests: XCTestCase {
       - tidyRunDiagnostics()
       - tidyReportDocType()
      *************************************************************************/
+    func test_diagnostics() {
+
+    }
 
 
     /*************************************************************************
@@ -803,6 +834,9 @@ class SwLibTidyTests: XCTestCase {
       - tidySaveStdout()
       - tidySaveBuffer()
      *************************************************************************/
+    func test_tidySave() {
+
+    }
 
 
     /*************************************************************************
@@ -812,6 +846,9 @@ class SwLibTidyTests: XCTestCase {
 
       - tidyOptSaveFile()
      *************************************************************************/
+    func test_tidyOptSave() {
+
+    }
 
 
     /*************************************************************************
@@ -830,6 +867,9 @@ class SwLibTidyTests: XCTestCase {
       - tidyGetPrev()
       - tidyDiscardElement()
      *************************************************************************/
+    func test_traversal() {
+
+    }
 
 
     /*************************************************************************
@@ -845,6 +885,9 @@ class SwLibTidyTests: XCTestCase {
       - tidyAttrIsEvent()
       - tidyAttrGetById()
      *************************************************************************/
+    func test_attributes() {
+
+    }
 
 
     /*************************************************************************
@@ -863,6 +906,9 @@ class SwLibTidyTests: XCTestCase {
       - tidyNodeLine()
       - tidyNodeColumn()
      *************************************************************************/
+    func test_node_interrogation() {
+
+    }
 
 
     /*************************************************************************
@@ -879,6 +925,9 @@ class SwLibTidyTests: XCTestCase {
       - tidyErrorCodeFromKey()
       - getErrorCodeList()
      *************************************************************************/
+    func test_error_codes() {
+
+    }
 
 
     /*************************************************************************
@@ -951,6 +1000,8 @@ class SwLibTidyTests: XCTestCase {
       - getInstalledLanguageList()
       - getStringKeyList()
      *************************************************************************/
+    func test_locales() {
 
+    }
 
 }
