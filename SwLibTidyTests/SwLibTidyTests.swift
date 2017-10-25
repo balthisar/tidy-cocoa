@@ -72,7 +72,7 @@ class SwiftTests: XCTestCase {
         if let localDoc = tidyCreate() {
             tidyRelease( localDoc )
         } else {
-            XCTAssert ( false, "Could not create a Tidy document." )
+            XCTFail ( "Could not create a Tidy document." )
         }
     }
 
@@ -671,7 +671,12 @@ class SwiftTests: XCTestCase {
       strings for each `tidyStrings`, it also has strings for `TidyOptionID`
       `TidyConfigCategory` and `TidyReportLevel`. This compromise between
       sloppiness and functionality make it difficult for us to enforce type
-      safety in Swift, but there are always workarounds.
+      safety in Swift, but there are always workarounds: C enumerations
+      imported by Swift do not fail when initializing with a raw value that
+      does not correspond to an enumeration case. This is done for
+      compatibility with C, which allows any value to be stored in an
+      enumeration, including values used internally but not exposed in
+      headers.
 
       - tidyLocalizedString()
       - tidyLocalizedStringN()
