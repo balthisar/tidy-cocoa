@@ -736,7 +736,7 @@ public func tidyGetOptionList( _ tdoc: TidyDoc ) -> [TidyOption] {
 */
 public func tidyGetOption( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> TidyOption? {
 
-    /* CLibTidy can return garbabe on this call, so check it ourselves. */
+    /* CLibTidy can return garbage on this call, so check it ourselves. */
     if optId.rawValue <= TidyUnknownOption.rawValue || optId.rawValue >= N_TIDY_OPTIONS.rawValue {
         return nil;
     }
@@ -755,7 +755,7 @@ public func tidyGetOption( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> TidyOptio
  - returns: 
      The `TidyOption` of the given `optname`.
 */
-public func tidyGetOptionByName( _ tdoc: TidyDoc, _ optnam: String ) -> TidyOption {
+public func tidyGetOptionByName( _ tdoc: TidyDoc, _ optnam: String ) -> TidyOption? {
 
     return CLibTidy.tidyGetOptionByName( tdoc, optnam )
 }
