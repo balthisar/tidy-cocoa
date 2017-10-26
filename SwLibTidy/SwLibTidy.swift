@@ -543,6 +543,19 @@ public func tidyFileExists( _ tdoc: TidyDoc, _ filename: String ) -> Swift.Bool 
 
 
 // MARK: - Configuration, File, and Encoding Operations
+
+/**
+ In general, you should expect that options you set should stay set. This isn't
+ always the case, though, because Tidy will adjust options for internal use
+ during the lexing, parsing, cleaning, and printing phases, but will restore
+ them after the printing process.
+
+ If you require access to user configuration values at any time between the
+ `tidyParseXXX()` process and the `tidySaveXXX()` process, make sure to keep
+ your own copy.
+ */
+private func ℹ️() {}
+
 // MARK: - Character Encoding
 
 
@@ -551,9 +564,10 @@ public func tidyFileExists( _ tdoc: TidyDoc, _ filename: String ) -> Swift.Bool 
  include `ascii`, `latin1`, `raw`, `utf8`, `iso2022`, `mac`, `win1252`,
  `utf16le`, `utf16be`, `utf16`, `big5`, and `shiftjis`. These values are not
  case sensitive.
- 
- - Note: This is the same as using `TidySetInCharEncoding()` and
-     `TidySetOutCharEncoding()` to set the same value.
+
+ - Note: This is the *not* same as using `TidySetInCharEncoding()` and
+     `TidySetOutCharEncoding()` to set the same value. Consult the option
+     documentation.
  
  - parameters:
    - tdoc: The `TidyDoc` for which you are setting the encoding.
@@ -1051,7 +1065,10 @@ public func tidyOptResetAllToDefault( _ tdoc: TidyDoc ) -> Swift.Bool {
 
  
 /**
- Take a snapshot of current config settings.
+ Take a snapshot of current config settings. These settings are stored within
+ the tidy document. Note, however, that snapshots do not reliably survive the
+ the `tidyParseXXX()` process, as Tidy uses the snapshot mechanism in order to
+ store the current configuration right at the beginning of the parsing process.
  
  - parameters:
    - tdoc: The tidy document for which to take a snapshot.
@@ -1065,9 +1082,7 @@ public func tidyOptSnapshot( _ tdoc: TidyDoc ) -> Swift.Bool {
 
  
 /**
- Apply a snapshot of config settings to a document, such as after document
- processing. This will ensure that any values which Tidy may have changed
- are back to the intended configuration.
+ Apply a snapshot of config settings to a document.
  
  - parameters:
    - tdoc: The tidy document for which to apply a snapshot.
@@ -1109,7 +1124,10 @@ public func tidyOptDiffThanSnapshot( _ tdoc: TidyDoc ) -> Swift.Bool {
 
  
 /**
- Copy current configuration settings from one document to another.
+ Copy current configuration settings from one document to another. Note that
+ the destination document's existing settings will be stored as that document's
+ snapshot prior to having its option values overwritten by the source
+ document's settings.
  
  - parameters:
    - tdocTo: The destination tidy document.
