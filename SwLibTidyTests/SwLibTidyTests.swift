@@ -696,7 +696,17 @@ class SwLibTidyTests: XCTestCase {
         result = tidyOptDiffThanDefault( tdoc )
         XCTAssertTrue( result, "The option values should be different than default, but aren't.")
 
+        let _ = tidyOptSnapshot( tdoc )
+        XCTAssert( tidy( doc: tdoc, file: "case-001", config: "case-001" ), "Could not locate the file for testing." )
+        result = tidyOptDiffThanSnapshot( tdoc )
+        XCTAssertFalse( result, "The option values should be the same as the snapshot, but aren't.")
 
+        let _ = tidyOptResetAllToDefault( tdoc )
+        result = tidyOptDiffThanDefault( tdoc )
+        XCTAssertFalse( result, "The option values should be same as default, but are different.")
+
+        result = tidyOptDiffThanSnapshot( tdoc )
+        XCTAssertTrue( result, "The option values should be different from snapshot, but are the same.")
     }
 
 
