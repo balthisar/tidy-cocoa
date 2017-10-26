@@ -682,7 +682,6 @@ class SwLibTidyTests: XCTestCase {
         var result: Bool
 
         result = tidyOptDiffThanDefault( tdoc )
-        /* NOTE: FAILS due to bug in upstream tidy! */
         XCTAssertFalse( result, "The option values should all be default, but aren't." )
 
         result = tidyOptSnapshot( tdoc )
@@ -695,7 +694,6 @@ class SwLibTidyTests: XCTestCase {
         }
 
         result = tidyOptDiffThanDefault( tdoc )
-        /* NOTE: FAILS due to bug in upstream tidy! */
         XCTAssertTrue( result, "The option values should be different than default, but aren't.")
 
 
