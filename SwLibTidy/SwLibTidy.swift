@@ -203,6 +203,41 @@ public func tidyCreate() -> TidyDoc? {
         }
     }) else { tidyRelease( tdoc ); return nil }
     
+    guard yes == CLibTidy.tidySetConfigChangeCallback( tdoc, { tdoc, option, value in
+
+        guard
+            let tdoc = tdoc,
+            let option = option,
+            let value = value,
+            let ptrStorage = CLibTidy.tidyGetAppData( tdoc )
+        else { return yes }
+
+        let storage = Unmanaged<ApplicationData>
+            .fromOpaque(ptrStorage)
+            .takeUnretainedValue()
+
+        if let callback = storage.configChangeCallback {
+
+            var newValue: AnyObject
+
+            switch tidyOptGetType( option ) {
+
+            case TidyInteger,
+                 TidyBoolean:
+                newValue = value as NSNumber //(Int)&value
+                newValue = Unmanaged<Int>.fromOpaque(value).takeUnretainedValue()
+
+            default:
+                newValue = "Hello" as NSString //(Int)&value
+            }
+
+            return callback( tdoc, option, newValue ) ? yes : no
+
+        } else {
+            return yes
+        }
+    }) else { tidyRelease( tdoc ); return nil }
+
     guard yes == CLibTidy.tidySetMessageCallback( tdoc, { tmessage in
         
         guard
@@ -221,7 +256,7 @@ public func tidyCreate() -> TidyDoc? {
             return yes
         }
     }) else { tidyRelease( tdoc ); return nil }
-    
+
     guard yes == CLibTidy.tidySetPrettyPrinterCallback( tdoc, { tdoc, line, col, destLine in
         
         guard
@@ -664,6 +699,54 @@ public func tidySetConfigCallback( _ tdoc: TidyDoc, _ swiftCallback: @escaping T
     
     return true
 }
+
+
+/**
+ This typealias represents the required signature for your provided callback
+ function should you wish to register one with tidySetConfigChangeCallback().
+ Your callback function will be provided with the following parameters.
+
+ - parameters:
+   - tdoc: The document instance for which the callback was invoked.
+   - option: The option that will be changed.
+   - newValue: The new proposed value of the option.
+ - returns:
+     Your callback function will return `yes` if the change is allowed, or `no`
+     if it is not allowed.
+ */
+public typealias TidyConfigChangeCallback = ( _ tdoc: TidyDoc, _ option: TidyOption, _ value: AnyObject ) -> Swift.Bool
+
+
+/**
+ Applications using TidyLib may want to be informed when changes to options
+ are made. Temporary changes made internally by Tidy are not reported, but
+ permanent changes made by Tidy (such as indent-spaces or output-encoding)
+ will be reported.
+
+ - parameters:
+   - tdoc: The document to apply the callback to.
+   - pCallback: The name of a function of type TidyConfigChangeCallback() to
+       serve as your callback.
+ - returns:
+     Returns true upon success setting the callback.
+
+ ** @result Returns `yes` upon success.
+ */
+public func tidySetConfigChangeCallback( _ tdoc: TidyDoc, _ swiftCallback: @escaping TidyConfigChangeCallback ) -> Swift.Bool {
+
+    // Let's turn our opaque reference to an ApplicationData into an instance.
+    guard let ptrStorage = CLibTidy.tidyGetAppData(tdoc) else { return false }
+
+    let storage: ApplicationData = Unmanaged<ApplicationData>
+        .fromOpaque(ptrStorage)
+        .takeUnretainedValue()
+
+    storage.configChangeCallback = swiftCallback;
+
+    return true
+
+}
+
 
 // MARK: Option ID Discovery
 
@@ -2810,6 +2893,7 @@ private class ApplicationData {
     var appData: AnyObject?
     var configCallback: TidyConfigCallback?
     var configCallbackRecords: [TidyConfigReport]
+    var configChangeCallback: TidyConfigChangeCallback?
     var tidyMessageCallback: TidyMessageCallback?
     var tidyMessageCallbackRecords: [[ String : String ]]
     var tidyPPCallback: TidyPPProgress?
@@ -2819,6 +2903,7 @@ private class ApplicationData {
         self.appData = nil
         self.configCallback = nil
         self.configCallbackRecords = []
+        self.configChangeCallback = nil
         self.tidyMessageCallback = nil
         self.tidyMessageCallbackRecords = []
         self.tidyPPCallback = nil
