@@ -203,38 +203,20 @@ public func tidyCreate() -> TidyDoc? {
         }
     }) else { tidyRelease( tdoc ); return nil }
     
-    guard yes == CLibTidy.tidySetConfigChangeCallback( tdoc, { tdoc, option, value in
+    guard yes == CLibTidy.tidySetConfigChangeCallback( tdoc, { tdoc, option in
 
         guard
             let tdoc = tdoc,
             let option = option,
-            let value = value,
             let ptrStorage = CLibTidy.tidyGetAppData( tdoc )
-        else { return yes }
+        else { return }
 
         let storage = Unmanaged<ApplicationData>
             .fromOpaque(ptrStorage)
             .takeUnretainedValue()
 
         if let callback = storage.configChangeCallback {
-
-            var newValue: AnyObject
-
-            switch tidyOptGetType( option ) {
-
-            case TidyInteger,
-                 TidyBoolean:
-                newValue = value as NSNumber //(Int)&value
-                newValue = Unmanaged<Int>.fromOpaque(value).takeUnretainedValue()
-
-            default:
-                newValue = "Hello" as NSString //(Int)&value
-            }
-
-            return callback( tdoc, option, newValue ) ? yes : no
-
-        } else {
-            return yes
+            callback( tdoc, option )
         }
     }) else { tidyRelease( tdoc ); return nil }
 
@@ -709,12 +691,8 @@ public func tidySetConfigCallback( _ tdoc: TidyDoc, _ swiftCallback: @escaping T
  - parameters:
    - tdoc: The document instance for which the callback was invoked.
    - option: The option that will be changed.
-   - newValue: The new proposed value of the option.
- - returns:
-     Your callback function will return `yes` if the change is allowed, or `no`
-     if it is not allowed.
  */
-public typealias TidyConfigChangeCallback = ( _ tdoc: TidyDoc, _ option: TidyOption, _ value: AnyObject ) -> Swift.Bool
+public typealias TidyConfigChangeCallback = ( _ tdoc: TidyDoc, _ option: TidyOption ) -> Void
 
 
 /**

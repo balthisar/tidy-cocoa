@@ -740,6 +740,39 @@ class SwLibTidyTests: XCTestCase {
 
 
     /*************************************************************************
+      When Tidy makes a change to a configuration option, it can callback
+      into your application.
+
+      - tidySetConfigChangeCallback()
+     *************************************************************************/
+    func test_tidyOptions_changeCallback() {
+
+        guard
+            let tdoc = tdoc
+            else { XCTFail( "The TidyDoc does not exist." ); return }
+
+        var result: Bool
+
+        /* Let's work with an option of type TidyString. */
+        if tidyGetOption( tdoc, TidyBlockTags ) != nil {
+
+            /* Note how once set, Tidy comma-formats the list. */
+            let _ = tidyOptSetValue( tdoc, TidyBlockTags, "one two three" )
+            if let result = tidyOptGetValue( tdoc, TidyBlockTags ) {
+                XCTAssert( result == "one, two, three", "The option value is not as expected." )
+            }
+
+            result = tidyOptGetDeclTagList( tdoc, forOptionId: TidyBlockTags )[1] == "two"
+            XCTAssert( result, "The second declared tag should have been 'two'." )
+
+        } else {
+            XCTFail( "tidyGetOption() failed." )
+        }
+
+    }
+
+
+    /*************************************************************************
       Tidy normally sends message output to STDOUT, which can be useful in
       command line tools, but luckily Tidy supports other types of output,
       as demonstrated in this test.
