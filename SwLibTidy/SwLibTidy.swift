@@ -2599,24 +2599,6 @@ public func getErrorCodeList() -> [UInt] {
 // MARK: Tidy's Locale
 
 
-/** 
- Determines the current locale without affecting the C locale.
- 
- - parameters:
-   - result: [out] The buffer to use to return the string, or NULL on failure.
- - returns:
-     The same buffer for convenience.
-*/
-public func tidySystemLocale( ) -> String {
-
-    /* CLibTidy has strange calling semantics for this function; it would
-       normally allocate `myString` for us, but also returns it as a value.
-       This is nice in C where it's a pointer and gives us in-out, but
-       doesn't work that way in Swift. */
-    let myString: tmbstr? = nil
-    return String( cString: CLibTidy.tidySystemLocale( myString ) )
-}
-
 /**
  Tells Tidy to use a different language for output.
  

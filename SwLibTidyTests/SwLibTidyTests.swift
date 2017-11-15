@@ -714,6 +714,63 @@ class SwLibTidyTests: XCTestCase {
       A whole lot of Tidy is dedicated to managing options, and clients will
       want to manage options as well.
 
+      This test demonstrates that when we set an option, we can read it back.
+
+      -
+     *************************************************************************/
+    func test_tidyOptions_set_get() {
+
+        guard
+            let tdoc = tdoc
+            else { XCTFail( "The TidyDoc does not exist." ); return }
+
+        let iS = TidyUnknownOption.rawValue + 1;
+        let iE = N_TIDY_OPTIONS.rawValue - 1;
+
+        /* For each tidy option that exists… */
+        for index in iS...iE {
+
+            /* Based on its type… */
+            let optId = TidyOptionId( index );
+            let opt = tidyGetOption( tdoc, optId );
+            let optType = tidyOptGetType( opt! );
+
+            /* Make up a value for it. */
+            switch optType {
+
+            case TidyString:
+                let x = 1
+
+            case TidyInteger:
+                let x = 1
+
+            case TidyBoolean:
+                let x = 1
+            default:
+                let x = 1
+            }
+
+
+        }
+        // - get its type
+        // - make up a value for it
+        // - remember it
+        // - set it
+        // - read it
+        // - compare before and after
+        // then set every option, then for each option
+        // - read each option
+        // - compare before and after
+        // then tidy a string, then for each option
+        // - read each option
+        // - compare before and after
+    }
+
+
+    /*************************************************************************
+      A whole lot of Tidy is dedicated to managing options, and clients will
+      want to manage options as well.
+
       This test demonstrates how documentation for Tidy options can be
       generated.
 

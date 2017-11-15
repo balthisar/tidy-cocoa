@@ -171,10 +171,6 @@ class TidyRunner {
         output(horizontal_rule)
         output( "\(tidyOptGetPickList(myOpts[0]))" )
 
-        /* Show the locale information. */
-        output(horizontal_rule)
-        output( "The current locale is \(tidySystemLocale())." )
-
         /* Let's show what happened during the configuration phase. */
         output(horizontal_rule)
         for record in tidyConfigRecords( forTidyDoc: tdoc ) {
