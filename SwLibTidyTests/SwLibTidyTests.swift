@@ -59,6 +59,25 @@ class SwLibTidyTests: XCTestCase {
     }
 
 
+    /* Generate x random words. */
+    func random_words( _ x: Int ) -> String {
+        let words = [ "work", "top", "light", "sore", "drown", "property", "dark", "fool", "stitch", "loss"]
+        var result = "";
+
+        for _ in 1...x {
+            result = result + words[Int(arc4random_uniform(10))] + " ";
+        }
+
+        return result.trimmingCharacters(in: CharacterSet.whitespaces)
+    }
+
+    /* Generate a random doctype. */
+    func random_doctype() -> String {
+        let words = [ "html5", "omit", "auto", "strict", "transitional" ];
+
+        return words[ Int( arc4random_uniform( UInt32(words.count) ) ) ]
+    }
+
     /*************************************************************************
       In order to do anything at all with Tidy, we need an instance of a Tidy
       document (TidyDoc), and when we're done with it, we have to release it
@@ -727,37 +746,84 @@ class SwLibTidyTests: XCTestCase {
         let iS = TidyUnknownOption.rawValue + 1;
         let iE = N_TIDY_OPTIONS.rawValue - 1;
 
+        var results: [String] = []
+
         /* For each tidy option that exists… */
         for index in iS...iE {
 
             /* Based on its type… */
             let optId = TidyOptionId( index );
-            let opt = tidyGetOption( tdoc, optId );
-            let optType = tidyOptGetType( opt! );
+
+            guard
+                let opt = tidyGetOption( tdoc, optId )
+                else { XCTFail( "Could not get option for optId \(optId)." ); return }
+
+            let optType = tidyOptGetType( opt );
+            var valueIn = ""
+            var valueOut = ""
+
+            if tidyOptGetCategory( opt ) == TidyInternalCategory {
+                results.append("")
+                continue
+            }
 
             /* Make up a value for it. */
             switch optType {
 
-            case TidyString:
-                let x = 1
+                case TidyString:
+                    if optId == TidyDoctype {
+                        valueIn = random_doctype()
+                    } else {
+                        valueIn = random_words( 1 )
+                    }
 
-            case TidyInteger:
-                let x = 1
+                case TidyInteger:
+                    let picklist = tidyOptGetPickList( opt )
 
-            case TidyBoolean:
-                let x = 1
-            default:
-                let x = 1
+                    if picklist.count > 0 {
+                        valueIn = String( arc4random_uniform( UInt32(picklist.count - 1) ) )
+                    } else {
+                        valueIn = String( arc4random_uniform( 100 ))
+                    }
+
+                case TidyBoolean:
+                    valueIn = arc4random_uniform(2) == 0 ? String(true) : String(false)
+
+                default:
+                    break
             }
 
+            /* Remember it. */
+            results.append( valueIn )
+
+            /* Set it. */
+            _ = tidyOptSetValue( tdoc, optId, valueIn);
+
+            /* Read it. */
+            switch optType {
+
+                case TidyString:
+                    valueOut = tidyOptGetValue( tdoc, optId )!;
+
+                case TidyInteger:
+                    valueOut = String( tidyOptGetInt( tdoc, optId ) )
+
+                case TidyBoolean:
+                    valueOut = String( tidyOptGetBool( tdoc, optId ) )
+
+                default:
+                    break
+            }
+
+            /* Compare in and out. */
+            let outp = "Option = \(tidyOptGetName( opt )), In = \(valueIn), Out = \(valueOut)."
+            print( outp )
+//            XCTAssert( valueIn == valueOut, outp )
 
         }
-        // - get its type
-        // - make up a value for it
-        // - remember it
-        // - set it
-        // - read it
-        // - compare before and after
+
+
+
         // then set every option, then for each option
         // - read each option
         // - compare before and after
