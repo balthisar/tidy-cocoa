@@ -19,7 +19,6 @@
 		D0A8A9DF1F41F74E00A2DB63 /* SwLibTidyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A8A9DD1F41F74500A2DB63 /* SwLibTidyTests.swift */; };
 		D0B32C951F917CA800477C4B /* access.c in Sources */ = {isa = PBXBuildFile; fileRef = D0D06EB31F8AE7CE00370E9D /* access.c */; };
 		D0B32C961F917CA800477C4B /* alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = D0D06EB51F8AE7CE00370E9D /* alloc.c */; };
-		D0B32C971F917CA800477C4B /* attrapi.c in Sources */ = {isa = PBXBuildFile; fileRef = D0D06EB61F8AE7CE00370E9D /* attrapi.c */; };
 		D0B32C981F917CA800477C4B /* attrdict.c in Sources */ = {isa = PBXBuildFile; fileRef = D0D06EB71F8AE7CE00370E9D /* attrdict.c */; };
 		D0B32C991F917CA800477C4B /* attrs.c in Sources */ = {isa = PBXBuildFile; fileRef = D0D06EB91F8AE7CE00370E9D /* attrs.c */; };
 		D0B32C9A1F917CA800477C4B /* buffio.c in Sources */ = {isa = PBXBuildFile; fileRef = D0D06EBB1F8AE7CE00370E9D /* buffio.c */; };
@@ -266,7 +265,6 @@
 		D0D06EB31F8AE7CE00370E9D /* access.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = access.c; sourceTree = "<group>"; };
 		D0D06EB41F8AE7CE00370E9D /* access.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = access.h; sourceTree = "<group>"; };
 		D0D06EB51F8AE7CE00370E9D /* alloc.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = alloc.c; sourceTree = "<group>"; };
-		D0D06EB61F8AE7CE00370E9D /* attrapi.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = attrapi.c; sourceTree = "<group>"; };
 		D0D06EB71F8AE7CE00370E9D /* attrdict.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = attrdict.c; sourceTree = "<group>"; };
 		D0D06EB81F8AE7CE00370E9D /* attrdict.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = attrdict.h; sourceTree = "<group>"; };
 		D0D06EB91F8AE7CE00370E9D /* attrs.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = attrs.c; sourceTree = "<group>"; };
@@ -556,7 +554,6 @@
 				D0D06EB31F8AE7CE00370E9D /* access.c */,
 				D0D06EB41F8AE7CE00370E9D /* access.h */,
 				D0D06EB51F8AE7CE00370E9D /* alloc.c */,
-				D0D06EB61F8AE7CE00370E9D /* attrapi.c */,
 				D0D06EB71F8AE7CE00370E9D /* attrdict.c */,
 				D0D06EB81F8AE7CE00370E9D /* attrdict.h */,
 				D0D06EB91F8AE7CE00370E9D /* attrs.c */,
@@ -922,7 +919,6 @@
 				D0B32CB01F917CB600477C4B /* version.txt in Sources */,
 				D0B32C951F917CA800477C4B /* access.c in Sources */,
 				D0B32C961F917CA800477C4B /* alloc.c in Sources */,
-				D0B32C971F917CA800477C4B /* attrapi.c in Sources */,
 				D0B32C981F917CA800477C4B /* attrdict.c in Sources */,
 				D0B32C991F917CA800477C4B /* attrs.c in Sources */,
 				D0B32C9A1F917CA800477C4B /* buffio.c in Sources */,

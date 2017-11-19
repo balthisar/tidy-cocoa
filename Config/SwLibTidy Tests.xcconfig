@@ -10,6 +10,7 @@ LD_RUNPATH_SEARCH_PATHS = $(inherited) @loader_path/../Frameworks @loader_path/F
 PRODUCT_NAME = $(TARGET_NAME)
 PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.LibTidyTests
 SWIFT_OPTIMIZATION_LEVEL = -Onone
+CLANG_WARN_DOCUMENTATION_COMMENTS = no
 
 //////////////////////////////////////////////////////////
 // Cross Platform setup

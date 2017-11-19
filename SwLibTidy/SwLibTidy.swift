@@ -80,7 +80,7 @@ import CLibTidy
 
 
 /** Enforce a minimum LibTidy version for compatibility. */
-fileprivate let MINIMUM_LIBTIDY_VERSION = "5.5.73"
+fileprivate let MINIMUM_LIBTIDY_VERSION = "5.5.81"
 
 
 /******************************************************************************
@@ -867,22 +867,20 @@ public func tidyOptGetType( _ opt: TidyOption ) -> TidyOptionType {
 }
 
 
-/** 
- Is Option read-only? Some options (mainly internal use only options) are
- read-only.
- 
- - parameters:
-   - opt: An instance of a `TidyOption` to query.
- - returns: 
-     Returns `true` or `false` depending on whether or not the specified
-     option is read-only.
-*/
-public func tidyOptIsReadOnly( _ opt: TidyOption ) -> Swift.Bool {
+/**
+ Indicates whether or not an option is a list of values
 
-    return CLibTidy.tidyOptIsReadOnly( opt ) == yes ? true : false
+ - parameters:
+   - opt: An instance of a TidyOption to query.
+ - returns:
+     Returns true or false indicating whether or not the value is a list.
+ */
+public func tidyOptionIsList( _ opt: TidyOption ) -> Swift.Bool {
+    
+    return CLibTidy.tidyOptionIsList( opt ) == yes ? true : false;
 }
 
- 
+
 /**
  Get category of given option
  
@@ -1269,6 +1267,66 @@ public func tidyOptGetDeclTagList( _ tdoc: TidyDoc, forOptionId optId: TidyOptio
     return result
 }
 
+
+/**
+ Returns on array of strings, where each string indicates a prioritized
+ attribute.
+
+ - Note: This Swift array replaces the CLibTidy `tidyOptGetPriorityAttrList()`
+     and `tidyOptGetNextPriorityAttr()` functions, as it is much more natural
+     to deal with Swift array types when using Swift.
+
+ - parameters
+   - tdoc: The `TidyDoc` for which to get prioritized attributes.
+ - returns:
+     An array of strings with the attribute names, if any.
+*/
+public func tidyOptGetPriorityAttrList( _ tdoc: TidyDoc ) -> [String] {
+
+    var it: TidyIterator? = CLibTidy.tidyOptGetPriorityAttrList( tdoc )
+
+    var result : [String] = []
+
+    while ( it != nil ) {
+
+        if let attr = CLibTidy.tidyOptGetNextPriorityAttr( tdoc, &it) {
+            result.append( String( cString: attr ) )
+        }
+    }
+
+    return result
+}
+
+
+/**
+ Returns on array of strings, where each string indicates a type name for a
+ muted message.
+
+ - Note: This Swift array replaces the CLibTidy `tidyOptGetMutedMessageList()`
+     and `tidyOptGetNextMutedMessage()` functions, as it is much more natural
+     to deal with Swift array types when using Swift.
+
+ - parameters
+   - tdoc: The `TidyDoc` for which to get user-declared tags.
+ - returns:
+     An array of strings with the muted message names, if any.
+*/
+public func tidyOptGetMutedMessageList( _ tdoc: TidyDoc ) -> [String] {
+
+    var it: TidyIterator? = CLibTidy.tidyOptGetMutedMessageList( tdoc )
+
+    var result : [String] = []
+
+    while ( it != nil ) {
+
+        if let message = CLibTidy.tidyOptGetNextMutedMessage( tdoc, &it) {
+            result.append( String( cString: message ) )
+        }
+    }
+
+    return result
+}
+
  
 // MARK: Option Documentation
 
@@ -1551,6 +1609,12 @@ public func tidyGetMessageColumn( _ tmessage: TidyMessage ) -> Int {
 public func tidyGetMessageLevel( _ tmessage: TidyMessage ) -> TidyReportLevel {
 
     return CLibTidy.tidyGetMessageLevel( tmessage )
+}
+
+
+public func tidyGetMessageIsMuted( _ tmessage: TidyMessage ) -> Swift.Bool {
+
+    return CLibTidy.tidyGetMessageIsMuted( tmessage ) == yes ? true : false
 }
 
  

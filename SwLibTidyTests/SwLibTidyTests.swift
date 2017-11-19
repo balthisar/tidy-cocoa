@@ -18,6 +18,32 @@ import XCTest
 @testable import SwLibTidy
 import CLibTidyEnum
 
+
+extension MutableCollection {
+    /// Shuffles the contents of this collection.
+    mutating func shuffle() {
+        let c = count
+        guard c > 1 else { return }
+
+        for (firstUnshuffled, unshuffledCount) in zip(indices, stride(from: c, to: 1, by: -1)) {
+            let d: IndexDistance = numericCast(arc4random_uniform(numericCast(unshuffledCount)))
+            let i = index(firstUnshuffled, offsetBy: d)
+            swapAt(firstUnshuffled, i)
+        }
+    }
+}
+
+
+extension Sequence {
+    /// Returns an array with the contents of this sequence, shuffled.
+    func shuffled() -> [Element] {
+        var result = Array(self)
+        result.shuffle()
+        return result
+    }
+}
+
+
 class SwLibTidyTests: XCTestCase {
     
     private var tdoc: TidyDoc?      // used for most tests, assigned in setUp()
@@ -61,11 +87,20 @@ class SwLibTidyTests: XCTestCase {
 
     /* Generate x random words. */
     func random_words( _ x: Int ) -> String {
-        let words = [ "work", "top", "light", "sore", "drown", "property", "dark", "fool", "stitch", "loss"]
+        let words = [ "work",
+                      "top",
+                      "light",
+                      "sore",
+                      "drown",
+                      "property",
+                      "dark",
+                      "fool",
+                      "stitch",
+                      "loss"]
         var result = "";
 
         for _ in 1...x {
-            result = result + words[Int(arc4random_uniform(10))] + " ";
+            result = result + words[Int( arc4random_uniform( UInt32(words.count) ) )] + " ";
         }
 
         return result.trimmingCharacters(in: CharacterSet.whitespaces)
@@ -76,6 +111,27 @@ class SwLibTidyTests: XCTestCase {
         let words = [ "html5", "omit", "auto", "strict", "transitional" ];
 
         return words[ Int( arc4random_uniform( UInt32(words.count) ) ) ]
+    }
+
+    /* Generate random strings for mute. */
+    func random_mute( _ x: Int ) -> String {
+        let words = [ "ADDED_MISSING_CHARSET",
+                      "ANCHOR_NOT_UNIQUE",
+                      "APOS_UNDEFINED",
+                      "ATTR_VALUE_NOT_LCASE",
+                      "ATTRIBUTE_IS_NOT_ALLOWED",
+                      "ATTRIBUTE_VALUE_REPLACED",
+                      "BACKSLASH_IN_URI",
+                      "BAD_ATTRIBUTE_VALUE_REPLACED",
+                      "BAD_ATTRIBUTE_VALUE",
+                      "BAD_CDATA_CONTENT" ]
+        var result = "";
+
+        for _ in 1...x {
+            result = result + words[Int( arc4random_uniform( UInt32(words.count) ) )] + ", ";
+        }
+
+        return String( result.trimmingCharacters(in: CharacterSet.whitespaces).dropLast() )
     }
 
     /*************************************************************************
@@ -428,8 +484,8 @@ class SwLibTidyTests: XCTestCase {
       - tidyGetOptionByName()
       - tidyOptGetName()
       - tidyOptGetType()
-      - tidyOptIsReadOnly()
       - tidyOptGetCategory()
+      - tidyOptionIsList()
      *************************************************************************/
     func test_tidyOptions_general() {
 
@@ -462,7 +518,7 @@ class SwLibTidyTests: XCTestCase {
 
         /*
          Let's get an instance of an option, and try to get its name,
-         type, read-only status, and category.
+         type, list status, and category.
          */
         if let opt = tidyGetOption( tdoc, TidyIndentSpaces ) {
 
@@ -474,24 +530,16 @@ class SwLibTidyTests: XCTestCase {
             result = tidyOptGetType( opt ) == TidyInteger
             XCTAssert( result, "tidyOptGetType() returned an unexpected result." )
 
-            /* This is not a read-only option. */
-            result = tidyOptIsReadOnly( opt ) == false
-            XCTAssert( result, "tidyOptIsReadOnly() returned an unexpected result." )
-
             /* This option is from the pretty printing category. */
             result = tidyOptGetCategory( opt ) == TidyPrettyPrint
             XCTAssert( result, "tidyOptGetCategory() returned an unexpected result." )
 
+            /* This option does not take a list. */
+            result = tidyOptionIsList( opt )
+            XCTAssertFalse( result, "tidyOptionIsList() returned an unexpected result." )
+
         } else {
             XCTFail( "tidyGetOption() failed." )
-        }
-
-        /* Let's get an option instance by name, and check read-only. */
-        if let opt = tidyGetOptionByName( tdoc, "doctype-mode" ) {
-            result = tidyOptIsReadOnly( opt ) == true
-            XCTAssert( result, "tidyOptIsReadOnly() returned an unexpected result." )
-        } else {
-            XCTFail( "tidyGetOptionNyName() failed." )
         }
     }
 
@@ -524,14 +572,13 @@ class SwLibTidyTests: XCTestCase {
             result = tidyOptGetPickList( opt )[4] == "transitional"
             XCTAssert( result, "tidyOptGetPickList() returned an unexpected result." )
 
-            /* The current value should be "html". */
-            result = tidyOptGetCurrPick( tdoc, TidyDoctype) == "html5"
-            XCTAssert( result, "The current pick should have been 'html5', but wasn't.")
+            /* The current value should be "auto". */
+            result = tidyOptGetCurrPick( tdoc, TidyDoctype) == "auto"
+            XCTAssert( result, "The current pick should have been 'auto', but was \(result) instead.")
 
         } else {
             XCTFail( "tidyGetOption() failed." )
         }
-
     }
 
 
@@ -735,7 +782,15 @@ class SwLibTidyTests: XCTestCase {
 
       This test demonstrates that when we set an option, we can read it back.
 
-      -
+      - tidyParseString()
+      - tidyCleanAndRepair()
+      - tidySaveBuffer()
+      - tidyOptSetValue()
+      - tidyOptSetBool()
+      - tidyOptSetInt()
+      - tidyOptGetValue()
+      - tidyOptGetBool()
+      - tidyOptGetInt()
      *************************************************************************/
     func test_tidyOptions_set_get() {
 
@@ -743,16 +798,24 @@ class SwLibTidyTests: XCTestCase {
             let tdoc = tdoc
             else { XCTFail( "The TidyDoc does not exist." ); return }
 
+        let debug_print = true /* set to true to log to console */
         let iS = TidyUnknownOption.rawValue + 1;
         let iE = N_TIDY_OPTIONS.rawValue - 1;
 
+        var options: [TidyOptionId] = []
         var results: [String] = []
 
-        /* For each tidy option that exists… */
+        /* Build an array of option Id's that we can shuffle. */
         for index in iS...iE {
+            options.append( TidyOptionId( index ) )
+        }
+        options.shuffle()
 
-            /* Based on its type… */
-            let optId = TidyOptionId( index );
+        /*
+         For each tidy option that exists…
+         We will check each option immediately after setting it.
+         */
+        for optId in options {
 
             guard
                 let opt = tidyGetOption( tdoc, optId )
@@ -767,37 +830,50 @@ class SwLibTidyTests: XCTestCase {
                 continue
             }
 
-            /* Make up a value for it. */
+            /* Make up a value for it and set it. */
             switch optType {
 
-                case TidyString:
-                    if optId == TidyDoctype {
-                        valueIn = random_doctype()
-                    } else {
-                        valueIn = random_words( 1 )
-                    }
+            case TidyString:
 
-                case TidyInteger:
-                    let picklist = tidyOptGetPickList( opt )
+                switch optId {
 
-                    if picklist.count > 0 {
-                        valueIn = String( arc4random_uniform( UInt32(picklist.count - 1) ) )
-                    } else {
-                        valueIn = String( arc4random_uniform( 100 ))
-                    }
+                case TidyDoctype:
+                    valueIn = random_doctype()
 
-                case TidyBoolean:
-                    valueIn = arc4random_uniform(2) == 0 ? String(true) : String(false)
+                case TidyMuteReports:
+                    valueIn = random_mute( 4 );
 
                 default:
-                    break
+                    valueIn = random_words( 1 )
+                }
+                _ = tidyOptSetValue( tdoc, optId, valueIn )
+
+            case TidyInteger:
+                let picklist = tidyOptGetPickList( opt )
+
+                if picklist.count > 0 {
+                    valueIn = String( arc4random_uniform( UInt32(picklist.count - 1) ) )
+                } else {
+                    valueIn = String( arc4random_uniform( 100 ))
+                }
+                _ = tidyOptSetInt( tdoc, optId, UInt32(valueIn)! )
+
+            case TidyBoolean:
+                valueIn = arc4random_uniform(2) == 0 ? String(true) : String(false)
+                _ = tidyOptSetBool( tdoc, optId, Bool(valueIn)! )
+
+            default:
+                break
+            }
+
+
+            /* Special case: TidyCSSPrefix: */
+            if optId == TidyCSSPrefix {
+                valueIn = valueIn + "-"
             }
 
             /* Remember it. */
             results.append( valueIn )
-
-            /* Set it. */
-            _ = tidyOptSetValue( tdoc, optId, valueIn);
 
             /* Read it. */
             switch optType {
@@ -817,22 +893,224 @@ class SwLibTidyTests: XCTestCase {
 
             /* Compare in and out. */
             let outp = "Option = \(tidyOptGetName( opt )), In = \(valueIn), Out = \(valueOut)."
-            print( outp )
-//            XCTAssert( valueIn == valueOut, outp )
-
+            if debug_print { print( outp ) }
+            XCTAssert( valueIn == valueOut, outp )
         }
 
 
+        /*
+         The test above checked options as they were set. Now let's
+         check them all to determine if there's any interaction going on.
+         */
+        if debug_print { print( "-----------" ) }
+        for ( index, optId ) in options.enumerated() {
 
-        // then set every option, then for each option
-        // - read each option
-        // - compare before and after
-        // then tidy a string, then for each option
-        // - read each option
-        // - compare before and after
+            guard
+                let opt = tidyGetOption( tdoc, optId )
+                else { XCTFail( "Could not get option for optId \(optId)." ); return }
+
+            let optType = tidyOptGetType( opt );
+            let valueIn = results[index]
+            let valueOut: String
+
+
+            if tidyOptGetCategory( opt ) == TidyInternalCategory {
+                continue
+            }
+
+            /* Read it. */
+            switch optType {
+
+            case TidyString:
+                valueOut = tidyOptGetValue( tdoc, optId )!;
+
+            case TidyInteger:
+                valueOut = String( tidyOptGetInt( tdoc, optId ) )
+
+            case TidyBoolean:
+                valueOut = String( tidyOptGetBool( tdoc, optId ) )
+
+            default:
+                valueOut = ""
+            }
+
+            /* Compare in and out. */
+            let outp = "Option = \(tidyOptGetName( opt )), In = \(valueIn), Out = \(valueOut)."
+            if debug_print { print( outp ) }
+            XCTAssert( valueIn == valueOut, outp )
+        }
+
+        let outpBuffer = TidyBuffer()
+
+        _ = tidyParseString( tdoc, "<h1>How now, brown cow?</h1>")
+        _ = tidyCleanAndRepair( tdoc )
+        _ = tidySaveBuffer( tdoc, outpBuffer ) /* needed to restore snapshot */
+
+        /*
+         Now ensure that the act of Tidying a document doesn't fiddle with
+         the configuration settings.
+         */
+        if debug_print { print( "-----------" ) }
+        for ( index, optId ) in options.enumerated() {
+
+            guard
+                let opt = tidyGetOption( tdoc, optId )
+                else { XCTFail( "Could not get option for optId \(optId)." ); return }
+
+            let optType = tidyOptGetType( opt );
+            let valueIn = results[index]
+            let valueOut: String
+
+
+            if tidyOptGetCategory( opt ) == TidyInternalCategory {
+                continue
+            }
+
+            /* Read it. */
+            switch optType {
+
+            case TidyString:
+                valueOut = tidyOptGetValue( tdoc, optId )!;
+
+            case TidyInteger:
+                valueOut = String( tidyOptGetInt( tdoc, optId ) )
+
+            case TidyBoolean:
+                valueOut = String( tidyOptGetBool( tdoc, optId ) )
+
+            default:
+                valueOut = ""
+            }
+
+            /* Compare in and out. */
+            let outp = "Option = \(tidyOptGetName( opt )), In = \(valueIn), Out = \(valueOut)."
+            if debug_print { print( outp ) }
+            XCTAssert( valueIn == valueOut, outp )
+        }
     }
 
 
+    /*************************************************************************
+     A whole lot of Tidy is dedicated to managing options, and clients will
+     want to manage options as well.
+
+     This test demonstrates that all of the string options can take empty
+     strings.
+
+     - tidyOptSetValue()
+     *************************************************************************/
+    func test_tidyOptions_emptystrings() {
+
+        guard
+            let tdoc = tdoc
+            else { XCTFail( "The TidyDoc does not exist." ); return }
+
+        let stringOptions = [ TidyAltText,
+                              TidyBlockTags,
+                              TidyCSSPrefix,
+                              TidyCustomTags,
+                              TidyDoctype,
+                              TidyEmacsFile,
+                              TidyEmptyTags,
+                              TidyErrFile,
+                              TidyInlineTags,
+                              TidyMuteReports,
+                              TidyOutFile,
+                              TidyPreTags,
+                              TidyPriorityAttributes ]
+
+        for optId in stringOptions {
+
+            let result = tidyOptSetValue( tdoc , optId, "")
+            XCTAssert( result, "Option \(optId) was not true!")
+        }
+
+    }
+
+
+    /*************************************************************************
+     A whole lot of Tidy is dedicated to managing options, and clients will
+     want to manage options as well.
+
+     This test demonstrates the iterators for prioritized attributes and for
+     muted messages.
+
+     - tidyOptGetPriorityAttrList()
+     - tidyOptGetMutedMessageList()
+     *************************************************************************/
+    func test_tidyOptions_iterators() {
+
+        guard
+            let tdoc = tdoc
+            else { XCTFail( "The TidyDoc does not exist." ); return }
+
+        XCTAssert( tidyOptGetMutedMessageList( tdoc ).count == 0, "Expected the array to be empty." )
+        XCTAssert( tidyOptGetPriorityAttrList( tdoc ).count == 0, "Expected the array to be empty." )
+
+        let muteVal = random_mute( 5 )
+        let muteArray = muteVal.components(separatedBy: ", ")
+        let attrVal = "id name class"
+        let attrArray = attrVal.components(separatedBy: " ")
+
+        _ = tidyOptSetValue( tdoc, TidyMuteReports, muteVal )
+        _ = tidyOptSetValue( tdoc, TidyPriorityAttributes, attrVal)
+
+        XCTAssert( tidyOptGetMutedMessageList( tdoc )[2] == muteArray[2], "The array did not return the value expected." )
+        XCTAssert( tidyOptGetPriorityAttrList( tdoc )[2] == attrArray[2], "The array did not return the value expected." )
+
+    }
+
+
+    /*************************************************************************
+      A whole lot of Tidy is dedicated to managing options, and clients will
+      want to manage options as well.
+
+      This test demonstrates how an fpi can be set in the doctype option.
+
+      - tidyOptGetDoc()
+      - tidyOptGetDocLinksList()
+     *************************************************************************/
+    func test_tidyOptions_doctype_fpi() {
+
+        guard
+            let tdoc = tdoc
+            else { XCTFail( "The TidyDoc does not exist." ); return }
+
+        /* The TidyDoctype option has an interesting list. */
+        if let opt = tidyGetOption( tdoc, TidyDoctype ) {
+
+            /* Veryify we have the right option by checking its name. */
+            var result = tidyOptGetName( opt ) == "doctype"
+            XCTAssert( result, "tidyOptGetName() returned an unexpected result." )
+
+            /* Set an FPI */
+            let fpi = "-//HELLO/WORLD"
+            let qfpi = "\"\(fpi)\""
+
+            /* Ensure we can set it with an unquoted string, such as from
+               a console. */
+            result = tidyOptSetValue( tdoc, TidyDoctype, fpi )
+            XCTAssert( result, "tidyOptSetValue() returned an unexpected result." )
+
+            var new_fpi = tidyOptGetValue( tdoc, TidyDoctype )
+            result = new_fpi == fpi
+            XCTAssert( result, "tidyOptGetValue() returned an unexpected result." )
+
+            /* Ensure we can set it with a quoted string, since the API used to
+               demand this. */
+            result = tidyOptSetValue( tdoc, TidyDoctype, qfpi )
+            XCTAssert( result, "tidyOptSetValue() returned an unexpected result." )
+
+            new_fpi = tidyOptGetValue( tdoc, TidyDoctype )
+            result = new_fpi == fpi
+            XCTAssert( result, "tidyOptGetValue() returned an unexpected result." )
+
+        } else {
+            XCTFail( "tidyGetOption() failed." )
+        }
+
+
+    }
     /*************************************************************************
       A whole lot of Tidy is dedicated to managing options, and clients will
       want to manage options as well.
