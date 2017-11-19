@@ -1152,24 +1152,50 @@ class SwLibTidyTests: XCTestCase {
             let tdoc = tdoc
             else { XCTFail( "The TidyDoc does not exist." ); return }
 
-        var result: Bool
+        let callbackSuccess = XCTestExpectation(description: "The option change callback should execute at least once.")
 
-        /* Let's work with an option of type TidyString. */
-        if tidyGetOption( tdoc, TidyBlockTags ) != nil {
+        let _ = tidySetConfigChangeCallback( tdoc, { tdoc, option in
 
-            /* Note how once set, Tidy comma-formats the list. */
-            let _ = tidyOptSetValue( tdoc, TidyBlockTags, "one two three" )
-            if let result = tidyOptGetValue( tdoc, TidyBlockTags ) {
-                XCTAssert( result == "one, two, three", "The option value is not as expected." )
+            if let id = tidyOptGetId( option )
+            {
+                let name = tidyOptGetName( option )
+
+                switch tidyOptGetType( option ) {
+
+                case TidyString:
+                    let newval = tidyOptGetValue( tdoc, id ) ?? "NULL"
+                    print("Option \(name) changed. New value is \(newval)")
+
+                case TidyBoolean:
+                    let newval = tidyOptGetBool( tdoc, id )
+                    print("Option \(name) changed. New value is \(newval)")
+
+                case TidyInteger:
+                    let newval = tidyOptGetInt( tdoc, id )
+                    print("Option \(name) changed. New value is \(newval)")
+
+
+                default:
+                    let newval = tidyOptGetInt( tdoc, id )
+                    print("Option \(name) changed. New value is \(newval)")
+                }
             }
 
-            result = tidyOptGetDeclTagList( tdoc, forOptionId: TidyBlockTags )[1] == "two"
-            XCTAssert( result, "The second declared tag should have been 'two'." )
+            callbackSuccess.fulfill()
+        })
 
-        } else {
-            XCTFail( "tidyGetOption() failed." )
-        }
+        _ = tidyOptSetValue( tdoc, TidyBlockTags, "jack, jim, joe" )
+        _ = tidyOptSetValue( tdoc, TidyBlockTags, "jack, jim, joe" )
+        _ = tidyOptResetAllToDefault( tdoc )
+        _ = tidyOptSetInt( tdoc, TidyWrapLen, 80 )
 
+        _ = tidyOptParseValue( tdoc, "indent-with-tabs", "yes" )
+
+        _ = tidyParseString( tdoc, "<p>How now, Mr. Cow?" )
+        _ = tidyCleanAndRepair( tdoc )
+
+        /* Issue the assert here if the callback doesn't fire at least once. */
+        wait(for: [callbackSuccess], timeout: 1.0)
     }
 
 

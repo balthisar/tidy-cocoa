@@ -211,7 +211,7 @@ public func tidyCreate() -> TidyDoc? {
             let ptrStorage = CLibTidy.tidyGetAppData( tdoc )
         else { return }
 
-        let storage = Unmanaged<ApplicationData>
+        let storage: ApplicationData = Unmanaged<ApplicationData>
             .fromOpaque(ptrStorage)
             .takeUnretainedValue()
 
@@ -722,7 +722,6 @@ public func tidySetConfigChangeCallback( _ tdoc: TidyDoc, _ swiftCallback: @esca
     storage.configChangeCallback = swiftCallback;
 
     return true
-
 }
 
 
