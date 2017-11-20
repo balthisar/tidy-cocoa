@@ -19,40 +19,20 @@ import XCTest
 import CLibTidyEnum
 
 
-extension MutableCollection {
-    /// Shuffles the contents of this collection.
-    mutating func shuffle() {
-        let c = count
-        guard c > 1 else { return }
-
-        for (firstUnshuffled, unshuffledCount) in zip(indices, stride(from: c, to: 1, by: -1)) {
-            let d: IndexDistance = numericCast(arc4random_uniform(numericCast(unshuffledCount)))
-            let i = index(firstUnshuffled, offsetBy: d)
-            swapAt(firstUnshuffled, i)
-        }
-    }
-}
-
-
-extension Sequence {
-    /// Returns an array with the contents of this sequence, shuffled.
-    func shuffled() -> [Element] {
-        var result = Array(self)
-        result.shuffle()
-        return result
-    }
-}
-
-
 class SwLibTidyTests: XCTestCase {
     
-    private var tdoc: TidyDoc?      // used for most tests, assigned in setUp()
+    private var tdoc: TidyDoc?       // used for most tests, assigned in setUp()
     private var testBundle: Bundle?  // reference to the test case bundle
-
 
     override func setUp() {
         super.setUp()
         testBundle = Bundle(for: type(of: self))
+        if let tmpdoc = tidyCreate() {
+            tdoc = tmpdoc
+            XCTFail( "tidyCreate() failed, which is highly unusual." )
+        } else {
+            XCTFail( "tidyCreate() failed, which is highly unusual." )
+        }
         tdoc = tidyCreate()!
     }
     
@@ -82,56 +62,6 @@ class SwLibTidyTests: XCTestCase {
         }
 
         return true
-    }
-
-
-    /* Generate x random words. */
-    func random_words( _ x: Int ) -> String {
-        let words = [ "work",
-                      "top",
-                      "light",
-                      "sore",
-                      "drown",
-                      "property",
-                      "dark",
-                      "fool",
-                      "stitch",
-                      "loss"]
-        var result = "";
-
-        for _ in 1...x {
-            result = result + words[Int( arc4random_uniform( UInt32(words.count) ) )] + " ";
-        }
-
-        return result.trimmingCharacters(in: CharacterSet.whitespaces)
-    }
-
-    /* Generate a random doctype. */
-    func random_doctype() -> String {
-        let words = [ "html5", "omit", "auto", "strict", "transitional" ];
-
-        return words[ Int( arc4random_uniform( UInt32(words.count) ) ) ]
-    }
-
-    /* Generate random strings for mute. */
-    func random_mute( _ x: Int ) -> String {
-        let words = [ "ADDED_MISSING_CHARSET",
-                      "ANCHOR_NOT_UNIQUE",
-                      "APOS_UNDEFINED",
-                      "ATTR_VALUE_NOT_LCASE",
-                      "ATTRIBUTE_IS_NOT_ALLOWED",
-                      "ATTRIBUTE_VALUE_REPLACED",
-                      "BACKSLASH_IN_URI",
-                      "BAD_ATTRIBUTE_VALUE_REPLACED",
-                      "BAD_ATTRIBUTE_VALUE",
-                      "BAD_CDATA_CONTENT" ]
-        var result = "";
-
-        for _ in 1...x {
-            result = result + words[Int( arc4random_uniform( UInt32(words.count) ) )] + ", ";
-        }
-
-        return String( result.trimmingCharacters(in: CharacterSet.whitespaces).dropLast() )
     }
 
     /*************************************************************************
@@ -841,10 +771,10 @@ class SwLibTidyTests: XCTestCase {
                     valueIn = random_doctype()
 
                 case TidyMuteReports:
-                    valueIn = random_mute( 4 );
+                    valueIn = random_mute( 4 ).joined(separator: ", ");
 
                 default:
-                    valueIn = random_words( 1 )
+                    valueIn = random_words( 1 )?.joined(separator: " ") ?? "RandomWordFailed"
                 }
                 _ = tidyOptSetValue( tdoc, optId, valueIn )
 
@@ -1047,10 +977,10 @@ class SwLibTidyTests: XCTestCase {
         XCTAssert( tidyOptGetMutedMessageList( tdoc ).count == 0, "Expected the array to be empty." )
         XCTAssert( tidyOptGetPriorityAttrList( tdoc ).count == 0, "Expected the array to be empty." )
 
-        let muteVal = random_mute( 5 )
-        let muteArray = muteVal.components(separatedBy: ", ")
-        let attrVal = "id name class"
-        let attrArray = attrVal.components(separatedBy: " ")
+        let muteArray = random_mute( 5 )
+        let muteVal = muteArray.joined(separator: ", ")
+        let attrArray = [ "id", "name", "class" ]
+        let attrVal = attrArray.joined(separator: ", ")
 
         _ = tidyOptSetValue( tdoc, TidyMuteReports, muteVal )
         _ = tidyOptSetValue( tdoc, TidyPriorityAttributes, attrVal)
