@@ -971,7 +971,8 @@ class SwLibTidyTests: XCTestCase {
      want to manage options as well.
 
      This test demonstrates that all of the string options can take empty
-     strings.
+     strings without failing. This does not imply that the setting is valid,
+     for example, TidyDocType will always have a doctype.
 
      - tidyOptSetValue()
      *************************************************************************/
@@ -981,24 +982,16 @@ class SwLibTidyTests: XCTestCase {
             let tdoc = tidyCreate()
         else { XCTFail( TidyCreateFailed ); return }
 
-        let stringOptions = [ TidyAltText,
-                              TidyBlockTags,
-                              TidyCSSPrefix,
-                              TidyCustomTags,
-                              TidyDoctype,
-                              TidyEmacsFile,
-                              TidyEmptyTags,
-                              TidyErrFile,
-                              TidyInlineTags,
-                              TidyMuteReports,
-                              TidyOutFile,
-                              TidyPreTags,
-                              TidyPriorityAttributes ]
+        /* Get all of the option Id's of type TidyString */
+        let stringOptions: [TidyOptionId] = tidyGetOptionList( tdoc )
+            .flatMap { tidyOptGetType( $0 ) == TidyString ? $0 : nil }
+            .flatMap { tidyOptGetId( $0 ) }
 
         for optId in stringOptions {
 
+            /* Ensure we can set null strings. */
             let result = tidyOptSetValue( tdoc , optId, "")
-            XCTAssert( result, "Option \(optId) was not true!")
+            XCTAssert( result, "Option \(optId) did not accept a null string!")
         }
 
         tidyRelease( tdoc )
@@ -1014,15 +1007,17 @@ class SwLibTidyTests: XCTestCase {
 
      - tidyOptGetPriorityAttrList()
      - tidyOptGetMutedMessageList()
+     - tidyOptGetDeclTagList()
      *************************************************************************/
     func test_tidyOptions_iterators() {
 
         guard
             let tdoc = tidyCreate()
-        else { XCTFail( "The TidyDoc does not exist." ); return }
+        else { XCTFail( TidyCreateFailed ); return }
 
         XCTAssert( tidyOptGetMutedMessageList( tdoc ).count == 0, "Expected the array to be empty." )
         XCTAssert( tidyOptGetPriorityAttrList( tdoc ).count == 0, "Expected the array to be empty." )
+        XCTAssert( tidyOptGetDeclTagList( tdoc, forOptionId: TidyBlockTags ).count == 0, "Expected the array to be empty." )
 
         let muteArray = random_mute( 5 )
         let muteVal = muteArray.joined(separator: ", ")
@@ -1030,10 +1025,17 @@ class SwLibTidyTests: XCTestCase {
         let attrVal = attrArray.joined(separator: ", ")
 
         _ = tidyOptSetValue( tdoc, TidyMuteReports, muteVal )
-        _ = tidyOptSetValue( tdoc, TidyPriorityAttributes, attrVal)
+        _ = tidyOptSetValue( tdoc, TidyPriorityAttributes, attrVal )
 
         XCTAssert( tidyOptGetMutedMessageList( tdoc )[2] == muteArray[2], "The array did not return the value expected." )
         XCTAssert( tidyOptGetPriorityAttrList( tdoc )[2] == attrArray[2], "The array did not return the value expected." )
+
+        if let tagsArray = random_words( 7 ) {
+            let tagsVal = tagsArray.joined(separator: ", ")
+            _ = tidyOptSetValue( tdoc, TidyBlockTags, tagsVal )
+            let listArray = tidyOptGetDeclTagList( tdoc, forOptionId: TidyBlockTags )
+            XCTAssert( listArray[2] == tagsArray[2], "The array did not return the value expected." )
+        }
 
         tidyRelease( tdoc )
     }
@@ -1089,6 +1091,8 @@ class SwLibTidyTests: XCTestCase {
 
         tidyRelease( tdoc )
     }
+
+
     /*************************************************************************
       A whole lot of Tidy is dedicated to managing options, and clients will
       want to manage options as well.

@@ -1274,8 +1274,9 @@ public func tidyOptGetDeclTagList( _ tdoc: TidyDoc, forOptionId optId: TidyOptio
             result.append( String( cString: tag ) )
         }
     }
-    
-    return result
+
+    /* The native iterator works backwords, so reverse the result. */
+    return result.reversed()
 }
 
 
