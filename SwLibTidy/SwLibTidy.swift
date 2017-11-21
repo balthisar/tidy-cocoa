@@ -1033,6 +1033,12 @@ public func tidyOptParseValue( _ tdoc: TidyDoc, _ optnam: String, _ val: String 
  
 /** 
  Get current option value as an integer.
+
+ - Note: This function returns an integer value, which in C is compatible with
+     every C enum. C enums don't come across well in Swift, but it's still very
+     important that they be used versus any raw integer value. This protects
+     Swift code from C enum value changes. In Swift, the C enums' integer
+     values should be used as such: TidySortAttrNone.rawValue
  
  - parameters:
    - tdoc: The tidy document for which to get the value.
@@ -1049,6 +1055,12 @@ public func tidyOptGetInt( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> UInt {
 /**
  Set option value as an integer.
  
+ - Note: This function accepts an integer value, which in C is compatible with
+     every C enum. C enums don't come across well in Swift, but it's still very
+     important that they be used versus any raw integer value. This protects
+     Swift code from C enum value changes. In Swift, the C enums' integer
+     values should be used as such: TidySortAttrNone.rawValue
+
  - parameters
    - tdoc: The tidy document for which to set the value.
    - optId: The option ID to set.

@@ -2,6 +2,8 @@
 
     SwLibTidyTests.swift
     Basic tests of the SwLibTidy wrapper library for tidy-html5 ("CLibTidy").
+    Given that tidy-html5 doesn't have its own unit tests, this suite also
+    manages to test nearly all of CLibTidy's public API.
     See https://github.com/htacg/tidy-html5
 
     Copyright © 2107 by HTACG. All rights reserved.
@@ -20,67 +22,76 @@ import CLibTidyEnum
 
 
 class SwLibTidyTests: XCTestCase {
-    
-    private var tdoc: TidyDoc?       // used for most tests, assigned in setUp()
-    private var testBundle: Bundle?  // reference to the test case bundle
 
-    override func setUp() {
-        super.setUp()
-        testBundle = Bundle(for: type(of: self))
-        if let tmpdoc = tidyCreate() {
-            tdoc = tmpdoc
-            XCTFail( "tidyCreate() failed, which is highly unusual." )
-        } else {
-            XCTFail( "tidyCreate() failed, which is highly unusual." )
-        }
-        tdoc = tidyCreate()!
-    }
-    
-    
-    override func tearDown() {
-        tidyRelease( tdoc! )
-        super.tearDown()
+    /* Common Strings */
+    let TidyCreateFailed = "tidyCreate() failed, which is highly unusual."
+
+    /* Simplify access to the test project's bundle. */
+    private var testBundle: Bundle {
+        return Bundle(for: type(of: self))
     }
 
-
-    /* Many of our tests require Tidy to Tidy a file first. */
-    func tidy( doc: TidyDoc, file: String, config: String? = nil) -> Swift.Bool {
-
-        if let config = config {
-            if let file = testBundle!.path(forResource: config, ofType: "conf") {
-                let _ = tidyLoadConfig( doc, file )
-            } else {
-                XCTFail( "The file '\(config).conf' appears to be missing from the bundle." )
-            }
-        }
-
-        if let file = testBundle!.path(forResource: file, ofType: "html") {
-           let _ = tidyParseFile( doc, file )
+    /* Simplify access to the test project's sample config file. */
+    private var testConfig: String? {
+        if let resource = testBundle.path(forResource: "case-001", ofType: "conf") {
+            return resource
         } else {
-            XCTFail( "The file '\(file).html' appears to be missing from the bundle." )
-            return false
+            /* Fail HERE, because this is a bundle issue, not a test case issue. */
+            self.continueAfterFailure = false
+            XCTFail( "The sample configuration file appears to be missing from the bundle." )
+            return ""
         }
+    }
+
+    /* Simplify access to the test project's sample HTML file. */
+    private var testHtml: String? {
+        if let resource = testBundle.path(forResource: "case-001", ofType: "html") {
+            return resource
+        } else {
+            continueAfterFailure = false
+            /* Fail HERE, because this is a bundle issue, not a test case issue. */
+            XCTFail( "The sample HTML file appears to be missing from the bundle." )
+            return ""
+        }
+    }
+
+
+    /*
+     Many of our tests require Tidy to Tidy a file first. This will tidy
+     the included sample file using the given TidyDoc, optionally using
+     the included sample configuration file.
+     */
+    private func tidySample( doc: TidyDoc, useConfig: Swift.Bool = false ) -> Swift.Bool {
+
+        guard
+            let config = testConfig,
+            let html = testHtml
+        else { return false }
+
+        if useConfig {
+            let _ = tidyLoadConfig( doc, config )
+        }
+
+           let _ = tidyParseFile( doc, html )
 
         return true
     }
 
+    // MARK: - Test Cases
     /*************************************************************************
       In order to do anything at all with Tidy, we need an instance of a Tidy
       document (TidyDoc), and when we're done with it, we have to release it
       in order to free its memory and resources.
-
-      Although the setUp() and tearDown() do this for every other unit test,
-      this case demonstrates how to create and free a TidyDoc.
 
       - tidyCreate()
       - tidyRelease()
      *************************************************************************/
     func test_tidyCreate() {
 
-        if let localDoc = tidyCreate() {
-            tidyRelease( localDoc )
+        if let tdoc: TidyDoc = tidyCreate() {
+            tidyRelease( tdoc )
         } else {
-            XCTFail( "tidyCreate() failed, which is highly unusual." )
+            XCTFail( TidyCreateFailed )
         }
     }
 
@@ -97,13 +108,15 @@ class SwLibTidyTests: XCTestCase {
     func test_tidySetAppData_tidyGetAppData() {
 
         guard
-            let tdoc = tdoc
-        else { XCTFail( "The TidyDoc does not exist." ); return }
+            let tdoc = tidyCreate()
+        else { XCTFail( TidyCreateFailed ); return }
 
         tidySetAppData( tdoc, self )
         let gotObject = tidyGetAppData( tdoc )
     
         XCTAssert( gotObject === self, "The object stored is not that same as the object retrieved." )
+
+        tidyRelease( tdoc )
     }
     
     
@@ -112,17 +125,24 @@ class SwLibTidyTests: XCTestCase {
       release date, its current version, and the platform for which is was
       compiled.
 
+      Note that this test is fragile, as it depends on the library date and
+      version numbers.
+
       - tidyReleaseDate()
       - tidyLibraryVersion()
       - tidyPlatform()
      *************************************************************************/
     func test_tidyReleaseInformation() {
 
-        XCTAssert( tidyReleaseDate().hasPrefix("2017."), "The release date does not begin with 2017." )
+        let expectedDate = "2017."
+        let expectedVers = "5.5"
+        let expectedPlat = "Apple"
 
-        XCTAssert( tidyLibraryVersion().hasPrefix("5.5"), "The library version does not begin with 5.5." )
+        XCTAssert( tidyReleaseDate().hasPrefix(expectedDate), "The release date does not begin with '\(expectedDate)'." )
 
-        XCTAssert( (tidyPlatform()?.hasPrefix("Apple"))!, "The platform does not begin with \"Apple\"" )
+        XCTAssert( tidyLibraryVersion().hasPrefix(expectedVers), "The library version does not begin with '\(expectedVers)'." )
+
+        XCTAssert( (tidyPlatform()?.hasPrefix(expectedPlat))!, "The platform does not begin with '\(expectedPlat)'." )
     }
     
     
@@ -143,13 +163,15 @@ class SwLibTidyTests: XCTestCase {
     func test_tidyLoadConfig() {
 
         guard
-            let tdoc = tdoc
-        else { XCTFail( "The TidyDoc does not exist." ); return }
+            let tdoc = tidyCreate()
+        else { XCTFail( TidyCreateFailed ); return }
 
-        if let file = testBundle!.path(forResource: "case-001", ofType: "conf") {
+        var result: UInt
+
+        if let file = testConfig {
 
             let _ = tidyLoadConfig( tdoc, file )
-            var result = tidyOptGetInt( tdoc, TidyAccessibilityCheckLevel )
+            result = tidyOptGetInt( tdoc, TidyAccessibilityCheckLevel )
             XCTAssert( result == 3, "Expected 3, but got \(result)." )
 
             let _ = tidyOptResetAllToDefault( tdoc )
@@ -159,10 +181,9 @@ class SwLibTidyTests: XCTestCase {
             let _ = tidyLoadConfigEnc( tdoc, file, "ascii")
             result = tidyOptGetInt( tdoc, TidyAccessibilityCheckLevel )
             XCTAssert( result == 3, "Expected 3, but got \(result)." )
-
-        } else {
-            XCTFail( "Couldn't load the configuration file." )
         }
+
+        tidyRelease( tdoc )
     }
 
 
@@ -182,25 +203,28 @@ class SwLibTidyTests: XCTestCase {
     func test_tidyParse() {
 
         guard
-            let tdoc = tdoc
-        else { XCTFail( "The TidyDoc does not exist." ); return }
+            let tdoc = tidyCreate()
+        else { XCTFail( TidyCreateFailed ); return }
 
+        /* We'll throw away the return value, and check tidyStatus(). */
         let _ = tidyParseString( tdoc, "<h1>Hello, world!</h2>" )
         var result = tidyStatus( tdoc )
         XCTAssert( result == 1, "Expected tidyStatus() == 1, but it was \(result)." )
 
-        if let file = testBundle!.path(forResource: "case-001", ofType: "html") {
-            let _ = tidyParseFile( tdoc, file )
+        /* Use the return value directly. */
+        if let file = testHtml {
+            result = tidyParseFile( tdoc, file )
         }
-        result = tidyStatus( tdoc )
         XCTAssert( result == 1, "Expected tidyStatus() == 1, but it was \(result)." )
 
-        if let file = testBundle!.path(forResource: "case-001", ofType: "html") {
+        /* Redirect a file to stdin, so we can test tidyParseStdin(). */
+        if let file = testHtml {
             freopen( file, "r", stdin )
-            let _ = tidyParseStdin( tdoc )
-            result = tidyStatus( tdoc )
+            result = tidyParseStdin( tdoc )
             XCTAssert( result == 1, "Expected tidyStatus() == 1, but it was \(result)." )
         }
+
+        tidyRelease( tdoc )
     }
 
 
@@ -220,10 +244,10 @@ class SwLibTidyTests: XCTestCase {
     func test_tidyStatusInformation() {
 
         guard
-            let tdoc = tdoc
-        else { XCTFail( "The TidyDoc does not exist." ); return }
+            let tdoc = tidyCreate()
+        else { XCTFail( TidyCreateFailed ); return }
 
-        XCTAssert( tidy( doc: tdoc, file: "case-001", config: "case-001" ), "Could not locate the file for testing." )
+        XCTAssert( tidySample( doc: tdoc, useConfig: true ), "tidySample() failed for some reason." )
 
         XCTAssert( tidyStatus( tdoc ) == 1, "Expected tidyStatus() == 1" )
 
@@ -238,6 +262,8 @@ class SwLibTidyTests: XCTestCase {
         XCTAssert( tidyAccessWarningCount( tdoc ) == 4, "Expected tidyAccessWarningCount() == 4" )
 
         XCTAssert( tidyConfigErrorCount( tdoc ) == 1, "Expected tidyConfigErrorCount() == 1" )
+
+        tidyRelease( tdoc )
     }
 
 
@@ -255,19 +281,20 @@ class SwLibTidyTests: XCTestCase {
     func test_errorBufferAndSummaries() {
 
         guard
-            let mydoc = tidyCreate()
-        else { XCTFail( "Could not create a TidyDoc." ); return }
+            let tdoc = tidyCreate()
+        else { XCTFail( TidyCreateFailed ); return }
 
-        /* Output goes to STDOUT for this. */
-        let _ = tidyParseString( mydoc, "<img src='#'>")
+        /* Output goes to STDOUT for this, i.e., we're not keeping it. */
+        let _ = tidyParseString( tdoc, "<img src='#'>")
 
         /* Now let's setup error buffers. */
         let errorBuffer = TidyBuffer()
-        let err = tidySetErrorBuffer( mydoc, errbuf: errorBuffer )
+        let err = tidySetErrorBuffer( tdoc, errbuf: errorBuffer )
         XCTAssert( err == 0, "tidySetErrorBuffer() returned \(err) instead of 0.")
 
-        tidyErrorSummary( mydoc )
-        tidyGeneralInfo( mydoc )
+        /* Output goes to our error buffer for these. */
+        tidyErrorSummary( tdoc )
+        tidyGeneralInfo( tdoc )
 
         /*
          Our test HTML generates this footnote as part of tidyErrorSummary(),
@@ -282,6 +309,8 @@ class SwLibTidyTests: XCTestCase {
         } else {
             XCTFail( "The output buffer was empty!" )
         }
+
+        tidyRelease( tdoc )
     }
 
 
@@ -293,21 +322,28 @@ class SwLibTidyTests: XCTestCase {
      *************************************************************************/
     func test_tidyFileExists() {
 
-        if var file = testBundle!.path(forResource: "case-001", ofType: "conf") {
+        guard
+            let tdoc = tidyCreate()
+        else { XCTFail( TidyCreateFailed ); return }
 
-            XCTAssert( tidyFileExists( tdoc!, file ), "File \(file) does not exist." )
+        if var file = testConfig {
+
+            XCTAssert( tidyFileExists( tdoc, file ), "File \(file) does not exist." )
 
             file += ".xfghjkh"
 
-            XCTAssert( !tidyFileExists( tdoc!, file ), "By some strange fluke, file \(file) exists!" )
+            XCTAssert( !tidyFileExists( tdoc, file ), "By some strange fluke, file \(file) exists!" )
         }
+
+        tidyRelease( tdoc )
     }
 
 
     /*************************************************************************
       Tidy can work with multiple combinations of input and out character
-      encodings. We're not going to test that Tidy actually works, but we
-      will test that Tidy accepts our wrapped methods.
+      encodings. We're not going to test that Tidy actually works, because
+      we're better off using native encoding methods, and using Tidy in pure
+      UTF-8. However, we will test that Tidy accepts our wrapped methods.
 
       - tidySetCharEncoding()
       - tidySetInCharEncoding()
@@ -317,8 +353,8 @@ class SwLibTidyTests: XCTestCase {
     func test_tidySetCharEncoding() {
 
         guard
-            let tdoc = tdoc
-        else { XCTFail( "The TidyDoc does not exist." ); return }
+            let tdoc = tidyCreate()
+        else { XCTFail( TidyCreateFailed ); return }
 
         /* Our default input and output encodings should both be 4: UTF8 */
         var inputVal = tidyOptGetInt( tdoc, TidyInCharEncoding )
@@ -342,6 +378,8 @@ class SwLibTidyTests: XCTestCase {
         inputVal = tidyOptGetInt( tdoc, TidyInCharEncoding )   // should be 12
         outputVal = tidyOptGetInt( tdoc, TidyOutCharEncoding ) // should be 7
         XCTAssert( inputVal == 12 && outputVal == 7, "The in and out character encoding settings seem to be wrong.")
+
+        tidyRelease( tdoc )
     }
 
 
@@ -357,11 +395,13 @@ class SwLibTidyTests: XCTestCase {
     func test_tidyConfigCallback() {
 
         guard
-            let tdoc = tdoc
-        else { XCTFail( "The TidyDoc does not exist." ); return }
+            let tdoc = tidyCreate()
+        else { XCTFail( TidyCreateFailed ); return }
 
+        /* Setup the asynchronous test expectation. */
         let callbackSuccess = XCTestExpectation(description: "The option callback should execute at least once.")
 
+        /* Closures can be used as callbacks, which is what we do here. */
         let _ = tidySetConfigCallback( tdoc, { (tdoc: TidyDoc, option: String, value: String) -> Swift.Bool in
 
             callbackSuccess.fulfill()
@@ -373,10 +413,9 @@ class SwLibTidyTests: XCTestCase {
             return false
         })
 
-        if let file = testBundle!.path(forResource: "case-001", ofType: "conf") {
+        /* The config contains `mynewconfig`, which is not a valid option. */
+        if let file = testConfig {
             let _ = tidyLoadConfig( tdoc, file )
-        } else {
-            XCTFail( "Couldn't load the configuration file." )
         }
 
         /* Issue the assert here if the callback doesn't fire at least once. */
@@ -393,6 +432,8 @@ class SwLibTidyTests: XCTestCase {
         } else {
             XCTFail( "No configuration records exist." )
         }
+
+        tidyRelease( tdoc )
     }
 
 
@@ -420,8 +461,8 @@ class SwLibTidyTests: XCTestCase {
     func test_tidyOptions_general() {
 
         guard
-            let tdoc = tdoc
-        else { XCTFail( "The TidyDoc does not exist." ); return }
+            let tdoc = tidyCreate()
+        else { XCTFail( TidyCreateFailed ); return }
 
         let optionList = tidyGetOptionList( tdoc )
         var result: Bool
@@ -452,7 +493,7 @@ class SwLibTidyTests: XCTestCase {
          */
         if let opt = tidyGetOption( tdoc, TidyIndentSpaces ) {
 
-            /* Veryify we have the right option by checking its name. */
+            /* Verify we have the right option by checking its name. */
             result = tidyOptGetName( opt ) == "indent-spaces"
             XCTAssert( result, "tidyOptGetName() returned an unexpected result." )
 
@@ -471,6 +512,8 @@ class SwLibTidyTests: XCTestCase {
         } else {
             XCTFail( "tidyGetOption() failed." )
         }
+
+        tidyRelease( tdoc )
     }
 
 
@@ -488,8 +531,8 @@ class SwLibTidyTests: XCTestCase {
     func test_tidyOptions_picklists() {
 
         guard
-            let tdoc = tdoc
-            else { XCTFail( "The TidyDoc does not exist." ); return }
+            let tdoc = tidyCreate()
+        else { XCTFail( TidyCreateFailed ); return }
 
         /* The TidyDoctype option has an interesting list. */
         if let opt = tidyGetOption( tdoc, TidyDoctype ) {
@@ -509,6 +552,8 @@ class SwLibTidyTests: XCTestCase {
         } else {
             XCTFail( "tidyGetOption() failed." )
         }
+
+        tidyRelease( tdoc )
     }
 
 
@@ -537,8 +582,8 @@ class SwLibTidyTests: XCTestCase {
     func test_tidyOptions_values() {
         
         guard
-            let tdoc = tdoc
-        else { XCTFail( "The TidyDoc does not exist." ); return }
+            let tdoc = tidyCreate()
+        else { XCTFail( TidyCreateFailed ); return }
 
         var result: Bool
 
@@ -588,21 +633,21 @@ class SwLibTidyTests: XCTestCase {
 
             /*
              Note! We return an integer, so if we want to use Tidy's
-             enum values, we need to look at it's integer value!
+             enum values, we need to look at its integer value!
              */
             result = tidyOptGetDefaultInt( opt ) == TidySortAttrNone.rawValue
             XCTAssert( result, "The default for TidySortAttributes should have been TidySortAttrNone." )
 
             /*
              Note! We return an integer, so if we want to use Tidy's
-             enum values, we need to look at it's integer value!
+             enum values, we need to look at its integer value!
              */
             result = tidyOptGetInt( tdoc, TidySortAttributes ) == TidySortAttrNone.rawValue
             XCTAssert( result, "The value for TidySortAttributes should have been TidySortAttrNone." )
 
             /*
              Note! We return an integer, so if we want to use Tidy's
-             enum values, we need to look at it's integer value!
+             enum values, we need to look at its integer value!
              */
             let _ = tidyOptSetInt( tdoc, TidySortAttributes, TidySortAttrAlpha.rawValue )
             result = tidyOptGetInt( tdoc, TidySortAttributes ) == TidySortAttrAlpha.rawValue
@@ -651,8 +696,9 @@ class SwLibTidyTests: XCTestCase {
 
         /* Let's get the encoding name for one of the options. */
         result = tidyOptGetEncName( tdoc, TidyInCharEncoding ) == "utf8"
-        XCTAssert( result, "The encoding name for TidyInCharEncoding should have been 'fff'." )
+        XCTAssert( result, "The encoding name for TidyInCharEncoding should have been 'utf8'." )
 
+        tidyRelease( tdoc )
     }
 
 
@@ -672,8 +718,8 @@ class SwLibTidyTests: XCTestCase {
     func test_tidyOptions_snapshots() {
 
         guard
-            let tdoc = tdoc
-        else { XCTFail( "The TidyDoc does not exist." ); return }
+            let tdoc = tidyCreate()
+        else { XCTFail( TidyCreateFailed ); return }
 
         var result: Bool
 
@@ -683,7 +729,7 @@ class SwLibTidyTests: XCTestCase {
         result = tidyOptSnapshot( tdoc )
         XCTAssertTrue( result, "The snapshot should have been taken." )
 
-        if let file = testBundle!.path(forResource: "case-001", ofType: "conf") {
+        if let file = testConfig {
             let _ = tidyLoadConfig( tdoc, file )
         } else {
             XCTFail( "Couldn't load the configuration file." )
@@ -693,7 +739,7 @@ class SwLibTidyTests: XCTestCase {
         XCTAssertTrue( result, "The option values should be different than default, but aren't.")
 
         let _ = tidyOptSnapshot( tdoc )
-        XCTAssert( tidy( doc: tdoc, file: "case-001", config: "case-001" ), "Could not locate the file for testing." )
+        XCTAssert( tidySample( doc: tdoc, useConfig: true ), "tidySample() failed for some reason." )
         result = tidyOptDiffThanSnapshot( tdoc )
         XCTAssertFalse( result, "The option values should be the same as the snapshot, but aren't.")
 
@@ -703,6 +749,8 @@ class SwLibTidyTests: XCTestCase {
 
         result = tidyOptDiffThanSnapshot( tdoc )
         XCTAssertTrue( result, "The option values should be different from snapshot, but are the same.")
+
+        tidyRelease( tdoc )
     }
 
 
@@ -725,21 +773,19 @@ class SwLibTidyTests: XCTestCase {
     func test_tidyOptions_set_get() {
 
         guard
-            let tdoc = tdoc
-            else { XCTFail( "The TidyDoc does not exist." ); return }
+            let tdoc = tidyCreate()
+        else { XCTFail( TidyCreateFailed ); return }
 
-        let debug_print = true /* set to true to log to console */
-        let iS = TidyUnknownOption.rawValue + 1;
-        let iE = N_TIDY_OPTIONS.rawValue - 1;
-
-        var options: [TidyOptionId] = []
         var results: [String] = []
 
-        /* Build an array of option Id's that we can shuffle. */
-        for index in iS...iE {
-            options.append( TidyOptionId( index ) )
-        }
-        options.shuffle()
+        /*
+         Create an array of option id's in a random order, which should
+         help us trap any conditions where setting an option value has
+         an effect on other option values.
+         */
+        let options: [TidyOptionId] = tidyGetOptionList( tdoc )
+            .flatMap { tidyOptGetId($0) }
+            .shuffled()
 
         /*
          For each tidy option that exists…
@@ -749,12 +795,13 @@ class SwLibTidyTests: XCTestCase {
 
             guard
                 let opt = tidyGetOption( tdoc, optId )
-                else { XCTFail( "Could not get option for optId \(optId)." ); return }
+            else { XCTFail( "Could not get option for optId \(optId)." ); return }
 
             let optType = tidyOptGetType( opt );
             var valueIn = ""
             var valueOut = ""
 
+            /* Skip the stupid TidyInternalCategory options. */
             if tidyOptGetCategory( opt ) == TidyInternalCategory {
                 results.append("")
                 continue
@@ -763,37 +810,41 @@ class SwLibTidyTests: XCTestCase {
             /* Make up a value for it and set it. */
             switch optType {
 
-            case TidyString:
+                case TidyString:
 
-                switch optId {
+                    switch optId {
 
-                case TidyDoctype:
-                    valueIn = random_doctype()
+                        case TidyDoctype: valueIn = random_doctype()
 
-                case TidyMuteReports:
-                    valueIn = random_mute( 4 ).joined(separator: ", ");
+                        case TidyMuteReports: valueIn = random_mute( 4 ).joined(separator: ", ");
+
+                        default: valueIn = random_words( 1 )?.joined(separator: " ") ?? "RandomWordsFailed"
+                    }
+
+                    _ = tidyOptSetValue( tdoc, optId, valueIn )
+
+
+                case TidyInteger:
+
+                    let picklist = tidyOptGetPickList( opt )
+
+                    if picklist.count > 0 {
+                        valueIn = String( arc4random_uniform( UInt32(picklist.count - 1) ) )
+                    } else {
+                        valueIn = String( arc4random_uniform( 100 ))
+                    }
+
+                    _ = tidyOptSetInt( tdoc, optId, UInt32(valueIn)! )
+
+
+                case TidyBoolean:
+
+                    valueIn = arc4random_uniform(2) == 0 ? String(true) : String(false)
+
+                    _ = tidyOptSetBool( tdoc, optId, Bool(valueIn)! )
 
                 default:
-                    valueIn = random_words( 1 )?.joined(separator: " ") ?? "RandomWordFailed"
-                }
-                _ = tidyOptSetValue( tdoc, optId, valueIn )
-
-            case TidyInteger:
-                let picklist = tidyOptGetPickList( opt )
-
-                if picklist.count > 0 {
-                    valueIn = String( arc4random_uniform( UInt32(picklist.count - 1) ) )
-                } else {
-                    valueIn = String( arc4random_uniform( 100 ))
-                }
-                _ = tidyOptSetInt( tdoc, optId, UInt32(valueIn)! )
-
-            case TidyBoolean:
-                valueIn = arc4random_uniform(2) == 0 ? String(true) : String(false)
-                _ = tidyOptSetBool( tdoc, optId, Bool(valueIn)! )
-
-            default:
-                break
+                    break
             }
 
 
@@ -802,20 +853,19 @@ class SwLibTidyTests: XCTestCase {
                 valueIn = valueIn + "-"
             }
 
+
             /* Remember it. */
             results.append( valueIn )
 
-            /* Read it. */
+
+            /* Read it back in. */
             switch optType {
 
-                case TidyString:
-                    valueOut = tidyOptGetValue( tdoc, optId )!;
+                case TidyString:  valueOut = tidyOptGetValue( tdoc, optId )!;
 
-                case TidyInteger:
-                    valueOut = String( tidyOptGetInt( tdoc, optId ) )
+                case TidyInteger: valueOut = String( tidyOptGetInt( tdoc, optId ) )
 
-                case TidyBoolean:
-                    valueOut = String( tidyOptGetBool( tdoc, optId ) )
+                case TidyBoolean: valueOut = String( tidyOptGetBool( tdoc, optId ) )
 
                 default:
                     break
@@ -823,7 +873,6 @@ class SwLibTidyTests: XCTestCase {
 
             /* Compare in and out. */
             let outp = "Option = \(tidyOptGetName( opt )), In = \(valueIn), Out = \(valueOut)."
-            if debug_print { print( outp ) }
             XCTAssert( valueIn == valueOut, outp )
         }
 
@@ -832,18 +881,17 @@ class SwLibTidyTests: XCTestCase {
          The test above checked options as they were set. Now let's
          check them all to determine if there's any interaction going on.
          */
-        if debug_print { print( "-----------" ) }
         for ( index, optId ) in options.enumerated() {
 
             guard
                 let opt = tidyGetOption( tdoc, optId )
-                else { XCTFail( "Could not get option for optId \(optId)." ); return }
+            else { XCTFail( "Could not get option for optId \(optId)." ); return }
 
             let optType = tidyOptGetType( opt );
             let valueIn = results[index]
             let valueOut: String
 
-
+            /* Skip the stupid TidyInternalCategory options. */
             if tidyOptGetCategory( opt ) == TidyInternalCategory {
                 continue
             }
@@ -851,47 +899,48 @@ class SwLibTidyTests: XCTestCase {
             /* Read it. */
             switch optType {
 
-            case TidyString:
-                valueOut = tidyOptGetValue( tdoc, optId )!;
+            case TidyString:  valueOut = tidyOptGetValue( tdoc, optId )!;
 
-            case TidyInteger:
-                valueOut = String( tidyOptGetInt( tdoc, optId ) )
+            case TidyInteger: valueOut = String( tidyOptGetInt( tdoc, optId ) )
 
-            case TidyBoolean:
-                valueOut = String( tidyOptGetBool( tdoc, optId ) )
+            case TidyBoolean: valueOut = String( tidyOptGetBool( tdoc, optId ) )
 
-            default:
-                valueOut = ""
+            default:          valueOut = ""
             }
 
             /* Compare in and out. */
             let outp = "Option = \(tidyOptGetName( opt )), In = \(valueIn), Out = \(valueOut)."
-            if debug_print { print( outp ) }
             XCTAssert( valueIn == valueOut, outp )
         }
 
+        /*
+            During the main Tidying operations, CLibTidy changes the
+            configuration for internal use, but does _not_ restore it until
+            the buffer is saved (although you can manually restore it). This
+            bit below goes through a typical Tidy cycle, and saves the buffer,
+            which should ensure that our options are exactly how we set them.
+         */
         let outpBuffer = TidyBuffer()
-
         _ = tidyParseString( tdoc, "<h1>How now, brown cow?</h1>")
         _ = tidyCleanAndRepair( tdoc )
         _ = tidySaveBuffer( tdoc, outpBuffer ) /* needed to restore snapshot */
+
 
         /*
          Now ensure that the act of Tidying a document doesn't fiddle with
          the configuration settings.
          */
-        if debug_print { print( "-----------" ) }
         for ( index, optId ) in options.enumerated() {
 
             guard
                 let opt = tidyGetOption( tdoc, optId )
-                else { XCTFail( "Could not get option for optId \(optId)." ); return }
+            else { XCTFail( "Could not get option for optId \(optId)." ); return }
 
             let optType = tidyOptGetType( opt );
             let valueIn = results[index]
             let valueOut: String
 
-
+            /* Skip the stupid TidyInternalCategory options. */
             if tidyOptGetCategory( opt ) == TidyInternalCategory {
                 continue
             }
@@ -899,24 +948,21 @@ class SwLibTidyTests: XCTestCase {
             /* Read it. */
             switch optType {
 
-            case TidyString:
-                valueOut = tidyOptGetValue( tdoc, optId )!;
+            case TidyString:  valueOut = tidyOptGetValue( tdoc, optId )!;
 
-            case TidyInteger:
-                valueOut = String( tidyOptGetInt( tdoc, optId ) )
+            case TidyInteger: valueOut = String( tidyOptGetInt( tdoc, optId ) )
 
-            case TidyBoolean:
-                valueOut = String( tidyOptGetBool( tdoc, optId ) )
+            case TidyBoolean: valueOut = String( tidyOptGetBool( tdoc, optId ) )
 
-            default:
-                valueOut = ""
+            default:          valueOut = ""
             }
 
             /* Compare in and out. */
             let outp = "Option = \(tidyOptGetName( opt )), In = \(valueIn), Out = \(valueOut)."
-            if debug_print { print( outp ) }
             XCTAssert( valueIn == valueOut, outp )
         }
+
+        tidyRelease( tdoc )
     }
 
 
@@ -932,8 +978,8 @@ class SwLibTidyTests: XCTestCase {
     func test_tidyOptions_emptystrings() {
 
         guard
-            let tdoc = tdoc
-            else { XCTFail( "The TidyDoc does not exist." ); return }
+            let tdoc = tidyCreate()
+        else { XCTFail( TidyCreateFailed ); return }
 
         let stringOptions = [ TidyAltText,
                               TidyBlockTags,
@@ -955,6 +1001,7 @@ class SwLibTidyTests: XCTestCase {
             XCTAssert( result, "Option \(optId) was not true!")
         }
 
+        tidyRelease( tdoc )
     }
 
 
@@ -971,8 +1018,8 @@ class SwLibTidyTests: XCTestCase {
     func test_tidyOptions_iterators() {
 
         guard
-            let tdoc = tdoc
-            else { XCTFail( "The TidyDoc does not exist." ); return }
+            let tdoc = tidyCreate()
+        else { XCTFail( "The TidyDoc does not exist." ); return }
 
         XCTAssert( tidyOptGetMutedMessageList( tdoc ).count == 0, "Expected the array to be empty." )
         XCTAssert( tidyOptGetPriorityAttrList( tdoc ).count == 0, "Expected the array to be empty." )
@@ -988,6 +1035,7 @@ class SwLibTidyTests: XCTestCase {
         XCTAssert( tidyOptGetMutedMessageList( tdoc )[2] == muteArray[2], "The array did not return the value expected." )
         XCTAssert( tidyOptGetPriorityAttrList( tdoc )[2] == attrArray[2], "The array did not return the value expected." )
 
+        tidyRelease( tdoc )
     }
 
 
@@ -1003,8 +1051,8 @@ class SwLibTidyTests: XCTestCase {
     func test_tidyOptions_doctype_fpi() {
 
         guard
-            let tdoc = tdoc
-            else { XCTFail( "The TidyDoc does not exist." ); return }
+            let tdoc = tidyCreate()
+        else { XCTFail( TidyCreateFailed ); return }
 
         /* The TidyDoctype option has an interesting list. */
         if let opt = tidyGetOption( tdoc, TidyDoctype ) {
@@ -1039,7 +1087,7 @@ class SwLibTidyTests: XCTestCase {
             XCTFail( "tidyGetOption() failed." )
         }
 
-
+        tidyRelease( tdoc )
     }
     /*************************************************************************
       A whole lot of Tidy is dedicated to managing options, and clients will
@@ -1079,8 +1127,8 @@ class SwLibTidyTests: XCTestCase {
     func test_tidyOptions_changeCallback() {
 
         guard
-            let tdoc = tdoc
-            else { XCTFail( "The TidyDoc does not exist." ); return }
+            let tdoc = tidyCreate()
+        else { XCTFail( TidyCreateFailed ); return }
 
         let callbackSuccess = XCTestExpectation(description: "The option change callback should execute at least once.")
 
@@ -1126,6 +1174,8 @@ class SwLibTidyTests: XCTestCase {
 
         /* Issue the assert here if the callback doesn't fire at least once. */
         wait(for: [callbackSuccess], timeout: 1.0)
+
+        tidyRelease( tdoc )
     }
 
 
