@@ -398,6 +398,8 @@ class SwLibTidyTests: XCTestCase {
             let tdoc = tidyCreate()
         else { XCTFail( TidyCreateFailed ); return }
 
+        _ = setTidyConfigRecords(forTidyDoc: tdoc, toClass: JimsTidyConfigReport.self )
+
         /* Setup the asynchronous test expectation. */
         let callbackSuccess = XCTestExpectation(description: "The option callback should execute at least once.")
 

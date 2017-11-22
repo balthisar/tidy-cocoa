@@ -36,6 +36,8 @@ public protocol TidyConfigReportProtocol: AnyObject {
 
     var value: String { get }
 
+    init(withValue: String, forOption: String)
+
 }
 
 
@@ -45,10 +47,24 @@ public protocol TidyConfigReportProtocol: AnyObject {
     public var option: String = ""
     public var value: String = ""
 
-    init(withValue: String, forOption: String) {
+    public required init(withValue: String, forOption: String) {
 
         option = forOption;
         value = withValue;
+        super.init()
+    }
+}
+
+/** A default implementation of the `TidyConfigReportProtocol`. */
+@objc public class JimsTidyConfigReport: NSObject, TidyConfigReportProtocol {
+
+    public var option: String = ""
+    public var value: String = ""
+
+    public required init(withValue: String, forOption: String) {
+
+        option = forOption;
+        value = "---\(withValue)---";
         super.init()
     }
 }

@@ -194,8 +194,15 @@ public func tidyCreate() -> TidyDoc? {
             .fromOpaque(ptrStorage)
             .takeUnretainedValue()
 
-        storage.configCallbackRecords.append( TidyConfigReport.init( withValue: strValue, forOption: strOption) )
+        /* Use the class specified in .configCallbackClass to populate the
+           array. This allows clients to substitute their own class instead
+           of forcing TidyConfigReport.
+         */
+        let userClass = storage.configCallbackClass
+        let configRecord = userClass.init(withValue: strValue, forOption: strOption)
+        storage.configCallbackRecords.append( configRecord )
 
+        /* Fire the user's desired callback, if applicable. */
         if let callback = storage.configCallback {
             return callback( tdoc!, strOption, strValue ) ? yes : no
         } else {
@@ -2890,7 +2897,7 @@ public func getInstalledLanguageList() -> [String] {
 /******************************************************************************
  ** Convenience Methods
  **************************************************************************** */
-// MARK: - Private:
+// MARK: - Convenience Methods:
 
 /**
  Returns an array of everything that could have been passed to the
@@ -2913,6 +2920,23 @@ public func tidyConfigRecords( forTidyDoc: TidyDoc ) -> [TidyConfigReportProtoco
     return storage.configCallbackRecords
 }
 
+
+/**
+ */
+public func setTidyConfigRecords( forTidyDoc: TidyDoc, toClass: TidyConfigReportProtocol.Type ) -> Swift.Bool {
+
+    guard
+        let ptrStorage = CLibTidy.tidyGetAppData( forTidyDoc )
+        else { return false }
+
+    let storage = Unmanaged<ApplicationData>
+        .fromOpaque(ptrStorage)
+        .takeUnretainedValue()
+
+    storage.configCallbackClass = toClass
+    return true
+}
+
 /******************************************************************************
  ** Private Stuff
  **************************************************************************** */
@@ -2930,7 +2954,7 @@ private class ApplicationData {
     var appData: AnyObject?
     var configCallback: TidyConfigCallback?
     var configCallbackRecords: [TidyConfigReportProtocol]
-//    var configCallbackClass: TidyConfigReportProtocol
+    var configCallbackClass: TidyConfigReportProtocol.Type
     var configChangeCallback: TidyConfigChangeCallback?
     var tidyMessageCallback: TidyMessageCallback?
     var tidyMessageCallbackRecords: [[ String : String ]]
@@ -2941,7 +2965,7 @@ private class ApplicationData {
         self.appData = nil
         self.configCallback = nil
         self.configCallbackRecords = []
-//        self.configCallbackClass = TidyConfigReport
+        self.configCallbackClass = TidyConfigReport.self
         self.configChangeCallback = nil
         self.tidyMessageCallback = nil
         self.tidyMessageCallbackRecords = []
