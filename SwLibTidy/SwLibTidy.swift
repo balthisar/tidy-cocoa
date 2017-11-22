@@ -1515,7 +1515,7 @@ public typealias TidyMessageCallback = ( _ tmessage: TidyMessage ) -> Swift.Bool
  - returns:
      A boolean indicating success or failure setting the callback.
  */
-public func tidySetMessageCallback( _ tdoc: TidyDoc, filtCallback: @escaping TidyMessageCallback ) -> Swift.Bool {
+public func tidySetMessageCallback( _ tdoc: TidyDoc, _ swiftCallback: @escaping TidyMessageCallback ) -> Swift.Bool {
 
     // Let's turn our opaque reference to an ApplicationData into an instance.
     guard let ptrStorage = CLibTidy.tidyGetAppData(tdoc) else { return false }
@@ -1524,7 +1524,7 @@ public func tidySetMessageCallback( _ tdoc: TidyDoc, filtCallback: @escaping Tid
         .fromOpaque(ptrStorage)
         .takeUnretainedValue()
     
-    storage.tidyMessageCallback = filtCallback;
+    storage.tidyMessageCallback = swiftCallback;
     
     return true
 }
@@ -1794,7 +1794,6 @@ public func tidyGetMessageArguments( forMessage tmessage: TidyMessage ) -> [Tidy
     var result : [TidyMessageArgument] = []
     
     while ( it != nil ) {
-        
         if let arg = CLibTidy.tidyGetNextMessageArgument( tmessage, &it ) {
             result.append( arg )
         }

@@ -97,7 +97,7 @@ class TidyRunner {
          better to segregate out of context information external to the
          instance.
          */
-        let _ = tidySetMessageCallback( tdoc, filtCallback: messageCallback)
+        let _ = tidySetMessageCallback( tdoc, messageCallback)
 
         /*
          Let's set our unknown configuration option callback. In this case,

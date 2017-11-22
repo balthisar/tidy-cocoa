@@ -1312,19 +1312,8 @@ class SwLibTidyTests: XCTestCase {
     /*************************************************************************
       Sophisticated programs will want more control over Tidy's message
       output, and the use of the message callback enables this. This test
-      demonstrates setting up such a callback.
-
-      - tidySetMessageCallback()
-     *************************************************************************/
-    func test_messageCallback() {
-
-    }
-
-
-    /*************************************************************************
-      Tidy's message callback provides instances of TidyMessage, which is an
-      opaque type that uses an API to interrogate, as demonstrated in this
-      test.
+      demonstrates setting up such a callback, as well as uses the message
+      interrogation API in order to pick apart the message.
 
       - tidySetMessageCallback()
       - tidyGetMessageDoc()
@@ -1343,19 +1332,6 @@ class SwLibTidyTests: XCTestCase {
       - tidyGetMessagePrefix()
       - tidyGetMessageOutputDefault()
       - tidyGetMessageOutput()
-     *************************************************************************/
-    func test_tidyMessage() {
-
-    }
-
-
-    /*************************************************************************
-      Tidy's message callback provides instances of TidyMessage, which is an
-      opaque type that uses an API to interrogate. This message interrogation
-      API includes tidyGetMessageArguments() to return an array of
-      TidyMessageArgument, which has its own access API for discovering the
-      components of a message's original format string.
-
       - tidyGetMessageArguments()
       - tidyGetArgType()
       - tidyGetArgFormat()
@@ -1364,8 +1340,112 @@ class SwLibTidyTests: XCTestCase {
       - tidyGetArgValueInt()
       - tidyGetArgValueDouble()
      *************************************************************************/
-    func test_tidyMessageArguments() {
+    func test_messageCallback() {
 
+        guard
+            let tdoc = tidyCreate()
+        else { XCTFail( TidyCreateFailed ); return }
+
+        /* Setup the asynchronous test expectation. */
+        let callbackSuccess = XCTestExpectation(description: "The option callback should execute at least once.")
+
+
+        /* Closures can be used as callbacks, which is what we do here. */
+        let _ = tidySetMessageCallback( tdoc, { ( tmessage: TidyMessage ) -> Swift.Bool in
+
+            callbackSuccess.fulfill()
+
+            /* Let's pick this apart: */
+            let expect_complete = "line 1 column 18 - Warning: discarding unexpected </h2>"
+
+            /* The message API returns the various pieces that makes up a
+               message in Tidy. You can use these to provide your own
+               messages, and provide your own localizations. */
+            let doc = tidyGetMessageDoc( tmessage )
+            let code = tidyGetMessageCode( tmessage )
+            let key = tidyGetMessageKey( tmessage )
+            let line = tidyGetMessageLine( tmessage )
+            let col = tidyGetMessageColumn( tmessage )
+            let level = tidyGetMessageLevel( tmessage )
+            let formatDef = tidyGetMessageFormatDefault( tmessage )
+            let formatLoc = tidyGetMessageFormat( tmessage )
+            let mssgDef = tidyGetMessageDefault( tmessage )
+            let mssgLoc = tidyGetMessage( tmessage )
+            let posDef = tidyGetMessagePosDefault( tmessage )
+            let posLoc = tidyGetMessagePos( tmessage )
+            let prefixDef = tidyGetMessagePrefixDefault( tmessage )
+            let prefixLoc = tidyGetMessagePrefix( tmessage )
+            let outDef = tidyGetMessageOutputDefault( tmessage )
+            let outLoc = tidyGetMessageOutput( tmessage )
+
+            XCTAssert( doc == tdoc, "The message gave us the wrong TidyDocument." )
+            XCTAssert( code == DISCARDING_UNEXPECTED.rawValue, "Received the wrong message code." )
+            XCTAssert( key == "DISCARDING_UNEXPECTED", "Received the wrong message code." )
+            XCTAssert( line == 1, "Was expecting a different line number." )
+            XCTAssert( col ==  18, "Was expecting a different column number." )
+            XCTAssert( level == TidyWarning, "Was expecting a different message level." )
+            XCTAssert( formatDef == "discarding unexpected %s", "Was expecting a different format string." )
+            XCTAssert( formatLoc == "discarding unexpected %s", "Was expecting a different format string." )
+            XCTAssert( mssgDef == "discarding unexpected </h2>", "Was expecting a different message." )
+            XCTAssert( mssgLoc == "discarding unexpected </h2>", "Was expecting a different message." )
+            XCTAssert( posDef == "line 1 column 18 - ", "Was expecting a different message position." )
+            XCTAssert( posLoc == "line 1 column 18 - ", "Was expecting a different message position." )
+            XCTAssert( prefixDef == "Warning: ", "Was expecting a different message prefix." )
+            XCTAssert( prefixLoc == "Warning: ", "Was expecting a different message prefix." )
+            XCTAssert( outDef == expect_complete, "Was expecting a different message." )
+            XCTAssert( outLoc == expect_complete, "Was expecting a different message." )
+
+            /* Messages are composed of C format strings, which are compatible
+               with Swift and reflected in the tidyGetMessageFormat() and
+               tidyGetMessageFormatDefault() functions. The arguments to
+               fill this format string can be sussed out with the following:
+             */
+            let arguments = tidyGetMessageArguments(forMessage: tmessage)
+            let argType = tidyGetArgType( tmessage, arguments[0] )
+            let argFormat = tidyGetArgFormat( tmessage, arguments[0] )
+
+            XCTAssert( arguments.count == 1, "There should be only one argument, but there were \(arguments.count)." )
+            XCTAssert( argType == tidyFormatType_STRING, "Expected the argument type to be tidyFormatType_STRING." )
+            XCTAssert( argFormat == "%s", "Expected the format to be '%s'.")
+
+            switch argType {
+
+            case tidyFormatType_STRING:
+                let value = tidyGetArgValueString( tmessage, arguments[0] )
+                XCTAssert( value == "</h2>", "The argument was expected was not \(value)." )
+
+            case tidyFormatType_UINT:
+                let _ = tidyGetArgValueUInt( tmessage, arguments[0] )
+                XCTFail( "The argument type was not expected!" )
+
+            case tidyFormatType_INT:
+                let _ = tidyGetArgValueInt( tmessage, arguments[0] )
+                XCTFail( "The argument type was not expected!" )
+
+            case tidyFormatType_DOUBLE:
+                let _ = tidyGetArgValueDouble( tmessage, arguments[0] )
+                XCTFail( "The argument type was not expected!" )
+
+            default:
+                XCTFail( "The argument type was not expected!" )
+
+            }
+
+            /* Return false to indicate that we've handled the message and
+               that Tidy needs to take no action with it. */
+            return false
+        })
+
+
+        /* This should cause at least one message to arrive at the callback. */
+        let _ = tidySetLanguage( "en" )
+        let _ = tidyOptSetValue( tdoc, TidyBodyOnly, "true" )
+        let _ = tidyParseString( tdoc, "<÷h1>hello, world</h2>" )
+
+        /* Issue the assert here if the callback doesn't fire at least once. */
+        wait(for: [callbackSuccess], timeout: 1.0)
+
+        tidyRelease( tdoc )
     }
 
 
