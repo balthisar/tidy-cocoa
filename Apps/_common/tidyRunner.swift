@@ -66,7 +66,7 @@ class TidyRunner {
         /* Show version and release information. */
         output( "LibTidy version is \(tidyLibraryVersion()).")
         output( "LibTidy release date is \(tidyReleaseDate()).")
-        output( "LibTidy platform is \(tidyPlatform() ?? "None").")
+        output( "LibTidy platform is \(tidyPlatform()).")
         output(horizontal_rule)
 
 

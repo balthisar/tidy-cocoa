@@ -1459,7 +1459,7 @@ public func tidyGetEmacsFile( _ tdoc: TidyDoc ) -> String {
  - returns: 
      Returns a file handle.
 */
-@discardableResult public func tidySetErrorFile( _ tdoc: TidyDoc, _ errfilnam: String ) -> CFilePointer {
+@discardableResult public func tidySetErrorFile( _ tdoc: TidyDoc, _ errfilnam: String ) -> CFilePointer? {
  
     return CLibTidy.tidySetErrorFile( tdoc, errfilnam )
 }

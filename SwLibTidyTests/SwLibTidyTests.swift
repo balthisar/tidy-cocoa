@@ -1273,10 +1273,39 @@ class SwLibTidyTests: XCTestCase {
       as demonstrated in this test.
 
       - tidySetErrorFile()
-      - tidySetErrorBuffer()
      *************************************************************************/
     func test_errorOut() {
 
+        guard
+            let tdoc = tidyCreate()
+        else { XCTFail( TidyCreateFailed ); return }
+
+        /* Setup error file -- assume we have permissions for tmp file. */
+        let errorFile = "\(NSTemporaryDirectory())\(NSUUID().uuidString).txt"
+        let errorURL = URL(fileURLWithPath: errorFile)
+        guard
+            let _ = tidySetErrorFile( tdoc, errorFile )
+        else {
+            XCTFail( "tidySetErrorFile() unsuccessful for '\(errorFile)'" )
+            return
+        }
+
+        /* Generate some output - file not written until TidyRelease() */
+        let _ = tidySample( doc: tdoc, useConfig: false )
+        tidyRelease( tdoc )
+
+
+        /* Read the beginning of the file to ensure it matches our
+           expections. */
+        do {
+            let expects = "line 1 column 1 - Warning: missing <!DOCTYPE> declaration"
+            let result = try String(contentsOf: errorURL, encoding: .utf8)
+            print( result )
+            XCTAssert( result.hasPrefix( expects ), "The file did not have the content expected." )
+        }
+        catch {
+            XCTFail( "Could not read '\(errorFile)'." )
+        }
     }
 
 
