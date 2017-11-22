@@ -1098,13 +1098,37 @@ class SwLibTidyTests: XCTestCase {
       want to manage options as well.
 
       This test demonstrates how documentation for Tidy options can be
-      generated.
+      generated, and it is fragile if CLibTidy changes its documentation.
 
       - tidyOptGetDoc()
       - tidyOptGetDocLinksList()
      *************************************************************************/
     func test_tidyOptions_documentation() {
 
+        guard
+            let tdoc = tidyCreate()
+        else { XCTFail( TidyCreateFailed ); return }
+
+        /* Let's get the documentation for TidyPreTags, since it has xref
+           links we can look at, too. */
+        if let topt = tidyGetOption( tdoc, TidyPreTags ) {
+
+            let dox = tidyOptGetDoc( tdoc, topt )
+            let prefix = "This option specifies new tags that are to be processed in exactly the"
+            XCTAssert( dox.hasPrefix( prefix ), "The expected documentation was not received." )
+
+            let xref: [TidyOption] = tidyOptGetDocLinksList( tdoc, topt )
+
+            /* There are five items in the list. If you're looking at the
+               CLibTidy source code, TidyUnknownOption is a list end marker,
+               and not part of the cross reference. */
+            XCTAssert( xref.count == 4, "Expected to see 4 items, but saw \(xref.count)." )
+
+            /* And the third one should be TidyInlineTags. */
+            XCTAssert( tidyOptGetId(xref[2]) == TidyInlineTags, "Expected TidyInlineTags, but got something else." )
+        }
+
+        tidyRelease( tdoc )
     }
 
 
@@ -1119,6 +1143,36 @@ class SwLibTidyTests: XCTestCase {
      *************************************************************************/
     func test_tidyOptions_emacs() {
 
+        guard
+            let tdoc = tidyCreate()
+        else { XCTFail( TidyCreateFailed ); return }
+
+        let emacs_file = "/home/charliebrown/httpd/mywebsite"
+
+        /* Setup error buffers. */
+        let errorBuffer = TidyBuffer()
+        let err = tidySetErrorBuffer( tdoc, errbuf: errorBuffer )
+        XCTAssert( err == 0, "tidySetErrorBuffer() returned \(err) instead of 0.")
+
+        /* Tidy the sample file with gnu-emacs set to true, and a path
+           specified. */
+        let _ = tidyOptSetBool( tdoc, TidyEmacs, true )
+        tidySetEmacsFile( tdoc, emacs_file )
+        let _ = tidySample( doc: tdoc, useConfig: false )
+
+        /* Let's make sure tidyGetEmacsFile() still gives us the same. */
+        XCTAssert( tidyGetEmacsFile( tdoc) == emacs_file, "tidyGetEmacsFile() returned incorrect value." )
+
+        /* Finally, let's see if the error table is prefixed with the correct
+           emacs file information. */
+        if let output = errorBuffer.StringValue() {
+            let prefix_expected = "\(emacs_file):1:1:"
+            XCTAssert( output.hasPrefix(prefix_expected), "Expected the prefix to be \(prefix_expected)." )
+        } else {
+            XCTFail( "The error buffer had no contents!" )
+        }
+
+        tidyRelease( tdoc )
     }
 
 
@@ -1134,12 +1188,24 @@ class SwLibTidyTests: XCTestCase {
             let tdoc = tidyCreate()
         else { XCTFail( TidyCreateFailed ); return }
 
-        let callbackSuccess = XCTestExpectation(description: "The option change callback should execute at least once.")
+        /* Setup expectation for asynchronous test. In this case, we
+           set an option various times below, and so the final count
+           should match our expectation. */
+        let callbackSuccess = XCTestExpectation(description: "The option change callback should execute 5 times.")
+        callbackSuccess.expectedFulfillmentCount = 5
 
+        /* Callbacks can be Swift closures, so this test takes advantage of
+           that. You're free to use a top-level function that uses the
+           correct typealias for any callback, too, but this keeps the
+           test suite orderly.
+         */
         let _ = tidySetConfigChangeCallback( tdoc, { tdoc, option in
 
             if let id = tidyOptGetId( option )
             {
+                /* We won't really test for anything here, but we can look
+                   at some interesting console output if we want to.
+                 */
                 let name = tidyOptGetName( option )
 
                 switch tidyOptGetType( option ) {
@@ -1156,23 +1222,34 @@ class SwLibTidyTests: XCTestCase {
                     let newval = tidyOptGetInt( tdoc, id )
                     print("Option \(name) changed. New value is \(newval)")
 
-
                 default:
                     let newval = tidyOptGetInt( tdoc, id )
                     print("Option \(name) changed. New value is \(newval)")
                 }
             }
 
+            /* Adds +1 to the expectedFulfillmentCount. */
             callbackSuccess.fulfill()
         })
 
+        /* +1 Callback should be called, because the default was empty. */
         _ = tidyOptSetValue( tdoc, TidyBlockTags, "jack, jim, joe" )
+
+        /* +0 Callback should *not* be called, because the same value was
+           given, meaning that no change actually occurred! */
         _ = tidyOptSetValue( tdoc, TidyBlockTags, "jack, jim, joe" )
+
+        /* +1 Callback should be called because we are resetting to default. */
         _ = tidyOptResetAllToDefault( tdoc )
+
+        /* +1 Callback should be called. */
         _ = tidyOptSetInt( tdoc, TidyWrapLen, 80 )
 
+        /* +2 Callback should be called twice, because `ident-with-tabs`
+           also changes `indent-spaces`. */
         _ = tidyOptParseValue( tdoc, "indent-with-tabs", "yes" )
 
+        /* +0 Callbacks should not occur when internal changes occur. */
         _ = tidyParseString( tdoc, "<p>How now, Mr. Cow?" )
         _ = tidyCleanAndRepair( tdoc )
 
