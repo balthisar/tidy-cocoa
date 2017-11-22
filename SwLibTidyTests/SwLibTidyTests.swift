@@ -142,7 +142,7 @@ class SwLibTidyTests: XCTestCase {
 
         XCTAssert( tidyLibraryVersion().hasPrefix(expectedVers), "The library version does not begin with '\(expectedVers)'." )
 
-        XCTAssert( (tidyPlatform()?.hasPrefix(expectedPlat))!, "The platform does not begin with '\(expectedPlat)'." )
+        XCTAssert( (tidyPlatform().hasPrefix(expectedPlat)), "The platform does not begin with '\(expectedPlat)'." )
     }
     
     
@@ -513,6 +513,14 @@ class SwLibTidyTests: XCTestCase {
             XCTFail( "tidyGetOption() failed." )
         }
 
+        if let _ = tidyGetOptionByName( tdoc, "hello-world" ) {
+            XCTFail( "tidyGetOptionByName() returned option for invalid string." )
+        }
+
+        if let _ = tidyGetOptionByName( tdoc, "wrap" ){} else {
+            XCTFail( "tidyGetOptionByName() did not return a valid option." )
+        }
+
         tidyRelease( tdoc )
     }
 
@@ -590,17 +598,16 @@ class SwLibTidyTests: XCTestCase {
         /* Let's work with an option of type TidyString. */
         if let opt = tidyGetOption( tdoc, TidyBlockTags ) {
 
-            result = tidyOptGetDefault( opt ) == nil
-            XCTAssert( result, "The default for TidyBlockTags should have been nil." )
+            result = tidyOptGetDefault( opt ) == ""
+            XCTAssert( result, "The default for TidyBlockTags should have been an empty string." )
 
-            result = tidyOptGetValue( tdoc, TidyBlockTags ) == nil
-            XCTAssert( result, "The value for TidyBlockTags should have been nil." )
+            result = tidyOptGetValue( tdoc, TidyBlockTags ) == ""
+            XCTAssert( result, "The value for TidyBlockTags should have been an empty string." )
 
             /* Note how once set, Tidy comma-formats the list. */
             let _ = tidyOptSetValue( tdoc, TidyBlockTags, "one two three" )
-            if let result = tidyOptGetValue( tdoc, TidyBlockTags ) {
-                XCTAssert( result == "one, two, three", "The option value is not as expected." )
-            }
+            result = tidyOptGetValue( tdoc, TidyBlockTags ) == "one, two, three"
+            XCTAssert( result, "The option value is not as expected." )
 
             result = tidyOptGetDeclTagList( tdoc, forOptionId: TidyBlockTags )[1] == "two"
             XCTAssert( result, "The second declared tag should have been 'two'." )
@@ -679,7 +686,7 @@ class SwLibTidyTests: XCTestCase {
         /* Ensure that we can reset an option to default. */
         let _ = tidyOptResetToDefault( tdoc, TidyBlockTags )
 
-        result = tidyOptGetValue( tdoc, TidyBlockTags ) == nil
+        result = tidyOptGetValue( tdoc, TidyBlockTags ) == ""
         XCTAssert( result, "The value for TidyBlockTags should have been nil." )
 
         /* Ensure that we can reset all options to default. */
@@ -861,7 +868,7 @@ class SwLibTidyTests: XCTestCase {
             /* Read it back in. */
             switch optType {
 
-                case TidyString:  valueOut = tidyOptGetValue( tdoc, optId )!;
+                case TidyString:  valueOut = tidyOptGetValue( tdoc, optId );
 
                 case TidyInteger: valueOut = String( tidyOptGetInt( tdoc, optId ) )
 
@@ -899,7 +906,7 @@ class SwLibTidyTests: XCTestCase {
             /* Read it. */
             switch optType {
 
-            case TidyString:  valueOut = tidyOptGetValue( tdoc, optId )!;
+            case TidyString:  valueOut = tidyOptGetValue( tdoc, optId );
 
             case TidyInteger: valueOut = String( tidyOptGetInt( tdoc, optId ) )
 
@@ -948,7 +955,7 @@ class SwLibTidyTests: XCTestCase {
             /* Read it. */
             switch optType {
 
-            case TidyString:  valueOut = tidyOptGetValue( tdoc, optId )!;
+            case TidyString:  valueOut = tidyOptGetValue( tdoc, optId );
 
             case TidyInteger: valueOut = String( tidyOptGetInt( tdoc, optId ) )
 
@@ -1211,7 +1218,7 @@ class SwLibTidyTests: XCTestCase {
                 switch tidyOptGetType( option ) {
 
                 case TidyString:
-                    let newval = tidyOptGetValue( tdoc, id ) ?? "NULL"
+                    let newval = tidyOptGetValue( tdoc, id )
                     print("Option \(name) changed. New value is \(newval)")
 
                 case TidyBoolean:

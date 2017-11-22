@@ -358,11 +358,12 @@ public func tidyLibraryVersion() -> String {
  Get the platform name from the current library.
 
  - returns:
-     An optional string indicating the platform on which LibTidy was built.
+     An string indicating the platform on which LibTidy was built, or a
+     null string.
  */
-public func tidyPlatform() -> String? {
+public func tidyPlatform() -> String {
 
-    guard let platform = CLibTidy.tidyPlatform() else { return nil }
+    guard let platform = CLibTidy.tidyPlatform() else { return "" }
 
     return String( cString: platform )
 }
@@ -768,11 +769,9 @@ public func tidyOptGetIdForName( _ optnam: String) -> TidyOptionId? {
  Returns an array of `TidyOption` tokens containing each Tidy option, which are
  an opaque type that can be interrogated with other LibTidy functions.
  
- - Note: This function will return internal-only option types including
-     `TidyInternalCategory`; you should *never* use these. Always ensure
-     that you use `tidyOptGetCategory()` before assuming that an option
-     is okay to use in your application.
- 
+ - Note: This function will return *not* internal-only option types designated
+     `TidyInternalCategory`; you should *never* use these anyway.
+
  - Note: This Swift array replaces the CLibTidy functions `tidyGetOptionList()`
      and `TidyGetNextOption()`, as it is much more natural to deal with Swift
      array types when using Swift.
@@ -791,7 +790,9 @@ public func tidyGetOptionList( _ tdoc: TidyDoc ) -> [TidyOption] {
     while ( it != nil ) {
         
         if let opt = CLibTidy.tidyGetNextOption(tdoc, &it) {
-            result.append(opt)
+            if ( tidyOptGetCategory( opt ) != TidyInternalCategory ) {
+                result.append(opt)
+            }
         }
     }
     
@@ -902,13 +903,13 @@ public func tidyOptGetCategory( _ opt: TidyOption ) -> TidyConfigCategory {
  - returns:
      A string indicating the default value of the specified option.
 */
-public func tidyOptGetDefault( _ opt: TidyOption ) -> String? {
+public func tidyOptGetDefault( _ opt: TidyOption ) -> String {
 
     if let result = CLibTidy.tidyOptGetDefault( opt ) {
         return String( cString: result )
     }
 
-    return nil
+    return ""
 }
 
  
@@ -984,13 +985,13 @@ public func tidyOptGetPickList( _ opt: TidyOption ) -> [String] {
  - returns: 
      The string value of the given optId.
 */
-public func tidyOptGetValue( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> String? {
+public func tidyOptGetValue( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> String {
 
     if let result = CLibTidy.tidyOptGetValue( tdoc, optId ) {
         return String( cString: result )
     }
 
-    return nil
+    return ""
 }
 
  
@@ -1275,7 +1276,8 @@ public func tidyOptGetDeclTagList( _ tdoc: TidyDoc, forOptionId optId: TidyOptio
         }
     }
 
-    /* The native iterator works backwords, so reverse the result. */
+    /* The native iterator works backwords, so reverse the result so that
+       the array represents the string order. */
     return result.reversed()
 }
 
