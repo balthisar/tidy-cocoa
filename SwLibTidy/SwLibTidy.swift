@@ -2900,7 +2900,7 @@ public func getInstalledLanguageList() -> [String] {
  @TODO: provide a function that can set a USER's struct or array that
    conforms to the protocol, instead of specifying our own sample class.
 */
-public func tidyConfigRecords( forTidyDoc: TidyDoc ) -> [TidyConfigReport] {
+public func tidyConfigRecords( forTidyDoc: TidyDoc ) -> [TidyConfigReportProtocol] {
     
     guard
         let ptrStorage = CLibTidy.tidyGetAppData( forTidyDoc )
@@ -2929,7 +2929,8 @@ public func tidyConfigRecords( forTidyDoc: TidyDoc ) -> [TidyConfigReport] {
 private class ApplicationData {
     var appData: AnyObject?
     var configCallback: TidyConfigCallback?
-    var configCallbackRecords: [TidyConfigReport]
+    var configCallbackRecords: [TidyConfigReportProtocol]
+//    var configCallbackClass: TidyConfigReportProtocol
     var configChangeCallback: TidyConfigChangeCallback?
     var tidyMessageCallback: TidyMessageCallback?
     var tidyMessageCallbackRecords: [[ String : String ]]
@@ -2940,6 +2941,7 @@ private class ApplicationData {
         self.appData = nil
         self.configCallback = nil
         self.configCallbackRecords = []
+//        self.configCallbackClass = TidyConfigReport
         self.configChangeCallback = nil
         self.tidyMessageCallback = nil
         self.tidyMessageCallbackRecords = []
