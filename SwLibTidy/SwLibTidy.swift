@@ -186,7 +186,9 @@ public func tidyCreate() -> TidyDoc? {
             let value = value,
             let ptrStorage = CLibTidy.tidyGetAppData( tdoc )
             else { return no }
-        
+
+        var result = no
+
         let strOption = String( cString: option )
         let strValue = String( cString: value )
 
@@ -204,10 +206,23 @@ public func tidyCreate() -> TidyDoc? {
 
         /* Fire the user's desired callback, if applicable. */
         if let callback = storage.configCallback {
-            return callback( tdoc!, strOption, strValue ) ? yes : no
+            result = callback( tdoc!, strOption, strValue ) ? yes : no
         } else {
-            return no
+            result = no
         }
+
+        /* If there's a delegate, then call the delegate method. We want to
+           return true if the option was handled, so consider the existing
+           result. And since this is going to CLibTidy, we're looking for
+           yes or no.
+         */
+        if let local_result = storage.delegate?.tidyReportsUnknownConfigOption?(tdoc: tdoc!, option: strOption, value: strValue) {
+            let native_result = result == yes ? true : false
+            result = ( local_result || native_result ) ? yes : no
+        }
+
+        return result
+
     }) else { tidyRelease( tdoc ); return nil }
     
     guard yes == CLibTidy.tidySetConfigChangeCallback( tdoc, { tdoc, option in
@@ -2900,6 +2915,23 @@ public func getInstalledLanguageList() -> [String] {
 // MARK: - Convenience and Delegate Methods:
 
 /**
+ Set the delegate for an instance of TidyDoc.
+ */
+public func setDelegate( anObject: TidyDelegateProtocol, forTidyDoc: TidyDoc ) {
+
+    guard
+        let ptrStorage = CLibTidy.tidyGetAppData( forTidyDoc )
+        else { return }
+
+    let storage = Unmanaged<ApplicationData>
+        .fromOpaque(ptrStorage)
+        .takeUnretainedValue()
+
+    storage.delegate = anObject
+
+}
+
+/**
  Returns an array of everything that could have been passed to the
  ConfigCallback, where the key indicates the unrecognized configuration option
  and the value indicating the proposed value. This convenience method avoids 
@@ -2939,7 +2971,7 @@ public func tidyConfigRecords( forTidyDoc: TidyDoc ) -> [TidyConfigReportProtoco
  - returns:
      Returns true or false indicating whether or not the class could be set.
  */
-public func setTidyConfigRecords( forTidyDoc: TidyDoc, toClass: TidyConfigReportProtocol.Type ) -> Swift.Bool {
+public func setTidyConfigRecords( toClass: TidyConfigReportProtocol.Type, forTidyDoc: TidyDoc ) -> Swift.Bool {
 
     guard
         let ptrStorage = CLibTidy.tidyGetAppData( forTidyDoc )
@@ -2977,6 +3009,7 @@ private class ApplicationData {
     var tidyMessageCallbackRecords: [[ String : String ]]
     var tidyPPCallback: TidyPPProgress?
     var tidyPPCallbackRecords: [[ String : String ]]
+    var delegate: TidyDelegateProtocol?
     
     init() {
         self.appData = nil
@@ -2988,5 +3021,6 @@ private class ApplicationData {
         self.tidyMessageCallbackRecords = []
         self.tidyPPCallback = nil
         self.tidyPPCallbackRecords = []
+        self.delegate = nil
     }
 }

@@ -459,7 +459,7 @@ class SwLibTidyTests: XCTestCase {
            Our sample class will alter the proposed value in a way that
            we can detect.
          */
-        if !setTidyConfigRecords(forTidyDoc: tdoc, toClass: JimsTidyConfigReport.self ) {
+        if !setTidyConfigRecords( toClass: JimsTidyConfigReport.self, forTidyDoc: tdoc ) {
             XCTFail( "setTidyConfigRecords() failed for some reason." )
             return
         }
@@ -1495,6 +1495,18 @@ class SwLibTidyTests: XCTestCase {
         wait(for: [callbackSuccess], timeout: 1.0)
 
         tidyRelease( tdoc )
+    }
+
+
+    /*************************************************************************
+      With all of this talk of callbacks, SwLibTidy also supports traditional
+      delegates, so you have an additional option. This test ensures that all
+      of the delegates are working just as well as the callbacks.
+
+      - setDelegate()
+     *************************************************************************/
+    func test_setDelegate() {
+
     }
 
 

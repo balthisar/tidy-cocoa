@@ -225,5 +225,20 @@ public func random_mute( _ x: Int ) -> [String] {
     }
 }
 
+/**
+ A sample class to handle TidyDelegateProtocol methods during testing. We will
+ signal to Tidy via false that we are NOT handling the option, so that Tidy
+ will report the unknown option.
+ */
+@objc public class JimsTidyDelegate: NSObject, TidyDelegateProtocol {
+
+    public func tidyReportsUnknownConfigOption( tdoc: TidyDoc, option: String, value: String ) -> Bool {
+        print("This is the delegate!")
+        return false
+    }
+
+
+}
+
 
 

@@ -25,7 +25,7 @@ import CLibTidy
  reporting unknown configuration options and proposed values, usually supplied
  by end application users. It is usually used as an array.
 */
-public protocol TidyConfigReportProtocol: AnyObject {
+@objc public protocol TidyConfigReportProtocol: AnyObject {
 
     /**
      The report consists of an array of dictionaries with the key `config`
