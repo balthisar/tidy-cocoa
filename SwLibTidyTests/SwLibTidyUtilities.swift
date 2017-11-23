@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwLibTidy
 
 
 /**
@@ -205,3 +206,24 @@ public func random_mute( _ x: Int ) -> [String] {
 
     return result
 }
+
+
+/**
+ An alternate implementation of the `TidyConfigReportProtocol`, which we will
+ use for testing setTidyConfigRecords(forTidyDoc:toClass:).
+ */
+@objc public class JimsTidyConfigReport: NSObject, TidyConfigReportProtocol {
+
+    public var option: String = ""
+    public var value: String = ""
+
+    public required init(withValue: String, forOption: String) {
+
+        option = forOption;
+        value = "---\(withValue)---";
+        super.init()
+    }
+}
+
+
+

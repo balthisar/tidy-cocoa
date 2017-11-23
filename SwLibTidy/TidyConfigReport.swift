@@ -55,18 +55,3 @@ public protocol TidyConfigReportProtocol: AnyObject {
     }
 }
 
-/** A default implementation of the `TidyConfigReportProtocol`. */
-@objc public class JimsTidyConfigReport: NSObject, TidyConfigReportProtocol {
-
-    public var option: String = ""
-    public var value: String = ""
-
-    public required init(withValue: String, forOption: String) {
-
-        option = forOption;
-        value = "---\(withValue)---";
-        super.init()
-    }
-}
-
-

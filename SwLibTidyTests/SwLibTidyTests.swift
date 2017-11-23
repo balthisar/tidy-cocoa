@@ -398,8 +398,6 @@ class SwLibTidyTests: XCTestCase {
             let tdoc = tidyCreate()
         else { XCTFail( TidyCreateFailed ); return }
 
-        _ = setTidyConfigRecords(forTidyDoc: tdoc, toClass: JimsTidyConfigReport.self )
-
         /* Setup the asynchronous test expectation. */
         let callbackSuccess = XCTestExpectation(description: "The option callback should execute at least once.")
 
@@ -431,6 +429,55 @@ class SwLibTidyTests: XCTestCase {
          */
         if let firstOption = tidyConfigRecords(forTidyDoc: tdoc ).first?.option {
             XCTAssert( firstOption == "mynewconfig", "The first bad option is supposed to be 'mynewconfig'." )
+        } else {
+            XCTFail( "No configuration records exist." )
+        }
+
+        tidyRelease( tdoc )
+    }
+
+
+    /*************************************************************************
+      When Tidy parses a configuration option that it doesn't understand or
+      is deprecated, it can call back to a closure or top-level function that
+      you provide. SwLibTidy also collects this information for you so that
+      you don't have to use callbacks, and you can use your own, conforming
+      class for this data collection.
+
+      - setTidyConfigRecords()
+      - tidyConfigRecords()
+     *************************************************************************/
+    func test_setTidyConfigRecords() {
+
+        guard
+            let tdoc = tidyCreate()
+        else { XCTFail( TidyCreateFailed ); return }
+
+        /* Let's tell SwLibTidy to use a different class to populate the
+           tidyConfigRecords() array. We might want to do this if we want
+           a class that's a bit more sophisticated than the default class.
+           Our sample class will alter the proposed value in a way that
+           we can detect.
+         */
+        if !setTidyConfigRecords(forTidyDoc: tdoc, toClass: JimsTidyConfigReport.self ) {
+            XCTFail( "setTidyConfigRecords() failed for some reason." )
+            return
+        }
+
+        /* The config contains `mynewconfig`, which is not a valid option. */
+        if let file = testConfig {
+            let _ = tidyLoadConfig( tdoc, file )
+        }
+
+        /*
+         Our sample config should have generated at least one record. Using
+         tidyConfigRecords() is an SwLibTidy alternative to using a callback.
+         The first unknown configuration record in our sample file should be
+         for a proposed option 'mynewconfig'.
+         */
+        if let firstValue = tidyConfigRecords(forTidyDoc: tdoc ).first?.value {
+            let expectedValue = "---poopy---"
+            XCTAssert( firstValue == expectedValue, "Expected \(expectedValue), but got \(firstValue)." )
         } else {
             XCTFail( "No configuration records exist." )
         }
