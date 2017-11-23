@@ -184,6 +184,7 @@ public func tidyCreate() -> TidyDoc? {
 
         guard let option = option,
             let value = value,
+            let tdoc = tdoc,
             let ptrStorage = CLibTidy.tidyGetAppData( tdoc )
             else { return no }
 
@@ -206,7 +207,7 @@ public func tidyCreate() -> TidyDoc? {
 
         /* Fire the user's desired callback, if applicable. */
         if let callback = storage.configCallback {
-            result = callback( tdoc!, strOption, strValue ) ? yes : no
+            result = callback( tdoc, strOption, strValue ) ? yes : no
         } else {
             result = no
         }
@@ -216,15 +217,17 @@ public func tidyCreate() -> TidyDoc? {
            result. And since this is going to CLibTidy, we're looking for
            yes or no.
          */
-        if let local_result = storage.delegate?.tidyReportsUnknownConfigOption?(tdoc: tdoc!, option: strOption, value: strValue) {
+        if let local_result = storage.delegate?.tidyReports?(unknownOption: strOption, value: strValue, forTidyDoc: tdoc) {
             let native_result = result == yes ? true : false
+            /* Either the callback or delegate indicate they've handled it. */
             result = ( local_result || native_result ) ? yes : no
         }
 
         return result
 
     }) else { tidyRelease( tdoc ); return nil }
-    
+
+
     guard yes == CLibTidy.tidySetConfigChangeCallback( tdoc, { tdoc, option in
 
         guard
@@ -240,7 +243,12 @@ public func tidyCreate() -> TidyDoc? {
         if let callback = storage.configChangeCallback {
             callback( tdoc, option )
         }
+
+        /* If there's a delegate, then call the delegate method. */
+        storage.delegate?.tidyReports?(optionChanged: option, forTidyDoc: tdoc )
+
     }) else { tidyRelease( tdoc ); return nil }
+
 
     guard yes == CLibTidy.tidySetMessageCallback( tdoc, { tmessage in
         
@@ -253,13 +261,29 @@ public func tidyCreate() -> TidyDoc? {
         let storage = Unmanaged<ApplicationData>
             .fromOpaque(ptrStorage)
             .takeUnretainedValue()
-        
+
+        var result = no
+
         if let callback = storage.tidyMessageCallback {
-            return callback( tmessage ) ? yes : no
+            result = callback( tmessage ) ? yes : no
         } else {
-            return yes
+            result = yes
         }
+
+        /* If there's a delegate, then call the delegate method. If we
+           return true, CLibTidy will output the message in its buffer.
+           Since this is going to CLibTidy, we're looking for yes or no.
+         */
+        if let local_result = storage.delegate?.tidyReports?(message: tmessage) {
+            let native_result = result == yes ? true : false
+            /* Either the callback or delegate can filter the message. */
+            result = ( local_result && native_result ) ? yes : no
+        }
+
+        return result
+
     }) else { tidyRelease( tdoc ); return nil }
+
 
     guard yes == CLibTidy.tidySetPrettyPrinterCallback( tdoc, { tdoc, line, col, destLine in
         
@@ -273,8 +297,12 @@ public func tidyCreate() -> TidyDoc? {
             .takeUnretainedValue()
         
         if let callback = storage.tidyPPCallback {
-            callback(  tdoc, UInt(line), UInt(col), UInt(destLine) )
+            callback( tdoc, UInt(line), UInt(col), UInt(destLine) )
         }
+
+        /* If there's a delegate, then call the delegate method. */
+        storage.delegate?.tidyReportsPrettyPrinting?( forDoc: tdoc, line: UInt(line), col: UInt(col), destLine: UInt(destLine) )
+
     }) else { tidyRelease( tdoc ); return nil }
     
     return tdoc

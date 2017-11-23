@@ -27,15 +27,13 @@ import CLibTidy
 */
 @objc public protocol TidyConfigReportProtocol: AnyObject {
 
-    /**
-     The report consists of an array of dictionaries with the key `config`
-     containing the unrecognized config value, and the key `value` containing
-     the proposed value.
-     */
+    /** The unrecognized configuration option. */
     var option: String { get }
 
+    /** The proposed value for the unrecognized configuration option. */
     var value: String { get }
 
+    /** Create an instance with this value for the given option. */
     init(withValue: String, forOption: String)
 
 }
