@@ -2875,7 +2875,7 @@ public func getStringKeyList() -> [UInt] {
    more natural to deal with Swift array types when using Swift.
  
  - returns:
- Returns an array of `String`.
+     Returns an array of `String`.
  */
 public func getInstalledLanguageList() -> [String] {
     
@@ -2897,15 +2897,21 @@ public func getInstalledLanguageList() -> [String] {
 /******************************************************************************
  ** Convenience Methods
  **************************************************************************** */
-// MARK: - Convenience Methods:
+// MARK: - Convenience and Delegate Methods:
 
 /**
  Returns an array of everything that could have been passed to the
  ConfigCallback, where the key indicates the unrecognized configuration option
  and the value indicating the proposed value. This convenience method avoids 
  having to use your own callback to collect this data.
- @TODO: provide a function that can set a USER's struct or array that
-   conforms to the protocol, instead of specifying our own sample class.
+
+ - parameters:
+   - forTidyDoc: the document for which you want to retrieve unrecognized
+     configuration records.
+ - returns:
+     Returns an array of objects conforming to the TidyConfigReportProtocol,
+     by default, of type TidyConfigReport. You can instruct SwLibTidy to use
+     a different class via setTidyConfigRecords(forTidyDoc:toClass:).
 */
 public func tidyConfigRecords( forTidyDoc: TidyDoc ) -> [TidyConfigReportProtocol] {
     
@@ -2922,6 +2928,16 @@ public func tidyConfigRecords( forTidyDoc: TidyDoc ) -> [TidyConfigReportProtoco
 
 
 /**
+ Allows you to set an alternate class to be used in the tidyConfigRecords()
+ array. The alternate class must conform to TidyConfigReportProtocol, and
+ might be used if you want a class to provide more sophisticated management
+ of these unrecognized options.
+
+ - parameters:
+   - forTidyDoc: The TidyDoc for which you are setting the class.
+   - toClass: The class that you want to use to collect unrecognized options.
+ - returns:
+     Returns true or false indicating whether or not the class could be set.
  */
 public func setTidyConfigRecords( forTidyDoc: TidyDoc, toClass: TidyConfigReportProtocol.Type ) -> Swift.Bool {
 
@@ -2945,7 +2961,8 @@ public func setTidyConfigRecords( forTidyDoc: TidyDoc, toClass: TidyConfigReport
 
 /**
  An instance of this class is retained by CLibTidy's AppData, and is used to
- store additional pointers that we cannot store in CLibTidy directly.
+ store additional pointers that we cannot store in CLibTidy directly. It
+ serves as a global variable store for each instance of a TidyDocument.
  - appData: Contains the pointer used by `tidySetAppData()`.
  - configCallback: Contains the pointer used by `tidySetConfigCallback()`.
  - tidyMessageCallback: Contains the pointer used by `tidySetMessageCallback`.
