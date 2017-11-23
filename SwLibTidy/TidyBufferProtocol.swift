@@ -33,7 +33,7 @@ public typealias TidyRawBuffer = UnsafeMutablePointer<byte>
  Conforming objects are also required to provide accessors and functions that
  enable accessing the raw, stored data.
 */
-public protocol TidyBufferProtocol: AnyObject {
+@objc public protocol TidyBufferProtocol: AnyObject {
     
     /** An accessor to the underlying TidyBuffer type from CLibTidy. */
     var tidyBuffer: TidyBufferPtr { get }
@@ -84,7 +84,7 @@ public protocol TidyBufferProtocol: AnyObject {
 
 
 /** A default implementation of the `TidyBufferProtocol`. */
-public class TidyBuffer: TidyBufferProtocol {
+@objc public class SwTidyBuffer: NSObject, TidyBufferProtocol {
     
     public var tidyBuffer: TidyBufferPtr
 
@@ -99,9 +99,10 @@ public class TidyBuffer: TidyBufferProtocol {
     }
 
 
-    public init() {
+    override public init() {
         tidyBuffer = TidyBufferPtr.allocate(capacity: MemoryLayout<TidyBufferPtr>.size)
         tidyBufInit( tidyBuffer )
+        super.init()
     }
 
 

@@ -288,7 +288,7 @@ class SwLibTidyTests: XCTestCase {
         let _ = tidyParseString( tdoc, "<img src='#'>")
 
         /* Now let's setup error buffers. */
-        let errorBuffer = TidyBuffer()
+        let errorBuffer = SwTidyBuffer()
         let err = tidySetErrorBuffer( tdoc, errbuf: errorBuffer )
         XCTAssert( err == 0, "tidySetErrorBuffer() returned \(err) instead of 0.")
 
@@ -976,7 +976,7 @@ class SwLibTidyTests: XCTestCase {
             bit below goes through a typical Tidy cycle, and saves the buffer,
             which should ensure that our options are exactly how we set them.
          */
-        let outpBuffer = TidyBuffer()
+        let outpBuffer = SwTidyBuffer()
         _ = tidyParseString( tdoc, "<h1>How now, brown cow?</h1>")
         _ = tidyCleanAndRepair( tdoc )
         _ = tidySaveBuffer( tdoc, outpBuffer ) /* needed to restore snapshot */
@@ -1206,7 +1206,7 @@ class SwLibTidyTests: XCTestCase {
         let emacs_file = "/home/charliebrown/httpd/mywebsite"
 
         /* Setup error buffers. */
-        let errorBuffer = TidyBuffer()
+        let errorBuffer = SwTidyBuffer()
         let err = tidySetErrorBuffer( tdoc, errbuf: errorBuffer )
         XCTAssert( err == 0, "tidySetErrorBuffer() returned \(err) instead of 0.")
 
