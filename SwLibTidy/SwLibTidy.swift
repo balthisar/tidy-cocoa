@@ -176,17 +176,19 @@ public func tidyCreate() -> TidyDoc? {
     
     /* Now we're going to usurp all of Tidy's callbacks so that we can use them
      * for our own purposes, such as building Swift-like data structures that
-     * can avoid the need for user callbacks. The user can still specify a
-     * callback, but our internal callbacks will call them.
+     * can avoid the need for user callbacks, as well as for calling delegate
+     * methods. The user can still specify a callback, but our internal
+     * callbacks will call them.
      */
     
     guard yes == CLibTidy.tidySetConfigCallback( tdoc, { tdoc, option, value in
 
-        guard let option = option,
+        guard
+            let option = option,
             let value = value,
             let tdoc = tdoc,
             let ptrStorage = CLibTidy.tidyGetAppData( tdoc )
-            else { return no }
+        else { return no }
 
         var result = no
 
@@ -201,7 +203,7 @@ public func tidyCreate() -> TidyDoc? {
            array. This allows clients to substitute their own class instead
            of forcing TidyConfigReport.
          */
-        let userClass = storage.configCallbackClass
+        let userClass = storage.configRecordClass
         let configRecord = userClass.init(withValue: strValue, forOption: strOption)
         storage.configCallbackRecords.append( configRecord )
 
@@ -256,15 +258,24 @@ public func tidyCreate() -> TidyDoc? {
             let tmessage = tmessage,
             let tdoc = CLibTidy.tidyGetMessageDoc( tmessage ),
             let ptrStorage = CLibTidy.tidyGetAppData( tdoc )
-            else { return yes }
+        else { return yes }
         
         let storage = Unmanaged<ApplicationData>
             .fromOpaque(ptrStorage)
             .takeUnretainedValue()
 
+        /* Use the class specified in .messageRecordClass to populate the
+         array. This allows clients to substitute their own class instead
+         of forcing TidyConfigReport.
+         */
+        let userClass = storage.messageRecordClass
+        let messageRecord = userClass.init(withMessage: tmessage )
+        storage.messageCallbackRecords.append( messageRecord )
+
+
         var result = no
 
-        if let callback = storage.tidyMessageCallback {
+        if let callback = storage.messageCallback {
             result = callback( tmessage ) ? yes : no
         } else {
             result = yes
@@ -290,13 +301,13 @@ public func tidyCreate() -> TidyDoc? {
         guard
             let tdoc = tdoc,
             let ptrStorage = CLibTidy.tidyGetAppData( tdoc )
-            else { return }
+        else { return }
         
         let storage = Unmanaged<ApplicationData>
             .fromOpaque(ptrStorage)
             .takeUnretainedValue()
         
-        if let callback = storage.tidyPPCallback {
+        if let callback = storage.ppCallback {
             callback( tdoc, UInt(line), UInt(col), UInt(destLine) )
         }
 
@@ -1574,7 +1585,7 @@ public func tidySetMessageCallback( _ tdoc: TidyDoc, _ swiftCallback: @escaping 
         .fromOpaque(ptrStorage)
         .takeUnretainedValue()
     
-    storage.tidyMessageCallback = swiftCallback;
+    storage.messageCallback = swiftCallback;
     
     return true
 }
@@ -1841,7 +1852,7 @@ public func tidyGetMessageArguments( forMessage tmessage: TidyMessage ) -> [Tidy
     
     var it: TidyIterator? = CLibTidy.tidyGetMessageArguments( tmessage )
     
-    var result : [TidyMessageArgument] = []
+    var result: [TidyMessageArgument] = []
     
     while ( it != nil ) {
         if let arg = CLibTidy.tidyGetNextMessageArgument( tmessage, &it ) {
@@ -2000,7 +2011,7 @@ public func tidySetPrettyPrinterCallback( _ tdoc: TidyDoc, _ callback: @escaping
         .fromOpaque(ptrStorage)
         .takeUnretainedValue()
     
-    storage.tidyPPCallback = callback;
+    storage.ppCallback = callback;
 
     return true
 }
@@ -2960,10 +2971,9 @@ public func setDelegate( anObject: TidyDelegateProtocol, forTidyDoc: TidyDoc ) {
 }
 
 /**
- Returns an array of everything that could have been passed to the
- ConfigCallback, where the key indicates the unrecognized configuration option
- and the value indicating the proposed value. This convenience method avoids 
- having to use your own callback to collect this data.
+ Returns an array of objects containing everything that could have been passed
+ to the ConfigCallback This convenience method avoids having to use your own
+ callback or delegate method to collect this data.
 
  - parameters:
    - forTidyDoc: the document for which you want to retrieve unrecognized
@@ -2971,7 +2981,7 @@ public func setDelegate( anObject: TidyDelegateProtocol, forTidyDoc: TidyDoc ) {
  - returns:
      Returns an array of objects conforming to the TidyConfigReportProtocol,
      by default, of type TidyConfigReport. You can instruct SwLibTidy to use
-     a different class via setTidyConfigRecords(forTidyDoc:toClass:).
+     a different class via setTidyConfigRecords(toClass:forTidyDoc:).
 */
 public func tidyConfigRecords( forTidyDoc: TidyDoc ) -> [TidyConfigReportProtocol] {
     
@@ -3009,9 +3019,62 @@ public func setTidyConfigRecords( toClass: TidyConfigReportProtocol.Type, forTid
         .fromOpaque(ptrStorage)
         .takeUnretainedValue()
 
-    storage.configCallbackClass = toClass
+    storage.configRecordClass = toClass
     return true
 }
+
+
+/**
+ Returns an array of every TidyMessage that was generated during every stage
+ of a TidyDoc life-cycle. This convenience method allows you to access this
+ data without having to use a callback or delegate method.
+
+ - parameters:
+   - forTidyDoc: the document for which you want to retrieve messages.
+ - returns:
+     Returns an array of objects conforming to the TidyMessageProtocol, by
+     default, of type TidyMessageContainer. You can instruct SwLibTidy to use
+     a different class via setTidyMessageRecords(toClasS:forTidyDoc:).
+*/
+public func tidyMessageRecords( forTidyDoc: TidyDoc ) -> [TidyMessageProtocol] {
+
+    guard
+        let ptrStorage = CLibTidy.tidyGetAppData( forTidyDoc )
+    else { return [] }
+
+    let storage = Unmanaged<ApplicationData>
+        .fromOpaque(ptrStorage)
+        .takeUnretainedValue()
+
+    return storage.messageCallbackRecords
+}
+
+
+/**
+ Allows you to set an alternate class to be used in the tidyMessageRecords()
+ array. The alternate class must conform to TidyMessageProtocol, and might be
+ used if you want a class to provide more sophisticated management of messages.
+
+ - parameters:
+   - forTidyDoc: The TidyDoc for which you are setting the class.
+   - toClass: The class that you want to use to collect messages.
+ - returns:
+     Returns true or false indicating whether or not the class could be set.
+ */
+public func setTidyMessageRecords( toClass: TidyMessageProtocol.Type, forTidyDoc: TidyDoc ) -> Swift.Bool {
+
+    guard
+        let ptrStorage = CLibTidy.tidyGetAppData( forTidyDoc )
+        else { return false }
+
+    let storage = Unmanaged<ApplicationData>
+        .fromOpaque(ptrStorage)
+        .takeUnretainedValue()
+
+    storage.messageRecordClass = toClass
+    return true
+}
+
 
 /******************************************************************************
  ** Private Stuff
@@ -3023,32 +3086,42 @@ public func setTidyConfigRecords( toClass: TidyConfigReportProtocol.Type, forTid
  An instance of this class is retained by CLibTidy's AppData, and is used to
  store additional pointers that we cannot store in CLibTidy directly. It
  serves as a global variable store for each instance of a TidyDocument.
- - appData: Contains the pointer used by `tidySetAppData()`.
+ - appData: Contains the user's pointer used by `tidySetAppData()`.
  - configCallback: Contains the pointer used by `tidySetConfigCallback()`.
  - tidyMessageCallback: Contains the pointer used by `tidySetMessageCallback`.
 */
 private class ApplicationData {
     var appData: AnyObject?
+    var delegate: TidyDelegateProtocol?
+
     var configCallback: TidyConfigCallback?
     var configCallbackRecords: [TidyConfigReportProtocol]
-    var configCallbackClass: TidyConfigReportProtocol.Type
+    var configRecordClass: TidyConfigReportProtocol.Type
+
     var configChangeCallback: TidyConfigChangeCallback?
-    var tidyMessageCallback: TidyMessageCallback?
-    var tidyMessageCallbackRecords: [[ String : String ]]
-    var tidyPPCallback: TidyPPProgress?
-    var tidyPPCallbackRecords: [[ String : String ]]
-    var delegate: TidyDelegateProtocol?
-    
+
+    var messageCallback: TidyMessageCallback?
+    var messageCallbackRecords: [TidyMessageProtocol]
+    var messageRecordClass: TidyMessageProtocol.Type
+
+    var ppCallback: TidyPPProgress?
+    var ppCallbackRecords: [[ String : String ]]
+
     init() {
         self.appData = nil
+        self.delegate = nil
+
         self.configCallback = nil
         self.configCallbackRecords = []
-        self.configCallbackClass = TidyConfigReport.self
+        self.configRecordClass = TidyConfigReport.self
+
         self.configChangeCallback = nil
-        self.tidyMessageCallback = nil
-        self.tidyMessageCallbackRecords = []
-        self.tidyPPCallback = nil
-        self.tidyPPCallbackRecords = []
-        self.delegate = nil
+
+        self.messageCallback = nil
+        self.messageCallbackRecords = []
+        self.messageRecordClass = TidyMessageContainer.self
+
+        self.ppCallback = nil
+        self.ppCallbackRecords = []
     }
 }
