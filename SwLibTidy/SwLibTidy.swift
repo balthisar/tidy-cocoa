@@ -2261,7 +2261,7 @@ public func tidyOptSaveFile( _ tdoc: TidyDoc, _ cfgfil: String ) -> Int {
  - returns: 
      Returns a tidy node.
 */
-public func tidyGetRoot( _ tdoc: TidyDoc ) -> TidyNode {
+public func tidyGetRoot( _ tdoc: TidyDoc ) -> TidyNode? {
 
     return CLibTidy.tidyGetRoot( tdoc )
 }
@@ -2275,7 +2275,7 @@ public func tidyGetRoot( _ tdoc: TidyDoc ) -> TidyNode {
  - returns: 
      Returns a tidy node.
 */
-public func tidyGetHtml( _ tdoc: TidyDoc ) -> TidyNode {
+public func tidyGetHtml( _ tdoc: TidyDoc ) -> TidyNode? {
  
     return CLibTidy.tidyGetHtml( tdoc )
 }
@@ -2289,7 +2289,7 @@ public func tidyGetHtml( _ tdoc: TidyDoc ) -> TidyNode {
  - returns: 
      Returns a tidy node.
 */
-public func tidyGetHead( _ tdoc: TidyDoc ) -> TidyNode {
+public func tidyGetHead( _ tdoc: TidyDoc ) -> TidyNode? {
  
     return CLibTidy.tidyGetHead( tdoc )
 }
@@ -2303,7 +2303,7 @@ public func tidyGetHead( _ tdoc: TidyDoc ) -> TidyNode {
  - returns:
      Returns a tidy node.
 */
-public func tidyGetBody( _ tdoc: TidyDoc ) -> TidyNode {
+public func tidyGetBody( _ tdoc: TidyDoc ) -> TidyNode? {
  
     return CLibTidy.tidyGetBody( tdoc )
 }
@@ -2320,7 +2320,7 @@ public func tidyGetBody( _ tdoc: TidyDoc ) -> TidyNode {
  - returns: 
      Returns a tidy node.
 */
-public func tidyGetParent( _ tnod: TidyNode ) -> TidyNode {
+public func tidyGetParent( _ tnod: TidyNode ) -> TidyNode? {
  
     return CLibTidy.tidyGetParent( tnod )
 }
@@ -2334,7 +2334,7 @@ public func tidyGetParent( _ tnod: TidyNode ) -> TidyNode {
  - returns: 
      Returns a tidy node.
 */
-public func tidyGetChild( _ tnod: TidyNode ) -> TidyNode {
+public func tidyGetChild( _ tnod: TidyNode ) -> TidyNode? {
  
     return CLibTidy.tidyGetChild( tnod )
 }
@@ -2348,7 +2348,7 @@ public func tidyGetChild( _ tnod: TidyNode ) -> TidyNode {
  - returns: 
      Returns a tidy node.
 */
-public func tidyGetNext( _ tnod: TidyNode ) -> TidyNode {
+public func tidyGetNext( _ tnod: TidyNode ) -> TidyNode? {
  
     return CLibTidy.tidyGetNext( tnod )
 }
@@ -2362,7 +2362,7 @@ public func tidyGetNext( _ tnod: TidyNode ) -> TidyNode {
  - returns:
      Returns a tidy node.
 */
-public func tidyGetPrev( _ tnod: TidyNode ) -> TidyNode {
+public func tidyGetPrev( _ tnod: TidyNode ) -> TidyNode? {
  
     return CLibTidy.tidyGetPrev( tnod )
 }
@@ -2526,8 +2526,11 @@ public func tidyNodeGetType( _ tnod: TidyNode ) -> TidyNodeType {
      Returns a string indicating the name of the node.
 */
 public func tidyNodeGetName( _ tnod: TidyNode ) -> String {
- 
-    return String( cString: CLibTidy.tidyNodeGetName( tnod ) )
+
+    if let result = CLibTidy.tidyNodeGetName( tnod ) {
+        return String( cString: result )
+    }
+    return ""
 }
 
  

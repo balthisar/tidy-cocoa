@@ -1818,6 +1818,48 @@ class SwLibTidyTests: XCTestCase {
      *************************************************************************/
     func test_traversal() {
 
+        guard
+            let tdoc = tidyCreate()
+            else { XCTFail( TidyCreateFailed ); return }
+
+        let _ = tidySample( doc: tdoc )
+
+        if let node = tidyGetRoot( tdoc ) {
+            XCTAssert( tidyNodeGetName( node ) == "", "Expected an empty string, got '\(tidyNodeGetName( node ))'." )
+        } else {
+            XCTFail( "We should have gotten a node." )
+        }
+
+        if let node = tidyGetHtml( tdoc ) {
+            XCTAssert( tidyNodeGetName( node ) == "html", "Expected 'html', got '\(tidyNodeGetName( node ))'." )
+        } else {
+            XCTFail( "We should have gotten a node." )
+        }
+
+        if let node = tidyGetHead( tdoc ) {
+            XCTAssert( tidyNodeGetName( node ) == "head", "Expected 'head'', got '\(tidyNodeGetName( node ))'." )
+        } else {
+            XCTFail( "We should have gotten a node." )
+        }
+
+        guard let bodynode = tidyGetBody( tdoc ) else {
+            XCTFail( "We should have gotten a node." )
+            return
+        }
+        XCTAssert( tidyNodeGetName( bodynode ) == "body", "Expected 'body', got '\(tidyNodeGetName( bodynode ))'." )
+
+        guard let childnode = tidyGetChild( bodynode ) else {
+            XCTFail( "We should have gotten a node." )
+            return
+        }
+        XCTAssert( tidyNodeGetName( childnode ) == "h1", "Expected 'h1', got '\(tidyNodeGetName( childnode ))'." )
+
+        if let nextnode = tidyGetNext( childnode ) {
+            XCTFail( "There should be no next node, but we got '\(tidyNodeGetName( nextnode ))'." )
+        }
+
+
+        tidyRelease( tdoc )
     }
 
 
