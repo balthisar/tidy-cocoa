@@ -1632,6 +1632,42 @@ class SwLibTidyTests: XCTestCase {
      *************************************************************************/
     func test_diagnostics() {
 
+        guard
+            let tdoc = tidyCreate()
+        else { XCTFail( TidyCreateFailed ); return }
+
+        var errBuffer = SwTidyBuffer()
+        let _ = tidySetErrorBuffer( tdoc, errbuf: errBuffer )
+        let _ = tidySample( doc: tdoc, useConfig: false )
+        print( "-----errBuffer after Tidy" )
+        print( errBuffer.StringValue() ?? "Oops" )
+        var expect = "line 1 column 1 - Warning: missing"
+        XCTAssert( errBuffer.StringValue()?.hasPrefix( expect ) ?? false, "Expected the buffer to start with something else." )
+
+        errBuffer = SwTidyBuffer()
+        let _ = tidySetErrorBuffer( tdoc, errbuf: errBuffer )
+        let _ = tidyCleanAndRepair( tdoc )
+        print( "-----errBuffer after clean and repair" )
+        print( errBuffer.StringValue() ?? "Nothing reported (this is good)" )
+        XCTAssert( errBuffer.StringValue() == nil, "Expect nothing to be added to the buffer." )
+
+        errBuffer = SwTidyBuffer()
+        let _ = tidySetErrorBuffer( tdoc, errbuf: errBuffer )
+        let _ = tidyReportDoctype( tdoc )
+        print( "-----errBuffer after report doc type" )
+        print( errBuffer.StringValue() ?? "Oops" )
+        expect = "Info: Document content looks like HTML5"
+        XCTAssert( errBuffer.StringValue()?.hasPrefix( expect ) ?? false, "Expected the buffer to start with something else." )
+
+        errBuffer = SwTidyBuffer()
+        let _ = tidySetErrorBuffer( tdoc, errbuf: errBuffer )
+        let _ = tidyRunDiagnostics( tdoc )
+        print( "-----errBuffer after run diagnostics" )
+        print( errBuffer.StringValue() ?? "Oops" )
+        expect = "Tidy found 3 warnings and 0 errors!\n\n"
+        XCTAssert( errBuffer.StringValue()?.hasSuffix( expect ) ?? false, "Expected the buffer to start with something else." )
+
+        tidyRelease( tdoc )
     }
 
 
@@ -1647,6 +1683,78 @@ class SwLibTidyTests: XCTestCase {
      *************************************************************************/
     func test_tidySave() {
 
+        guard
+            let tdoc = tidyCreate()
+        else { XCTFail( TidyCreateFailed ); return }
+
+        let _ = tidySample( doc: tdoc, useConfig: false )
+
+        /*
+         Save to a buffer, which a lot of tests already do, too.
+         */
+        let outbuff = SwTidyBuffer()
+        let _ = tidySaveBuffer( tdoc, outbuff )
+        if let result = outbuff.StringValue() {
+            print( "-----outbuff after tidying:" )
+            print( result )
+            XCTAssert( result.hasPrefix( "<html>\n" ), "The document does not look as expected." )
+        } else {
+            XCTFail( "The output buffer was empty!" )
+        }
+
+
+        /*
+         Save and check a physical file.
+         */
+
+        /* Setup error file -- assume we have permissions for tmp file. */
+        let outfile = "\(NSTemporaryDirectory())\(NSUUID().uuidString).txt"
+        let outURL = URL(fileURLWithPath: outfile)
+        var io_err = tidySaveFile( tdoc, outfile )
+        if io_err != 1 {
+            XCTFail( "tidySaveFile() unsuccessful for '\(outfile)', received error \(io_err)." )
+            return
+        }
+
+        /* Read the beginning of the file to ensure it matches our expections. */
+        do {
+            let expects = "<html>\n"
+            let result = try String(contentsOf: outURL, encoding: .utf8)
+            print( "-----file as read in:" )
+            print( result )
+            XCTAssert( result.hasPrefix( expects ), "The file did not have the content expected." )
+        }
+        catch {
+            XCTFail( "Could not read '\(outfile)'." )
+        }
+
+
+        /*
+         Save to stdout, but hijack stdout so we can check it.
+         */
+
+        /* Redirect a file to stdout, so we can test tidyParseStdin(). */
+        let fp = freopen( outfile, "w", stdout )
+        io_err = tidySaveStdout( tdoc )
+        fclose( fp )
+        if io_err != 1 {
+            XCTFail( "tidySaveStdout() unsuccessful, received error \(io_err)." )
+            return
+        }
+
+        /* Read the beginning of the file to ensure it matches our expections. */
+        do {
+            let expects = "<html>\n"
+            let result = try String(contentsOf: outURL, encoding: .utf8)
+            print( "-----file as read in:" )
+            print( result )
+            XCTAssert( result.hasPrefix( expects ), "The file did not have the content expected." )
+        }
+        catch {
+            XCTFail( "Could not read '\(outfile)'." )
+        }
+
+        tidyRelease( tdoc )
     }
 
 
@@ -1659,6 +1767,36 @@ class SwLibTidyTests: XCTestCase {
      *************************************************************************/
     func test_tidyOptSave() {
 
+        guard
+            let tdoc = tidyCreate()
+            else { XCTFail( TidyCreateFailed ); return }
+
+
+        /* Change some config options, because only non-defaults are written. */
+        let _ = tidyOptSetValue( tdoc, TidyBlockTags, "one two three four")
+
+        /* Setup output file -- assume we have permissions for tmp file. */
+        let outfile = "\(NSTemporaryDirectory())\(NSUUID().uuidString).txt"
+        let outURL = URL(fileURLWithPath: outfile)
+        let io_err = tidyOptSaveFile( tdoc, outfile )
+        if io_err != 0 {
+            XCTFail( "tidyOptSaveFile() unsuccessful for '\(outfile)', received error \(io_err)." )
+            return
+        }
+
+        /* Read the beginning of the file to ensure it matches our expections. */
+        do {
+            let expects = "new-blocklevel-tags: one, two, three, four"
+            let result = try String(contentsOf: outURL, encoding: .utf8)
+            print( "-----file as read in:" )
+            print( result )
+            XCTAssert( result.hasPrefix( expects ), "The file did not have the content expected." )
+        }
+        catch {
+            XCTFail( "Could not read '\(outfile)'." )
+        }
+
+        tidyRelease( tdoc )
     }
 
 
