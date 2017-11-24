@@ -10,9 +10,9 @@
     https://www.w3.org/Consortium/Legal/2002/copyright-software-20021231
 
     Purpose
-       This protocol and class define and implement an object for the
-       collection of configuration report data as a supplement/substitute
-       for using the ConfigCallback.
+      This protocol and class define and implement an object for the
+      collection of configuration report data as a supplement/substitute
+      for using the ConfigCallback.
 
  ******************************************************************************/
 

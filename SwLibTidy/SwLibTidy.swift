@@ -44,17 +44,18 @@
       use tidyParseString() instead.
  
     Localization API
-      CLibTidy will always perform in its default (`en`) locale unless you use
-      the localization API to change it. This might be suitable if you are
-      writing a command line tool, but it's recommended to use native
-      localization features instead. CLibTidy's source includes gettext
-      compatible `.po` files that can be converted to `.strings` if needed.
+      CLibTidy will attempt to set its language automatically based on your
+      environment, although you can use the localization API to force a
+      specific language. Regardless of Tidy's operating language, the API
+      also provides Default versions of every string guaranteed to be in
+      the native, `en` locale. This is useful if your application is providing
+      its own localized strings, and you need a Tidy string for lookup.
+      Upstream CLibTidy's source includes gettext compatible `.po` files that
+      can be converted to `.strings` if needed.
  
     Important Linking Notes:
-      There are both static and dylib targets for this framework. Generally
-      distribution is made simpler if your GUI apps use the framework proper
-      (dynamic library), and console applications link statically (because
-      console applications are not bundles).
+      The only target for this library is as a framework, and is compatible
+      with both macOS and iOS.
 
     Compiling Notes
       The tidy-html5 target uses tidy-html5 as distributed, and that project
@@ -150,8 +151,8 @@ public typealias TidyMessageArgument = CLibTidy.TidyMessageArgument
 */
 public func tidyCreate() -> TidyDoc? {
     
-    // Perform CLibTidy version checking, because we count on some of the
-    // newer API's.
+    /* Perform CLibTidy version checking, because we count on some of the
+       newer API's. */
     let versionCurrent: String = tidyLibraryVersion()
     
     let vaMin = MINIMUM_LIBTIDY_VERSION.components(separatedBy: ".").map { Int.init($0) ?? 0 }
@@ -161,16 +162,16 @@ public func tidyCreate() -> TidyDoc? {
         debugPrint( "LibTidy: oldest recommended version is \(MINIMUM_LIBTIDY_VERSION), but you have linked against \(versionCurrent)." )
     }
     
-    // This is the only real "wrapper" part!
+    /* This is the only real "wrapper" part! */
     guard let tdoc = CLibTidy.tidyCreate() else { return nil }
 
-    // Create some extra storage to attach to Tidy's AppData.
+    /* Create some extra storage to attach to Tidy's AppData. */
     let appData: ApplicationData = ApplicationData.init()
 
-    // Convert it to a pointer that we can store, increasing the retain count.
+    /* Convert it to a pointer that we can store, increasing the retain count. */
     let ptr = UnsafeMutableRawPointer( Unmanaged.passRetained(appData).toOpaque() )
 
-    // Now attach it to Tidy's AppData.
+    /* Attach it to Tidy's AppData for safe-keeping. */
     CLibTidy.tidySetAppData(tdoc, ptr)
     
     
@@ -190,8 +191,6 @@ public func tidyCreate() -> TidyDoc? {
             let ptrStorage = CLibTidy.tidyGetAppData( tdoc )
         else { return no }
 
-        var result = no
-
         let strOption = String( cString: option )
         let strValue = String( cString: value )
 
@@ -199,7 +198,7 @@ public func tidyCreate() -> TidyDoc? {
             .fromOpaque(ptrStorage)
             .takeUnretainedValue()
 
-        /* Use the class specified in .configCallbackClass to populate the
+        /* Use the class specified in .configRecordClass to populate the
            array. This allows clients to substitute their own class instead
            of forcing TidyConfigReport.
          */
@@ -207,7 +206,9 @@ public func tidyCreate() -> TidyDoc? {
         let configRecord = userClass.init(withValue: strValue, forOption: strOption)
         storage.configCallbackRecords.append( configRecord )
 
+
         /* Fire the user's desired callback, if applicable. */
+        var result = no
         if let callback = storage.configCallback {
             result = callback( tdoc, strOption, strValue ) ? yes : no
         } else {
@@ -215,9 +216,8 @@ public func tidyCreate() -> TidyDoc? {
         }
 
         /* If there's a delegate, then call the delegate method. We want to
-           return true if the option was handled, so consider the existing
-           result. And since this is going to CLibTidy, we're looking for
-           yes or no.
+           return CLibTidy.yes if the option was handled, so consider the
+           existing result.
          */
         if let local_result = storage.delegate?.tidyReports?(unknownOption: strOption, value: strValue, forTidyDoc: tdoc) {
             let native_result = result == yes ? true : false
@@ -265,16 +265,16 @@ public func tidyCreate() -> TidyDoc? {
             .takeUnretainedValue()
 
         /* Use the class specified in .messageRecordClass to populate the
-         array. This allows clients to substitute their own class instead
-         of forcing TidyConfigReport.
+           array. This allows clients to substitute their own class instead
+           of forcing TidyConfigReport.
          */
         let userClass = storage.messageRecordClass
         let messageRecord = userClass.init(withMessage: tmessage )
         storage.messageCallbackRecords.append( messageRecord )
 
 
+        /* Fire the user's desired callback, if applicable. */
         var result = no
-
         if let callback = storage.messageCallback {
             result = callback( tmessage ) ? yes : no
         } else {
@@ -306,7 +306,9 @@ public func tidyCreate() -> TidyDoc? {
         let storage = Unmanaged<ApplicationData>
             .fromOpaque(ptrStorage)
             .takeUnretainedValue()
-        
+
+
+        /* Fire the user's desired callback, if applicable. */
         if let callback = storage.ppCallback {
             callback( tdoc, UInt(line), UInt(col), UInt(destLine) )
         }

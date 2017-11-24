@@ -10,8 +10,10 @@
     https://www.w3.org/Consortium/Legal/2002/copyright-software-20021231
 
     Purpose
-       This protocol defines the delegate methods that can be used with
-       SwLibTidy.
+      This protocol defines the delegate methods that can be used with
+      SwLibTidy. As a C library, LibTidy places a lot of emphasis on
+      callbacks, but SwLibTidy provides this delegate interface as a more
+      Cocoa-like alternative.
 
  ******************************************************************************/
 
@@ -33,7 +35,7 @@ import Foundation
 
      - parameters:
        - unknownOption: A string indicating the unknown option name.
-       - value: The proposed value of the fiven option.
+       - value: The proposed value of the given option.
        - forTidyDoc: The TidyDocument for which the option was intended.
      - returns:
          Your delegate should return true if it successfully handled the

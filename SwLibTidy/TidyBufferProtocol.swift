@@ -10,8 +10,8 @@
     https://www.w3.org/Consortium/Legal/2002/copyright-software-20021231
 
     Purpose
-       This protocol and class define and implement an abstraction to the
-       CLibTidy `TidyBuffer` that is more useful in Swift.
+      This protocol and class define and implement an abstraction to the
+      CLibTidy `TidyBuffer` that is more useful in Swift.
  
  ******************************************************************************/
 

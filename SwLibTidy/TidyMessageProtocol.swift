@@ -10,8 +10,8 @@
  https://www.w3.org/Consortium/Legal/2002/copyright-software-20021231
 
  Purpose
- This protocol and class define and implement a structure suitable for
- storing CLibTidy output messages.
+   This protocol and class define and implement a structure suitable for
+   storing CLibTidy output messages.
 
  ******************************************************************************/
 
@@ -53,7 +53,7 @@ import CLibTidy
         Tidy's default (English) localization. */
     var formatDefault: String { get }
 
-    /** the C format string used to create the main body of the message, in
+    /** The C format string used to create the main body of the message, in
         Tidy's currently set language. */
     var format: String { get }
 
@@ -83,7 +83,7 @@ import CLibTidy
     /** The complete message as Tidy would output it in the current language.*/
     var messageOutput: String { get }
 
-    /** And array of message arguments and argument type information used to
+    /** An array of message arguments and argument type information used to
         generate the message. */
     var messageArguments: [TidyMessageArgumentProtocol] { get }
 
@@ -203,8 +203,7 @@ import CLibTidy
 
         case tidyFormatType_DOUBLE: self.valueDouble = tidyGetArgValueDouble( fromMessage, withArg )
 
-        default:
-            break
+        default: break
         }
 
         super.init()
