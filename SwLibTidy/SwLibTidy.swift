@@ -2968,7 +2968,7 @@ public func getInstalledLanguageList() -> [String] {
 /**
  Set the delegate for an instance of TidyDoc.
  */
-public func setDelegate( anObject: TidyDelegateProtocol, forTidyDoc: TidyDoc ) {
+public func tidySetDelegate( anObject: TidyDelegateProtocol, forTidyDoc: TidyDoc ) {
 
     guard
         let ptrStorage = CLibTidy.tidyGetAppData( forTidyDoc )

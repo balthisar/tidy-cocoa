@@ -399,7 +399,7 @@ class SwLibTidyTests: XCTestCase {
         else { XCTFail( TidyCreateFailed ); return }
 
         /* Setup the asynchronous test expectation. */
-        let callbackSuccess = XCTestExpectation(description: "The option callback should execute at least once.")
+        let callbackSuccess = XCTestExpectation( description: "The callback should execute at least once." )
 
         /* Closures can be used as callbacks, which is what we do here. */
         let _ = tidySetConfigCallback( tdoc, { (tdoc: TidyDoc, option: String, value: String) -> Swift.Bool in
@@ -427,7 +427,10 @@ class SwLibTidyTests: XCTestCase {
          The first unknown configuration record in our sample file should be
          for a proposed option 'mynewconfig'.
          */
-        if let firstOption = tidyConfigRecords(forTidyDoc: tdoc ).first?.option {
+        let records = tidyConfigRecords( forTidyDoc: tdoc )
+        dump( records )
+
+        if let firstOption = records.first?.option {
             XCTAssert( firstOption == "mynewconfig", "The first bad option is supposed to be 'mynewconfig'." )
         } else {
             XCTFail( "No configuration records exist." )
@@ -459,7 +462,7 @@ class SwLibTidyTests: XCTestCase {
            Our sample class will alter the proposed value in a way that
            we can detect.
          */
-        if !setTidyConfigRecords( toClass: JimsTidyConfigReport.self, forTidyDoc: tdoc ) {
+        if !setTidyConfigRecords( toClass: AlternateTidyConfigReport.self, forTidyDoc: tdoc ) {
             XCTFail( "setTidyConfigRecords() failed for some reason." )
             return
         }
@@ -1247,7 +1250,7 @@ class SwLibTidyTests: XCTestCase {
         /* Setup expectation for asynchronous test. In this case, we
            set an option various times below, and so the final count
            should match our expectation. */
-        let callbackSuccess = XCTestExpectation(description: "The option change callback should execute 5 times.")
+        let callbackSuccess = XCTestExpectation(description: "The callback should execute 5 times.")
         callbackSuccess.expectedFulfillmentCount = 5
 
         /* Callbacks can be Swift closures, so this test takes advantage of
@@ -1396,7 +1399,7 @@ class SwLibTidyTests: XCTestCase {
         else { XCTFail( TidyCreateFailed ); return }
 
         /* Setup the asynchronous test expectation. */
-        let callbackSuccess = XCTestExpectation(description: "The option callback should execute at least once.")
+        let callbackSuccess = XCTestExpectation(description: "The callback should execute at least once.")
 
 
         /* Closures can be used as callbacks, which is what we do here. */
@@ -1499,18 +1502,6 @@ class SwLibTidyTests: XCTestCase {
 
 
     /*************************************************************************
-      With all of this talk of callbacks, SwLibTidy also supports traditional
-      delegates, so you have an additional option. This test ensures that all
-      of the delegates are working just as well as the callbacks.
-
-      - setDelegate()
-     *************************************************************************/
-    func test_setDelegate() {
-
-    }
-
-
-    /*************************************************************************
       SwLibTidy adds a feature to Tidy that can avoid all of the message
       callback and nested APIs. The tidyMessageRecords() function provides
       an instance of a class or structure that captures all of the message
@@ -1520,6 +1511,24 @@ class SwLibTidyTests: XCTestCase {
      *************************************************************************/
     func test_tidyMessageRecords() {
 
+        guard
+            let tdoc = tidyCreate()
+        else { XCTFail( TidyCreateFailed ); return }
+
+        let _ = tidyParseString( tdoc, "<h1>hello, world</h2>")
+        let records = tidyMessageRecords(forTidyDoc: tdoc )
+        dump( records )
+
+        var expect: String
+
+        XCTAssert( records.count > 0, "Expected to have some tidyMessageRecords." )
+
+        expect = "INSERTING_TAG"
+        XCTAssert( records[1].messageKey == expect, "Expected the second record to be \"\(expect)\", but it wasn't." )
+
+        expect = "body"
+        XCTAssert( records[1].messageArguments[0].valueString == expect, "Expected the first argument value \"\(expect)\", but it wasn't." )
+        tidyRelease( tdoc )
     }
 
 
@@ -1536,6 +1545,79 @@ class SwLibTidyTests: XCTestCase {
      *************************************************************************/
     func test_pppCallback() {
 
+        guard
+            let tdoc = tidyCreate()
+        else { XCTFail( TidyCreateFailed ); return }
+
+        /* Setup the asynchronous test expectation. */
+        let callbackSuccess = XCTestExpectation(description: "The callback should execute at least once.")
+
+        /* Closures can be used as callbacks, which is what we do here. */
+        let _ = tidySetPrettyPrinterCallback( tdoc, { tdoc, line, col, destLine in
+
+            callbackSuccess.fulfill()
+        })
+
+
+        /* Tidy and Pretty Print a Document */
+        let outpBuffer = SwTidyBuffer()
+        let _ = tidySample( doc: tdoc )
+        let _ = tidyCleanAndRepair( tdoc )
+        let _ = tidySaveBuffer( tdoc, outpBuffer ) /* does the printing */
+
+        /* Issue the assert here if the callback doesn't fire at least once. */
+        wait(for: [callbackSuccess], timeout: 1.0)
+
+        /* Pretty printing would have triggered the callback, so that's
+           tested. Let's have a look at the tidyPPProgresRecords(). */
+        let records = tidyPPProgressRecords( forTidyDoc: tdoc )
+        dump( records )
+
+        XCTAssert( records.count > 0, "Expected to have some tidyPPProgress records." )
+
+        XCTAssert( records[4].sourceLine == 2, "Expected sourceLine to be 2." )
+        XCTAssert( records[4].sourceColumn == 1, "Expected sourceColumn to be 1." )
+        XCTAssert( records[4].destLine == 4, "Expected destLine to be 4." )
+
+        tidyRelease( tdoc )
+    }
+
+
+    /*************************************************************************
+      With all of this talk of callbacks, SwLibTidy also supports traditional
+      delegates, so you have an additional option. This test ensures that all
+      of the delegates are working just as well as the callbacks.
+
+      - setDelegate()
+     *************************************************************************/
+    func test_setDelegate() {
+
+        guard
+            let tdoc = tidyCreate()
+        else { XCTFail( TidyCreateFailed ); return }
+
+        let sampleDelegate = SampleTidyDelegate()
+
+        /* Set the delegate, and setup the expections. */
+        tidySetDelegate( anObject: sampleDelegate, forTidyDoc: tdoc )
+        sampleDelegate.asyncTidyReportsUnknownOption = XCTestExpectation( description: "The delegate should execute at least once." )
+        sampleDelegate.asyncTidyReportsOptionChanged = XCTestExpectation( description: "The delegate should execute at least once." )
+        sampleDelegate.asyncTidyReportsMessage = XCTestExpectation( description: "The delegate should execute at least once." )
+        sampleDelegate.asyncTidyReportsPrettyPrinting =  XCTestExpectation( description: "The delegate should execute at least once." )
+
+        /* Tidy and Pretty Print a Document */
+        let outpBuffer = SwTidyBuffer()
+        let _ = tidySample( doc: tdoc, useConfig: true )
+        let _ = tidyCleanAndRepair( tdoc )
+        let _ = tidySaveBuffer( tdoc, outpBuffer ) /* does the printing */
+
+        /* Issue the asserts here if the callback doesn't fire at least once. */
+        wait(for: [(sampleDelegate.asyncTidyReportsUnknownOption)!], timeout: 1.0)
+        wait(for: [(sampleDelegate.asyncTidyReportsOptionChanged)!], timeout: 1.0)
+        wait(for: [(sampleDelegate.asyncTidyReportsMessage)!], timeout: 1.0)
+        wait(for: [(sampleDelegate.asyncTidyReportsPrettyPrinting)!], timeout: 1.0)
+
+        tidyRelease( tdoc )
     }
 
 

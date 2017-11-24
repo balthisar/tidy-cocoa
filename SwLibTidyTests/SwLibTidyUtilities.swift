@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import XCTest
 import SwLibTidy
 
 
@@ -212,7 +213,7 @@ public func random_mute( _ x: Int ) -> [String] {
  An alternate implementation of the `TidyConfigReportProtocol`, which we will
  use for testing setTidyConfigRecords(forTidyDoc:toClass:).
  */
-@objc public class JimsTidyConfigReport: NSObject, TidyConfigReportProtocol {
+@objc public class AlternateTidyConfigReport: NSObject, TidyConfigReportProtocol {
 
     public var option: String = ""
     public var value: String = ""
@@ -230,11 +231,48 @@ public func random_mute( _ x: Int ) -> [String] {
  signal to Tidy via false that we are NOT handling the option, so that Tidy
  will report the unknown option.
  */
-@objc public class JimsTidyDelegate: NSObject, TidyDelegateProtocol {
+@objc public class SampleTidyDelegate: NSObject, TidyDelegateProtocol {
 
-    public func tidyReportsUnknownConfigOption( tdoc: TidyDoc, option: String, value: String ) -> Bool {
-        print("This is the delegate!")
-        return false
+    /* We will set this from the test case in order to pass the expectation. */
+    var asyncTidyReportsUnknownOption: XCTestExpectation?
+    var asyncTidyReportsOptionChanged: XCTestExpectation?
+    var asyncTidyReportsMessage: XCTestExpectation?
+    var asyncTidyReportsPrettyPrinting: XCTestExpectation?
+
+    public func tidyReports( unknownOption: String, value: String, forTidyDoc: TidyDoc ) -> Swift.Bool {
+        guard let expectation = asyncTidyReportsUnknownOption else {
+            XCTFail("Delegate failed; did you remember to set asyncExpectation?")
+            return false
+        }
+        expectation.fulfill()
+        return true
+    }
+
+    public func tidyReports( optionChanged: TidyOption, forTidyDoc: TidyDoc ) {
+        guard let expectation = asyncTidyReportsOptionChanged else {
+            XCTFail("Delegate failed; did you remember to set asyncExpectation?")
+            return
+        }
+        expectation.fulfill()
+        return
+    }
+
+    public func tidyReports( message: TidyMessage ) -> Swift.Bool {
+        guard let expectation = asyncTidyReportsMessage else {
+            XCTFail("Delegate failed; did you remember to set asyncExpectation?")
+            return false
+        }
+        expectation.fulfill()
+        return true
+    }
+
+    public func tidyReportsPrettyPrinting( forDoc: TidyDoc, line: UInt, col: UInt, destLine: UInt ) {
+        guard let expectation = asyncTidyReportsPrettyPrinting else {
+            XCTFail("Delegate failed; did you remember to set asyncExpectation?")
+            return
+        }
+        expectation.fulfill()
+        return
     }
 
 
