@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D01EB1381FC732BE00AF8BE0 /* TidyMessageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01EB1371FC732BE00AF8BE0 /* TidyMessageProtocol.swift */; };
+		D01EB13A1FC86DA900AF8BE0 /* TidyPPProgressProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01EB1391FC86DA900AF8BE0 /* TidyPPProgressProtocol.swift */; };
 		D027FFB91F9BBAF5009A274E /* tidyRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A5C6AE1F92B81600CABB67 /* tidyRunner.swift */; };
 		D027FFBA1F9BBAFE009A274E /* SwLibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; };
 		D027FFBC1F9BBB1C009A274E /* SwLibTidy.framework in Copy Frameworks to Bundle */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -219,6 +220,7 @@
 
 /* Begin PBXFileReference section */
 		D01EB1371FC732BE00AF8BE0 /* TidyMessageProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidyMessageProtocol.swift; sourceTree = "<group>"; };
+		D01EB1391FC86DA900AF8BE0 /* TidyPPProgressProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidyPPProgressProtocol.swift; sourceTree = "<group>"; };
 		D027FFB51F9B7ABF009A274E /* iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
 		D03B6F781F9BF246009C2F64 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D04034871F43659C00A2A9DC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
@@ -651,6 +653,7 @@
 				D0F6C7851FC64DF2001F2C2E /* TidyDelegateProtocol.swift */,
 				D01EB1371FC732BE00AF8BE0 /* TidyMessageProtocol.swift */,
 				D0F640CF1F8F998A005A945B /* Info.plist */,
+				D01EB1391FC86DA900AF8BE0 /* TidyPPProgressProtocol.swift */,
 			);
 			path = SwLibTidy;
 			sourceTree = SOURCE_ROOT;
@@ -1000,6 +1003,7 @@
 				D0F640DA1F8F9AC7005A945B /* TidyEngine.swift in Sources */,
 				D0F640D81F8F9AC7005A945B /* TidyBufferProtocol.swift in Sources */,
 				D0F640D91F8F9AC7005A945B /* TidyConfigReportProtocol.swift in Sources */,
+				D01EB13A1FC86DA900AF8BE0 /* TidyPPProgressProtocol.swift in Sources */,
 				D0F6C7861FC64DF2001F2C2E /* TidyDelegateProtocol.swift in Sources */,
 				D01EB1381FC732BE00AF8BE0 /* TidyMessageProtocol.swift in Sources */,
 			);

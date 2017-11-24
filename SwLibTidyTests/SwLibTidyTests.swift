@@ -1532,9 +1532,9 @@ class SwLibTidyTests: XCTestCase {
       after documents in a synchronized fashion.
 
       - tidySetPrettyPrinterCallback()
-      - tidyPrettyPrinterRecords()
+      - tidyPPProgressRecords()
      *************************************************************************/
-    func test_ppCallback() {
+    func test_pppCallback() {
 
     }
 

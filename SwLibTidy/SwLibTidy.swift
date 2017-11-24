@@ -203,8 +203,8 @@ public func tidyCreate() -> TidyDoc? {
            of forcing TidyConfigReport.
          */
         let userClass = storage.configRecordClass
-        let configRecord = userClass.init(withValue: strValue, forOption: strOption)
-        storage.configCallbackRecords.append( configRecord )
+        let record = userClass.init(withValue: strValue, forOption: strOption)
+        storage.configCallbackRecords.append( record )
 
 
         /* Fire the user's desired callback, if applicable. */
@@ -269,8 +269,8 @@ public func tidyCreate() -> TidyDoc? {
            of forcing TidyConfigReport.
          */
         let userClass = storage.messageRecordClass
-        let messageRecord = userClass.init(withMessage: tmessage )
-        storage.messageCallbackRecords.append( messageRecord )
+        let record = userClass.init(withMessage: tmessage )
+        storage.messageCallbackRecords.append( record )
 
 
         /* Fire the user's desired callback, if applicable. */
@@ -308,6 +308,15 @@ public func tidyCreate() -> TidyDoc? {
             .takeUnretainedValue()
 
 
+        /* Use the class specified in .ppRecordClass to populate the array
+           This allows clients to substitute their own class instead of
+           forcing TidyPPProgressReport.
+         */
+        let userClass = storage.ppRecordClass
+        let record = userClass.init( withLine: line, column: col, destLine: destLine )
+        storage.ppCallbackRecords.append( record )
+
+
         /* Fire the user's desired callback, if applicable. */
         if let callback = storage.ppCallback {
             callback( tdoc, UInt(line), UInt(col), UInt(destLine) )
@@ -331,10 +340,11 @@ public func tidyCreate() -> TidyDoc? {
 
 public func tidyRelease( _ tdoc: TidyDoc ) {
     
-    // Release our auxilliary structure.
+    /* Release our auxilliary structure. */
     if let ptr = CLibTidy.tidyGetAppData(tdoc) {
         
-        // Decreasing the retain count should cause it to dealloc.
+        /* Decreasing the retain count should cause it to release everything
+           it holds, and to deallocate. */
         let _: ApplicationData = Unmanaged<ApplicationData>
             .fromOpaque(ptr)
             .takeRetainedValue()
@@ -3036,7 +3046,7 @@ public func setTidyConfigRecords( toClass: TidyConfigReportProtocol.Type, forTid
  - returns:
      Returns an array of objects conforming to the TidyMessageProtocol, by
      default, of type TidyMessageContainer. You can instruct SwLibTidy to use
-     a different class via setTidyMessageRecords(toClasS:forTidyDoc:).
+     a different class via setTidyMessageRecords(toClass:forTidyDoc:).
 */
 public func tidyMessageRecords( forTidyDoc: TidyDoc ) -> [TidyMessageProtocol] {
 
@@ -3078,6 +3088,58 @@ public func setTidyMessageRecords( toClass: TidyMessageProtocol.Type, forTidyDoc
 }
 
 
+/**
+ Returns an array of every Pretty Printing Progress update that was generated
+ during the pretty printing process. This convenience method allows you to
+ access this data without having to use a callback or delegate method.
+
+ - parameters:
+   - forTidyDoc: the document for which you want to retrieve data.
+ - returns:
+     Returns an array of objects conforming to the TidyPPProgressProtocol, by
+     default, of type TidyPPProgressReport. You can instruct SwLibTidy to use
+     a different class via setTidyPPProgressRecords(toClass:forTidyDoc:).
+*/
+public func tidyPPProgressRecords( forTidyDoc: TidyDoc ) -> [TidyPPProgressProtocol] {
+
+    guard
+        let ptrStorage = CLibTidy.tidyGetAppData( forTidyDoc )
+    else { return [] }
+
+    let storage = Unmanaged<ApplicationData>
+        .fromOpaque(ptrStorage)
+        .takeUnretainedValue()
+
+    return storage.ppCallbackRecords
+}
+
+
+/**
+ Allows you to set an alternate class to be used in the tidyPPProgressRecords()
+ array. The alternate class must conform to TidyPPProgressProtocol, and might be
+ used if you want a class to provide more sophisticated management of reports.
+
+ - parameters:
+   - forTidyDoc: The TidyDoc for which you are setting the class.
+   - toClass: The class that you want to use to collect data.
+ - returns:
+     Returns true or false indicating whether or not the class could be set.
+ */
+public func setTidyPPProgressRecords( toClass: TidyPPProgressProtocol.Type, forTidyDoc: TidyDoc ) -> Swift.Bool {
+
+    guard
+        let ptrStorage = CLibTidy.tidyGetAppData( forTidyDoc )
+        else { return false }
+
+    let storage = Unmanaged<ApplicationData>
+        .fromOpaque(ptrStorage)
+        .takeUnretainedValue()
+
+    storage.ppRecordClass = toClass
+    return true
+}
+
+
 /******************************************************************************
  ** Private Stuff
  **************************************************************************** */
@@ -3107,7 +3169,8 @@ private class ApplicationData {
     var messageRecordClass: TidyMessageProtocol.Type
 
     var ppCallback: TidyPPProgress?
-    var ppCallbackRecords: [[ String : String ]]
+    var ppCallbackRecords: [TidyPPProgressProtocol]
+    var ppRecordClass: TidyPPProgressProtocol.Type
 
     init() {
         self.appData = nil
@@ -3125,5 +3188,6 @@ private class ApplicationData {
 
         self.ppCallback = nil
         self.ppCallbackRecords = []
+        self.ppRecordClass = TidyPPProgressReport.self
     }
 }
