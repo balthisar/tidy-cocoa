@@ -257,7 +257,7 @@ class SwLibTidyTests: XCTestCase {
 
         XCTAssert( tidyErrorCount( tdoc ) == 0, "Expected tidyErrorCount() == 0" )
 
-        XCTAssert( tidyWarningCount( tdoc ) == 3, "Expected tidyWarningCount() == 3" )
+        XCTAssert( tidyWarningCount( tdoc ) == 5, "Expected tidyWarningCount() == 5" )
 
         XCTAssert( tidyAccessWarningCount( tdoc ) == 4, "Expected tidyAccessWarningCount() == 4" )
 
@@ -1575,7 +1575,7 @@ class SwLibTidyTests: XCTestCase {
 
         XCTAssert( records.count > 0, "Expected to have some tidyPPProgress records." )
 
-        XCTAssert( records[4].sourceLine == 2, "Expected sourceLine to be 2." )
+        XCTAssert( records[4].sourceLine == 5, "Expected sourceLine to be 2." )
         XCTAssert( records[4].sourceColumn == 1, "Expected sourceColumn to be 1." )
         XCTAssert( records[4].destLine == 4, "Expected destLine to be 4." )
 
@@ -1664,8 +1664,8 @@ class SwLibTidyTests: XCTestCase {
         let _ = tidyRunDiagnostics( tdoc )
         print( "-----errBuffer after run diagnostics" )
         print( errBuffer.StringValue() ?? "Oops" )
-        expect = "Tidy found 3 warnings and 0 errors!\n\n"
-        XCTAssert( errBuffer.StringValue()?.hasSuffix( expect ) ?? false, "Expected the buffer to start with something else." )
+        expect = "Tidy found 5 warnings and 0 errors!\n\n"
+        XCTAssert( errBuffer.StringValue()?.hasSuffix( expect ) ?? false, "Expected the buffer to end with something else." )
 
         tidyRelease( tdoc )
     }
@@ -1848,16 +1848,45 @@ class SwLibTidyTests: XCTestCase {
         }
         XCTAssert( tidyNodeGetName( bodynode ) == "body", "Expected 'body', got '\(tidyNodeGetName( bodynode ))'." )
 
-        guard let childnode = tidyGetChild( bodynode ) else {
+        guard let divnode = tidyGetChild( bodynode ) else {
             XCTFail( "We should have gotten a node." )
             return
         }
-        XCTAssert( tidyNodeGetName( childnode ) == "h1", "Expected 'h1', got '\(tidyNodeGetName( childnode ))'." )
+        XCTAssert( tidyNodeGetName( divnode ) == "div", "Expected 'div', got '\(tidyNodeGetName( divnode ))'." )
 
-        if let nextnode = tidyGetNext( childnode ) {
-            XCTFail( "There should be no next node, but we got '\(tidyNodeGetName( nextnode ))'." )
-        }
+        guard let pnode = tidyGetNext( divnode ) else {
+			XCTFail( "We should have gotten a node." )
+			return
+		}
+		XCTAssert( tidyNodeGetName( pnode ) == "p", "Expected 'p', got '\(tidyNodeGetName( divnode ))'." )
 
+		guard let divnode_again = tidyGetPrev( pnode ) else {
+			XCTFail( "We should gotten a node again." )
+			return
+		}
+		XCTAssert( tidyNodeGetName( divnode_again ) == "div", "Expected 'div', got '\(tidyNodeGetName( divnode_again ))'." )
+
+		guard let bodynode_again = tidyGetParent( divnode_again ) else {
+			XCTFail( "We should gotten a node again." )
+			return
+		}
+		XCTAssert( tidyNodeGetName( bodynode_again ) == "body", "Expected 'body', got '\(tidyNodeGetName( bodynode_again ))'." )
+
+		let _ = tidyDiscardElement( tdoc, pnode )
+
+		/* We've deleted the pnode, so let's check the result to make sure
+           that it's really gone. */
+
+		let docBuffer = SwTidyBuffer()
+		let _ = tidySaveBuffer( tdoc, docBuffer )
+
+		if let docString = docBuffer.StringValue() {
+			let result = docString.range( of: "This is a paragraph" )
+			print( docString )
+			XCTAssert( result == nil, "The substring is still in the document." )
+		} else {
+			XCTFail( "The document string was empty for some reason." )
+		}
 
         tidyRelease( tdoc )
     }

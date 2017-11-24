@@ -2380,7 +2380,7 @@ public func tidyGetPrev( _ tnod: TidyNode ) -> TidyNode? {
  - returns:
      Returns the next tidy node.
 */
-public func tidyDiscardElement( _ tdoc: TidyDoc, _ tnod: TidyNode ) -> TidyNode {
+public func tidyDiscardElement( _ tdoc: TidyDoc, _ tnod: TidyNode ) -> TidyNode? {
  
     return CLibTidy.tidyDiscardElement( tdoc, tnod )
 }

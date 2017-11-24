@@ -83,11 +83,11 @@ class TidyRunner {
 
 
         /* We're going to capture Tidy's reporting output in this buffer. */
-        let errorBuffer = TidyBuffer()
+        let errorBuffer = SwTidyBuffer()
         let _ = tidySetErrorBuffer( tdoc, errbuf: errorBuffer )
 
         /* We're going to capture Tidy's document output in this buffer. */
-        let docBuffer = TidyBuffer()
+        let docBuffer = SwTidyBuffer()
 
 
         /*
