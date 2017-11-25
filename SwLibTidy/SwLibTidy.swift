@@ -2611,6 +2611,30 @@ public func tidyNodeGetText( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: TidyBuffe
     return CLibTidy.tidyNodeGetText( tdoc, tnod, buf.tidyBuffer ) == yes ? true : false
 }
 
+
+/**
+ Gets the text of a node and returns it as a string.
+
+ - Note:
+     This is a convenience addition to CLibTidy for SwLibTidy.
+
+ - parameters:
+   - tdoc: The document to query.
+   - tnod: The node to query.
+ - returns:
+     Returns a string with the node's text.
+*/
+public func tidyNodeGetText( _ tdoc: TidyDoc, _ tnod: TidyNode ) -> String {
+
+    let buffer = SwTidyBuffer()
+    if CLibTidy.tidyNodeGetText( tdoc, tnod, buffer.tidyBuffer ) == yes {
+        if let result = buffer.StringValue() {
+            return result
+        }
+    }
+    return ""
+}
+
  
 /**
  Get the value of the node. This copies the unescaped value of this node into
@@ -2626,6 +2650,34 @@ public func tidyNodeGetText( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: TidyBuffe
 public func tidyNodeGetValue( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: TidyBufferProtocol ) -> Swift.Bool {
  
     return CLibTidy.tidyNodeGetValue( tdoc, tnod, buf.tidyBuffer ) == yes ? true : false
+}
+
+
+/**
+ Get the value of the node. This copies the unescaped value of this node into
+ the given TidyBuffer as UTF-8.
+
+ - Note:
+     This is a convenience addition to CLibTidy for SwLibTidy.
+
+ - parameters:
+   - tdoc: The document to query.
+   - tnod: The node to query.
+ - returns:
+     Returns a string with the node's value, on nil if the node type doesn't
+     have a value.
+*/
+public func tidyNodeGetValue( _ tdoc: TidyDoc, _ tnod: TidyNode ) -> String? {
+
+    let buffer = SwTidyBuffer()
+    if CLibTidy.tidyNodeGetValue( tdoc, tnod, buffer.tidyBuffer ) == yes {
+        if let result = buffer.StringValue() {
+            return result
+        } else {
+            return "" /* null string if value allowed, but no value. */
+        }
+    }
+    return nil /* This node can't have a value. */
 }
 
  

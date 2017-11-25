@@ -1968,6 +1968,8 @@ class SwLibTidyTests: XCTestCase {
         else { XCTFail( TidyCreateFailed ); return }
         defer { tidyRelease( tdoc ) }
 
+        /* We will Tidy with TidyIndentContent enabled for pretty printing. */
+        let _ = tidyOptSetInt( tdoc, TidyIndentContent, TidyYesState.rawValue )
         let _ = tidySample( doc: tdoc )
 
         guard
@@ -1992,7 +1994,77 @@ class SwLibTidyTests: XCTestCase {
         XCTAssert( tidyNodeIsText( bodynode ) == false, "Expected false." )
         XCTAssert( tidyNodeIsText( divnode ) == false, "Expected false." )
         XCTAssert( tidyNodeIsText( h1node ) == false, "Expected false." )
-        XCTAssert( tidyNodeIsText( h1text ) == true, "Expected false." )
+        XCTAssert( tidyNodeIsText( h1text ) == true, "Expected true." )
+
+        XCTAssert( tidyNodeIsProp( tdoc, bodynode ) == false, "Expected false." )
+        XCTAssert( tidyNodeIsProp( tdoc, divnode ) == false, "Expected false." )
+        XCTAssert( tidyNodeIsProp( tdoc, h1node ) == false, "Expected false." )
+        XCTAssert( tidyNodeIsProp( tdoc, h1text ) == false, "Expected false." )
+
+        XCTAssert( tidyNodeHasText( tdoc, bodynode ) == false, "Expected false." )
+        XCTAssert( tidyNodeHasText( tdoc, divnode ) == false, "Expected false." )
+        XCTAssert( tidyNodeHasText( tdoc, h1node ) == false, "Expected false." )
+        XCTAssert( tidyNodeHasText( tdoc, h1text ) == true, "Expected true." )
+
+        /* Note that although a node isn't a text node, it still has text,
+           which includes its start and end tags, and is pretty printed. */
+        var buffer = SwTidyBuffer()
+        var expect = "<body>"
+        XCTAssert( tidyNodeGetText( tdoc, bodynode, buffer ), "Unable to get bodynode text." )
+        printhr( buffer.StringValue(), "tidyNodeGetText() bodynode" )
+        XCTAssert( (buffer.StringValue()?.hasPrefix(expect)) ?? false, "Expected to see '\(expect)'." )
+
+        buffer = SwTidyBuffer()
+        expect = "<h1>\n  Hello, world!\n</h1>"
+        XCTAssert( tidyNodeGetText( tdoc, h1node, buffer ), "Unable to get h1node text." )
+        printhr( buffer.StringValue(), "tidyNodeGetText() h1node" )
+        XCTAssert( (buffer.StringValue()?.hasPrefix(expect)) ?? false, "Expected to see '\(expect)'." )
+
+        /* We'll use the convenience version of tidyNodeGetText() this time. */
+        expect = "Hello, world!"
+        let result = tidyNodeGetText( tdoc, h1text )
+        printhr( result, "tidyNodeGetText()  h1text" )
+        XCTAssert( result.hasPrefix(expect), "Expected to see '\(expect)'." )
+
+
+        buffer = SwTidyBuffer()
+        XCTAssert( tidyNodeGetValue( tdoc, bodynode, buffer ) == false, "This node shouldn't have a value." )
+
+        buffer = SwTidyBuffer()
+        expect = ""
+        XCTAssert( tidyNodeGetValue( tdoc, h1text, buffer ), "This node should have a value." )
+        printhr( buffer.StringValue(), "tidyNodeGetValue() h1text" )
+        XCTAssert( buffer.StringValue()?.hasPrefix( expect) ?? false, "Expected to see '\(expect)'." )
+
+        /* Use the convenience version of tidyNodeGetValue(). */
+        if let _ = tidyNodeGetValue( tdoc, divnode ) {
+            XCTFail( "This node shouldn't have a value." )
+        }
+
+        if let _ = tidyNodeGetValue( tdoc, h1node ) {
+            XCTFail( "This node shouldn't have a value." )
+        }
+
+        if let result = tidyNodeGetValue( tdoc, h1text ) {
+            print( result, "tidyNodeGetValue() h1text" )
+        } else {
+            XCTFail( "We should have gotten text here." )
+        }
+
+        XCTAssert( tidyNodeGetId( bodynode ) == TidyTag_BODY, "Expected TidyTag_BODY." )
+        XCTAssert( tidyNodeGetId( divnode ) == TidyTag_DIV, "Expected TidyTag_DIV." )
+        XCTAssert( tidyNodeGetId( h1node ) == TidyTag_H1, "Expected TidyTag_H1." )
+        XCTAssert( tidyNodeGetId( h1text ) == TidyTag_UNKNOWN, "Expected TidyTag_UNKNOWN." )
+
+        XCTAssert( tidyNodeLine( bodynode ) == 1, "Value was \(tidyNodeLine( bodynode ))." )
+        XCTAssert( tidyNodeLine( divnode ) == 1, "Value was \(tidyNodeLine( divnode ))." )
+        XCTAssert( tidyNodeLine( h1node ) == 2, "Value was \(tidyNodeLine( h1node ))." )
+        XCTAssert( tidyNodeLine( h1text ) == 2, "Value was \(tidyNodeLine( h1text ))." )
+
+        XCTAssert( tidyNodeColumn( bodynode ) == 1, "Value was \(tidyNodeColumn( bodynode ))." )
+        XCTAssert( tidyNodeColumn( divnode ) == 1, "Value was \(tidyNodeColumn( divnode ))." )
+        XCTAssert( tidyNodeColumn( h1node ) == 3, "Value was \(tidyNodeColumn( h1node ))." )
+        XCTAssert( tidyNodeColumn( h1text ) == 7, "Value was \(tidyNodeColumn( h1text ))." )
     }
 
 

@@ -210,6 +210,17 @@ public func random_mute( _ x: Int ) -> [String] {
 
 
 /**
+ Prints what's given with a horizontal rule and optional heading.
+ */
+public func printhr( _ value: String?, _ header: String? = nil ) {
+
+    print( "---------------\(header ?? "")" )
+    print( value ?? "" )
+    print( "---------------" )
+}
+
+
+/**
  An alternate implementation of the `TidyConfigReportProtocol`, which we will
  use for testing setTidyConfigRecords(forTidyDoc:toClass:).
  */
