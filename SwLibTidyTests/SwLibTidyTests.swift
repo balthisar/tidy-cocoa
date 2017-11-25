@@ -110,13 +110,12 @@ class SwLibTidyTests: XCTestCase {
         guard
             let tdoc = tidyCreate()
         else { XCTFail( TidyCreateFailed ); return }
+        defer { tidyRelease( tdoc ) }
 
         tidySetAppData( tdoc, self )
         let gotObject = tidyGetAppData( tdoc )
     
         XCTAssert( gotObject === self, "The object stored is not that same as the object retrieved." )
-
-        tidyRelease( tdoc )
     }
     
     
@@ -165,6 +164,7 @@ class SwLibTidyTests: XCTestCase {
         guard
             let tdoc = tidyCreate()
         else { XCTFail( TidyCreateFailed ); return }
+        defer { tidyRelease( tdoc ) }
 
         var result: UInt
 
@@ -182,8 +182,6 @@ class SwLibTidyTests: XCTestCase {
             result = tidyOptGetInt( tdoc, TidyAccessibilityCheckLevel )
             XCTAssert( result == 3, "Expected 3, but got \(result)." )
         }
-
-        tidyRelease( tdoc )
     }
 
 
@@ -205,6 +203,7 @@ class SwLibTidyTests: XCTestCase {
         guard
             let tdoc = tidyCreate()
         else { XCTFail( TidyCreateFailed ); return }
+        defer { tidyRelease( tdoc ) }
 
         /* We'll throw away the return value, and check tidyStatus(). */
         let _ = tidyParseString( tdoc, "<h1>Hello, world!</h2>" )
@@ -223,8 +222,6 @@ class SwLibTidyTests: XCTestCase {
             result = tidyParseStdin( tdoc )
             XCTAssert( result == 1, "Expected tidyStatus() == 1, but it was \(result)." )
         }
-
-        tidyRelease( tdoc )
     }
 
 
@@ -246,6 +243,7 @@ class SwLibTidyTests: XCTestCase {
         guard
             let tdoc = tidyCreate()
         else { XCTFail( TidyCreateFailed ); return }
+        defer { tidyRelease( tdoc ) }
 
         XCTAssert( tidySample( doc: tdoc, useConfig: true ), "tidySample() failed for some reason." )
 
@@ -262,8 +260,6 @@ class SwLibTidyTests: XCTestCase {
         XCTAssert( tidyAccessWarningCount( tdoc ) == 5, "Expected tidyAccessWarningCount() == 5" )
 
         XCTAssert( tidyConfigErrorCount( tdoc ) == 1, "Expected tidyConfigErrorCount() == 1" )
-
-        tidyRelease( tdoc )
     }
 
 
@@ -283,6 +279,7 @@ class SwLibTidyTests: XCTestCase {
         guard
             let tdoc = tidyCreate()
         else { XCTFail( TidyCreateFailed ); return }
+        defer { tidyRelease( tdoc ) }
 
         /* Output goes to STDOUT for this, i.e., we're not keeping it. */
         let _ = tidyParseString( tdoc, "<img src='#'>")
@@ -309,8 +306,6 @@ class SwLibTidyTests: XCTestCase {
         } else {
             XCTFail( "The output buffer was empty!" )
         }
-
-        tidyRelease( tdoc )
     }
 
 
@@ -325,6 +320,7 @@ class SwLibTidyTests: XCTestCase {
         guard
             let tdoc = tidyCreate()
         else { XCTFail( TidyCreateFailed ); return }
+        defer { tidyRelease( tdoc ) }
 
         if var file = testConfig {
 
@@ -334,8 +330,6 @@ class SwLibTidyTests: XCTestCase {
 
             XCTAssert( !tidyFileExists( tdoc, file ), "By some strange fluke, file \(file) exists!" )
         }
-
-        tidyRelease( tdoc )
     }
 
 
@@ -355,6 +349,7 @@ class SwLibTidyTests: XCTestCase {
         guard
             let tdoc = tidyCreate()
         else { XCTFail( TidyCreateFailed ); return }
+        defer { tidyRelease( tdoc ) }
 
         /* Our default input and output encodings should both be 4: UTF8 */
         var inputVal = tidyOptGetInt( tdoc, TidyInCharEncoding )
@@ -378,8 +373,6 @@ class SwLibTidyTests: XCTestCase {
         inputVal = tidyOptGetInt( tdoc, TidyInCharEncoding )   // should be 12
         outputVal = tidyOptGetInt( tdoc, TidyOutCharEncoding ) // should be 7
         XCTAssert( inputVal == 12 && outputVal == 7, "The in and out character encoding settings seem to be wrong.")
-
-        tidyRelease( tdoc )
     }
 
 
@@ -397,6 +390,7 @@ class SwLibTidyTests: XCTestCase {
         guard
             let tdoc = tidyCreate()
         else { XCTFail( TidyCreateFailed ); return }
+        defer { tidyRelease( tdoc ) }
 
         /* Setup the asynchronous test expectation. */
         let callbackSuccess = XCTestExpectation( description: "The callback should execute at least once." )
@@ -435,8 +429,6 @@ class SwLibTidyTests: XCTestCase {
         } else {
             XCTFail( "No configuration records exist." )
         }
-
-        tidyRelease( tdoc )
     }
 
 
@@ -455,6 +447,7 @@ class SwLibTidyTests: XCTestCase {
         guard
             let tdoc = tidyCreate()
         else { XCTFail( TidyCreateFailed ); return }
+        defer { tidyRelease( tdoc ) }
 
         /* Let's tell SwLibTidy to use a different class to populate the
            tidyConfigRecords() array. We might want to do this if we want
@@ -484,8 +477,6 @@ class SwLibTidyTests: XCTestCase {
         } else {
             XCTFail( "No configuration records exist." )
         }
-
-        tidyRelease( tdoc )
     }
 
 
@@ -515,6 +506,7 @@ class SwLibTidyTests: XCTestCase {
         guard
             let tdoc = tidyCreate()
         else { XCTFail( TidyCreateFailed ); return }
+        defer { tidyRelease( tdoc ) }
 
         let optionList = tidyGetOptionList( tdoc )
         var result: Bool
@@ -572,8 +564,6 @@ class SwLibTidyTests: XCTestCase {
         if let _ = tidyGetOptionByName( tdoc, "wrap" ){} else {
             XCTFail( "tidyGetOptionByName() did not return a valid option." )
         }
-
-        tidyRelease( tdoc )
     }
 
 
@@ -593,6 +583,7 @@ class SwLibTidyTests: XCTestCase {
         guard
             let tdoc = tidyCreate()
         else { XCTFail( TidyCreateFailed ); return }
+        defer { tidyRelease( tdoc ) }
 
         /* The TidyDoctype option has an interesting list. */
         if let opt = tidyGetOption( tdoc, TidyDoctype ) {
@@ -612,8 +603,6 @@ class SwLibTidyTests: XCTestCase {
         } else {
             XCTFail( "tidyGetOption() failed." )
         }
-
-        tidyRelease( tdoc )
     }
 
 
@@ -644,6 +633,7 @@ class SwLibTidyTests: XCTestCase {
         guard
             let tdoc = tidyCreate()
         else { XCTFail( TidyCreateFailed ); return }
+        defer { tidyRelease( tdoc ) }
 
         var result: Bool
 
@@ -756,8 +746,6 @@ class SwLibTidyTests: XCTestCase {
         /* Let's get the encoding name for one of the options. */
         result = tidyOptGetEncName( tdoc, TidyInCharEncoding ) == "utf8"
         XCTAssert( result, "The encoding name for TidyInCharEncoding should have been 'utf8'." )
-
-        tidyRelease( tdoc )
     }
 
 
@@ -779,6 +767,7 @@ class SwLibTidyTests: XCTestCase {
         guard
             let tdoc = tidyCreate()
         else { XCTFail( TidyCreateFailed ); return }
+        defer { tidyRelease( tdoc ) }
 
         var result: Bool
 
@@ -808,8 +797,6 @@ class SwLibTidyTests: XCTestCase {
 
         result = tidyOptDiffThanSnapshot( tdoc )
         XCTAssertTrue( result, "The option values should be different from snapshot, but are the same.")
-
-        tidyRelease( tdoc )
     }
 
 
@@ -834,6 +821,7 @@ class SwLibTidyTests: XCTestCase {
         guard
             let tdoc = tidyCreate()
         else { XCTFail( TidyCreateFailed ); return }
+        defer { tidyRelease( tdoc ) }
 
         var results: [String] = []
 
@@ -1020,8 +1008,6 @@ class SwLibTidyTests: XCTestCase {
             let outp = "Option = \(tidyOptGetName( opt )), In = \(valueIn), Out = \(valueOut)."
             XCTAssert( valueIn == valueOut, outp )
         }
-
-        tidyRelease( tdoc )
     }
 
 
@@ -1040,6 +1026,7 @@ class SwLibTidyTests: XCTestCase {
         guard
             let tdoc = tidyCreate()
         else { XCTFail( TidyCreateFailed ); return }
+        defer { tidyRelease( tdoc ) }
 
         /* Get all of the option Id's of type TidyString */
         let stringOptions: [TidyOptionId] = tidyGetOptionList( tdoc )
@@ -1052,8 +1039,6 @@ class SwLibTidyTests: XCTestCase {
             let result = tidyOptSetValue( tdoc , optId, "")
             XCTAssert( result, "Option \(optId) did not accept a null string!")
         }
-
-        tidyRelease( tdoc )
     }
 
 
@@ -1073,6 +1058,7 @@ class SwLibTidyTests: XCTestCase {
         guard
             let tdoc = tidyCreate()
         else { XCTFail( TidyCreateFailed ); return }
+        defer { tidyRelease( tdoc ) }
 
         XCTAssert( tidyOptGetMutedMessageList( tdoc ).count == 0, "Expected the array to be empty." )
         XCTAssert( tidyOptGetPriorityAttrList( tdoc ).count == 0, "Expected the array to be empty." )
@@ -1095,8 +1081,6 @@ class SwLibTidyTests: XCTestCase {
             let listArray = tidyOptGetDeclTagList( tdoc, forOptionId: TidyBlockTags )
             XCTAssert( listArray[2] == tagsArray[2], "The array did not return the value expected." )
         }
-
-        tidyRelease( tdoc )
     }
 
 
@@ -1114,6 +1098,7 @@ class SwLibTidyTests: XCTestCase {
         guard
             let tdoc = tidyCreate()
         else { XCTFail( TidyCreateFailed ); return }
+        defer { tidyRelease( tdoc ) }
 
         /* The TidyDoctype option has an interesting list. */
         if let opt = tidyGetOption( tdoc, TidyDoctype ) {
@@ -1147,8 +1132,6 @@ class SwLibTidyTests: XCTestCase {
         } else {
             XCTFail( "tidyGetOption() failed." )
         }
-
-        tidyRelease( tdoc )
     }
 
 
@@ -1167,6 +1150,7 @@ class SwLibTidyTests: XCTestCase {
         guard
             let tdoc = tidyCreate()
         else { XCTFail( TidyCreateFailed ); return }
+        defer { tidyRelease( tdoc ) }
 
         /* Let's get the documentation for TidyPreTags, since it has xref
            links we can look at, too. */
@@ -1186,8 +1170,6 @@ class SwLibTidyTests: XCTestCase {
             /* And the third one should be TidyInlineTags. */
             XCTAssert( tidyOptGetId(xref[2]) == TidyInlineTags, "Expected TidyInlineTags, but got something else." )
         }
-
-        tidyRelease( tdoc )
     }
 
 
@@ -1205,6 +1187,7 @@ class SwLibTidyTests: XCTestCase {
         guard
             let tdoc = tidyCreate()
         else { XCTFail( TidyCreateFailed ); return }
+        defer { tidyRelease( tdoc ) }
 
         let emacs_file = "/home/charliebrown/httpd/mywebsite"
 
@@ -1230,8 +1213,6 @@ class SwLibTidyTests: XCTestCase {
         } else {
             XCTFail( "The error buffer had no contents!" )
         }
-
-        tidyRelease( tdoc )
     }
 
 
@@ -1246,6 +1227,7 @@ class SwLibTidyTests: XCTestCase {
         guard
             let tdoc = tidyCreate()
         else { XCTFail( TidyCreateFailed ); return }
+        defer { tidyRelease( tdoc ) }
 
         /* Setup expectation for asynchronous test. In this case, we
            set an option various times below, and so the final count
@@ -1314,8 +1296,6 @@ class SwLibTidyTests: XCTestCase {
 
         /* Issue the assert here if the callback doesn't fire at least once. */
         wait(for: [callbackSuccess], timeout: 1.0)
-
-        tidyRelease( tdoc )
     }
 
 
@@ -1397,6 +1377,7 @@ class SwLibTidyTests: XCTestCase {
         guard
             let tdoc = tidyCreate()
         else { XCTFail( TidyCreateFailed ); return }
+        defer { tidyRelease( tdoc ) }
 
         /* Setup the asynchronous test expectation. */
         let callbackSuccess = XCTestExpectation(description: "The callback should execute at least once.")
@@ -1496,8 +1477,6 @@ class SwLibTidyTests: XCTestCase {
 
         /* Issue the assert here if the callback doesn't fire at least once. */
         wait(for: [callbackSuccess], timeout: 1.0)
-
-        tidyRelease( tdoc )
     }
 
 
@@ -1514,6 +1493,7 @@ class SwLibTidyTests: XCTestCase {
         guard
             let tdoc = tidyCreate()
         else { XCTFail( TidyCreateFailed ); return }
+        defer { tidyRelease( tdoc ) }
 
         let _ = tidyParseString( tdoc, "<h1>hello, world</h2>")
         let records = tidyMessageRecords(forTidyDoc: tdoc )
@@ -1528,7 +1508,6 @@ class SwLibTidyTests: XCTestCase {
 
         expect = "body"
         XCTAssert( records[1].messageArguments[0].valueString == expect, "Expected the first argument value \"\(expect)\", but it wasn't." )
-        tidyRelease( tdoc )
     }
 
 
@@ -1548,6 +1527,7 @@ class SwLibTidyTests: XCTestCase {
         guard
             let tdoc = tidyCreate()
         else { XCTFail( TidyCreateFailed ); return }
+        defer { tidyRelease( tdoc ) }
 
         /* Setup the asynchronous test expectation. */
         let callbackSuccess = XCTestExpectation(description: "The callback should execute at least once.")
@@ -1578,8 +1558,6 @@ class SwLibTidyTests: XCTestCase {
         XCTAssert( records[4].sourceLine == 5, "Expected sourceLine to be 2." )
         XCTAssert( records[4].sourceColumn == 1, "Expected sourceColumn to be 1." )
         XCTAssert( records[4].destLine == 4, "Expected destLine to be 4." )
-
-        tidyRelease( tdoc )
     }
 
 
@@ -1595,6 +1573,7 @@ class SwLibTidyTests: XCTestCase {
         guard
             let tdoc = tidyCreate()
         else { XCTFail( TidyCreateFailed ); return }
+        defer { tidyRelease( tdoc ) }
 
         let sampleDelegate = SampleTidyDelegate()
 
@@ -1616,8 +1595,6 @@ class SwLibTidyTests: XCTestCase {
         wait(for: [(sampleDelegate.asyncTidyReportsOptionChanged)!], timeout: 1.0)
         wait(for: [(sampleDelegate.asyncTidyReportsMessage)!], timeout: 1.0)
         wait(for: [(sampleDelegate.asyncTidyReportsPrettyPrinting)!], timeout: 1.0)
-
-        tidyRelease( tdoc )
     }
 
 
@@ -1635,6 +1612,7 @@ class SwLibTidyTests: XCTestCase {
         guard
             let tdoc = tidyCreate()
         else { XCTFail( TidyCreateFailed ); return }
+        defer { tidyRelease( tdoc ) }
 
         var errBuffer = SwTidyBuffer()
         let _ = tidySetErrorBuffer( tdoc, errbuf: errBuffer )
@@ -1667,8 +1645,6 @@ class SwLibTidyTests: XCTestCase {
         print( errBuffer.StringValue() ?? "Oops" )
         expect = "Tidy found 7 warnings and 0 errors!\n\n"
         XCTAssert( errBuffer.StringValue()?.hasSuffix( expect ) ?? false, "Expected the buffer to end with something else." )
-
-        tidyRelease( tdoc )
     }
 
 
@@ -1687,6 +1663,7 @@ class SwLibTidyTests: XCTestCase {
         guard
             let tdoc = tidyCreate()
         else { XCTFail( TidyCreateFailed ); return }
+        defer { tidyRelease( tdoc ) }
 
         let _ = tidySample( doc: tdoc, useConfig: false )
 
@@ -1754,8 +1731,6 @@ class SwLibTidyTests: XCTestCase {
         catch {
             XCTFail( "Could not read '\(outfile)'." )
         }
-
-        tidyRelease( tdoc )
     }
 
 
@@ -1770,7 +1745,8 @@ class SwLibTidyTests: XCTestCase {
 
         guard
             let tdoc = tidyCreate()
-            else { XCTFail( TidyCreateFailed ); return }
+        else { XCTFail( TidyCreateFailed ); return }
+        defer { tidyRelease( tdoc ) }
 
 
         /* Change some config options, because only non-defaults are written. */
@@ -1796,8 +1772,6 @@ class SwLibTidyTests: XCTestCase {
         catch {
             XCTFail( "Could not read '\(outfile)'." )
         }
-
-        tidyRelease( tdoc )
     }
 
 
@@ -1821,7 +1795,8 @@ class SwLibTidyTests: XCTestCase {
 
         guard
             let tdoc = tidyCreate()
-            else { XCTFail( TidyCreateFailed ); return }
+        else { XCTFail( TidyCreateFailed ); return }
+        defer { tidyRelease( tdoc ) }
 
         let _ = tidySample( doc: tdoc )
 
@@ -1888,8 +1863,6 @@ class SwLibTidyTests: XCTestCase {
 		} else {
 			XCTFail( "The document string was empty for some reason." )
 		}
-
-        tidyRelease( tdoc )
     }
 
 
@@ -1910,7 +1883,8 @@ class SwLibTidyTests: XCTestCase {
 
         guard
             let tdoc = tidyCreate()
-            else { XCTFail( TidyCreateFailed ); return }
+        else { XCTFail( TidyCreateFailed ); return }
+        defer { tidyRelease( tdoc ) }
 
         let _ = tidySample( doc: tdoc )
 
@@ -1931,20 +1905,23 @@ class SwLibTidyTests: XCTestCase {
 		XCTAssert( attrs.count == 4, "There should have been 4 attributes, but counted \(attrs.count).")
 
 		attr = attrs[0]
-		XCTAssert( tidyAttrName( attr! ) == "id", "Expected 'id'." )
-		XCTAssert( tidyAttrValue( attr! ) == "", "Expected an empty string." )
-		XCTAssert( tidyAttrGetId( attr! ) == TidyAttr_ID, "Expected 'TidyAttr_ID'." )
-		XCTAssert( tidyAttrIsEvent( attr! ) == false, "Expect this to be false." )
+        if let attr = attr {
+            XCTAssert( tidyAttrName( attr ) == "id", "Expected 'id'." )
+            XCTAssert( tidyAttrValue( attr ) == "", "Expected an empty string." )
+            XCTAssert( tidyAttrGetId( attr ) == TidyAttr_ID, "Expected 'TidyAttr_ID'." )
+            XCTAssert( tidyAttrIsEvent( attr ) == false, "Expect this to be false." )
+        }
 
 		attr = attrs[2]
-		XCTAssert( tidyAttrName( attr! ) == "onclick", "Expected 'onclick'." )
-		XCTAssert( tidyAttrValue( attr! ) == "someFunction()", "Expected 'someFunction()'." )
-		XCTAssert( tidyAttrGetId( attr! ) == TidyAttr_OnCLICK, "Expected TidyAttr_OnCLICK." )
-		XCTAssert( tidyAttrIsEvent( attr! ) == true, "Expect this to be true." )
+        if let attr = attr {
+            XCTAssert( tidyAttrName( attr ) == "onclick", "Expected 'onclick'." )
+            XCTAssert( tidyAttrValue( attr ) == "someFunction()", "Expected 'someFunction()'." )
+            XCTAssert( tidyAttrGetId( attr ) == TidyAttr_OnCLICK, "Expected TidyAttr_OnCLICK." )
+            XCTAssert( tidyAttrIsEvent( attr ) == true, "Expect this to be true." )
+        }
 
-		attr = tidyAttrGetById( divnode, TidyAttr_CLASS )
-		if attr != nil {
-			XCTAssert( tidyAttrValue( attr! ) == "high", "Expected 'high'." )
+        if let attr = tidyAttrGetById( divnode, TidyAttr_CLASS ) {
+			XCTAssert( tidyAttrValue( attr ) == "high", "Expected 'high'." )
 		}
 
 		if let _ = tidyAttrGetById( divnode, TidyAttr_DATA ) {
@@ -1965,8 +1942,6 @@ class SwLibTidyTests: XCTestCase {
 		} else {
 			XCTFail( "The document string was empty for some reason." )
 		}
-
-		tidyRelease( tdoc )
     }
 
 
@@ -1988,6 +1963,36 @@ class SwLibTidyTests: XCTestCase {
      *************************************************************************/
     func test_node_interrogation() {
 
+        guard
+            let tdoc = tidyCreate()
+        else { XCTFail( TidyCreateFailed ); return }
+        defer { tidyRelease( tdoc ) }
+
+        let _ = tidySample( doc: tdoc )
+
+        guard
+            let bodynode = tidyGetBody( tdoc ),
+            let divnode = tidyGetChild( bodynode ),
+            let h1node = tidyGetChild( divnode ),
+            let h1text = tidyGetChild( h1node ) else {
+                XCTFail( "Unable to get the required nodes from the sample." )
+                return
+        }
+
+        XCTAssert( tidyNodeGetType( bodynode ) == TidyNode_Start, "Expected TidyNode_Start" )
+        XCTAssert( tidyNodeGetType( divnode ) == TidyNode_Start, "Expected TidyNode_Start" )
+        XCTAssert( tidyNodeGetType( h1node ) == TidyNode_Start, "Expected TidyNode_Start" )
+        XCTAssert( tidyNodeGetType( h1text ) == TidyNode_Text, "Expected TidyNode_Text" )
+
+        XCTAssert( tidyNodeGetName( bodynode ) == "body", "Expected 'body'." )
+        XCTAssert( tidyNodeGetName( divnode ) == "div", "Expected 'div'." )
+        XCTAssert( tidyNodeGetName( h1node ) == "h1", "Expected 'h1'." )
+        XCTAssert( tidyNodeGetName( h1text ) == "", "Expected empty string." )
+
+        XCTAssert( tidyNodeIsText( bodynode ) == false, "Expected false." )
+        XCTAssert( tidyNodeIsText( divnode ) == false, "Expected false." )
+        XCTAssert( tidyNodeIsText( h1node ) == false, "Expected false." )
+        XCTAssert( tidyNodeIsText( h1text ) == true, "Expected false." )
     }
 
 
