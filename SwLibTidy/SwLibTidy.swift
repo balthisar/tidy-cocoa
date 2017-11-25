@@ -2397,7 +2397,7 @@ public func tidyDiscardElement( _ tdoc: TidyDoc, _ tnod: TidyNode ) -> TidyNode?
  - returns:
      Returns an instance of TidyAttr.
 */
-public func tidyAttrFirst( _ tnod: TidyNode ) -> TidyAttr {
+public func tidyAttrFirst( _ tnod: TidyNode ) -> TidyAttr? {
  
     return CLibTidy.tidyAttrFirst( tnod )
 }
@@ -2411,7 +2411,7 @@ public func tidyAttrFirst( _ tnod: TidyNode ) -> TidyAttr {
  - returns: 
      Returns and instance of TidyAttr.
 */
-public func tidyAttrNext( _ tattr: TidyAttr ) -> TidyAttr {
+public func tidyAttrNext( _ tattr: TidyAttr ) -> TidyAttr? {
  
     return CLibTidy.tidyAttrNext( tattr )
 }
@@ -2438,8 +2438,11 @@ public func tidyAttrName( _ tattr: TidyAttr ) -> String {
  - returns: Returns a string indicating the value of the attribute.
 */
 public func tidyAttrValue( _ tattr: TidyAttr ) -> String {
- 
-    return String( cString: CLibTidy.tidyAttrValue( tattr ) )
+
+	if let result = CLibTidy.tidyAttrValue( tattr ) {
+		return String( cString: result )
+	}
+	return ""
 }
 
  
@@ -2494,7 +2497,7 @@ public func tidyAttrIsEvent( _ tattr: TidyAttr ) -> Swift.Bool {
  - returns:
      Returns a TidyAttr instance.
 */
-public func tidyAttrGetById( _ tnod: TidyNode, _ attId: TidyAttrId ) -> TidyAttr {
+public func tidyAttrGetById( _ tnod: TidyNode, _ attId: TidyAttrId ) -> TidyAttr? {
  
     return CLibTidy.tidyAttrGetById( tnod, attId )
 }

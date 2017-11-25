@@ -257,9 +257,9 @@ class SwLibTidyTests: XCTestCase {
 
         XCTAssert( tidyErrorCount( tdoc ) == 0, "Expected tidyErrorCount() == 0" )
 
-        XCTAssert( tidyWarningCount( tdoc ) == 5, "Expected tidyWarningCount() == 5" )
+        XCTAssert( tidyWarningCount( tdoc ) == 6, "Expected tidyWarningCount() == 6" )
 
-        XCTAssert( tidyAccessWarningCount( tdoc ) == 4, "Expected tidyAccessWarningCount() == 4" )
+        XCTAssert( tidyAccessWarningCount( tdoc ) == 5, "Expected tidyAccessWarningCount() == 5" )
 
         XCTAssert( tidyConfigErrorCount( tdoc ) == 1, "Expected tidyConfigErrorCount() == 1" )
 
@@ -1648,8 +1648,9 @@ class SwLibTidyTests: XCTestCase {
         let _ = tidySetErrorBuffer( tdoc, errbuf: errBuffer )
         let _ = tidyCleanAndRepair( tdoc )
         print( "-----errBuffer after clean and repair" )
-        print( errBuffer.StringValue() ?? "Nothing reported (this is good)" )
-        XCTAssert( errBuffer.StringValue() == nil, "Expect nothing to be added to the buffer." )
+        print( errBuffer.StringValue() ?? "Oops" )
+		expect = "line 1 column 1 - Warning: <div> proprietary attribute"
+        XCTAssert( errBuffer.StringValue()?.hasPrefix( expect) ?? false, "Expect nothing to be added to the buffer." )
 
         errBuffer = SwTidyBuffer()
         let _ = tidySetErrorBuffer( tdoc, errbuf: errBuffer )
@@ -1664,7 +1665,7 @@ class SwLibTidyTests: XCTestCase {
         let _ = tidyRunDiagnostics( tdoc )
         print( "-----errBuffer after run diagnostics" )
         print( errBuffer.StringValue() ?? "Oops" )
-        expect = "Tidy found 5 warnings and 0 errors!\n\n"
+        expect = "Tidy found 7 warnings and 0 errors!\n\n"
         XCTAssert( errBuffer.StringValue()?.hasSuffix( expect ) ?? false, "Expected the buffer to end with something else." )
 
         tidyRelease( tdoc )
@@ -1907,6 +1908,65 @@ class SwLibTidyTests: XCTestCase {
      *************************************************************************/
     func test_attributes() {
 
+        guard
+            let tdoc = tidyCreate()
+            else { XCTFail( TidyCreateFailed ); return }
+
+        let _ = tidySample( doc: tdoc )
+
+		guard
+			let bodynode = tidyGetBody( tdoc ),
+			let divnode = tidyGetChild( bodynode ) else {
+				XCTFail( "Unable to get the required node from the sample." )
+				return
+		}
+
+		/* Build an array of attributes on the div. */
+		var attrs: [TidyAttr] = []
+		var attr = tidyAttrFirst( divnode )
+		while attr != nil {
+			attrs.append( attr! )
+			attr = tidyAttrNext( attr! )
+		}
+		XCTAssert( attrs.count == 4, "There should have been 4 attributes, but counted \(attrs.count).")
+
+		attr = attrs[0]
+		XCTAssert( tidyAttrName( attr! ) == "id", "Expected 'id'." )
+		XCTAssert( tidyAttrValue( attr! ) == "", "Expected an empty string." )
+		XCTAssert( tidyAttrGetId( attr! ) == TidyAttr_ID, "Expected 'TidyAttr_ID'." )
+		XCTAssert( tidyAttrIsEvent( attr! ) == false, "Expect this to be false." )
+
+		attr = attrs[2]
+		XCTAssert( tidyAttrName( attr! ) == "onclick", "Expected 'onclick'." )
+		XCTAssert( tidyAttrValue( attr! ) == "someFunction()", "Expected 'someFunction()'." )
+		XCTAssert( tidyAttrGetId( attr! ) == TidyAttr_OnCLICK, "Expected TidyAttr_OnCLICK." )
+		XCTAssert( tidyAttrIsEvent( attr! ) == true, "Expect this to be true." )
+
+		attr = tidyAttrGetById( divnode, TidyAttr_CLASS )
+		if attr != nil {
+			XCTAssert( tidyAttrValue( attr! ) == "high", "Expected 'high'." )
+		}
+
+		if let _ = tidyAttrGetById( divnode, TidyAttr_DATA ) {
+			XCTFail( "The data attribute was found, which is strange." )
+		}
+
+		/* Now discard an attribute. */
+		attr = attrs[3]
+		tidyAttrDiscard( tdoc, divnode, attr! )
+
+		let docBuffer = SwTidyBuffer()
+		let _ = tidySaveBuffer( tdoc, docBuffer )
+
+		if let docString = docBuffer.StringValue() {
+			let result = docString.range( of: "idl" )
+			print( docString )
+			XCTAssert( result == nil, "The attibute is still in the document." )
+		} else {
+			XCTFail( "The document string was empty for some reason." )
+		}
+
+		tidyRelease( tdoc )
     }
 
 
