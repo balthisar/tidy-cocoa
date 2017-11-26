@@ -680,9 +680,6 @@ class SwLibTidyTests: XCTestCase {
 
         /* Ensure that we can reset an option to default. */
         let _ = tidyOptResetToDefault( tdoc, TidyBlockTags )
-
-        result = tidyOptGetValue( tdoc, TidyBlockTags ) == ""
-        XCTAssert( result, "The value for TidyBlockTags should have been nil." )
         JSDAssertEqual( "", tidyOptGetValue( tdoc, TidyBlockTags ) )
 
         /* Ensure that we can reset all options to default. */
