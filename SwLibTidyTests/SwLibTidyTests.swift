@@ -567,17 +567,14 @@ class SwLibTidyTests: XCTestCase {
         /* The TidyDoctype option has an interesting list. */
         if let opt = tidyGetOption( tdoc, TidyDoctype ) {
 
-            /* Veryify we have the right option by checking its name. */
-            var result = tidyOptGetName( opt ) == "doctype"
-            XCTAssert( result, "tidyOptGetName() returned an unexpected result." )
+            /* Verify we have the right option by checking its name. */
+            JSDAssertEqual( "doctype", tidyOptGetName( opt ) )
 
             /* The 5th item should be "transitional". */
-            result = tidyOptGetPickList( opt )[4] == "transitional"
-            XCTAssert( result, "tidyOptGetPickList() returned an unexpected result." )
+            JSDAssertEqual( "transitional", tidyOptGetPickList( opt )[4] )
 
             /* The current value should be "auto". */
-            result = tidyOptGetCurrPick( tdoc, TidyDoctype) == "auto"
-            XCTAssert( result, "The current pick should have been 'auto', but was \(result) instead.")
+            JSDAssertEqual( "auto", tidyOptGetCurrPick( tdoc, TidyDoctype) )
 
         } else {
             XCTFail( "tidyGetOption() failed." )
@@ -614,24 +611,16 @@ class SwLibTidyTests: XCTestCase {
         else { XCTFail( TidyCreateFailed ); return }
         defer { tidyRelease( tdoc ) }
 
-        var result: Bool
-
         /* Let's work with an option of type TidyString. */
         if let opt = tidyGetOption( tdoc, TidyBlockTags ) {
 
-            result = tidyOptGetDefault( opt ) == ""
-            XCTAssert( result, "The default for TidyBlockTags should have been an empty string." )
-
-            result = tidyOptGetValue( tdoc, TidyBlockTags ) == ""
-            XCTAssert( result, "The value for TidyBlockTags should have been an empty string." )
+            JSDAssertEqual( "", tidyOptGetDefault( opt ),               "The default should have been an empty string, but was %1$@." )
+            JSDAssertEqual( "", tidyOptGetValue( tdoc, TidyBlockTags ), "The value should have been an empty string, but was %1$@." )
 
             /* Note how once set, Tidy comma-formats the list. */
             let _ = tidyOptSetValue( tdoc, TidyBlockTags, "one two three" )
-            result = tidyOptGetValue( tdoc, TidyBlockTags ) == "one, two, three"
-            XCTAssert( result, "The option value is not as expected." )
-
-            result = tidyOptGetDeclTagList( tdoc, forOptionId: TidyBlockTags )[1] == "two"
-            XCTAssert( result, "The second declared tag should have been 'two'." )
+            JSDAssertEqual( "one, two, three", tidyOptGetValue( tdoc, TidyBlockTags ) )
+            JSDAssertEqual( "two", tidyOptGetDeclTagList( tdoc, forOptionId: TidyBlockTags )[1] )
 
         } else {
             XCTFail( "tidyGetOption() failed." )
@@ -641,15 +630,11 @@ class SwLibTidyTests: XCTestCase {
         /* Now let's work with a Bool option. */
         if let opt = tidyGetOption( tdoc, TidyFixBackslash ) {
 
-            result = tidyOptGetDefaultBool( opt ) == true
-            XCTAssert( result, "The default for TidyFixBackslash should have been true." )
-
-            result = tidyOptGetBool( tdoc, TidyFixBackslash ) == true
-            XCTAssert( result, "The value for TidyFixBackslash should have been true." )
+            JSDAssertEqual( true, tidyOptGetDefaultBool( opt ) )
+            JSDAssertEqual( true, tidyOptGetBool( tdoc, TidyFixBackslash ) )
 
             let _ = tidyOptSetBool( tdoc, TidyFixBackslash, false )
-            result = tidyOptGetBool( tdoc, TidyFixBackslash ) == false
-            XCTAssert( result, "The option value should have been changed to false." )
+            JSDAssertEqual( false, tidyOptGetBool( tdoc, TidyFixBackslash ) )
 
         } else {
             XCTFail( "tidyGetOption() failed." )
@@ -660,35 +645,23 @@ class SwLibTidyTests: XCTestCase {
         if let opt = tidyGetOption( tdoc, TidySortAttributes ) {
 
             /*
-             Note! We return an integer, so if we want to use Tidy's
-             enum values, we need to look at its integer value!
+             Note! We return an integer, so if we want to use Tidy's enum
+             values, we need to look at its integer value! The enum is UInt32,
+             so for these particular calls, we have to cast to UInt because the
+             assertion requires equal types.
              */
-            result = tidyOptGetDefaultInt( opt ) == TidySortAttrNone.rawValue
-            XCTAssert( result, "The default for TidySortAttributes should have been TidySortAttrNone." )
+            JSDAssertEqual( UInt(TidySortAttrNone.rawValue), tidyOptGetDefaultInt( opt ) )
+            JSDAssertEqual( UInt(TidySortAttrNone.rawValue), tidyOptGetInt( tdoc, TidySortAttributes ) )
 
-            /*
-             Note! We return an integer, so if we want to use Tidy's
-             enum values, we need to look at its integer value!
-             */
-            result = tidyOptGetInt( tdoc, TidySortAttributes ) == TidySortAttrNone.rawValue
-            XCTAssert( result, "The value for TidySortAttributes should have been TidySortAttrNone." )
-
-            /*
-             Note! We return an integer, so if we want to use Tidy's
-             enum values, we need to look at its integer value!
-             */
             let _ = tidyOptSetInt( tdoc, TidySortAttributes, TidySortAttrAlpha.rawValue )
-            result = tidyOptGetInt( tdoc, TidySortAttributes ) == TidySortAttrAlpha.rawValue
-            XCTAssert( result, "The value for TidySortAttributes should have been TidySortAttrAlpha." )
+            JSDAssertEqual( UInt(TidySortAttrAlpha.rawValue), tidyOptGetInt( tdoc, TidySortAttributes ) )
 
             /* Can we set this as a string value? It's a pick list. */
             let _ = tidyOptSetValue( tdoc, TidySortAttributes, "none" )
-            result = tidyOptGetInt( tdoc, TidySortAttributes ) == TidySortAttrNone.rawValue
-            XCTAssert( result, "The value for TidySortAttributes should have been TidySortAttrNone." )
+            JSDAssertEqual( UInt(TidySortAttrNone.rawValue), tidyOptGetInt( tdoc, TidySortAttributes ) )
 
             /* Can we set this as a string value? It's a pick list. */
-            result = tidyOptSetValue( tdoc, TidySortAttributes, "invalid" ) == false
-            XCTAssert( result, "The value for TidySortAttributes should not have been set." )
+            JSDAssertEqual( false, tidyOptSetValue( tdoc, TidySortAttributes, "invalid" ) )
 
         } else {
             XCTFail( "tidyGetOption() failed." )
@@ -697,12 +670,13 @@ class SwLibTidyTests: XCTestCase {
 
         /* Let's try to parse a value into a named option. */
         if tidyOptParseValue( tdoc, "show-info", "no" ) {
-            result = tidyOptGetBool( tdoc, TidyShowInfo ) == false
-            XCTAssert( result, "The value for TidyShowInfo should have been false." )
+            JSDAssertEqual( false, tidyOptGetBool( tdoc, TidyShowInfo ) )
         } else {
             XCTFail( "tidyOptParseValue() failed." )
         }
 
+
+        var result: Bool
 
         /* Ensure that we can reset an option to default. */
         let _ = tidyOptResetToDefault( tdoc, TidyBlockTags )
