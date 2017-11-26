@@ -259,6 +259,7 @@ public func JSDAssertEqual<T: Equatable>( _ expect: T, _ result: T, _ message: S
     XCTAssert( expect == result, mssg, file: file, line: line )
 }
 
+
 /**
  A supplemental assert to determine if an (optional) string has a given
  prefix, and provides a (semi-) automatic message, greatly cleaning up all of
@@ -275,6 +276,28 @@ public func JSDAssertHasPrefix( _ expect: String?, _ result: String?, _ message:
 
     if let expect = expect {
         XCTAssert( result?.hasPrefix(expect) ?? false, mssg, file: file, line: line )
+    } else {
+        XCTFail( mssg, file: file, line: line )
+    }
+}
+
+
+/**
+ A supplemental assert to determine if an (optional) string has a given
+ suffix, and provides a (semi-) automatic message, greatly cleaning up all of
+ the strings in the test cases.
+ */
+public func JSDAssertHasSuffix( _ expect: String?, _ result: String?, _ message: String = "", file: StaticString = #file, line: UInt = #line) {
+
+    let mssg: String
+    if message == "" {
+        mssg = "Expected the string to end with \(expect ?? "nil"), but got \(result ?? "nil")."
+    } else {
+        mssg = String( format: message, String(describing: expect), String(describing: result) )
+    }
+
+    if let expect = expect {
+        XCTAssert( result?.hasSuffix(expect) ?? false, mssg, file: file, line: line )
     } else {
         XCTFail( mssg, file: file, line: line )
     }

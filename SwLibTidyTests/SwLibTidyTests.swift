@@ -164,21 +164,16 @@ class SwLibTidyTests: XCTestCase {
         else { XCTFail( TidyCreateFailed ); return }
         defer { tidyRelease( tdoc ) }
 
-        var result: UInt
-
         if let file = testConfig {
 
             let _ = tidyLoadConfig( tdoc, file )
-            result = tidyOptGetInt( tdoc, TidyAccessibilityCheckLevel )
-            XCTAssert( result == 3, "Expected 3, but got \(result)." )
+            JSDAssertEqual( 3, tidyOptGetInt( tdoc, TidyAccessibilityCheckLevel ) )
 
             let _ = tidyOptResetAllToDefault( tdoc )
-            result = tidyOptGetInt( tdoc, TidyAccessibilityCheckLevel )
-            XCTAssert( result == 0, "Expected 0, but got \(result)." )
+            JSDAssertEqual( 0, tidyOptGetInt( tdoc, TidyAccessibilityCheckLevel ) )
 
             let _ = tidyLoadConfigEnc( tdoc, file, "ascii")
-            result = tidyOptGetInt( tdoc, TidyAccessibilityCheckLevel )
-            XCTAssert( result == 3, "Expected 3, but got \(result)." )
+            JSDAssertEqual( 3, tidyOptGetInt( tdoc, TidyAccessibilityCheckLevel ) )
         }
     }
 
@@ -203,22 +198,22 @@ class SwLibTidyTests: XCTestCase {
         else { XCTFail( TidyCreateFailed ); return }
         defer { tidyRelease( tdoc ) }
 
-        /* We'll throw away the return value, and check tidyStatus(). */
+        let format = "Expected tidyParse…() == %1$@, but it was %2$@."
+
+        /* We'll throw away the return value, so we can test tidyStatus(). */
         let _ = tidyParseString( tdoc, "<h1>Hello, world!</h2>" )
-        var result = tidyStatus( tdoc )
-        XCTAssert( result == 1, "Expected tidyStatus() == 1, but it was \(result)." )
+        let result = tidyStatus( tdoc )
+        JSDAssertEqual( 1, result, format )
 
         /* Use the return value directly. */
         if let file = testHtml {
-            result = tidyParseFile( tdoc, file )
+            JSDAssertEqual( 1, tidyParseFile( tdoc, file ), format )
         }
-        XCTAssert( result == 1, "Expected tidyStatus() == 1, but it was \(result)." )
 
         /* Redirect a file to stdin, so we can test tidyParseStdin(). */
         if let file = testHtml {
             freopen( file, "r", stdin )
-            result = tidyParseStdin( tdoc )
-            XCTAssert( result == 1, "Expected tidyStatus() == 1, but it was \(result)." )
+            JSDAssertEqual( 1, tidyParseStdin( tdoc ), format )
         }
     }
 
@@ -245,19 +240,15 @@ class SwLibTidyTests: XCTestCase {
 
         XCTAssert( tidySample( doc: tdoc, useConfig: true ), "tidySample() failed for some reason." )
 
-        XCTAssert( tidyStatus( tdoc ) == 1, "Expected tidyStatus() == 1" )
+        let format = "Expected tidyFunction() == %1$@, but it was %2$@"
 
-        XCTAssert( tidyDetectedXhtml( tdoc ) == false, "Expected tidyDetectedXhtml() == false" )
-
-        XCTAssert( tidyDetectedGenericXml( tdoc ) == false, "Expected tidyDetectedGenericXml() == false" )
-
-        XCTAssert( tidyErrorCount( tdoc ) == 0, "Expected tidyErrorCount() == 0" )
-
-        XCTAssert( tidyWarningCount( tdoc ) == 6, "Expected tidyWarningCount() == 6" )
-
-        XCTAssert( tidyAccessWarningCount( tdoc ) == 5, "Expected tidyAccessWarningCount() == 5" )
-
-        XCTAssert( tidyConfigErrorCount( tdoc ) == 1, "Expected tidyConfigErrorCount() == 1" )
+        JSDAssertEqual( 1,     tidyStatus( tdoc),              format )
+        JSDAssertEqual( false, tidyDetectedXhtml( tdoc ),      format )
+        JSDAssertEqual( false, tidyDetectedGenericXml( tdoc ), format )
+        JSDAssertEqual( 0,     tidyErrorCount( tdoc ),         format )
+        JSDAssertEqual( 6,     tidyWarningCount( tdoc ),       format )
+        JSDAssertEqual( 5,     tidyAccessWarningCount( tdoc ), format )
+        JSDAssertEqual( 1,     tidyConfigErrorCount( tdoc ),   format )
     }
 
 
@@ -295,12 +286,12 @@ class SwLibTidyTests: XCTestCase {
          Our test HTML generates this footnote as part of tidyErrorSummary(),
          and tidyGeneralInfo() finishes with the specified text and newline.
          */
-        let messg_expects = tidyLocalizedString( TEXT_M_IMAGE_ALT )
-        let messg_ends = "/README/LOCALIZE.md\n"
+        let messg_start = tidyLocalizedString( TEXT_M_IMAGE_ALT )
+        let messg_end = "/README/LOCALIZE.md\n"
 
         if let output = errorBuffer.StringValue() {
-            XCTAssert( output.hasPrefix(messg_expects), "The buffer did not start with the expected message." )
-            XCTAssert( output.hasSuffix(messg_ends), "The buffer did not end with the expected message." )
+            JSDAssertHasPrefix( messg_start, output )
+            JSDAssertHasSuffix( messg_end, output )
         } else {
             XCTFail( "The output buffer was empty!" )
         }
@@ -349,28 +340,28 @@ class SwLibTidyTests: XCTestCase {
         else { XCTFail( TidyCreateFailed ); return }
         defer { tidyRelease( tdoc ) }
 
+        let inp_format = "The input encoding should be %1$@, but was %2$@."
+        let out_format = "The output encoding should be %1$@, but was %2$@."
+
         /* Our default input and output encodings should both be 4: UTF8 */
-        var inputVal = tidyOptGetInt( tdoc, TidyInCharEncoding )
-        var outputVal = tidyOptGetInt( tdoc, TidyOutCharEncoding )
-        XCTAssert( inputVal == 4 && outputVal == 4, "The in and out character encoding defaults seem to be wrong.")
+        JSDAssertEqual( 4, tidyOptGetInt( tdoc, TidyInCharEncoding ), inp_format )
+        JSDAssertEqual( 4, tidyOptGetInt( tdoc, TidyOutCharEncoding ), out_format )
 
         /* tidySetCharEncoding() affects both input and output encodings. */
         let _ = tidySetCharEncoding( tdoc, "mac")
-        inputVal = tidyOptGetInt( tdoc, TidyInCharEncoding )   // should be 6
-        outputVal = tidyOptGetInt( tdoc, TidyOutCharEncoding ) // should be 1
-        XCTAssert( inputVal == 6 && outputVal == 1, "The in and out character encoding settings seem to be wrong.")
+        JSDAssertEqual( 6, tidyOptGetInt( tdoc, TidyInCharEncoding ), inp_format )
+        JSDAssertEqual( 1, tidyOptGetInt( tdoc, TidyOutCharEncoding ), out_format )
 
         /* Only affect input encoding. */
         let _ = tidySetInCharEncoding( tdoc, "big5")
-        inputVal = tidyOptGetInt( tdoc, TidyInCharEncoding )   // should be 12
-        outputVal = tidyOptGetInt( tdoc, TidyOutCharEncoding ) // should be 1
-        XCTAssert( inputVal == 12 && outputVal == 1, "The in and out character encoding settings seem to be wrong.")
+        JSDAssertEqual( 12, tidyOptGetInt( tdoc, TidyInCharEncoding ), inp_format )
+        JSDAssertEqual( 1, tidyOptGetInt( tdoc, TidyOutCharEncoding ), out_format )
 
         /* Only affect output encoding. */
         let _ = tidySetOutCharEncoding( tdoc, "win1252")
-        inputVal = tidyOptGetInt( tdoc, TidyInCharEncoding )   // should be 12
-        outputVal = tidyOptGetInt( tdoc, TidyOutCharEncoding ) // should be 7
-        XCTAssert( inputVal == 12 && outputVal == 7, "The in and out character encoding settings seem to be wrong.")
+        JSDAssertEqual( 12, tidyOptGetInt( tdoc, TidyInCharEncoding ), inp_format )
+        JSDAssertEqual( 7, tidyOptGetInt( tdoc, TidyOutCharEncoding ), out_format )
+
     }
 
 
@@ -423,7 +414,7 @@ class SwLibTidyTests: XCTestCase {
         dump( records )
 
         if let firstOption = records.first?.option {
-            XCTAssert( firstOption == "mynewconfig", "The first bad option is supposed to be 'mynewconfig'." )
+            JSDAssertEqual( "mynewconfig", firstOption, "The first bad option is supposed to be '%1$@'." )
         } else {
             XCTFail( "No configuration records exist." )
         }
@@ -447,11 +438,10 @@ class SwLibTidyTests: XCTestCase {
         else { XCTFail( TidyCreateFailed ); return }
         defer { tidyRelease( tdoc ) }
 
-        /* Let's tell SwLibTidy to use a different class to populate the
-           tidyConfigRecords() array. We might want to do this if we want
-           a class that's a bit more sophisticated than the default class.
-           Our sample class will alter the proposed value in a way that
-           we can detect.
+        /* Use a different class to populate the tidyConfigRecords() array. We
+           might want to do this if we want a class that's a bit more
+           sophisticated than the default class. Our sample class will alter
+           the proposed value in a way that we can detect.
          */
         if !setTidyConfigRecords( toClass: AlternateTidyConfigReport.self, forTidyDoc: tdoc ) {
             XCTFail( "setTidyConfigRecords() failed for some reason." )
@@ -469,9 +459,9 @@ class SwLibTidyTests: XCTestCase {
          The first unknown configuration record in our sample file should be
          for a proposed option 'mynewconfig'.
          */
-        if let firstValue = tidyConfigRecords(forTidyDoc: tdoc ).first?.value {
-            let expectedValue = "---poopy---"
-            XCTAssert( firstValue == expectedValue, "Expected \(expectedValue), but got \(firstValue)." )
+        if let result = tidyConfigRecords( forTidyDoc: tdoc ).first?.value {
+            let expected = "---poopy---"
+            JSDAssertEqual( expected, result )
         } else {
             XCTFail( "No configuration records exist." )
         }
@@ -507,27 +497,22 @@ class SwLibTidyTests: XCTestCase {
         defer { tidyRelease( tdoc ) }
 
         let optionList = tidyGetOptionList( tdoc )
-        var result: Bool
 
         /* Verify that our options list has some options. */
-        result = optionList.count > 0
-        XCTAssert( result, "The options list is empty." )
+        XCTAssert( optionList.count > 0, "The options list is empty." )
 
         /*
          Verify that the TidyOptionID for the first item is as expected.
          This test is fragile if LibTidy changes its enum ahead of this item.
          */
         if let optionId = tidyOptGetId( optionList[0] ) {
-            result = optionId == TidyAccessibilityCheckLevel
-            XCTAssert( result, "The TidyOptionId is not as expected." )
-
+            JSDAssertEqual( TidyAccessibilityCheckLevel, optionId )
         } else {
             XCTFail( "The call to tidyOptGetId() was not successful." )
         }
 
         /* Verify that getting the option id by name works. */
-        result = tidyOptGetIdForName( "fix-backslash") == TidyFixBackslash
-        XCTAssert( result, "tidyOptGetIdForName() didn't return a proper result." )
+        JSDAssertEqual( TidyFixBackslash, tidyOptGetIdForName( "fix-backslash") ?? TidyUnknownOption )
 
         /*
          Let's get an instance of an option, and try to get its name,
@@ -536,20 +521,16 @@ class SwLibTidyTests: XCTestCase {
         if let opt = tidyGetOption( tdoc, TidyIndentSpaces ) {
 
             /* Verify we have the right option by checking its name. */
-            result = tidyOptGetName( opt ) == "indent-spaces"
-            XCTAssert( result, "tidyOptGetName() returned an unexpected result." )
+            JSDAssertEqual( "indent-spaces", tidyOptGetName( opt ) )
 
             /* This option uses an integer value. */
-            result = tidyOptGetType( opt ) == TidyInteger
-            XCTAssert( result, "tidyOptGetType() returned an unexpected result." )
+            JSDAssertEqual( TidyInteger, tidyOptGetType( opt ) )
 
             /* This option is from the pretty printing category. */
-            result = tidyOptGetCategory( opt ) == TidyPrettyPrint
-            XCTAssert( result, "tidyOptGetCategory() returned an unexpected result." )
+            JSDAssertEqual( TidyPrettyPrint, tidyOptGetCategory( opt ) )
 
             /* This option does not take a list. */
-            result = tidyOptionIsList( opt )
-            XCTAssertFalse( result, "tidyOptionIsList() returned an unexpected result." )
+            JSDAssertEqual( false, tidyOptionIsList( opt ) )
 
         } else {
             XCTFail( "tidyGetOption() failed." )
