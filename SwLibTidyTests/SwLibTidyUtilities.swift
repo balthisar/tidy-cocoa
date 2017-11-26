@@ -11,6 +11,9 @@ import XCTest
 import SwLibTidy
 
 
+// MARK: - Shuffling Arrays
+
+
 /**
  Shuffles the contents of this collection.
  Contributed by Nate Cook from Stack Overflow.
@@ -42,6 +45,9 @@ extension Sequence {
         return result
     }
 }
+
+
+// MARK: - Random Option Values
 
 
 /*
@@ -209,20 +215,78 @@ public func random_mute( _ x: Int ) -> [String] {
 }
 
 
+// MARK: - Printing Helpers
+
+
 /**
  Prints what's given with a horizontal rule and optional heading.
  */
 public func printhr( _ value: String?, _ header: String? = nil ) {
 
-    print( "---------------\(header ?? "")" )
+    let text = header ?? ""
+    let hr_size = 78
+    let lt_size = (hr_size - text.count) / 2 - 1
+    let rt_size = lt_size + ( text.count % 2 )
+    let hr_left = String( repeating: "-", count: lt_size )
+    let hr_right = String( repeating: "-", count: rt_size )
+
+    if text == "" {
+        print( "\(String( repeating: "-", count: hr_size ))" )
+    } else {
+        print( "\(hr_left) \(text) \(hr_right)" )
+    }
+
     print( value ?? "" )
-    print( "---------------" )
+
+    print( "\(String( repeating: "-", count: hr_size ))" )
 }
 
 
+// MARK: - Assertion Helpers
+
+
 /**
- An alternate implementation of the `TidyConfigReportProtocol`, which we will
- use for testing setTidyConfigRecords(forTidyDoc:toClass:).
+ A supplemental assert equal function that provides a (semi-) automatic message,
+ greatly cleaning up all of the strings in the test cases.
+ */
+public func JSDAssertEqual<T: Equatable>( _ expect: T, _ result: T, _ message: String = "", file: StaticString = #file, line: UInt = #line) {
+    let mssg: String
+    if message == "" {
+        mssg = "Expected \(expect) but got \(result)."
+    } else {
+        mssg = String( format: message, String(describing: expect), String(describing: result) )
+    }
+    XCTAssert( expect == result, mssg, file: file, line: line )
+}
+
+/**
+ A supplemental assert to determine if an (optional) string has a given
+ prefix, and provides a (semi-) automatic message, greatly cleaning up all of
+ the strings in the test cases.
+ */
+public func JSDAssertHasPrefix( _ expect: String?, _ result: String?, _ message: String = "", file: StaticString = #file, line: UInt = #line) {
+
+    let mssg: String
+    if message == "" {
+        mssg = "Expected the string to start with \(expect ?? "nil"), but got \(result ?? "nil")."
+    } else {
+        mssg = String( format: message, String(describing: expect), String(describing: result) )
+    }
+
+    if let expect = expect {
+        XCTAssert( result?.hasPrefix(expect) ?? false, mssg, file: file, line: line )
+    } else {
+        XCTFail( mssg, file: file, line: line )
+    }
+}
+
+
+// MARK: - Testing Classes
+
+
+/**
+ This alternate to TidyConfigReport will be used in a test case just to
+ demonstrate that user-supplied classes can be used instead of the default.
  */
 @objc public class AlternateTidyConfigReport: NSObject, TidyConfigReportProtocol {
 
@@ -238,9 +302,7 @@ public func printhr( _ value: String?, _ header: String? = nil ) {
 }
 
 /**
- A sample class to handle TidyDelegateProtocol methods during testing. We will
- signal to Tidy via false that we are NOT handling the option, so that Tidy
- will report the unknown option.
+ A sample class to handle TidyDelegateProtocol methods during testing.
  */
 @objc public class SampleTidyDelegate: NSObject, TidyDelegateProtocol {
 

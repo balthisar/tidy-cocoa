@@ -134,14 +134,12 @@ class SwLibTidyTests: XCTestCase {
     func test_tidyReleaseInformation() {
 
         let expectedDate = "2017."
-        let expectedVers = "5.5"
+        let expectedVers = "5.7"
         let expectedPlat = "Apple"
 
-        XCTAssert( tidyReleaseDate().hasPrefix(expectedDate), "The release date does not begin with '\(expectedDate)'." )
-
-        XCTAssert( tidyLibraryVersion().hasPrefix(expectedVers), "The library version does not begin with '\(expectedVers)'." )
-
-        XCTAssert( (tidyPlatform().hasPrefix(expectedPlat)), "The platform does not begin with '\(expectedPlat)'." )
+        JSDAssertHasPrefix( expectedDate, tidyReleaseDate() )
+        JSDAssertHasPrefix( expectedVers, tidyLibraryVersion() )
+        JSDAssertHasPrefix( expectedPlat, tidyPlatform() )
     }
     
     
@@ -1981,60 +1979,68 @@ class SwLibTidyTests: XCTestCase {
                 return
         }
 
-        XCTAssert( tidyNodeGetType( bodynode ) == TidyNode_Start, "Expected TidyNode_Start" )
-        XCTAssert( tidyNodeGetType( divnode ) == TidyNode_Start, "Expected TidyNode_Start" )
-        XCTAssert( tidyNodeGetType( h1node ) == TidyNode_Start, "Expected TidyNode_Start" )
-        XCTAssert( tidyNodeGetType( h1text ) == TidyNode_Text, "Expected TidyNode_Text" )
+        JSDAssertEqual( TidyNode_Start, tidyNodeGetType( bodynode ) )
+        JSDAssertEqual( TidyNode_Start, tidyNodeGetType( divnode ) )
+        JSDAssertEqual( TidyNode_Start, tidyNodeGetType( h1node ) )
+        JSDAssertEqual( TidyNode_Text,  tidyNodeGetType( h1text ) )
 
-        XCTAssert( tidyNodeGetName( bodynode ) == "body", "Expected 'body'." )
-        XCTAssert( tidyNodeGetName( divnode ) == "div", "Expected 'div'." )
-        XCTAssert( tidyNodeGetName( h1node ) == "h1", "Expected 'h1'." )
-        XCTAssert( tidyNodeGetName( h1text ) == "", "Expected empty string." )
+        JSDAssertEqual( TidyNode_Start, tidyNodeGetType( bodynode ) )
+        JSDAssertEqual( TidyNode_Start, tidyNodeGetType( divnode ) )
+        JSDAssertEqual( TidyNode_Start, tidyNodeGetType( h1node ) )
+        JSDAssertEqual( TidyNode_Text,  tidyNodeGetType( h1text ) )
 
-        XCTAssert( tidyNodeIsText( bodynode ) == false, "Expected false." )
-        XCTAssert( tidyNodeIsText( divnode ) == false, "Expected false." )
-        XCTAssert( tidyNodeIsText( h1node ) == false, "Expected false." )
-        XCTAssert( tidyNodeIsText( h1text ) == true, "Expected true." )
+        JSDAssertEqual( "body", tidyNodeGetName( bodynode ) )
+        JSDAssertEqual( "div",  tidyNodeGetName( divnode ) )
+        JSDAssertEqual( "h1",   tidyNodeGetName( h1node ) )
+        JSDAssertEqual( "",     tidyNodeGetName( h1text ) )
 
-        XCTAssert( tidyNodeIsProp( tdoc, bodynode ) == false, "Expected false." )
-        XCTAssert( tidyNodeIsProp( tdoc, divnode ) == false, "Expected false." )
-        XCTAssert( tidyNodeIsProp( tdoc, h1node ) == false, "Expected false." )
-        XCTAssert( tidyNodeIsProp( tdoc, h1text ) == false, "Expected false." )
+        JSDAssertEqual( false, tidyNodeIsText( bodynode ) )
+        JSDAssertEqual( false, tidyNodeIsText( divnode ) )
+        JSDAssertEqual( false, tidyNodeIsText( h1node ) )
+        JSDAssertEqual( true,  tidyNodeIsText( h1text ) )
 
-        XCTAssert( tidyNodeHasText( tdoc, bodynode ) == false, "Expected false." )
-        XCTAssert( tidyNodeHasText( tdoc, divnode ) == false, "Expected false." )
-        XCTAssert( tidyNodeHasText( tdoc, h1node ) == false, "Expected false." )
-        XCTAssert( tidyNodeHasText( tdoc, h1text ) == true, "Expected true." )
+        JSDAssertEqual( false, tidyNodeIsProp( tdoc, bodynode ) )
+        JSDAssertEqual( false, tidyNodeIsProp( tdoc, divnode ) )
+        JSDAssertEqual( false, tidyNodeIsProp( tdoc, h1node ) )
+        JSDAssertEqual( false, tidyNodeIsProp( tdoc, h1text ) )
 
-        /* Note that although a node isn't a text node, it still has text,
-           which includes its start and end tags, and is pretty printed. */
-        var buffer = SwTidyBuffer()
-        var expect = "<body>"
+        JSDAssertEqual( false, tidyNodeHasText( tdoc, bodynode ) )
+        JSDAssertEqual( false, tidyNodeHasText( tdoc, divnode ) )
+        JSDAssertEqual( false, tidyNodeHasText( tdoc, h1node ) )
+        JSDAssertEqual( true,  tidyNodeHasText( tdoc, h1text ) )
+
+
+        var buffer: SwTidyBuffer
+        var expect: String
+        var result: String
+
+        buffer = SwTidyBuffer()
+        expect = "<body>"
         XCTAssert( tidyNodeGetText( tdoc, bodynode, buffer ), "Unable to get bodynode text." )
         printhr( buffer.StringValue(), "tidyNodeGetText() bodynode" )
-        XCTAssert( (buffer.StringValue()?.hasPrefix(expect)) ?? false, "Expected to see '\(expect)'." )
+        JSDAssertHasPrefix( expect, buffer.StringValue() )
 
         buffer = SwTidyBuffer()
         expect = "<h1>\n  Hello, world!\n</h1>"
         XCTAssert( tidyNodeGetText( tdoc, h1node, buffer ), "Unable to get h1node text." )
         printhr( buffer.StringValue(), "tidyNodeGetText() h1node" )
-        XCTAssert( (buffer.StringValue()?.hasPrefix(expect)) ?? false, "Expected to see '\(expect)'." )
+        JSDAssertHasPrefix( expect, buffer.StringValue() )
 
         /* We'll use the convenience version of tidyNodeGetText() this time. */
         expect = "Hello, world!"
-        let result = tidyNodeGetText( tdoc, h1text )
-        printhr( result, "tidyNodeGetText()  h1text" )
-        XCTAssert( result.hasPrefix(expect), "Expected to see '\(expect)'." )
+        result = tidyNodeGetText( tdoc, h1text )
+        printhr( result, "tidyNodeGetText() h1text" )
+        JSDAssertHasPrefix( expect, result )
 
 
         buffer = SwTidyBuffer()
         XCTAssert( tidyNodeGetValue( tdoc, bodynode, buffer ) == false, "This node shouldn't have a value." )
 
         buffer = SwTidyBuffer()
-        expect = ""
+        expect = "Hello, world!"
         XCTAssert( tidyNodeGetValue( tdoc, h1text, buffer ), "This node should have a value." )
         printhr( buffer.StringValue(), "tidyNodeGetValue() h1text" )
-        XCTAssert( buffer.StringValue()?.hasPrefix( expect) ?? false, "Expected to see '\(expect)'." )
+        JSDAssertHasPrefix( expect, buffer.StringValue() )
 
         /* Use the convenience version of tidyNodeGetValue(). */
         if let _ = tidyNodeGetValue( tdoc, divnode ) {
@@ -2046,25 +2052,27 @@ class SwLibTidyTests: XCTestCase {
         }
 
         if let result = tidyNodeGetValue( tdoc, h1text ) {
+            expect = "Hello, world!"
             print( result, "tidyNodeGetValue() h1text" )
+            JSDAssertHasPrefix( expect, result )
         } else {
             XCTFail( "We should have gotten text here." )
         }
 
-        XCTAssert( tidyNodeGetId( bodynode ) == TidyTag_BODY, "Expected TidyTag_BODY." )
-        XCTAssert( tidyNodeGetId( divnode ) == TidyTag_DIV, "Expected TidyTag_DIV." )
-        XCTAssert( tidyNodeGetId( h1node ) == TidyTag_H1, "Expected TidyTag_H1." )
-        XCTAssert( tidyNodeGetId( h1text ) == TidyTag_UNKNOWN, "Expected TidyTag_UNKNOWN." )
+        XCTAssert( tidyNodeGetId( bodynode ) == TidyTag_BODY,    "Expected TidyTag_BODY." )
+        XCTAssert( tidyNodeGetId( divnode ) ==  TidyTag_DIV,     "Expected TidyTag_DIV." )
+        XCTAssert( tidyNodeGetId( h1node ) ==   TidyTag_H1,      "Expected TidyTag_H1." )
+        XCTAssert( tidyNodeGetId( h1text ) ==   TidyTag_UNKNOWN, "Expected TidyTag_UNKNOWN." )
 
-        XCTAssert( tidyNodeLine( bodynode ) == 1, "Value was \(tidyNodeLine( bodynode ))." )
-        XCTAssert( tidyNodeLine( divnode ) == 1, "Value was \(tidyNodeLine( divnode ))." )
-        XCTAssert( tidyNodeLine( h1node ) == 2, "Value was \(tidyNodeLine( h1node ))." )
-        XCTAssert( tidyNodeLine( h1text ) == 2, "Value was \(tidyNodeLine( h1text ))." )
+        JSDAssertEqual( 1, tidyNodeLine( bodynode ) )
+        JSDAssertEqual( 1, tidyNodeLine( divnode ) )
+        JSDAssertEqual( 2, tidyNodeLine( h1node ) )
+        JSDAssertEqual( 2, tidyNodeLine( h1text ) )
 
-        XCTAssert( tidyNodeColumn( bodynode ) == 1, "Value was \(tidyNodeColumn( bodynode ))." )
-        XCTAssert( tidyNodeColumn( divnode ) == 1, "Value was \(tidyNodeColumn( divnode ))." )
-        XCTAssert( tidyNodeColumn( h1node ) == 3, "Value was \(tidyNodeColumn( h1node ))." )
-        XCTAssert( tidyNodeColumn( h1text ) == 7, "Value was \(tidyNodeColumn( h1text ))." )
+        JSDAssertEqual( 1, tidyNodeColumn( bodynode ) )
+        JSDAssertEqual( 1, tidyNodeColumn( divnode ) )
+        JSDAssertEqual( 3, tidyNodeColumn( h1node ) )
+        JSDAssertEqual( 7, tidyNodeColumn( h1text ) )
     }
 
 
@@ -2108,35 +2116,35 @@ class SwLibTidyTests: XCTestCase {
      *************************************************************************/
     func test_tidyLocalizedString() {
 
-        var messg_expects: String
+        var expects: String
 
         /*
          The singular for the given message. Because the current locale is
          the default locale, we get same result as tidyDefaultString().
          */
-        messg_expects = tidyLocalizedString( STRING_ERROR_COUNT_ERROR )
-        XCTAssert( messg_expects == "error", "The string 'error' was not returned." )
+        expects = tidyLocalizedString( STRING_ERROR_COUNT_ERROR )
+        JSDAssertEqual( expects, "error" )
 
         /*
          The form of the message if there are five of whatever we're looking
          for. There are only a few plural strings used in Tidy.
          */
-        messg_expects = tidyLocalizedStringN( STRING_ERROR_COUNT_ERROR, 5 )
-        XCTAssert( messg_expects == "errors", "The string 'errors' was not returned." )
+        expects = tidyLocalizedStringN( STRING_ERROR_COUNT_ERROR, 5 )
+        JSDAssertEqual( expects, "errors" )
 
         /* Let's set the language and lookup a French string. */
         let _ = tidySetLanguage("fr")
 
-        messg_expects = tidyLocalizedString( STRING_SPECIFIED )
-        XCTAssert( messg_expects == "précisé", "The string 'précisé' was not returned." )
+        expects = tidyLocalizedString( STRING_SPECIFIED )
+        JSDAssertEqual( expects, "précisé" )
 
         /*
          Oops! We want a TidyReportLevel as a string! This works for any of
          the other types that have strings defined, too. And if we're in
          French, we should get the English string anyway.
          */
-        messg_expects = tidyDefaultString( tidyStrings.init( TidyInfo.rawValue) )
-        XCTAssert( messg_expects == "Info: ", "The string 'Info: ' was not returned." )
+        expects = tidyDefaultString( tidyStrings.init( TidyInfo.rawValue) )
+        JSDAssertEqual( expects, "Info: " )
 
         /* XCTest runs these asynchronously, so better reset to English. */
         let _ = tidySetLanguage("en")
