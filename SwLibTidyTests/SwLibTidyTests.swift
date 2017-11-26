@@ -676,8 +676,6 @@ class SwLibTidyTests: XCTestCase {
         }
 
 
-        var result: Bool
-
         /* Ensure that we can reset an option to default. */
         let _ = tidyOptResetToDefault( tdoc, TidyBlockTags )
         JSDAssertEqual( "", tidyOptGetValue( tdoc, TidyBlockTags ) )
