@@ -683,22 +683,17 @@ class SwLibTidyTests: XCTestCase {
 
         result = tidyOptGetValue( tdoc, TidyBlockTags ) == ""
         XCTAssert( result, "The value for TidyBlockTags should have been nil." )
+        JSDAssertEqual( "", tidyOptGetValue( tdoc, TidyBlockTags ) )
 
         /* Ensure that we can reset all options to default. */
         let _ = tidyOptResetAllToDefault( tdoc )
 
-        result = tidyOptGetBool( tdoc, TidyFixBackslash ) == true
-        XCTAssert( result, "The value for TidyFixBackslash should have been true." )
-
-        result = tidyOptGetInt( tdoc, TidySortAttributes ) == TidySortAttrNone.rawValue
-        XCTAssert( result, "The value for TidySortAttributes should have been TidySortAttrNone." )
-
-        result = tidyOptGetBool( tdoc, TidyShowInfo ) == true
-        XCTAssert( result, "The value for TidyShowInfo should have been true." )
+        JSDAssertEqual( true, tidyOptGetBool( tdoc, TidyFixBackslash ) )
+        JSDAssertEqual( UInt(TidySortAttrNone.rawValue), tidyOptGetInt( tdoc, TidySortAttributes ) )
+        JSDAssertEqual( true, tidyOptGetBool( tdoc, TidyShowInfo ) )
 
         /* Let's get the encoding name for one of the options. */
-        result = tidyOptGetEncName( tdoc, TidyInCharEncoding ) == "utf8"
-        XCTAssert( result, "The encoding name for TidyInCharEncoding should have been 'utf8'." )
+        JSDAssertEqual( "utf8", tidyOptGetEncName( tdoc, TidyInCharEncoding ) )
     }
 
 
