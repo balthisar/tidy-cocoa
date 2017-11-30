@@ -261,6 +261,26 @@ public func JSDAssertEqual<T: Equatable>( _ expect: T, _ result: T, _ message: S
 
 
 /**
+ A supplemental assert equal function that provides a (semi-) automatic message,
+ greatly cleaning up all of the strings in the test cases.
+ */
+public func JSDAssertTrue( _ result: Bool, _ message: String = "", file: StaticString = #file, line: UInt = #line) {
+
+    return JSDAssertEqual( true, result )
+}
+
+
+/**
+ A supplemental assert equal function that provides a (semi-) automatic message,
+ greatly cleaning up all of the strings in the test cases.
+ */
+public func JSDAssertFalse( _ result: Bool, _ message: String = "", file: StaticString = #file, line: UInt = #line) {
+
+    return JSDAssertEqual( false, result )
+}
+
+
+/**
  A supplemental assert to determine if an (optional) string has a given
  prefix, and provides a (semi-) automatic message, greatly cleaning up all of
  the strings in the test cases.

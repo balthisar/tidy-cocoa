@@ -712,13 +712,11 @@ class SwLibTidyTests: XCTestCase {
         else { XCTFail( TidyCreateFailed ); return }
         defer { tidyRelease( tdoc ) }
 
-        var result: Bool
+        /* Ensure that the options are all default. */
+        JSDAssertFalse( tidyOptDiffThanDefault( tdoc ) )
 
-        result = tidyOptDiffThanDefault( tdoc )
-        XCTAssertFalse( result, "The option values should all be default, but aren't." )
-
-        result = tidyOptSnapshot( tdoc )
-        XCTAssertTrue( result, "The snapshot should have been taken." )
+        /* Ensure that a snapshot is taken. */
+        JSDAssertTrue( tidyOptSnapshot( tdoc ) )
 
         if let file = testConfig {
             let _ = tidyLoadConfig( tdoc, file )
@@ -726,20 +724,22 @@ class SwLibTidyTests: XCTestCase {
             XCTFail( "Couldn't load the configuration file." )
         }
 
-        result = tidyOptDiffThanDefault( tdoc )
-        XCTAssertTrue( result, "The option values should be different than default, but aren't.")
+        /* After loading the config file, options should be different now. */
+        JSDAssertTrue( tidyOptDiffThanDefault( tdoc ) )
 
         let _ = tidyOptSnapshot( tdoc )
         XCTAssert( tidySample( doc: tdoc, useConfig: true ), "tidySample() failed for some reason." )
-        result = tidyOptDiffThanSnapshot( tdoc )
-        XCTAssertFalse( result, "The option values should be the same as the snapshot, but aren't.")
+
+        /* After Tidy has run, the options should be identical to the snapshot.  */
+        JSDAssertFalse( tidyOptDiffThanSnapshot( tdoc ) )
 
         let _ = tidyOptResetAllToDefault( tdoc )
-        result = tidyOptDiffThanDefault( tdoc )
-        XCTAssertFalse( result, "The option values should be same as default, but are different.")
 
-        result = tidyOptDiffThanSnapshot( tdoc )
-        XCTAssertTrue( result, "The option values should be different from snapshot, but are the same.")
+        /* After resetting to default, they indeed should not be different. */
+        JSDAssertFalse( tidyOptDiffThanDefault( tdoc ) )
+
+        /* But they should be different than the snapshot we took. */
+        JSDAssertTrue( tidyOptDiffThanSnapshot( tdoc ) )
     }
 
 
@@ -790,12 +790,6 @@ class SwLibTidyTests: XCTestCase {
             let optType = tidyOptGetType( opt );
             var valueIn = ""
             var valueOut = ""
-
-            /* Skip the stupid TidyInternalCategory options. */
-            if tidyOptGetCategory( opt ) == TidyInternalCategory {
-                results.append("")
-                continue
-            }
 
             /* Make up a value for it and set it. */
             switch optType {
@@ -881,11 +875,6 @@ class SwLibTidyTests: XCTestCase {
             let valueIn = results[index]
             let valueOut: String
 
-            /* Skip the stupid TidyInternalCategory options. */
-            if tidyOptGetCategory( opt ) == TidyInternalCategory {
-                continue
-            }
-
             /* Read it. */
             switch optType {
 
@@ -929,11 +918,6 @@ class SwLibTidyTests: XCTestCase {
             let optType = tidyOptGetType( opt );
             let valueIn = results[index]
             let valueOut: String
-
-            /* Skip the stupid TidyInternalCategory options. */
-            if tidyOptGetCategory( opt ) == TidyInternalCategory {
-                continue
-            }
 
             /* Read it. */
             switch optType {
@@ -979,8 +963,7 @@ class SwLibTidyTests: XCTestCase {
         for optId in stringOptions {
 
             /* Ensure we can set null strings. */
-            let result = tidyOptSetValue( tdoc , optId, "")
-            XCTAssert( result, "Option \(optId) did not accept a null string!")
+            XCTAssert( tidyOptSetValue( tdoc , optId, ""), "Option \(optId) did not accept a null string!")
         }
     }
 
@@ -1003,9 +986,11 @@ class SwLibTidyTests: XCTestCase {
         else { XCTFail( TidyCreateFailed ); return }
         defer { tidyRelease( tdoc ) }
 
-        XCTAssert( tidyOptGetMutedMessageList( tdoc ).count == 0, "Expected the array to be empty." )
-        XCTAssert( tidyOptGetPriorityAttrList( tdoc ).count == 0, "Expected the array to be empty." )
-        XCTAssert( tidyOptGetDeclTagList( tdoc, forOptionId: TidyBlockTags ).count == 0, "Expected the array to be empty." )
+        var arrayMessage = "Expected the array to have %1$@ elements, but it had %2$@."
+
+        JSDAssertEqual( 0, tidyOptGetMutedMessageList( tdoc ).count, arrayMessage )
+        JSDAssertEqual( 0, tidyOptGetPriorityAttrList( tdoc ).count, arrayMessage )
+        JSDAssertEqual( 0, tidyOptGetDeclTagList( tdoc, forOptionId: TidyBlockTags ).count, arrayMessage )
 
         let muteArray = random_mute( 5 )
         let muteVal = muteArray.joined(separator: ", ")
@@ -1015,14 +1000,15 @@ class SwLibTidyTests: XCTestCase {
         _ = tidyOptSetValue( tdoc, TidyMuteReports, muteVal )
         _ = tidyOptSetValue( tdoc, TidyPriorityAttributes, attrVal )
 
-        XCTAssert( tidyOptGetMutedMessageList( tdoc )[2] == muteArray[2], "The array did not return the value expected." )
-        XCTAssert( tidyOptGetPriorityAttrList( tdoc )[2] == attrArray[2], "The array did not return the value expected." )
+        arrayMessage = "Expected %1$@, but the array gave %2$@."
+        JSDAssertEqual( muteArray[2], tidyOptGetMutedMessageList( tdoc )[2], arrayMessage )
+        JSDAssertEqual( attrArray[2], tidyOptGetPriorityAttrList( tdoc )[2], arrayMessage )
 
         if let tagsArray = random_words( 7 ) {
             let tagsVal = tagsArray.joined(separator: ", ")
             _ = tidyOptSetValue( tdoc, TidyBlockTags, tagsVal )
             let listArray = tidyOptGetDeclTagList( tdoc, forOptionId: TidyBlockTags )
-            XCTAssert( listArray[2] == tagsArray[2], "The array did not return the value expected." )
+            JSDAssertEqual( tagsArray[2], listArray[2], arrayMessage )
         }
     }
 
@@ -1047,8 +1033,7 @@ class SwLibTidyTests: XCTestCase {
         if let opt = tidyGetOption( tdoc, TidyDoctype ) {
 
             /* Veryify we have the right option by checking its name. */
-            var result = tidyOptGetName( opt ) == "doctype"
-            XCTAssert( result, "tidyOptGetName() returned an unexpected result." )
+            JSDAssertEqual( "doctype", tidyOptGetName( opt ) )
 
             /* Set an FPI */
             let fpi = "-//HELLO/WORLD"
@@ -1056,21 +1041,18 @@ class SwLibTidyTests: XCTestCase {
 
             /* Ensure we can set it with an unquoted string, such as from
                a console. */
-            result = tidyOptSetValue( tdoc, TidyDoctype, fpi )
-            XCTAssert( result, "tidyOptSetValue() returned an unexpected result." )
+            JSDAssertTrue( tidyOptSetValue( tdoc, TidyDoctype, fpi ) )
 
-            var new_fpi = tidyOptGetValue( tdoc, TidyDoctype )
-            result = new_fpi == fpi
-            XCTAssert( result, "tidyOptGetValue() returned an unexpected result." )
+            /* Ensure that we get the same FPI back. */
+            JSDAssertEqual( fpi, tidyOptGetValue( tdoc, TidyDoctype ) )
 
             /* Ensure we can set it with a quoted string, since the API used to
                demand this. */
-            result = tidyOptSetValue( tdoc, TidyDoctype, qfpi )
-            XCTAssert( result, "tidyOptSetValue() returned an unexpected result." )
+            JSDAssertTrue( tidyOptSetValue( tdoc, TidyDoctype, qfpi ) )
 
-            new_fpi = tidyOptGetValue( tdoc, TidyDoctype )
-            result = new_fpi == fpi
-            XCTAssert( result, "tidyOptGetValue() returned an unexpected result." )
+            /* Even though we set with the quoted FPI, we should have the
+               unquoted value as the value. */
+            JSDAssertEqual( fpi, tidyOptGetValue( tdoc, TidyDoctype ) )
 
         } else {
             XCTFail( "tidyGetOption() failed." )
@@ -1101,17 +1083,17 @@ class SwLibTidyTests: XCTestCase {
 
             let dox = tidyOptGetDoc( tdoc, topt )
             let prefix = "This option specifies new tags that are to be processed in exactly the"
-            XCTAssert( dox.hasPrefix( prefix ), "The expected documentation was not received." )
+            JSDAssertHasPrefix( prefix, dox )
 
             let xref: [TidyOption] = tidyOptGetDocLinksList( tdoc, topt )
 
             /* There are five items in the list. If you're looking at the
                CLibTidy source code, TidyUnknownOption is a list end marker,
                and not part of the cross reference. */
-            XCTAssert( xref.count == 4, "Expected to see 4 items, but saw \(xref.count)." )
+            JSDAssertEqual( 4, xref.count )
 
             /* And the third one should be TidyInlineTags. */
-            XCTAssert( tidyOptGetId(xref[2]) == TidyInlineTags, "Expected TidyInlineTags, but got something else." )
+            JSDAssertEqual( TidyInlineTags, tidyOptGetId(xref[2]) ?? TidyUnknownOption )
         }
     }
 
@@ -1137,22 +1119,21 @@ class SwLibTidyTests: XCTestCase {
         /* Setup error buffers. */
         let errorBuffer = SwTidyBuffer()
         let err = tidySetErrorBuffer( tdoc, errbuf: errorBuffer )
-        XCTAssert( err == 0, "tidySetErrorBuffer() returned \(err) instead of 0.")
+        JSDAssertEqual( 0, err )
 
-        /* Tidy the sample file with gnu-emacs set to true, and a path
-           specified. */
+        /* Tidy the sample with gnu-emacs set to true, and a path specified. */
         let _ = tidyOptSetBool( tdoc, TidyEmacs, true )
         tidySetEmacsFile( tdoc, emacs_file )
         let _ = tidySample( doc: tdoc, useConfig: false )
 
         /* Let's make sure tidyGetEmacsFile() still gives us the same. */
-        XCTAssert( tidyGetEmacsFile( tdoc) == emacs_file, "tidyGetEmacsFile() returned incorrect value." )
+        JSDAssertEqual( emacs_file, tidyGetEmacsFile( tdoc ) )
 
         /* Finally, let's see if the error table is prefixed with the correct
            emacs file information. */
         if let output = errorBuffer.StringValue() {
             let prefix_expected = "\(emacs_file):1:1:"
-            XCTAssert( output.hasPrefix(prefix_expected), "Expected the prefix to be \(prefix_expected)." )
+            JSDAssertHasPrefix( prefix_expected, output )
         } else {
             XCTFail( "The error buffer had no contents!" )
         }
@@ -1276,7 +1257,7 @@ class SwLibTidyTests: XCTestCase {
             let expects = "line 1 column 1 - Warning: missing <!DOCTYPE> declaration"
             let result = try String(contentsOf: errorURL, encoding: .utf8)
             print( result )
-            XCTAssert( result.hasPrefix( expects ), "The file did not have the content expected." )
+            JSDAssertHasPrefix( expects, result )
         }
         catch {
             XCTFail( "Could not read '\(errorFile)'." )
@@ -1354,22 +1335,22 @@ class SwLibTidyTests: XCTestCase {
             let outDef = tidyGetMessageOutputDefault( tmessage )
             let outLoc = tidyGetMessageOutput( tmessage )
 
-            XCTAssert( doc == tdoc, "The message gave us the wrong TidyDocument." )
-            XCTAssert( code == DISCARDING_UNEXPECTED.rawValue, "Received the wrong message code." )
-            XCTAssert( key == "DISCARDING_UNEXPECTED", "Received the wrong message code." )
-            XCTAssert( line == 1, "Was expecting a different line number." )
-            XCTAssert( col ==  18, "Was expecting a different column number." )
-            XCTAssert( level == TidyWarning, "Was expecting a different message level." )
-            XCTAssert( formatDef == "discarding unexpected %s", "Was expecting a different format string." )
-            XCTAssert( formatLoc == "discarding unexpected %s", "Was expecting a different format string." )
-            XCTAssert( mssgDef == "discarding unexpected </h2>", "Was expecting a different message." )
-            XCTAssert( mssgLoc == "discarding unexpected </h2>", "Was expecting a different message." )
-            XCTAssert( posDef == "line 1 column 18 - ", "Was expecting a different message position." )
-            XCTAssert( posLoc == "line 1 column 18 - ", "Was expecting a different message position." )
-            XCTAssert( prefixDef == "Warning: ", "Was expecting a different message prefix." )
-            XCTAssert( prefixLoc == "Warning: ", "Was expecting a different message prefix." )
-            XCTAssert( outDef == expect_complete, "Was expecting a different message." )
-            XCTAssert( outLoc == expect_complete, "Was expecting a different message." )
+            JSDAssertEqual( tdoc, doc )
+            JSDAssertEqual( DISCARDING_UNEXPECTED.rawValue, UInt32(code) )
+            JSDAssertEqual( "DISCARDING_UNEXPECTED", key )
+            JSDAssertEqual( 1, line )
+            JSDAssertEqual( 18, col )
+            JSDAssertEqual( TidyWarning, level )
+            JSDAssertEqual( "discarding unexpected %s", formatDef )
+            JSDAssertEqual( "discarding unexpected %s", formatLoc  )
+            JSDAssertEqual( "discarding unexpected </h2>",mssgDef )
+            JSDAssertEqual( "discarding unexpected </h2>", mssgLoc )
+            JSDAssertEqual( "line 1 column 18 - ", posDef )
+            JSDAssertEqual( "line 1 column 18 - ", posLoc )
+            JSDAssertEqual( "Warning: ", prefixDef )
+            JSDAssertEqual( "Warning: ", prefixLoc )
+            JSDAssertEqual( expect_complete, outDef )
+            JSDAssertEqual( expect_complete, outLoc )
 
             /* Messages are composed of C format strings, which are compatible
                with Swift and reflected in the tidyGetMessageFormat() and
@@ -1380,15 +1361,15 @@ class SwLibTidyTests: XCTestCase {
             let argType = tidyGetArgType( tmessage, arguments[0] )
             let argFormat = tidyGetArgFormat( tmessage, arguments[0] )
 
-            XCTAssert( arguments.count == 1, "There should be only one argument, but there were \(arguments.count)." )
-            XCTAssert( argType == tidyFormatType_STRING, "Expected the argument type to be tidyFormatType_STRING." )
-            XCTAssert( argFormat == "%s", "Expected the format to be '%s'.")
+            JSDAssertEqual( 1, arguments.count )
+            JSDAssertEqual( tidyFormatType_STRING, argType )
+            JSDAssertEqual( "%s", argFormat )
 
             switch argType {
 
             case tidyFormatType_STRING:
                 let value = tidyGetArgValueString( tmessage, arguments[0] )
-                XCTAssert( value == "</h2>", "The argument was expected was not \(value)." )
+                JSDAssertEqual( "</h2>", value )
 
             case tidyFormatType_UINT:
                 let _ = tidyGetArgValueUInt( tmessage, arguments[0] )
@@ -1442,15 +1423,9 @@ class SwLibTidyTests: XCTestCase {
         let records = tidyMessageRecords(forTidyDoc: tdoc )
         dump( records )
 
-        var expect: String
-
         XCTAssert( records.count > 0, "Expected to have some tidyMessageRecords." )
-
-        expect = "INSERTING_TAG"
-        XCTAssert( records[1].messageKey == expect, "Expected the second record to be \"\(expect)\", but it wasn't." )
-
-        expect = "body"
-        XCTAssert( records[1].messageArguments[0].valueString == expect, "Expected the first argument value \"\(expect)\", but it wasn't." )
+        JSDAssertEqual( "INSERTING_TAG", records[1].messageKey )
+        JSDAssertEqual( "body", records[1].messageArguments[0].valueString )
     }
 
 
@@ -1497,10 +1472,9 @@ class SwLibTidyTests: XCTestCase {
         dump( records )
 
         XCTAssert( records.count > 0, "Expected to have some tidyPPProgress records." )
-
-        XCTAssert( records[4].sourceLine == 5, "Expected sourceLine to be 2." )
-        XCTAssert( records[4].sourceColumn == 1, "Expected sourceColumn to be 1." )
-        XCTAssert( records[4].destLine == 4, "Expected destLine to be 4." )
+        JSDAssertEqual( 5, records[4].sourceLine)
+        JSDAssertEqual( 1, records[4].sourceColumn)
+        JSDAssertEqual( 4, records[4].destLine)
     }
 
 
@@ -1521,11 +1495,12 @@ class SwLibTidyTests: XCTestCase {
         let sampleDelegate = SampleTidyDelegate()
 
         /* Set the delegate, and setup the expections. */
+        let description = "This delegate function should execute at least once."
         tidySetDelegate( anObject: sampleDelegate, forTidyDoc: tdoc )
-        sampleDelegate.asyncTidyReportsUnknownOption = XCTestExpectation( description: "The delegate should execute at least once." )
-        sampleDelegate.asyncTidyReportsOptionChanged = XCTestExpectation( description: "The delegate should execute at least once." )
-        sampleDelegate.asyncTidyReportsMessage = XCTestExpectation( description: "The delegate should execute at least once." )
-        sampleDelegate.asyncTidyReportsPrettyPrinting =  XCTestExpectation( description: "The delegate should execute at least once." )
+        sampleDelegate.asyncTidyReportsUnknownOption = XCTestExpectation( description: description )
+        sampleDelegate.asyncTidyReportsOptionChanged = XCTestExpectation( description: description )
+        sampleDelegate.asyncTidyReportsMessage = XCTestExpectation( description: description )
+        sampleDelegate.asyncTidyReportsPrettyPrinting =  XCTestExpectation( description: description )
 
         /* Tidy and Pretty Print a Document */
         let outpBuffer = SwTidyBuffer()
@@ -1557,37 +1532,31 @@ class SwLibTidyTests: XCTestCase {
         else { XCTFail( TidyCreateFailed ); return }
         defer { tidyRelease( tdoc ) }
 
-        var errBuffer = SwTidyBuffer()
+        var errBuffer: SwTidyBuffer
+
+        errBuffer = SwTidyBuffer()
         let _ = tidySetErrorBuffer( tdoc, errbuf: errBuffer )
         let _ = tidySample( doc: tdoc, useConfig: false )
-        print( "-----errBuffer after Tidy" )
-        print( errBuffer.StringValue() ?? "Oops" )
-        var expect = "line 1 column 1 - Warning: missing"
-        XCTAssert( errBuffer.StringValue()?.hasPrefix( expect ) ?? false, "Expected the buffer to start with something else." )
+        printhr( errBuffer.StringValue() ?? "Oops", "errBuffer after tidySample()" )
+        JSDAssertHasPrefix( "line 1 column 1 - Warning: missing", errBuffer.StringValue() )
 
         errBuffer = SwTidyBuffer()
         let _ = tidySetErrorBuffer( tdoc, errbuf: errBuffer )
         let _ = tidyCleanAndRepair( tdoc )
-        print( "-----errBuffer after clean and repair" )
-        print( errBuffer.StringValue() ?? "Oops" )
-		expect = "line 1 column 1 - Warning: <div> proprietary attribute"
-        XCTAssert( errBuffer.StringValue()?.hasPrefix( expect) ?? false, "Expect nothing to be added to the buffer." )
+        printhr( errBuffer.StringValue() ?? "Oops", "errBuffer after tidyCleanAndRepair()" )
+        JSDAssertHasPrefix( "line 1 column 1 - Warning: <div> proprietary attribute", errBuffer.StringValue() )
 
         errBuffer = SwTidyBuffer()
         let _ = tidySetErrorBuffer( tdoc, errbuf: errBuffer )
         let _ = tidyReportDoctype( tdoc )
-        print( "-----errBuffer after report doc type" )
-        print( errBuffer.StringValue() ?? "Oops" )
-        expect = "Info: Document content looks like HTML5"
-        XCTAssert( errBuffer.StringValue()?.hasPrefix( expect ) ?? false, "Expected the buffer to start with something else." )
+        printhr( errBuffer.StringValue() ?? "Oops", "errBuffer after tidyReportDoctype()" )
+        JSDAssertHasPrefix( "Info: Document content looks like HTML5", errBuffer.StringValue() )
 
         errBuffer = SwTidyBuffer()
         let _ = tidySetErrorBuffer( tdoc, errbuf: errBuffer )
         let _ = tidyRunDiagnostics( tdoc )
-        print( "-----errBuffer after run diagnostics" )
-        print( errBuffer.StringValue() ?? "Oops" )
-        expect = "Tidy found 7 warnings and 0 errors!\n\n"
-        XCTAssert( errBuffer.StringValue()?.hasSuffix( expect ) ?? false, "Expected the buffer to end with something else." )
+        printhr( errBuffer.StringValue() ?? "Oops", "errBuffer after tidyRunDiagnostics()" )
+        JSDAssertHasSuffix( "Tidy found 7 warnings and 0 errors!\n\n", errBuffer.StringValue())
     }
 
 
