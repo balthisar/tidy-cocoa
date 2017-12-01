@@ -1582,12 +1582,12 @@ class SwLibTidyTests: XCTestCase {
         /*
          Save to a buffer, which a lot of tests already do, too.
          */
+
         let outbuff = SwTidyBuffer()
         let _ = tidySaveBuffer( tdoc, outbuff )
         if let result = outbuff.StringValue() {
-            print( "-----outbuff after tidying:" )
-            print( result )
-            XCTAssert( result.hasPrefix( "<html>\n" ), "The document does not look as expected." )
+            printhr( result, "outbuff after tidySaveBuffer()" )
+            JSDAssertHasPrefix( "<html>\n", result )
         } else {
             XCTFail( "The output buffer was empty!" )
         }
@@ -1610,9 +1610,8 @@ class SwLibTidyTests: XCTestCase {
         do {
             let expects = "<html>\n"
             let result = try String(contentsOf: outURL, encoding: .utf8)
-            print( "-----file as read in:" )
-            print( result )
-            XCTAssert( result.hasPrefix( expects ), "The file did not have the content expected." )
+            printhr( result, "file as read in" )
+            JSDAssertHasPrefix( expects, result )
         }
         catch {
             XCTFail( "Could not read '\(outfile)'." )
@@ -1636,9 +1635,8 @@ class SwLibTidyTests: XCTestCase {
         do {
             let expects = "<html>\n"
             let result = try String(contentsOf: outURL, encoding: .utf8)
-            print( "-----file as read in:" )
-            print( result )
-            XCTAssert( result.hasPrefix( expects ), "The file did not have the content expected." )
+            printhr( result, "file as read in" )
+            JSDAssertHasPrefix( expects, result )
         }
         catch {
             XCTFail( "Could not read '\(outfile)'." )
@@ -1677,9 +1675,8 @@ class SwLibTidyTests: XCTestCase {
         do {
             let expects = "new-blocklevel-tags: one, two, three, four"
             let result = try String(contentsOf: outURL, encoding: .utf8)
-            print( "-----file as read in:" )
-            print( result )
-            XCTAssert( result.hasPrefix( expects ), "The file did not have the content expected." )
+            printhr( result, "file as read in" )
+            JSDAssertHasPrefix( expects, result )
         }
         catch {
             XCTFail( "Could not read '\(outfile)'." )
@@ -1711,54 +1708,55 @@ class SwLibTidyTests: XCTestCase {
         defer { tidyRelease( tdoc ) }
 
         let _ = tidySample( doc: tdoc )
+        let failMessage = "We should have gotten a node."
 
         if let node = tidyGetRoot( tdoc ) {
-            XCTAssert( tidyNodeGetName( node ) == "", "Expected an empty string, got '\(tidyNodeGetName( node ))'." )
+            JSDAssertEqual( "", tidyNodeGetName( node ) )
         } else {
-            XCTFail( "We should have gotten a node." )
+            XCTFail( failMessage )
         }
 
         if let node = tidyGetHtml( tdoc ) {
-            XCTAssert( tidyNodeGetName( node ) == "html", "Expected 'html', got '\(tidyNodeGetName( node ))'." )
+            JSDAssertEqual( "html", tidyNodeGetName( node ) )
         } else {
-            XCTFail( "We should have gotten a node." )
+            XCTFail( failMessage )
         }
 
         if let node = tidyGetHead( tdoc ) {
-            XCTAssert( tidyNodeGetName( node ) == "head", "Expected 'head'', got '\(tidyNodeGetName( node ))'." )
+            JSDAssertEqual( "head", tidyNodeGetName( node ) )
         } else {
-            XCTFail( "We should have gotten a node." )
+            XCTFail( failMessage )
         }
 
         guard let bodynode = tidyGetBody( tdoc ) else {
-            XCTFail( "We should have gotten a node." )
+            XCTFail( failMessage )
             return
         }
-        XCTAssert( tidyNodeGetName( bodynode ) == "body", "Expected 'body', got '\(tidyNodeGetName( bodynode ))'." )
+        JSDAssertEqual( "body", tidyNodeGetName( bodynode ) )
 
         guard let divnode = tidyGetChild( bodynode ) else {
-            XCTFail( "We should have gotten a node." )
+            XCTFail( failMessage )
             return
         }
-        XCTAssert( tidyNodeGetName( divnode ) == "div", "Expected 'div', got '\(tidyNodeGetName( divnode ))'." )
+        JSDAssertEqual( "div", tidyNodeGetName( divnode ) )
 
         guard let pnode = tidyGetNext( divnode ) else {
-			XCTFail( "We should have gotten a node." )
+            XCTFail( failMessage )
 			return
 		}
-		XCTAssert( tidyNodeGetName( pnode ) == "p", "Expected 'p', got '\(tidyNodeGetName( divnode ))'." )
+        JSDAssertEqual( "p", tidyNodeGetName( pnode ) )
 
 		guard let divnode_again = tidyGetPrev( pnode ) else {
-			XCTFail( "We should gotten a node again." )
+            XCTFail( failMessage )
 			return
 		}
-		XCTAssert( tidyNodeGetName( divnode_again ) == "div", "Expected 'div', got '\(tidyNodeGetName( divnode_again ))'." )
+        JSDAssertEqual( "div", tidyNodeGetName( divnode_again ) )
 
 		guard let bodynode_again = tidyGetParent( divnode_again ) else {
-			XCTFail( "We should gotten a node again." )
+            XCTFail( failMessage )
 			return
 		}
-		XCTAssert( tidyNodeGetName( bodynode_again ) == "body", "Expected 'body', got '\(tidyNodeGetName( bodynode_again ))'." )
+        JSDAssertEqual( "body", tidyNodeGetName( bodynode_again ) )
 
 		let _ = tidyDiscardElement( tdoc, pnode )
 
@@ -1770,8 +1768,8 @@ class SwLibTidyTests: XCTestCase {
 
 		if let docString = docBuffer.StringValue() {
 			let result = docString.range( of: "This is a paragraph" )
-			print( docString )
-			XCTAssert( result == nil, "The substring is still in the document." )
+			printhr( docString, "docString with deleted pnode" )
+            JSDAssertTrue( nil == result, "The substring is still in the document." )
 		} else {
 			XCTFail( "The document string was empty for some reason." )
 		}
@@ -1814,26 +1812,26 @@ class SwLibTidyTests: XCTestCase {
 			attrs.append( attr! )
 			attr = tidyAttrNext( attr! )
 		}
-		XCTAssert( attrs.count == 4, "There should have been 4 attributes, but counted \(attrs.count).")
+        JSDAssertEqual( 4, attrs.count, "There should have been %@ attributes, but counted %@.")
 
 		attr = attrs[0]
         if let attr = attr {
-            XCTAssert( tidyAttrName( attr ) == "id", "Expected 'id'." )
-            XCTAssert( tidyAttrValue( attr ) == "", "Expected an empty string." )
-            XCTAssert( tidyAttrGetId( attr ) == TidyAttr_ID, "Expected 'TidyAttr_ID'." )
-            XCTAssert( tidyAttrIsEvent( attr ) == false, "Expect this to be false." )
+            JSDAssertEqual( "id", tidyAttrName( attr ) )
+            JSDAssertEqual( "", tidyAttrValue( attr ) )
+            JSDAssertEqual( TidyAttr_ID, tidyAttrGetId( attr ) )
+            JSDAssertFalse( tidyAttrIsEvent( attr ) )
         }
 
 		attr = attrs[2]
         if let attr = attr {
-            XCTAssert( tidyAttrName( attr ) == "onclick", "Expected 'onclick'." )
-            XCTAssert( tidyAttrValue( attr ) == "someFunction()", "Expected 'someFunction()'." )
-            XCTAssert( tidyAttrGetId( attr ) == TidyAttr_OnCLICK, "Expected TidyAttr_OnCLICK." )
-            XCTAssert( tidyAttrIsEvent( attr ) == true, "Expect this to be true." )
+            JSDAssertEqual( "onclick", tidyAttrName( attr ) )
+            JSDAssertEqual( "someFunction()", tidyAttrValue( attr ) )
+            JSDAssertEqual( TidyAttr_OnCLICK, tidyAttrGetId( attr ) )
+            JSDAssertTrue( tidyAttrIsEvent( attr ) )
         }
 
         if let attr = tidyAttrGetById( divnode, TidyAttr_CLASS ) {
-			XCTAssert( tidyAttrValue( attr ) == "high", "Expected 'high'." )
+            JSDAssertEqual( "high", tidyAttrValue( attr ) )
 		}
 
 		if let _ = tidyAttrGetById( divnode, TidyAttr_DATA ) {
@@ -1849,8 +1847,8 @@ class SwLibTidyTests: XCTestCase {
 
 		if let docString = docBuffer.StringValue() {
 			let result = docString.range( of: "idl" )
-			print( docString )
-			XCTAssert( result == nil, "The attibute is still in the document." )
+			printhr( docString, "docString after dropping idl attribute" )
+			JSDAssertTrue( result == nil )
 		} else {
 			XCTFail( "The document string was empty for some reason." )
 		}
@@ -1948,7 +1946,7 @@ class SwLibTidyTests: XCTestCase {
 
 
         buffer = SwTidyBuffer()
-        XCTAssert( tidyNodeGetValue( tdoc, bodynode, buffer ) == false, "This node shouldn't have a value." )
+        XCTAssertFalse( tidyNodeGetValue( tdoc, bodynode, buffer ), "This node shouldn't have a value." )
 
         buffer = SwTidyBuffer()
         expect = "Hello, world!"
@@ -1973,10 +1971,10 @@ class SwLibTidyTests: XCTestCase {
             XCTFail( "We should have gotten text here." )
         }
 
-        XCTAssert( tidyNodeGetId( bodynode ) == TidyTag_BODY,    "Expected TidyTag_BODY." )
-        XCTAssert( tidyNodeGetId( divnode ) ==  TidyTag_DIV,     "Expected TidyTag_DIV." )
-        XCTAssert( tidyNodeGetId( h1node ) ==   TidyTag_H1,      "Expected TidyTag_H1." )
-        XCTAssert( tidyNodeGetId( h1text ) ==   TidyTag_UNKNOWN, "Expected TidyTag_UNKNOWN." )
+        JSDAssertEqual( TidyTag_BODY, tidyNodeGetId( bodynode ) )
+        JSDAssertEqual( TidyTag_DIV, tidyNodeGetId( divnode ) )
+        JSDAssertEqual( TidyTag_H1, tidyNodeGetId( h1node ) )
+        JSDAssertEqual( TidyTag_UNKNOWN, tidyNodeGetId( h1text ) )
 
         JSDAssertEqual( 1, tidyNodeLine( bodynode ) )
         JSDAssertEqual( 1, tidyNodeLine( divnode ) )
