@@ -242,6 +242,30 @@ public func printhr( _ value: String?, _ header: String? = nil ) {
 }
 
 
+/**
+ Dumps what's given with a horizontal rule and optional heading.
+ */
+public func printhr( _ value: Any, _ header: String? = nil ) {
+
+    let text = header ?? ""
+    let hr_size = 78
+    let lt_size = (hr_size - text.count) / 2 - 1
+    let rt_size = lt_size + ( text.count % 2 )
+    let hr_left = String( repeating: "-", count: lt_size )
+    let hr_right = String( repeating: "-", count: rt_size )
+
+    if text == "" {
+        print( "\(String( repeating: "-", count: hr_size ))" )
+    } else {
+        print( "\(hr_left) \(text) \(hr_right)" )
+    }
+
+    dump( value )
+
+    print( "\(String( repeating: "-", count: hr_size ))" )
+}
+
+
 // MARK: - Assertion Helpers
 
 

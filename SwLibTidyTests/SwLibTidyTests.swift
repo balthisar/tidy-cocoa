@@ -1996,13 +1996,33 @@ class SwLibTidyTests: XCTestCase {
       of LibTidy and outside of linked applications. For example, for string
       lookup in localized versions of .strings files.
 
-      These functions provide discovery of these persistent strings.
+      These functions provide discovery of these persistent strings, which
+      might be used in your strings files for providing your own localized
+      strings.
 
       - tidyErrorCodeAsKey()
       - tidyErrorCodeFromKey()
       - getErrorCodeList()
      *************************************************************************/
     func test_error_codes() {
+
+        let codeList = getErrorCodeList()
+
+        /* Make sure there's something in the list. */
+        JSDAssertTrue( codeList.count > 0, "Nope" )
+
+        /* The list is just a list in integers. Let's find the key for one. */
+        JSDAssertEqual( "TidyMarkupCleanup", tidyErrorCodeAsKey( TidyMarkupCleanup.rawValue ) )
+
+        /* We have a text key for a message; let's get the enum value. */
+        JSDAssertEqual( TEXT_INVALID_UTF8.rawValue, tidyErrorCodeFromKey("TEXT_INVALID_UTF8") )
+
+        /* Let's dump the whole list, just for fun. */
+        for i in codeList {
+            let symbol = tidyErrorCodeAsKey( UInt32(i) )
+            print( "\"\(symbol)\" \t \(symbol).rawValue = \(i)" )
+        }
+
 
     }
 
@@ -2068,7 +2088,6 @@ class SwLibTidyTests: XCTestCase {
       may choose to use macOS localization instead. These extra utilities
       make it simple to support Tidy's native localization support.
 
-      - tidySystemLocale()
       - tidySetLanguage()
       - tidyGetLanguage()
       - getWindowsLanguageList()
@@ -2079,6 +2098,37 @@ class SwLibTidyTests: XCTestCase {
      *************************************************************************/
     func test_locales() {
 
+        /* Let's force the language to English. */
+        JSDAssertTrue( tidySetLanguage("en") )
+
+        /* Let's try Afrikaans, which isn't built into Tidy. */
+        JSDAssertFalse( tidySetLanguage("afr") )
+
+        /* Make sure we're still English, then. */
+        JSDAssertEqual( "en", tidyGetLanguage() )
+
+        /* What is built in, then? */
+        let langList = getInstalledLanguageList()
+        printhr( langList, "langList" )
+        JSDAssertTrue( langList.count > 0 )
+
+        /*
+         Tidy uses ISO names, but provides utilities for CLI and other
+         applications to accept Windows legacy language names.
+         */
+
+
+/** TODO: These aren't really useful in Swift. We can keep them, but we need
+    another accessor getWindowsLanguageDict() that gives us a better table. */
+
+        let winList = getWindowsLanguageList()
+        printhr( winList, "winList" )
+        JSDAssertTrue( winList.count > 0 )
+
+        let winName = TidyLangWindowsName( winList[0] )
+        let posixName = TidyLangPosixName( winList[1] )
+
+        
     }
 
 }

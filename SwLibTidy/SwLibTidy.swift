@@ -2737,20 +2737,26 @@ public func tidyNodeColumn( _ tnod: TidyNode ) -> UInt {
 
 /**
  Given a message code, return the text key that represents it.
+
+ - Note: despite the name of this method, it's used to fetch the message key
+     for *any* of Tidy's messages. Because the messages have origins from
+     different enums in the original C source code, this method can only take
+     a UInt. Although you should always use enums rather than raw values, in
+     this case you must use EnumLabel.rawValue.
  
  - parameters:
-   - code: The error code to lookup.
+   - code: The message code to lookup.
  - returns:
      The string representing the error code.
 */
-public func tidyErrorCodeAsKey( _ code: uint ) -> String {
+public func tidyErrorCodeAsKey( _ code: UInt32 ) -> String {
  
-    return String( cString: CLibTidy.tidyErrorCodeAsKey( code ) )
+    return String( cString: CLibTidy.tidyErrorCodeAsKey( uint(code) ) )
 }
 
  
 /**
- Given a text key representing a message code, return the uint that
+ Given a text key representing a message code, return the UInt that
  represents it.
  
  - Note: We establish that for external purposes, the API will ensure that
@@ -2765,9 +2771,9 @@ public func tidyErrorCodeAsKey( _ code: uint ) -> String {
      used to lookup Tidy's built-in strings. If the provided string does
      not have a matching message code, then UINT_MAX will be returned.
 */
-public func tidyErrorCodeFromKey( _ code: String ) -> UInt {
+public func tidyErrorCodeFromKey( _ code: String ) -> UInt32 {
  
-    return UInt( CLibTidy.tidyErrorCodeFromKey( code ) )
+    return UInt32( CLibTidy.tidyErrorCodeFromKey( code ) )
 }
 
 /**
