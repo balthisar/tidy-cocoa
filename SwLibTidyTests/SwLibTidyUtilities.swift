@@ -290,7 +290,7 @@ public func JSDAssertEqual<T: Equatable>( _ expect: T, _ result: T, _ message: S
  */
 public func JSDAssertTrue( _ result: Bool, _ message: String = "", file: StaticString = #file, line: UInt = #line) {
 
-    return JSDAssertEqual( true, result )
+    return JSDAssertEqual( true, result, message, file: file, line: line )
 }
 
 
@@ -300,7 +300,7 @@ public func JSDAssertTrue( _ result: Bool, _ message: String = "", file: StaticS
  */
 public func JSDAssertFalse( _ result: Bool, _ message: String = "", file: StaticString = #file, line: UInt = #line) {
 
-    return JSDAssertEqual( false, result )
+    return JSDAssertEqual( false, result, message, file: file, line: line )
 }
 
 

@@ -81,7 +81,7 @@ import CLibTidy
 
 
 /** Enforce a minimum LibTidy version for compatibility. */
-fileprivate let MINIMUM_LIBTIDY_VERSION = "5.5.81"
+fileprivate let MINIMUM_LIBTIDY_VERSION = "5.6.0"
 
 
 /******************************************************************************
@@ -2567,7 +2567,7 @@ public func tidyNodeIsProp( _ tdoc: TidyDoc, _ tnod: TidyNode ) -> Swift.Bool {
 
  
 /**
- Indicates whether or not a node represents and HTML header element, such
+ Indicates whether or not a node represents an HTML header element, such
  as h1, h2, etc.
  
  - parameters:
@@ -2886,6 +2886,31 @@ public func getWindowsLanguageList() -> [tidyLocaleMapItem] {
 
 
 /**
+ Returns a dictionary of mappings between Windows legacy locale names to
+ POSIX locale names.
+
+ - Note: It's probably better to use this dictionary instead of
+     getWindowsLanguageList() and its related accessor functions.
+
+ - returns:
+     Returns a dictionary with key names representing a Windows locale name,
+     and values representing the equivalent POSIX locale. Note that this
+     relationship may be many to one, in that multiple Windows locale names
+     refer to the same POSIX mapping.
+ */
+public func getWindowsLanguageDict() -> [ String : String ] {
+
+    var result = [ String : String ]()
+
+    for mapItem in getWindowsLanguageList() {
+        result[TidyLangWindowsName( mapItem )] = TidyLangPosixName( mapItem )
+    }
+
+    return result
+}
+
+
+/**
  Given a `tidyLocalMapItem`, return the Windows name.
  
  - parameters:
@@ -2970,7 +2995,10 @@ public func tidyDefaultString( _ messageType: tidyStrings ) -> String {
  Returns an array of `UInt`, each of which serves as a key to a CLibTidy string.
 
  - Note: These are provided for documentation generation purposes, and probably
-     aren't of much use to the average LibTidy implementor.
+     aren't of much use to the average LibTidy implementor. This list includes
+     _every_ localizable string in Tidy, including strings that are used
+     internally to build other strings, which are NOT part of the API. It is
+     suggested that you use getErrorCodeList() for all public API strings.
  
  - Note: This Swift array replaces the CLibTidy functions `getStringKeyList()`
      and `getNextStringKey()`, as it is much more natural to deal with Swift
@@ -2981,7 +3009,7 @@ public func tidyDefaultString( _ messageType: tidyStrings ) -> String {
 */
 public func getStringKeyList() -> [UInt] {
     
-    var it: TidyIterator? = CLibTidy.getWindowsLanguageList()
+    var it: TidyIterator? = CLibTidy.getStringKeyList()
     
     var result : [UInt] = []
     
@@ -3009,7 +3037,7 @@ public func getStringKeyList() -> [UInt] {
  */
 public func getInstalledLanguageList() -> [String] {
     
-    var it: TidyIterator? = CLibTidy.getWindowsLanguageList()
+    var it: TidyIterator? = CLibTidy.getInstalledLanguageList()
     
     var result : [String] = []
     

@@ -230,6 +230,7 @@ class SwLibTidyTests: XCTestCase {
       - tidyWarningCount()
       - tidyAccessWarningCount()
       - tidyConfigErrorCount()
+      - tidyDetectedHtmlVersion()
      *************************************************************************/
     func test_tidyStatusInformation() {
 
@@ -249,6 +250,7 @@ class SwLibTidyTests: XCTestCase {
         JSDAssertEqual( 6,     tidyWarningCount( tdoc ),       format )
         JSDAssertEqual( 5,     tidyAccessWarningCount( tdoc ), format )
         JSDAssertEqual( 1,     tidyConfigErrorCount( tdoc ),   format )
+        JSDAssertEqual( 0,     tidyDetectedHtmlVersion( tdoc), format )
     }
 
 
@@ -727,6 +729,11 @@ class SwLibTidyTests: XCTestCase {
         /* After loading the config file, options should be different now. */
         JSDAssertTrue( tidyOptDiffThanDefault( tdoc ) )
 
+        /* And if we apply the snapshot, we should be back to default. */
+        let _ = tidyOptResetToSnapshot( tdoc )
+        JSDAssertFalse( tidyOptDiffThanSnapshot( tdoc ) )
+        JSDAssertFalse( tidyOptDiffThanDefault( tdoc ) )
+
         let _ = tidyOptSnapshot( tdoc )
         XCTAssert( tidySample( doc: tdoc, useConfig: true ), "tidySample() failed for some reason." )
 
@@ -740,6 +747,17 @@ class SwLibTidyTests: XCTestCase {
 
         /* But they should be different than the snapshot we took. */
         JSDAssertTrue( tidyOptDiffThanSnapshot( tdoc ) )
+
+        /* Restore the snaphot again, so we can copy to another, new doc. */
+        let _ = tidyOptResetToSnapshot( tdoc )
+        guard
+            let newDoc = tidyCreate()
+        else { XCTFail( TidyCreateFailed ); return }
+
+        let _ = tidyOptCopyConfig( newDoc, tdoc )
+
+        JSDAssertTrue( tidyOptDiffThanDefault( newDoc ) )
+        tidyRelease( newDoc )
     }
 
 
@@ -1884,6 +1902,7 @@ class SwLibTidyTests: XCTestCase {
 
         guard
             let bodynode = tidyGetBody( tdoc ),
+            let headernode = tidyGetHead( tdoc ),
             let divnode = tidyGetChild( bodynode ),
             let h1node = tidyGetChild( divnode ),
             let h1text = tidyGetChild( h1node ) else {
@@ -1895,6 +1914,9 @@ class SwLibTidyTests: XCTestCase {
         JSDAssertEqual( TidyNode_Start, tidyNodeGetType( divnode ) )
         JSDAssertEqual( TidyNode_Start, tidyNodeGetType( h1node ) )
         JSDAssertEqual( TidyNode_Text,  tidyNodeGetType( h1text ) )
+
+        JSDAssertFalse( tidyNodeIsHeader( headernode ) )
+        JSDAssertTrue( tidyNodeIsHeader( h1node ))
 
         JSDAssertEqual( TidyNode_Start, tidyNodeGetType( bodynode ) )
         JSDAssertEqual( TidyNode_Start, tidyNodeGetType( divnode ) )
@@ -2118,17 +2140,24 @@ class SwLibTidyTests: XCTestCase {
          */
 
 
-/** TODO: These aren't really useful in Swift. We can keep them, but we need
-    another accessor getWindowsLanguageDict() that gives us a better table. */
-
+        /* These aren't really useful in Swift, but are available in order
+           to respect the API. Use the Swifty getWindowsLanguageDict(). */
         let winList = getWindowsLanguageList()
         printhr( winList, "winList" )
         JSDAssertTrue( winList.count > 0 )
+        JSDAssertEqual( "america", TidyLangWindowsName( winList[0] ) )
+        JSDAssertEqual( "en_us", TidyLangPosixName( winList[1] ) )
 
-        let winName = TidyLangWindowsName( winList[0] )
-        let posixName = TidyLangPosixName( winList[1] )
+        /* This dictionary is a bit easier to use in Swift. */
+        let winDict = getWindowsLanguageDict()
+        printhr( winDict, "winDict" )
+        JSDAssertTrue( winDict.count > 0)
+        JSDAssertEqual( "zh_cn", winDict["china"] ?? "error" )
 
-        
+        /* This is simply a list of integers for all of the string keys. */
+        let list = getStringKeyList()
+        printhr( list.count, "getStringKeyList()" )
+        JSDAssertTrue( list.count > 0 )
     }
 
 }
