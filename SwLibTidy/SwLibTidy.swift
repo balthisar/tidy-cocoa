@@ -3242,11 +3242,9 @@ public func setTidyPPProgressRecords( toClass: TidyPPProgressProtocol.Type, forT
  An instance of this class is retained by CLibTidy's AppData, and is used to
  store additional pointers that we cannot store in CLibTidy directly. It
  serves as a global variable store for each instance of a TidyDocument.
- - appData: Contains the user's pointer used by `tidySetAppData()`.
- - configCallback: Contains the pointer used by `tidySetConfigCallback()`.
- - tidyMessageCallback: Contains the pointer used by `tidySetMessageCallback`.
 */
 private class ApplicationData {
+
     var appData: AnyObject?
     var delegate: TidyDelegateProtocol?
 
