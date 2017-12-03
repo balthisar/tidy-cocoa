@@ -652,8 +652,8 @@
 				D0F640D51F8F9AC6005A945B /* TidyConfigReportProtocol.swift */,
 				D0F6C7851FC64DF2001F2C2E /* TidyDelegateProtocol.swift */,
 				D01EB1371FC732BE00AF8BE0 /* TidyMessageProtocol.swift */,
-				D0F640CF1F8F998A005A945B /* Info.plist */,
 				D01EB1391FC86DA900AF8BE0 /* TidyPPProgressProtocol.swift */,
+				D0F640CF1F8F998A005A945B /* Info.plist */,
 			);
 			path = SwLibTidy;
 			sourceTree = SOURCE_ROOT;
