@@ -1,6 +1,6 @@
 /******************************************************************************
 
-    TidyEngine.swift
+    TidyDocument.swift
     Part of the SwLibTidy wrapper library for tidy-html5 ("CLibTidy").
     See https://github.com/htacg/tidy-html5
 
@@ -10,15 +10,25 @@
     https://www.w3.org/Consortium/Legal/2002/copyright-software-20021231
 
     Purpose
-      Provides an object wrapper around SwLibTidy, and includes compatibility
-      for Objective-C.
+      Defines a protocol and default implementation for an object wrapper
+      around SwLibTidy, and includes compatibility for Objective-C.
  
  ******************************************************************************/
 
 import Foundation
 
 
-@objc public class TidyEngine: NSObject {
+/**
+ This protocol describes an interface for using SwLibTidy as a class in Swift
+ and Objective-C, abstracting some of the lower-level functions as well as
+ providing a more Swift-like experience.
+
+ */
+@objc public protocol TidyDocumentProtocol: AnyObject {
+
+}
+
+@objc public class TidyDocument: NSObject {
 
     private var doc = tidyCreate()
 

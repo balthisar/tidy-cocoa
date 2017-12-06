@@ -14,7 +14,7 @@
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
 
-        TidyEngine *doc = [[TidyEngine alloc] init];
+        TidyDocument *doc = [[TidyDocument alloc] init];
 
 
         NSString *myString = [doc getHello];

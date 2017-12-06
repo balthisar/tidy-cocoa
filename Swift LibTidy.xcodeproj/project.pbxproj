@@ -81,7 +81,7 @@
 		D0DBB5C21F9CFDEC001F2021 /* case-001.html in Resources */ = {isa = PBXBuildFile; fileRef = D0DBB5B41F9CFD3A001F2021 /* case-001.html */; };
 		D0F640D81F8F9AC7005A945B /* TidyBufferProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F640D41F8F9AC6005A945B /* TidyBufferProtocol.swift */; };
 		D0F640D91F8F9AC7005A945B /* TidyConfigReportProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F640D51F8F9AC6005A945B /* TidyConfigReportProtocol.swift */; };
-		D0F640DA1F8F9AC7005A945B /* TidyEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F640D61F8F9AC6005A945B /* TidyEngine.swift */; };
+		D0F640DA1F8F9AC7005A945B /* TidyDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F640D61F8F9AC6005A945B /* TidyDocument.swift */; };
 		D0F640DB1F8F9AC7005A945B /* SwLibTidy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F640D71F8F9AC7005A945B /* SwLibTidy.swift */; };
 		D0F6C7841FC386CD001F2C2E /* SwLibTidyUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F6C7831FC386CD001F2C2E /* SwLibTidyUtilities.swift */; };
 		D0F6C7861FC64DF2001F2C2E /* TidyDelegateProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F6C7851FC64DF2001F2C2E /* TidyDelegateProtocol.swift */; };
@@ -339,7 +339,7 @@
 		D0F640CF1F8F998A005A945B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D0F640D41F8F9AC6005A945B /* TidyBufferProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidyBufferProtocol.swift; sourceTree = "<group>"; };
 		D0F640D51F8F9AC6005A945B /* TidyConfigReportProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidyConfigReportProtocol.swift; sourceTree = "<group>"; };
-		D0F640D61F8F9AC6005A945B /* TidyEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidyEngine.swift; sourceTree = "<group>"; };
+		D0F640D61F8F9AC6005A945B /* TidyDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidyDocument.swift; sourceTree = "<group>"; };
 		D0F640D71F8F9AC7005A945B /* SwLibTidy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwLibTidy.swift; sourceTree = "<group>"; };
 		D0F6C7831FC386CD001F2C2E /* SwLibTidyUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwLibTidyUtilities.swift; sourceTree = "<group>"; };
 		D0F6C7851FC64DF2001F2C2E /* TidyDelegateProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidyDelegateProtocol.swift; sourceTree = "<group>"; };
@@ -647,7 +647,7 @@
 			children = (
 				D0A5C6AB1F92B18E00CABB67 /* README.md */,
 				D0F640D71F8F9AC7005A945B /* SwLibTidy.swift */,
-				D0F640D61F8F9AC6005A945B /* TidyEngine.swift */,
+				D0F640D61F8F9AC6005A945B /* TidyDocument.swift */,
 				D0F640D41F8F9AC6005A945B /* TidyBufferProtocol.swift */,
 				D0F640D51F8F9AC6005A945B /* TidyConfigReportProtocol.swift */,
 				D0F6C7851FC64DF2001F2C2E /* TidyDelegateProtocol.swift */,
@@ -1000,7 +1000,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0F640DB1F8F9AC7005A945B /* SwLibTidy.swift in Sources */,
-				D0F640DA1F8F9AC7005A945B /* TidyEngine.swift in Sources */,
+				D0F640DA1F8F9AC7005A945B /* TidyDocument.swift in Sources */,
 				D0F640D81F8F9AC7005A945B /* TidyBufferProtocol.swift in Sources */,
 				D0F640D91F8F9AC7005A945B /* TidyConfigReportProtocol.swift in Sources */,
 				D01EB13A1FC86DA900AF8BE0 /* TidyPPProgressProtocol.swift in Sources */,
