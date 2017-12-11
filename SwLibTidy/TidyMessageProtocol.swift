@@ -25,6 +25,9 @@ import CLibTidy
  */
 @objc public protocol TidyMessageProtocol: AnyObject {
 
+    /** A reference to the TidyDocument from which the message originates. */
+    var document: TidyDoc { get }
+
     /** An integer representing the internal message code. In native LibTidy,
         this would be a meaningful enum, which doesn't carry over into Swift.
         THIS IS NOT A STABLE VALUE. Use messageKey, instead, which is the
@@ -125,6 +128,7 @@ import CLibTidy
 /** A default implementation of the `TidyMessageProtocol`. */
 @objc public class TidyMessageContainer: NSObject, TidyMessageProtocol {
 
+    public var document: TidyDoc
     public var messageCode: UInt
     public var messageKey: String
     public var line: Int
@@ -145,6 +149,7 @@ import CLibTidy
 
     public required init( withMessage: TidyMessage ) {
 
+        self.document = tidyGetMessageDoc( withMessage )
         self.messageCode = tidyGetMessageCode( withMessage )
         self.messageKey = tidyGetMessageKey( withMessage )
         self.line = tidyGetMessageLine( withMessage )

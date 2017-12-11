@@ -203,7 +203,7 @@ public func tidyCreate() -> TidyDoc? {
            of forcing TidyConfigReport.
          */
         let userClass = storage.configRecordClass
-        let record = userClass.init(withValue: strValue, forOption: strOption)
+        let record = userClass.init(withValue: strValue, forOption: strOption, ofDocument: tdoc)
         storage.configCallbackRecords.append( record )
 
 
@@ -219,7 +219,7 @@ public func tidyCreate() -> TidyDoc? {
            return CLibTidy.yes if the option was handled, so consider the
            existing result.
          */
-        if let local_result = storage.delegate?.tidyReports?(unknownOption: strOption, value: strValue, forTidyDoc: tdoc) {
+        if let local_result = storage.delegate?.tidyReports?( unknownOption: record ) {
             let native_result = result == yes ? true : false
             /* Either the callback or delegate indicate they've handled it. */
             result = ( local_result || native_result ) ? yes : no
@@ -285,7 +285,7 @@ public func tidyCreate() -> TidyDoc? {
            return true, CLibTidy will output the message in its buffer.
            Since this is going to CLibTidy, we're looking for yes or no.
          */
-        if let local_result = storage.delegate?.tidyReports?(message: tmessage) {
+        if let local_result = storage.delegate?.tidyReports?(message: record) {
             let native_result = result == yes ? true : false
             /* Either the callback or delegate can filter the message. */
             result = ( local_result && native_result ) ? yes : no
@@ -313,7 +313,7 @@ public func tidyCreate() -> TidyDoc? {
            forcing TidyPPProgressReport.
          */
         let userClass = storage.ppRecordClass
-        let record = userClass.init( withLine: line, column: col, destLine: destLine )
+        let record = userClass.init( withLine: line, column: col, destLine: destLine, forDocument: tdoc )
         storage.ppCallbackRecords.append( record )
 
 
@@ -323,7 +323,7 @@ public func tidyCreate() -> TidyDoc? {
         }
 
         /* If there's a delegate, then call the delegate method. */
-        storage.delegate?.tidyReportsPrettyPrinting?( forDoc: tdoc, line: UInt(line), col: UInt(col), destLine: UInt(destLine) )
+        storage.delegate?.tidyReports?( pprint: record )
 
     }) else { tidyRelease( tdoc ); return nil }
     

@@ -359,9 +359,11 @@ public func JSDAssertHasSuffix( _ expect: String?, _ result: String?, _ message:
 
     public var option: String = ""
     public var value: String = ""
+    public var document: TidyDoc
 
-    public required init(withValue: String, forOption: String) {
+    public required init(withValue: String, forOption: String, ofDocument: TidyDoc) {
 
+        document = ofDocument
         option = forOption;
         value = "---\(withValue)---";
         super.init()
@@ -379,7 +381,7 @@ public func JSDAssertHasSuffix( _ expect: String?, _ result: String?, _ message:
     var asyncTidyReportsMessage: XCTestExpectation?
     var asyncTidyReportsPrettyPrinting: XCTestExpectation?
 
-    public func tidyReports( unknownOption: String, value: String, forTidyDoc: TidyDoc ) -> Swift.Bool {
+    public func tidyReports( unknownOption: TidyConfigReportProtocol ) -> Swift.Bool {
         guard let expectation = asyncTidyReportsUnknownOption else {
             XCTFail("Delegate failed; did you remember to set asyncExpectation?")
             return false
@@ -397,7 +399,7 @@ public func JSDAssertHasSuffix( _ expect: String?, _ result: String?, _ message:
         return
     }
 
-    public func tidyReports( message: TidyMessage ) -> Swift.Bool {
+    public func tidyReports( message: TidyMessageProtocol ) -> Swift.Bool {
         guard let expectation = asyncTidyReportsMessage else {
             XCTFail("Delegate failed; did you remember to set asyncExpectation?")
             return false
@@ -406,7 +408,7 @@ public func JSDAssertHasSuffix( _ expect: String?, _ result: String?, _ message:
         return true
     }
 
-    public func tidyReportsPrettyPrinting( forDoc: TidyDoc, line: UInt, col: UInt, destLine: UInt ) {
+    public func tidyReports( pprint: TidyPPProgressProtocol ) {
         guard let expectation = asyncTidyReportsPrettyPrinting else {
             XCTFail("Delegate failed; did you remember to set asyncExpectation?")
             return

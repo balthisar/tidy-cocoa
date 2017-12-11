@@ -16,13 +16,13 @@
 
 @implementation ObjectiveCTests
 
-TidyEngine *mydoc;
+TidyDocument *mydoc;
 
 - (void)setUp
 {
     [super setUp];
 
-    mydoc = [[TidyEngine alloc] init];
+    mydoc = [[TidyDocument alloc] init];
 }
 
 - (void)tearDown

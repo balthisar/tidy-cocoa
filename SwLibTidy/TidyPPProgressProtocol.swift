@@ -28,6 +28,9 @@ import CLibTidy
 */
 @objc public protocol TidyPPProgressProtocol: AnyObject {
 
+    /** The document from which the message originates. */
+    var document: TidyDoc { get }
+
     /** The line in the source document. */
     var sourceLine: UInt32 { get }
 
@@ -38,7 +41,7 @@ import CLibTidy
     var destLine: UInt32 { get }
 
     /** Create an instance with these data. */
-    init( withLine: UInt32, column: UInt32, destLine: UInt32 )
+    init( withLine: UInt32, column: UInt32, destLine: UInt32, forDocument: TidyDoc )
 
 }
 
@@ -46,12 +49,14 @@ import CLibTidy
 /** A default implementation of the `TidyPPProgressProtocol`. */
 @objc public class TidyPPProgressReport: NSObject, TidyPPProgressProtocol {
 
+    public var document: TidyDoc
     public var sourceLine: UInt32 = 0
     public var sourceColumn: UInt32 = 0
     public var destLine: UInt32 = 0
 
-    public required init( withLine: UInt32, column: UInt32, destLine: UInt32 ) {
+    public required init( withLine: UInt32, column: UInt32, destLine: UInt32, forDocument: TidyDoc ) {
 
+        self.document = forDocument
         self.sourceLine = withLine
         self.sourceColumn = column
         self.destLine = destLine

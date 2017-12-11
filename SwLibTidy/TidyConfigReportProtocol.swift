@@ -33,8 +33,11 @@ import CLibTidy
     /** The proposed value for the unrecognized configuration option. */
     var value: String { get }
 
+    /** The Tidy document from which the report originated. */
+    var document: TidyDoc { get }
+
     /** Create an instance with this value for the given option. */
-    init(withValue: String, forOption: String)
+    init(withValue: String, forOption: String, ofDocument: TidyDoc)
 
 }
 
@@ -44,11 +47,13 @@ import CLibTidy
     
     public var option: String = ""
     public var value: String = ""
+    public var document: TidyDoc
 
-    public required init(withValue: String, forOption: String) {
+    public required init(withValue: String, forOption: String, ofDocument: TidyDoc) {
 
-        option = forOption;
-        value = withValue;
+        option = forOption
+        value = withValue
+        document = ofDocument
         super.init()
     }
 }

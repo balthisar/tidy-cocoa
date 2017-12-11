@@ -34,14 +34,13 @@ import Foundation
      configuration option.
 
      - parameters:
-       - unknownOption: A string indicating the unknown option name.
-       - value: The proposed value of the given option.
-       - forTidyDoc: The TidyDocument for which the option was intended.
+       - unknownOption: An instance conforming to TidyConfigReportProtocol
+           containing the configuration report.
      - returns:
          Your delegate should return true if it successfully handled the
          unknown option; return false to let Tidy output an error message.
      */
-    @objc optional func tidyReports( unknownOption: String, value: String, forTidyDoc: TidyDoc ) -> Swift.Bool
+    @objc optional func tidyReports( unknownOption: TidyConfigReportProtocol ) -> Swift.Bool
 
     /**
      This delegate method is called whenever an option value is changed.
@@ -57,12 +56,12 @@ import Foundation
      of any sort to its internal buffer.
 
      - parameters:
-       - message: An instance of TidyMessage that Tidy will output.
+       - message: An instance of TidyMessageProtocol that Tidy will output.
      - returns:
          Your delegate should return false to indicate that Tidy should not
          further process the message itself.
      */
-    @objc optional func tidyReports( message: TidyMessage ) -> Swift.Bool
+    @objc optional func tidyReports( message: TidyMessageProtocol ) -> Swift.Bool
 
     /**
      This delegate method is called during the pretty printing process in order
@@ -70,14 +69,10 @@ import Foundation
      document location.
 
      - parameters:
-       - forDoc: The TidyDoc being pretty printed.
-       - line: The line in the source document that corresponds with the current
-           output position.
-       - col: The column in the source document that corresponds with the
-           current output position.
-       - destLine: The current position in the output document being written.
+       - pprint: An instance of TidyPProgressProtocol containing the progress
+           report.
      */
-    @objc optional func tidyReportsPrettyPrinting( forDoc: TidyDoc, line: UInt, col: UInt, destLine: UInt )
+    @objc optional func tidyReports( pprint: TidyPPProgressProtocol )
 }
 
 
