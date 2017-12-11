@@ -27,14 +27,14 @@ import CLibTidy
 */
 @objc public protocol TidyConfigReportProtocol: AnyObject {
 
+    /** The Tidy document from which the report originated. */
+    var document: TidyDoc { get }
+
     /** The unrecognized configuration option. */
     var option: String { get }
 
     /** The proposed value for the unrecognized configuration option. */
     var value: String { get }
-
-    /** The Tidy document from which the report originated. */
-    var document: TidyDoc { get }
 
     /** Create an instance with this value for the given option. */
     init(withValue: String, forOption: String, ofDocument: TidyDoc)
@@ -45,15 +45,15 @@ import CLibTidy
 /** A default implementation of the `TidyConfigReportProtocol`. */
 @objc public class TidyConfigReport: NSObject, TidyConfigReportProtocol {
     
+    public var document: TidyDoc
     public var option: String = ""
     public var value: String = ""
-    public var document: TidyDoc
 
     public required init(withValue: String, forOption: String, ofDocument: TidyDoc) {
 
+        document = ofDocument
         option = forOption
         value = withValue
-        document = ofDocument
         super.init()
     }
 }
