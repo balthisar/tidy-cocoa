@@ -309,7 +309,7 @@ public func tidyCreate() -> TidyDoc? {
 
         /* Fire the user's desired callback, if applicable. */
         if let callback = storage.ppCallback {
-            callback( tdoc, UInt(line), UInt(col), UInt(destLine) )
+            callback( record )
         }
 
         /* If there's a delegate, then call the delegate method. */
@@ -1606,16 +1606,13 @@ public func tidySetMessageCallback( _ tdoc: TidyDoc, _ swiftCallback: @escaping 
  Your callback function will be provided with the following parameters.
  
  - parameters:
-   - tdoc: Indicates the source tidy document.
-   - line Indicates the line in the source document at this point in the process.
-   - column: Indicates the column in the source document at this point in the process.
-   - destLine: Indicates the line number in the output document at this point in the process.
- - returns: 
+   - report: An instance conforming to TidyPPProgessProtocol.
+ - returns:
      Your callback function will return `true` if Tidy should include the report
      report in its own output sink, or `false` if Tidy should suppress it.
 */
 
-public typealias TidyPPProgress = ( _ tdoc: TidyDoc, _ line: UInt, _ col: UInt, _ destLine: UInt ) -> Void
+public typealias TidyPPProgress = ( _ report: TidyPPProgressProtocol ) -> Void
 
 
 /**

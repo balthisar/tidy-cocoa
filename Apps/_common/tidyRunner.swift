@@ -54,8 +54,8 @@ class TidyRunner {
      This will be our pretty printer progress callback. Apparently since
      Swift 3, this is safe to do now.
      */
-    private func ppCallback( _ tdoc: TidyDoc, _ line: UInt, _ col: UInt, _ destLine: UInt ) -> Void {
-        self.pppList += "Source Line: \(line), Col: \(col); Destination Line: \(destLine)\n"
+    private func ppCallback( _ report: TidyPPProgressProtocol ) -> Void {
+        self.pppList += "Source Line: \(report.sourceLine), Col: \(report.sourceColumn); Destination Line: \(report.destLine)\n"
     }
 
 

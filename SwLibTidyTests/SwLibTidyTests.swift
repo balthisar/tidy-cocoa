@@ -1446,8 +1446,9 @@ class SwLibTidyTests: XCTestCase {
         let callbackSuccess = XCTestExpectation(description: "The callback should execute at least once.")
 
         /* Closures can be used as callbacks, which is what we do here. */
-        let _ = tidySetPrettyPrinterCallback( tdoc, { tdoc, line, col, destLine in
+        let _ = tidySetPrettyPrinterCallback( tdoc, { report in
 
+            print( "Callback: line=\(report.sourceLine) col=\(report.sourceColumn) destLine=\(report.destLine)" )
             callbackSuccess.fulfill()
         })
 
@@ -1464,7 +1465,7 @@ class SwLibTidyTests: XCTestCase {
         /* Pretty printing would have triggered the callback, so that's
            tested. Let's have a look at the tidyPPProgresRecords(). */
         let records = tidyPPProgressRecords( forTidyDoc: tdoc )
-        dump( records )
+        printhr( records, "all pprogress records" )
 
         XCTAssert( records.count > 0, "Expected to have some tidyPPProgress records." )
         JSDAssertEqual( 5, records[4].sourceLine)
