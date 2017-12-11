@@ -149,28 +149,31 @@ import CLibTidy
 
     public required init( withMessage: TidyMessage ) {
 
-        self.document = tidyGetMessageDoc( withMessage )
-        self.messageCode = tidyGetMessageCode( withMessage )
-        self.messageKey = tidyGetMessageKey( withMessage )
-        self.line = tidyGetMessageLine( withMessage )
-        self.column = tidyGetMessageColumn( withMessage )
-        self.level = tidyGetMessageLevel( withMessage )
-        self.muted = tidyGetMessageIsMuted( withMessage )
-        self.formatDefault = tidyGetMessageFormatDefault( withMessage )
-        self.format = tidyGetMessageFormat( withMessage )
-        self.messageDefault = tidyGetMessageDefault( withMessage )
-        self.message = tidyGetMessage( withMessage )
-        self.posDefault = tidyGetMessagePosDefault( withMessage )
-        self.pos = tidyGetMessagePos( withMessage )
-        self.prefixDefault = tidyGetMessagePrefixDefault( withMessage )
-        self.prefix = tidyGetMessagePrefix( withMessage )
-        self.messageOutputDefault = tidyGetMessageOutputDefault( withMessage )
-        self.messageOutput = tidyGetMessageOutput( withMessage )
+        self.document = CLibTidy.tidyGetMessageDoc( withMessage )
+        self.messageCode = UInt( CLibTidy.tidyGetMessageCode( withMessage ) )
+        self.messageKey = String( cString: CLibTidy.tidyGetMessageKey( withMessage ))
+        self.line = Int( CLibTidy.tidyGetMessageLine( withMessage) )
+        self.column = Int( CLibTidy.tidyGetMessageColumn( withMessage ) )
+        self.level = CLibTidy.tidyGetMessageLevel( withMessage )
+        self.muted = CLibTidy.tidyGetMessageIsMuted( withMessage ) == yes ? true : false
+        self.formatDefault = String( cString: CLibTidy.tidyGetMessageFormatDefault( withMessage ) )
+        self.format = String( cString: CLibTidy.tidyGetMessageFormat( withMessage ) )
+        self.messageDefault = String( cString: CLibTidy.tidyGetMessageDefault( withMessage ) )
+        self.message = String( cString: CLibTidy.tidyGetMessage( withMessage ) )
+        self.posDefault = String( cString: CLibTidy.tidyGetMessagePosDefault( withMessage ) )
+        self.pos = String( cString: CLibTidy.tidyGetMessagePos( withMessage ) )
+        self.prefixDefault = String( cString: CLibTidy.tidyGetMessagePrefixDefault( withMessage ) )
+        self.prefix = String( cString: CLibTidy.tidyGetMessagePrefix( withMessage ) )
+        self.messageOutputDefault = String( cString: CLibTidy.tidyGetMessageOutputDefault( withMessage ) )
+        self.messageOutput = String( cString: CLibTidy.tidyGetMessageOutput( withMessage ) )
 
         self.messageArguments = []
+        var it: TidyIterator? = CLibTidy.tidyGetMessageArguments( withMessage )
 
-        for arg in tidyGetMessageArguments( forMessage: withMessage ) {
-            self.messageArguments.append( TidyMessageArgumentContainer( withArg: arg, fromMessage: withMessage ) )
+        while ( it != nil ) {
+            if let arg = CLibTidy.tidyGetNextMessageArgument( withMessage, &it ) {
+                self.messageArguments.append( TidyMessageArgumentContainer( withArg: arg, fromMessage: withMessage ) )
+            }
         }
 
         super.init()
@@ -191,8 +194,10 @@ import CLibTidy
 
     public required init( withArg: TidyMessageArgument, fromMessage: TidyMessage ) {
 
-        self.type = tidyGetArgType( fromMessage, withArg )
-        self.format = tidyGetArgFormat( fromMessage, withArg )
+        var ptrArg: TidyMessageArgument? = withArg
+
+        self.type = CLibTidy.tidyGetArgType( fromMessage, &ptrArg )
+        self.format = String( cString: CLibTidy.tidyGetArgFormat( fromMessage, &ptrArg ) )
         self.valueString = ""
         self.valueUInt = 0
         self.valueInt = 0
@@ -200,13 +205,13 @@ import CLibTidy
 
         switch self.type {
 
-        case tidyFormatType_INT:    self.valueInt = tidyGetArgValueInt( fromMessage, withArg )
+        case tidyFormatType_INT:    self.valueInt = Int( CLibTidy.tidyGetArgValueInt( fromMessage, &ptrArg ) )
 
-        case tidyFormatType_UINT:   self.valueUInt = tidyGetArgValueUInt( fromMessage, withArg )
+        case tidyFormatType_UINT:   self.valueUInt = UInt( CLibTidy.tidyGetArgValueUInt( fromMessage, &ptrArg ) )
 
-        case tidyFormatType_STRING: self.valueString = tidyGetArgValueString( fromMessage, withArg )
+        case tidyFormatType_STRING: self.valueString = String( cString: CLibTidy.tidyGetArgValueString( fromMessage, &ptrArg ) )
 
-        case tidyFormatType_DOUBLE: self.valueDouble = tidyGetArgValueDouble( fromMessage, withArg )
+        case tidyFormatType_DOUBLE: self.valueDouble = Double( CLibTidy.tidyGetArgValueDouble( fromMessage, &ptrArg ) )
 
         default: break
         }

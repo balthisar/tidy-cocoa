@@ -387,7 +387,7 @@ class SwLibTidyTests: XCTestCase {
         let callbackSuccess = XCTestExpectation( description: "The callback should execute at least once." )
 
         /* Closures can be used as callbacks, which is what we do here. */
-        let _ = tidySetConfigCallback( tdoc, { (tdoc: TidyDoc, option: String, value: String) -> Swift.Bool in
+        let _ = tidySetConfigCallback( tdoc, { (report: TidyConfigReportProtocol) -> Swift.Bool in
 
             callbackSuccess.fulfill()
 
@@ -1290,29 +1290,6 @@ class SwLibTidyTests: XCTestCase {
       interrogation API in order to pick apart the message.
 
       - tidySetMessageCallback()
-      - tidyGetMessageDoc()
-      - tidyGetMessageCode()
-      - tidyGetMessageKey()
-      - tidyGetMessageLine()
-      - tidyGetMessageColumn()
-      - tidyGetMessageLevel()
-      - tidyGetMessageFormatDefault()
-      - tidyGetMessageFormat()
-      - tidyGetMessageDefault()
-      - tidyGetMessage()
-      - tidyGetMessagePosDefault()
-      - tidyGetMessagePos()
-      - tidyGetMessagePrefixDefault()
-      - tidyGetMessagePrefix()
-      - tidyGetMessageOutputDefault()
-      - tidyGetMessageOutput()
-      - tidyGetMessageArguments()
-      - tidyGetArgType()
-      - tidyGetArgFormat()
-      - tidyGetArgValueString()
-      - tidyGetArgValueUInt()
-      - tidyGetArgValueInt()
-      - tidyGetArgValueDouble()
      *************************************************************************/
     func test_messageCallback() {
 
@@ -1326,7 +1303,7 @@ class SwLibTidyTests: XCTestCase {
 
 
         /* Closures can be used as callbacks, which is what we do here. */
-        let _ = tidySetMessageCallback( tdoc, { ( tmessage: TidyMessage ) -> Swift.Bool in
+        let _ = tidySetMessageCallback( tdoc, { ( message: TidyMessageProtocol ) -> Swift.Bool in
 
             callbackSuccess.fulfill()
 
@@ -1336,22 +1313,22 @@ class SwLibTidyTests: XCTestCase {
             /* The message API returns the various pieces that makes up a
                message in Tidy. You can use these to provide your own
                messages, and provide your own localizations. */
-            let doc = tidyGetMessageDoc( tmessage )
-            let code = tidyGetMessageCode( tmessage )
-            let key = tidyGetMessageKey( tmessage )
-            let line = tidyGetMessageLine( tmessage )
-            let col = tidyGetMessageColumn( tmessage )
-            let level = tidyGetMessageLevel( tmessage )
-            let formatDef = tidyGetMessageFormatDefault( tmessage )
-            let formatLoc = tidyGetMessageFormat( tmessage )
-            let mssgDef = tidyGetMessageDefault( tmessage )
-            let mssgLoc = tidyGetMessage( tmessage )
-            let posDef = tidyGetMessagePosDefault( tmessage )
-            let posLoc = tidyGetMessagePos( tmessage )
-            let prefixDef = tidyGetMessagePrefixDefault( tmessage )
-            let prefixLoc = tidyGetMessagePrefix( tmessage )
-            let outDef = tidyGetMessageOutputDefault( tmessage )
-            let outLoc = tidyGetMessageOutput( tmessage )
+            let doc = message.document
+            let code = message.messageCode
+            let key = message.messageKey
+            let line = message.line
+            let col = message.column
+            let level = message.level
+            let formatDef = message.formatDefault
+            let formatLoc = message.format
+            let mssgDef = message.messageDefault
+            let mssgLoc = message.message
+            let posDef = message.posDefault
+            let posLoc = message.pos
+            let prefixDef = message.prefixDefault
+            let prefixLoc = message.prefix
+            let outDef = message.messageOutputDefault
+            let outLoc = message.messageOutput
 
             JSDAssertEqual( tdoc, doc )
             JSDAssertEqual( DISCARDING_UNEXPECTED.rawValue, UInt32(code) )
@@ -1375,9 +1352,9 @@ class SwLibTidyTests: XCTestCase {
                tidyGetMessageFormatDefault() functions. The arguments to
                fill this format string can be sussed out with the following:
              */
-            let arguments = tidyGetMessageArguments(forMessage: tmessage)
-            let argType = tidyGetArgType( tmessage, arguments[0] )
-            let argFormat = tidyGetArgFormat( tmessage, arguments[0] )
+            let arguments = message.messageArguments
+            let argType = arguments[0].type
+            let argFormat = arguments[0].format
 
             JSDAssertEqual( 1, arguments.count )
             JSDAssertEqual( tidyFormatType_STRING, argType )
@@ -1386,19 +1363,19 @@ class SwLibTidyTests: XCTestCase {
             switch argType {
 
             case tidyFormatType_STRING:
-                let value = tidyGetArgValueString( tmessage, arguments[0] )
+                let value = arguments[0].valueString
                 JSDAssertEqual( "</h2>", value )
 
             case tidyFormatType_UINT:
-                let _ = tidyGetArgValueUInt( tmessage, arguments[0] )
+                let _ = arguments[0].valueUInt
                 XCTFail( "The argument type was not expected!" )
 
             case tidyFormatType_INT:
-                let _ = tidyGetArgValueInt( tmessage, arguments[0] )
+                let _ = arguments[0].valueInt
                 XCTFail( "The argument type was not expected!" )
 
             case tidyFormatType_DOUBLE:
-                let _ = tidyGetArgValueDouble( tmessage, arguments[0] )
+                let _ = arguments[0].valueDouble
                 XCTFail( "The argument type was not expected!" )
 
             default:

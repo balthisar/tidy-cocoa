@@ -16,11 +16,10 @@ import SwLibTidy
  It's a good example of getting the app data: in this case, we'll use the
  TidyRunner's output routine.
  */
-public func messageCallback( _ tmessage: TidyMessage ) -> Bool {
+public func messageCallback( _ message: TidyMessageProtocol ) -> Bool {
 
-    if let owner = tidyGetAppData( tidyGetMessageDoc( tmessage )) as? TidyRunner {
-        let string = tidyGetMessageOutputDefault( tmessage )
-        owner.output( "** \(string)");
+    if let owner = tidyGetAppData( message.document ) as? TidyRunner {
+        owner.output( "** \(message.messageOutputDefault)");
     } else {
         print("Hmmm... there's no app data assigned, so this shouldn't happen.")
     }
@@ -92,10 +91,7 @@ class TidyRunner {
 
         /*
          Let's set our message callback. If using a function, as here, then it
-         should be outside of this class, i.e., a top-level function. Although
-         callbacks to instance methods are allowed since Swift 3, it's still
-         better to segregate out of context information external to the
-         instance.
+         should be outside of this class, i.e., a top-level function.
          */
         let _ = tidySetMessageCallback( tdoc, messageCallback)
 
@@ -108,10 +104,10 @@ class TidyRunner {
          context is available; it's essentially outside of any instances of
          this class.
          */
-        let _ = tidySetConfigCallback( tdoc, { (tdoc: TidyDoc, option: String, value: String) -> Swift.Bool in
+        let _ = tidySetConfigCallback( tdoc, { (report: TidyConfigReportProtocol ) -> Swift.Bool in
 
-            if let owner = tidyGetAppData( tdoc ) as? TidyRunner {
-                owner.output( "\(option) \(value)" );
+            if let owner = tidyGetAppData( report.document ) as? TidyRunner {
+                owner.output( "\(report.option) \(report.value)" );
             } else {
                 print("Hmmm... there's no app data assigned, so this shouldn't happen.")
             }
