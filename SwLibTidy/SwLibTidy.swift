@@ -15,7 +15,7 @@
       GUI applications, and as a basis for developing high-level, object-
       oriented classes for macOS and iOS. Its goals are to:
         - Use Swift-native types, including for the use of callbacks/closures
-          and for the storage of context data. Although procedure, some minimal
+          and for the storage of context data. Although procedural, some minimal
           supplementary classes are used to abstract C data structures.
         - Provide arrays of information instead of depending on CLibTidy's
           iterator mechanism.
@@ -46,6 +46,10 @@
 
       tidyParseBuffer() is not supported; there's no really a use case in Swift;
       use tidyParseString() instead.
+
+      getWindowsLanguageList() replaces the CLibTidy version to return a
+      dictionary of Windows->POSIX mappings. As such, related functions are
+      not needed and so not included.
  
     Localization API
       CLibTidy will attempt to set its language automatically based on your
@@ -79,7 +83,7 @@ import Foundation
 import CLibTidy
 
 /******************************************************************************
- ** "Globals,", used within this file.
+ ** Globals used within this file.
  **************************************************************************** */
 // MARK: - Globals
 
@@ -110,9 +114,7 @@ public typealias TidyDoc = CLibTidy.TidyDoc
 */
 public typealias TidyOption = CLibTidy.TidyOption
 
-public typealias TidyOptionId = CLibTidy.TidyOptionId
-
-/** 
+/**
  Single nodes of a TidyDocument are represented by this datatype. It can be
  returned by various API functions, or accepted as a function argument.
 */
@@ -123,6 +125,16 @@ public typealias TidyNode = CLibTidy.TidyNode
  functions related to attributes work with this type.
 */
 public typealias TidyAttr = CLibTidy.TidyAttr
+
+
+// MARK: - Additional Type Definitions
+
+
+/**
+ This typealias exposes TidyOptionId without having to import CLibTidy in
+ client applications.
+ */
+public typealias TidyOptionId = CLibTidy.TidyOptionId
 
 
 // MARK: - Basic Operations -
@@ -625,18 +637,6 @@ public func tidyFileExists( _ tdoc: TidyDoc, _ filename: String ) -> Swift.Bool 
 
 // MARK: - Configuration, File, and Encoding Operations
 
-/**
- In general, you should expect that options you set should stay set. This isn't
- always the case, though, because Tidy will adjust options for internal use
- during the lexing, parsing, cleaning, and printing phases, but will restore
- them after the printing process.
-
- If you require access to user configuration values at any time between the
- `tidyParseXXX()` process and the `tidySaveXXX()` process, make sure to keep
- your own copy.
- */
-private func ℹ️() {}
-
 // MARK: - Character Encoding
 
 
@@ -726,7 +726,11 @@ public typealias TidyConfigCallback = ( _ report: TidyConfigReportProtocol ) -> 
  file options. Setting this callback allows a LibTidy application developer to 
  examine command-line and configuration file options after LibTidy has examined
  them and failed to recognize them.
- 
+
+ # See also:
+ - `tidyConfigRecords(forTidyDoc:)`
+ - `<TidyDelegateProtocol>tidyReports(unknownOption:)`
+
  - parameters:
    - tdoc: The document to apply the callback to.
    - swiftCallback: The name of a function of type `TidyConfigCallback` to
@@ -767,14 +771,15 @@ public typealias TidyConfigChangeCallback = ( _ tdoc: TidyDoc, _ option: TidyOpt
  permanent changes made by Tidy (such as indent-spaces or output-encoding)
  will be reported.
 
+ # See also:
+ - `<TidyDelegateProtocol>tidyReports(optionChanged:forTidyDoc:)`
+
  - parameters:
    - tdoc: The document to apply the callback to.
-   - pCallback: The name of a function of type TidyConfigChangeCallback() to
+   - swiftCallback: The name of a function of type TidyConfigChangeCallback() to
        serve as your callback.
  - returns:
      Returns true upon success setting the callback.
-
- ** @result Returns `yes` upon success.
  */
 public func tidySetConfigChangeCallback( _ tdoc: TidyDoc, _ swiftCallback: @escaping TidyConfigChangeCallback ) -> Swift.Bool {
 
@@ -1569,7 +1574,11 @@ public typealias TidyMessageCallback = ( _ record: TidyMessageProtocol ) -> Swif
  
 /** 
  This function informs Tidy to use the specified callback to send reports.
- 
+
+ # See also:
+ - `tidyMessageRecords(forTidyDoc:)`
+ - `<TidyDelegateProtocol>tidyReports(message:)`
+
  - parameters:
    - tdoc: The tidy document for which the callback applies.
    - filtCallback: A pointer to your callback function of type 
@@ -1619,6 +1628,10 @@ public typealias TidyPPProgress = ( _ report: TidyPPProgressProtocol ) -> Void
  This function informs Tidy to use the specified callback for tracking the
  pretty-printing process progress.
  
+ # See also:
+ - `tidyPPProgressRecords(forTidyDoc:)`
+ - `<TidyDelegateProtocol>tidyReports(pprint:)`
+
  - parameters:
    - tdoc: The `TidyDoc` for which you are setting the callback.
    - callback: The function to be called.
@@ -1717,8 +1730,10 @@ public func tidyCleanAndRepair( _ tdoc: TidyDoc ) -> Int {
 
  
 /**
- Run configured diagnostics on parsed and repaired markup. You must call
- tidyCleanAndRepair() before using this function.
+ Run configured diagnostics on parsed and repaired markup.
+
+ - precondition: You must call `tidyCleanAndRepair()` before using this
+     function.
  
  - parameters:
    - tdoc: The tidy document to use.
@@ -2227,7 +2242,7 @@ public func tidyNodeGetText( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: TidyBuffe
  Gets the text of a node and returns it as a string.
 
  - Note:
-     This is a convenience addition to CLibTidy for SwLibTidy.
+     This signature is a convenience addition to CLibTidy for SwLibTidy.
 
  - parameters:
    - tdoc: The document to query.
@@ -2269,7 +2284,7 @@ public func tidyNodeGetValue( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: TidyBuff
  the given TidyBuffer as UTF-8.
 
  - Note:
-     This is a convenience addition to CLibTidy for SwLibTidy.
+     This signature is a convenience addition to CLibTidy for SwLibTidy.
 
  - parameters:
    - tdoc: The document to query.
@@ -2460,48 +2475,12 @@ public func tidyGetLanguage() -> String {
 
 
 /**
- Represents an opaque type we can use for tidyLocaleMapItem, which
- is used to represent items in the language list, and used to access
- the `windowsName()` and the `posixName()`.
-*/
-public typealias tidyLocaleMapItem = UnsafePointer<CLibTidy.tidyLocaleMapItem?>
-
- 
-/**
- Returns an array of `tidyLocaleMapItem` tokens representing a mapping between
- legacy Windows locale names and POSIX names. These tokens can be queried
- against `TidyLangWindowsName` and `TidyLangPosixName`.
- 
- - Note: This Swift array replaces the CLibTidy functions
-     `getWindowsLanguageList()` and `getNextWindowsLanguage()`, as it is much
-     more natural to deal with Swift  array types when using Swift.
- 
- - returns:
-     Returns an array of `tidyLocaleMapItem` opaque tokens.
-*/
-public func getWindowsLanguageList() -> [tidyLocaleMapItem] {
-    
-    var it: TidyIterator? = CLibTidy.getWindowsLanguageList()
-    
-    var result : [tidyLocaleMapItem] = []
-    
-    while ( it != nil ) {
-        
-        if let opt = CLibTidy.getNextWindowsLanguage( &it ) {
-            result.append(opt)
-        }
-    }
-    
-    return result
-}
-
-
-/**
  Returns a dictionary of mappings between Windows legacy locale names to
  POSIX locale names.
 
- - Note: It's probably better to use this dictionary instead of
-     getWindowsLanguageList() and its related accessor functions.
+ - Note: This Swift array replaces the CLibTidy functions
+     `getWindowsLanguageList()` and `getNextWindowsLanguage()`, as it is much
+     more natural to deal with Swift array types when using Swift.
 
  - returns:
      Returns a dictionary with key names representing a Windows locale name,
@@ -2509,43 +2488,20 @@ public func getWindowsLanguageList() -> [tidyLocaleMapItem] {
      relationship may be many to one, in that multiple Windows locale names
      refer to the same POSIX mapping.
  */
-public func getWindowsLanguageDict() -> [ String : String ] {
+public func getWindowsLanguageList() -> [ String : String ] {
 
+    var it: TidyIterator? = CLibTidy.getWindowsLanguageList()
     var result = [ String : String ]()
 
-    for mapItem in getWindowsLanguageList() {
-        result[TidyLangWindowsName( mapItem )] = TidyLangPosixName( mapItem )
+    while ( it != nil ) {
+        if let mapItem = CLibTidy.getNextWindowsLanguage( &it ) {
+            let winName = String( cString: CLibTidy.TidyLangWindowsName( mapItem ) )
+            let nixName = String( cString: CLibTidy.TidyLangPosixName( mapItem ) )
+            result[winName] = nixName
+        }
     }
 
     return result
-}
-
-
-/**
- Given a `tidyLocalMapItem`, return the Windows name.
- 
- - parameters:
-   - item: An instance of tidyLocaleMapItem to query.
- - returns: 
-     Returns a string with the Windows name of the mapping.
-*/
-public func TidyLangWindowsName( _ item: tidyLocaleMapItem ) -> String {
- 
-    return String( cString: CLibTidy.TidyLangWindowsName( item ) )
-}
-
- 
-/** 
- Given a `tidyLocalMapItem`, return the POSIX name.
- 
- - parameters:
-   - item: An instance of tidyLocalMapItem to query.
- - returns: 
-     Returns a string with the POSIX name of the mapping.
-*/
-public func TidyLangPosixName( _ item: tidyLocaleMapItem ) -> String {
- 
-    return String( cString: CLibTidy.TidyLangPosixName( item ) )
 }
 
 
@@ -2687,7 +2643,7 @@ public func tidySetDelegate( anObject: TidyDelegateProtocol, forTidyDoc: TidyDoc
 
 /**
  Returns an array of objects containing everything that could have been passed
- to the ConfigCallback This convenience method avoids having to use your own
+ to the ConfigCallback. This convenience method avoids having to use your own
  callback or delegate method to collect this data.
 
  - parameters:

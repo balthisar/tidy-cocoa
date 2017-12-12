@@ -2091,8 +2091,6 @@ class SwLibTidyTests: XCTestCase {
       - tidySetLanguage()
       - tidyGetLanguage()
       - getWindowsLanguageList()
-      - TidyLangWindowsName()
-      - TidyLangPosixName()
       - getInstalledLanguageList()
       - getStringKeyList()
      *************************************************************************/
@@ -2117,17 +2115,8 @@ class SwLibTidyTests: XCTestCase {
          applications to accept Windows legacy language names.
          */
 
-
-        /* These aren't really useful in Swift, but are available in order
-           to respect the API. Use the Swifty getWindowsLanguageDict(). */
-        let winList = getWindowsLanguageList()
-        printhr( winList, "winList" )
-        JSDAssertTrue( winList.count > 0 )
-        JSDAssertEqual( "america", TidyLangWindowsName( winList[0] ) )
-        JSDAssertEqual( "en_us", TidyLangPosixName( winList[1] ) )
-
         /* This dictionary is a bit easier to use in Swift. */
-        let winDict = getWindowsLanguageDict()
+        let winDict = getWindowsLanguageList()
         printhr( winDict, "winDict" )
         JSDAssertTrue( winDict.count > 0)
         JSDAssertEqual( "zh_cn", winDict["china"] ?? "error" )
