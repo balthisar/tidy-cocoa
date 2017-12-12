@@ -586,7 +586,11 @@ public func tidyGeneralInfo( _ tdoc: TidyDoc ) {
 }
 
 
-/** 
+// MARK: - Configuration, File, and Encoding Operations
+// MARK: - File Operations
+
+
+/**
  Load an ASCII Tidy configuration file and set the configuration per its
  contents.
  
@@ -635,9 +639,7 @@ public func tidyFileExists( _ tdoc: TidyDoc, _ filename: String ) -> Swift.Bool 
 }
 
 
-// MARK: - Configuration, File, and Encoding Operations
-
-// MARK: - Character Encoding
+// MARK: Character Encoding
 
 
 /** 
