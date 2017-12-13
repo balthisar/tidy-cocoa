@@ -92,12 +92,13 @@ import CLibTidy
 fileprivate let MINIMUM_LIBTIDY_VERSION = "5.6.0"
 
 
+// MARK: - Type Definitions -
 /******************************************************************************
  ** Instances of these types are returned by LibTidy API functions, however
  ** they are opaque; you cannot see into them, and must use accessor functions
  ** to access the contents.
  **************************************************************************** */
-// MARK: - Opaque Types
+// MARK: Opaque Types
 
 
 /**
@@ -127,18 +128,50 @@ public typealias TidyNode = CLibTidy.TidyNode
 public typealias TidyAttr = CLibTidy.TidyAttr
 
 
-// MARK: - Additional Type Definitions
+/******************************************************************************
+ ** These type definitions expose CLibTidy types as Swift types without having
+ ** to import CLibTidy.
+ **************************************************************************** */
+// MARK: CLibTidy Exposure
 
+
+/** Known HTML attributes. */
+public typealias TidyAttrId = CLibTidy.TidyAttrId
 
 /**
- This typealias exposes TidyOptionId without having to import CLibTidy in
- client applications.
+ Categories of Tidy configuration options, which are used mostly by user
+ interfaces to sort Tidy options into related groups.
  */
+public typealias TidyConfigCategory = CLibTidy.TidyConfigCategory
+
+/** Node types. */
+public typealias TidyNodeType = CLibTidy.TidyNodeType
+
+/** configuration option values and retrieve their descriptions. */
 public typealias TidyOptionId = CLibTidy.TidyOptionId
+
+/** A Tidy configuration option can have one of these data types. */
+public typealias TidyOptionType = CLibTidy.TidyOptionType
+
+/**
+ The enumeration contains a list of every possible string that Tidy and the
+ console application can output, _except_ for strings from the following
+ enumerations:
+ - `TidyOptionId`
+ - `TidyConfigCategory`
+ - `TidyReportLevel`
+
+ They are used as keys internally within Tidy, and have corresponding text
+ keys that are used in message callback filters (these are defined in
+ `tidyStringsKeys[]`).
+ */
+public typealias tidyStrings  = CLibTidy.tidyStrings
+
+/** Known HTML element types. */
+public typealias TidyTagId = CLibTidy.TidyTagId
 
 
 // MARK: - Basic Operations -
-
 // MARK: Instantiation and Destruction
 
 
@@ -1558,7 +1591,7 @@ public func tidySetErrorBuffer( _ tdoc: TidyDoc, errbuf: TidyBufferProtocol ) ->
  *all* output that LibTidy emits (excluding the console application, which
  is a client of LibTidy).
  ******************************************************************************/
-// MARK: Error and Message Callbacks - TidyMessageCallback
+// MARK: Error and Message Callbacks
 
 
 /**
@@ -1661,7 +1694,7 @@ public func tidySetPrettyPrinterCallback( _ tdoc: TidyDoc, _ callback: @escaping
  ** and filename functions for added convenience. HTML/XHTML version determined
  ** from input.
  ******************************************************************************/
-// MARK: - Document Parse:
+// MARK: - Document Parse
 
 
 /**
@@ -1714,7 +1747,7 @@ public func tidyParseString( _ tdoc: TidyDoc, _ content: String ) -> Int {
  ** After parsing the document, you can use these functions to attempt cleanup,
  ** repair, get additional diagnostics, and determine the document type.
  ******************************************************************************/
-// MARK: - Clean, Diagnostics, and Repair:
+// MARK: - Clean, Diagnostics, and Repair
 
  
 /**
@@ -1766,7 +1799,7 @@ public func tidyReportDoctype( _ tdoc: TidyDoc ) -> Int {
  ** Save currently parsed document to the given output sink. File name
  ** and string/buffer functions provided for convenience.
  ******************************************************************************/
-// MARK: - Document Save Functions:
+// MARK: - Document Save Functions
 
  
 /** 
@@ -1877,7 +1910,7 @@ public func tidyOptSaveFile( _ tdoc: TidyDoc, _ cfgfil: String ) -> Int {
  **
  ** @{
  ******************************************************************************/
-// MARK: - Document Tree:
+// MARK: - Document Tree -
 // MARK: Nodes for Document Sections
 
 
@@ -2360,7 +2393,7 @@ public func tidyNodeColumn( _ tnod: TidyNode ) -> UInt {
  **     distinct from the internal codes that are used to lookup individual
  **     strings for localization purposes.
  ******************************************************************************/
-// MARK: - Message Key Management:
+// MARK: - Message Key Management -
 
 
 /**
@@ -2437,7 +2470,7 @@ public func getErrorCodeList() -> [UInt] {
  ** native CLibTidy localization; you'd probably want to implement your own
  ** mechanism to use native macOS localization.
  ******************************************************************************/
-// MARK: - Localization Support:
+// MARK: - Localization Support -
 // MARK: Tidy's Locale
 
 
@@ -2471,9 +2504,6 @@ public func tidyGetLanguage() -> String {
 
     return String( cString: CLibTidy.tidyGetLanguage() )
 }
-
-
-// MARK: Locale Mappings
 
 
 /**
@@ -2624,7 +2654,7 @@ public func getInstalledLanguageList() -> [String] {
 /******************************************************************************
  ** Convenience Methods
  **************************************************************************** */
-// MARK: - Convenience and Delegate Methods:
+// MARK: - Convenience and Delegate Methods -
 
 /**
  Set the delegate for an instance of TidyDoc.
@@ -2804,7 +2834,7 @@ public func setTidyPPProgressRecords( toClass: TidyPPProgressProtocol.Type, forT
 /******************************************************************************
  ** Private Stuff
  **************************************************************************** */
-// MARK: - Private:
+// MARK: - Private -
 
 
 /**

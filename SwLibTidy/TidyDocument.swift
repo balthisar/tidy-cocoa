@@ -31,6 +31,11 @@
       error file, stderr, or stdout by CLibTidy is available as a string. Use
       Cocoa for any type of output that you may need.
 
+      Convenience option value setters such as `TidySetInCharEncoding()` have
+      been omitted. While these are conveniences for the CLibTidy CLI app,
+      they clutter the interface any your own application can implement them
+      trivially.
+
  ******************************************************************************/
 
 import Foundation
@@ -155,90 +160,26 @@ import Foundation
     func tidyLoad( configFile: String, encoding: String ) -> Int
 
 
-// MARK: - Character Encoding
-
-
-    /**
-     Set the input encoding for parsing markup.  Valid values include `ascii`,
-     `latin1`, `raw`, `utf8`, `iso2022`, `mac`, `win1252`, `utf16le`, `utf16be`,
-     `utf16`, `big5`, and `shiftjis`. These values are not case sensitive.
-
-     - parameters:
-       - inCharEncoding: The encoding name as described above.
-     - returns:
-         Returns `0` upon success, or a system standard error number `EINVAL`.
-     */
-    func tidySet( inCharEncoding: String ) -> Int
-
-
-    /**
-     Set the output encoding for writing markup.  Valid values include `ascii`,
-     `latin1`, `raw`, `utf8`, `iso2022`, `mac`, `win1252`, `utf16le`, `utf16be`,
-     `utf16`, `big5`, and `shiftjis`. These values are not case sensitive.
-
-     - Note: Changing this value _after_ processing a document will _not_ change
-     the results present in any buffers.
-
-     - parameters:
-       - outCharEncoding: The encoding name as described above.
-     - returns:
-         Returns `0` upon success, or a system standard error number `EINVAL`.
-     */
-    func tidySet( outCharEncoding: String ) -> Int
-
-
 // MARK: Configuration Callback Functions
 
 
     /**
-     This typealias represents the required signature for your provided callback
-     function should you wish to register one with `tidySetConfigCallback()`. Your
-     callback function will be provided with the following parameters.
-
-     - Note: This signature varies from LibTidy's signature in order to provide
-     a simple class-based record rather than a list of parameters.
-
-     - parameters:
-     - report: An instance of a class conforming toTidyConfigReportProtocol,
-     which contains the report data.
-     - returns:
-     Your callback function will return `true` if it handles the provided
-     option, or `false` if it does not. In the latter case, Tidy will issue an
-     error indicating the unknown configuration option.
-     */
-    typealias TidyConfigCallback = ( _ report: TidyConfigReportProtocol ) -> Bool
-
-
-    /**
-     Applications using TidyLib may want to augment command-line and configuration
-     file options. Setting this callback allows a LibTidy application developer to
-     examine command-line and configuration file options after LibTidy has examined
-     them and failed to recognize them.
+     Applications using TidyLib may want to augment command-line and
+     configuration file options. Setting this callback allows a LibTidy
+     application developer to examine command-line and configuration file
+     options after LibTidy has examined them and failed to recognize them.
 
      # See also:
      - `tidyConfigRecords(forTidyDoc:)`
      - `<TidyDelegateProtocol>tidyReports(unknownOption:)`
 
      - parameters:
-     - tdoc: The document to apply the callback to.
-     - swiftCallback: The name of a function of type `TidyConfigCallback` to
-     serve as your callback.
+     - configCallback: The name of a function of type `TidyConfigCallback` to
+         serve as your callback.
      - returns:
-     Returns `true` upon success.
+         Returns `true` upon success.
      */
-    func tidySetConfigCallback( _ tdoc: TidyDoc, _ swiftCallback: @escaping TidyConfigCallback ) -> Bool
-
-
-    /**
-     This typealias represents the required signature for your provided callback
-     function should you wish to register one with tidySetConfigChangeCallback().
-     Your callback function will be provided with the following parameters.
-
-     - parameters:
-     - tdoc: The document instance for which the callback was invoked.
-     - option: The option that will be changed.
-     */
-    typealias TidyConfigChangeCallback = ( _ tdoc: TidyDoc, _ option: TidyOption ) -> Void
+    func tidySet( configCallback: @escaping TidyConfigCallback ) -> Bool
 
 
     /**
@@ -251,13 +192,12 @@ import Foundation
      - `<TidyDelegateProtocol>tidyReports(optionChanged:forTidyDoc:)`
 
      - parameters:
-     - tdoc: The document to apply the callback to.
-     - swiftCallback: The name of a function of type TidyConfigChangeCallback() to
-     serve as your callback.
+       - configChangeCallback: The name of a function of type
+           TidyConfigChangeCallback() to serve as your callback.
      - returns:
-     Returns true upon success setting the callback.
+         Returns true upon success setting the callback.
      */
-    func tidySetConfigChangeCallback( _ tdoc: TidyDoc, _ swiftCallback: @escaping TidyConfigChangeCallback ) -> Swift.Bool
+    func tidySet( configChangeCallback: @escaping TidyConfigChangeCallback ) -> Bool
 
 
 // MARK: Option ID Discovery
@@ -747,13 +687,6 @@ import Foundation
     // MARK: - I/O and Messages
 
 
-    /**
-     This typealias provides a type for dealing with non-standard input and output
-     streams in Swift. In general you can set CLibTidy's input streams and then
-     forget them, however if you wish to contribute additional I/O with these
-     non-standard streams, you will have to do it with a C-type API.
-     */
-    typealias CFilePointer = UnsafeMutablePointer<FILE>
 
 
     // MARK: - Emacs-compatible reporting support
@@ -823,19 +756,6 @@ import Foundation
 
 
     /**
-     This typealias represents the required signature for your provided callback
-     function should you wish to register one with tidySetMessageCallback().
-     Your callback function will be provided with the following parameters.
-
-     - parameters:
-     - record: An instance conforming to TidyMessageProtocol.
-     - returns: Your callback function will return `true` if Tidy should include the
-     report in its own output sink, or `false` if Tidy should suppress it.
-     */
-    typealias TidyMessageCallback = ( _ record: TidyMessageProtocol ) -> Swift.Bool
-
-
-    /**
      This function informs Tidy to use the specified callback to send reports.
 
      # See also:
@@ -859,20 +779,6 @@ import Foundation
      ******************************************************************************/
     // MARK: Printing
 
-
-    /**
-     This typedef represents the required signature for your provided callback
-     function should you wish to register one with tidySetPrettyPrinterCallback().
-     Your callback function will be provided with the following parameters.
-
-     - parameters:
-     - report: An instance conforming to TidyPPProgessProtocol.
-     - returns:
-     Your callback function will return `true` if Tidy should include the report
-     report in its own output sink, or `false` if Tidy should suppress it.
-     */
-
-    typealias TidyPPProgress = ( _ report: TidyPPProgressProtocol ) -> Void
 
 
     /**
@@ -1269,7 +1175,7 @@ import Foundation
      - returns:
      Returns a bool indicating whether or not the attribute is an event.
      **/
-    func tidyAttrIsEvent( _ tattr: TidyAttr ) -> Swift.Bool
+    func tidyAttrIsEvent( _ tattr: TidyAttr ) -> Bool
 
 
     /**
