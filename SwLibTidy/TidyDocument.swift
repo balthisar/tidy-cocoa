@@ -17,10 +17,15 @@
       as providing a more Swift-like experience.
 
     General
-      CLibTidy's TidyDoc is re-described as a protocol, and many of the
+      CLibTidy's TidyDoc is re-described as a set of protocol, and many of the
       functions have been made into type properties and methods, and instance
-      properties and methods. Additionally, where methods are use, Swift and
+      properties and methods. Additionally, where methods are used, Swift and
       Cocoa conventions and types are used instead of C/Tidy types.
+
+      Some functions that have been incorporated into the TidyDocumentProtocol
+      aren't otherwise necessary in Swift, but have been provided for
+      Objective-C, which cannot use Swift top level functions. For example,
+      `tidyReleaseDate()`.
 
     Unimplemented Functions
       Functions with built-in Cocoa equivalents have not been included, e.g.,
@@ -41,12 +46,41 @@
 import Foundation
 
 
-/**
- Describe CLibTidy's `TidyDoc` as a protocol.
- */
-@objc public protocol TidyDocumentProtocol: AnyObject {
+/******************************************************************************
+ This composed protocol encompasses all of the separate protocols that make up
+ a TidyDocument.
+ ******************************************************************************/
+@objc public protocol TidyDocumentProtocol: TidyDocumentTypeProperties,
+                                            TidyDocumentTidyingProtocol,
+                                            TidyDocumentCallbackProtocol {}
 
-// MARK: Host Application Data
+
+/******************************************************************************
+ Provide Swift top-level functions as type properties. Although Swift
+ applications could simply use the SwLibTidy top-level functions, these
+ are not available to Objective-C, and so are made available here.
+ ******************************************************************************/
+@objc public protocol TidyDocumentTypeProperties: AnyObject {
+
+    /** Get the release date for the current library. */
+    static var tidyReleaseDate: String { get }
+
+    /** Get the version number for the current library. */
+    static var tidyLibraryVersion: String { get }
+
+    /** Get the platform name from the current library. */
+    static var tidyPlatform: String { get }
+
+}
+
+
+/******************************************************************************
+ Provide a protocol for using LibTidy's callbacks and delegate.
+ ******************************************************************************/
+@objc public protocol TidyDocumentCallbackProtocol: AnyObject {
+
+    /** The delegate for this instance of the TidyDocument. */
+    var tidySetDelegate: TidyDelegateProtocol? { get set }
 
     /**
      Allows the host application to store a reference to an object instance.
@@ -58,18 +92,88 @@ import Foundation
     var appData: AnyObject? { get set }
 
 
-// MARK: CLibTidy Version Information
+    /**
+     Applications using TidyLib may want to augment command-line and
+     configuration file options. Setting this callback allows a LibTidy
+     application developer to examine command-line and configuration file
+     options after LibTidy has examined them and failed to recognize them.
+
+     # See also:
+     - `tidyConfigRecords`
+     - `<TidyDelegateProtocol>tidyReports(unknownOption:)`
+
+     - parameters:
+       - configCallback: The name of a function of type `TidyConfigCallback` to
+           serve as your callback.
+     - returns:
+         Returns `true` upon success.
+     */
+    func tidySet( configCallback: @escaping TidyConfigCallback ) -> Bool
 
 
-    /** Get the release date for the current library. */
-    static var tidyReleaseDate: String { get }
+    /**
+     Applications using TidyLib may want to be informed when changes to options
+     are made. Temporary changes made internally by Tidy are not reported, but
+     permanent changes made by Tidy (such as indent-spaces or output-encoding)
+     will be reported.
 
-    /** Get the version number for the current library. */
-    static var tidyLibraryVersion: String { get }
+     # See also:
+     - `<TidyDelegateProtocol>tidyReports(optionChanged:forTidyDoc:)`
 
-    /** Get the platform name from the current library. */
-    static var tidyPlatform: String { get }
+     - parameters:
+       - configChangeCallback: The name of a function of type
+           TidyConfigChangeCallback() to serve as your callback.
+     - returns:
+         Returns true upon success setting the callback.
+     */
+    func tidySet( configChangeCallback: @escaping TidyConfigChangeCallback ) -> Bool
 
+
+    /**
+     This function informs Tidy to use the specified callback to send reports.
+
+     # See also:
+     - `tidyMessageRecords`
+     - `<TidyDelegateProtocol>tidyReports(message:)`
+
+     - parameters:
+       - messageCallback: A pointer to your callback function of type
+           `TidyMessageCallback`.
+     - returns:
+         A boolean indicating success or failure setting the callback.
+     */
+    func tidySet( messageCallback: @escaping TidyMessageCallback ) -> Bool
+
+
+    /**
+     This function informs Tidy to use the specified callback for tracking the
+     pretty-printing process progress.
+
+     # See also:
+     - `tidyPPProgressRecords`
+     - `<TidyDelegateProtocol>tidyReports(pprint:)`
+
+     - parameters:
+       - prettyPrinterCallback: The function to be called.
+     - returns:
+         True or false indicating the success or failure of setting the callback.
+     */
+    func tidySet( prettyPrinterCallback: @escaping TidyPPProgress ) -> Bool
+
+}
+
+
+/******************************************************************************
+ The heart of Tidy, provides functionality for setting text, parsing and
+ cleaning it, and running diagnostics.
+ ******************************************************************************/
+@objc public protocol TidyDocumentTidyingProtocol: AnyObject {
+
+    var sourceText: String { get set }
+
+    var tidyText: String { get }
+
+    
 
 // MARK: - Diagnostics and Repair Status
 
@@ -159,45 +263,6 @@ import Foundation
      */
     func tidyLoad( configFile: String, encoding: String ) -> Int
 
-
-// MARK: Configuration Callback Functions
-
-
-    /**
-     Applications using TidyLib may want to augment command-line and
-     configuration file options. Setting this callback allows a LibTidy
-     application developer to examine command-line and configuration file
-     options after LibTidy has examined them and failed to recognize them.
-
-     # See also:
-     - `tidyConfigRecords(forTidyDoc:)`
-     - `<TidyDelegateProtocol>tidyReports(unknownOption:)`
-
-     - parameters:
-     - configCallback: The name of a function of type `TidyConfigCallback` to
-         serve as your callback.
-     - returns:
-         Returns `true` upon success.
-     */
-    func tidySet( configCallback: @escaping TidyConfigCallback ) -> Bool
-
-
-    /**
-     Applications using TidyLib may want to be informed when changes to options
-     are made. Temporary changes made internally by Tidy are not reported, but
-     permanent changes made by Tidy (such as indent-spaces or output-encoding)
-     will be reported.
-
-     # See also:
-     - `<TidyDelegateProtocol>tidyReports(optionChanged:forTidyDoc:)`
-
-     - parameters:
-       - configChangeCallback: The name of a function of type
-           TidyConfigChangeCallback() to serve as your callback.
-     - returns:
-         Returns true upon success setting the callback.
-     */
-    func tidySet( configChangeCallback: @escaping TidyConfigChangeCallback ) -> Bool
 
 
 // MARK: Option ID Discovery
@@ -746,56 +811,6 @@ import Foundation
     func tidySetErrorBuffer( _ tdoc: TidyDoc, errbuf: TidyBufferProtocol ) -> Int
 
 
-    /***************************************************************************//**
-     A sophisticated and extensible callback to filter or collect messages
-     reported by Tidy. Note that unlike the older filters, this callback exposes
-     *all* output that LibTidy emits (excluding the console application, which
-     is a client of LibTidy).
-     ******************************************************************************/
-    // MARK: Error and Message Callbacks - TidyMessageCallback
-
-
-    /**
-     This function informs Tidy to use the specified callback to send reports.
-
-     # See also:
-     - `tidyMessageRecords(forTidyDoc:)`
-     - `<TidyDelegateProtocol>tidyReports(message:)`
-
-     - parameters:
-     - tdoc: The tidy document for which the callback applies.
-     - filtCallback: A pointer to your callback function of type
-     `TidyMessageCallback`.
-     - returns:
-     A boolean indicating success or failure setting the callback.
-     */
-    func tidySetMessageCallback( _ tdoc: TidyDoc, _ swiftCallback: @escaping TidyMessageCallback ) -> Swift.Bool
-
-
-    /***************************************************************************//**
-     ** LibTidy applications can somewhat track the progress of the tidying process
-     ** by using this provided callback. It relates where something in the source
-     ** document ended up in the output.
-     ******************************************************************************/
-    // MARK: Printing
-
-
-
-    /**
-     This function informs Tidy to use the specified callback for tracking the
-     pretty-printing process progress.
-
-     # See also:
-     - `tidyPPProgressRecords(forTidyDoc:)`
-     - `<TidyDelegateProtocol>tidyReports(pprint:)`
-
-     - parameters:
-     - tdoc: The `TidyDoc` for which you are setting the callback.
-     - callback: The function to be called.
-     - returns:
-     True or false indicating the success or failure of setting the callback.
-     */
-    func tidySetPrettyPrinterCallback( _ tdoc: TidyDoc, _ callback: @escaping TidyPPProgress ) -> Swift.Bool
 
 
 
@@ -1554,12 +1569,7 @@ import Foundation
     /******************************************************************************
      ** Convenience Methods
      **************************************************************************** */
-    // MARK: - Convenience and Delegate Methods:
-
-    /**
-     Set the delegate for an instance of TidyDoc.
-     */
-    func tidySetDelegate( anObject: TidyDelegateProtocol, forTidyDoc: TidyDoc )
+    // MARK: - Convenience Methods:
 
     /**
      Returns an array of objects containing everything that could have been passed
@@ -1651,6 +1661,40 @@ import Foundation
 
 
 }
+
+
+@objc public protocol TestHelloProtocol: AnyObject {
+    var hello: String { get }
+}
+
+@objc public protocol TestGoodbyeProtocol: AnyObject {
+    var goodbye: String { get }
+}
+
+@objc public protocol TestProtocol: TestHelloProtocol, TestGoodbyeProtocol {}
+
+
+
+@objc public class TestClass: NSObject, TestProtocol {
+
+    public var hello: String
+    public var goodbye: String
+
+    public override init() {
+        self.hello = "Hello"
+        self.goodbye = "Goodbye"
+        super.init()
+    }
+
+    public func sayHello() {
+        print( hello )
+    }
+
+    public func sayGoodbye() {
+        print( goodbye )
+    }
+}
+
 
 @objc public class TidyDocument: NSObject {
 

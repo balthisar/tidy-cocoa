@@ -14,15 +14,31 @@
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
 
-        TidyDocument *doc = [[TidyDocument alloc] init];
+//        TidyDocument *doc = [[TidyDocument alloc] init];
+//
+//
+//        NSString *myString = [doc getHello];
+//        NSLog(@"\n%@\n", myString);
+//
+//        TidyOptionId id = [doc getOptionIdForName: @"clean"];
+//        NSLog(@"\n%u\n", id);
 
+        TestClass *myTest = [[TestClass alloc] init];
+        NSString *myString = myTest.hello;
+        NSLog( @"\n%@\n", myString );
+        [myTest sayGoodbye];
 
-        NSString *myString = [doc getHello];
-        NSLog(@"\n%@\n", myString);
+        if ([TestClass conformsToProtocol:@protocol(TestHelloProtocol)] ) {
+            NSLog( @"\n%@\n", @"Conforms to TestHelloProtocol" );
+        };
 
-        TidyOptionId id = [doc getOptionIdForName: @"clean"];
-        NSLog(@"\n%u\n", id);
+        if ([TestClass conformsToProtocol:@protocol(TestGoodbyeProtocol)] ) {
+            NSLog( @"\n%@\n", @"Conforms to TestGoodbyeProtocol" );
+        };
 
+        if ([TestClass conformsToProtocol:@protocol(TestProtocol)] ) {
+            NSLog( @"\n%@\n", @"Conforms to TestProtocol" );
+        };
 
     }
     return 0;
