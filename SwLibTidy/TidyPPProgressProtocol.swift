@@ -1,6 +1,6 @@
 /******************************************************************************
 
-	TidyPPProgressProtocol.swift
+    TidyPPProgressProtocol.swift
     Part of the SwLibTidy wrapper library for tidy-html5 ("CLibTidy").
     See https://github.com/htacg/tidy-html5
 
@@ -14,6 +14,10 @@
       collection of pretty printing progress report data, which establishes
       a spatial relationship between items in the input document and items
       in the output document.
+
+    Audience
+      Intended for use both when using SwLibTidy directly, as well as with
+      protocol-based Tidy.
 
  ******************************************************************************/
 

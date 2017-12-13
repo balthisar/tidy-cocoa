@@ -1765,7 +1765,7 @@ public func tidyCleanAndRepair( _ tdoc: TidyDoc ) -> Int {
 
  
 /**
- Run configured diagnostics on parsed and repaired markup.
+ Add additional diagnostics information into the current error output sink.
 
  - precondition: You must call `tidyCleanAndRepair()` before using this
      function.

@@ -1,6 +1,6 @@
 /******************************************************************************
 
-	TidyBufferProtocol.swift
+    TidyBufferProtocol.swift
     Part of the SwLibTidy wrapper library for tidy-html5 ("CLibTidy").
     See https://github.com/htacg/tidy-html5
 
@@ -12,6 +12,11 @@
     Purpose
       This protocol and class define and implement an abstraction to the
       CLibTidy `TidyBuffer` that is more useful in Swift.
+
+    Audience
+      It's primarily intended for use with SwLibTidy directly, rather than
+      for use in interacting with any classes adopting protocol-based Tidy,
+      which expose everything as strings.
  
  ******************************************************************************/
 

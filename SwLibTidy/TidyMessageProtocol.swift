@@ -1,17 +1,21 @@
 /******************************************************************************
 
- TidyMessageProtocol.swift
- Part of the SwLibTidy wrapper library for tidy-html5 ("CLibTidy").
- See https://github.com/htacg/tidy-html5
+    TidyMessageProtocol.swift
+    Part of the SwLibTidy wrapper library for tidy-html5 ("CLibTidy").
+    See https://github.com/htacg/tidy-html5
 
- Copyright © 2107 by HTACG. All rights reserved.
- Created by Jim Derry 2017; copyright assigned to HTACG. Permission to use
- this source code per the W3C Software Notice and License:
- https://www.w3.org/Consortium/Legal/2002/copyright-software-20021231
+    Copyright © 2107 by HTACG. All rights reserved.
+    Created by Jim Derry 2017; copyright assigned to HTACG. Permission to use
+    this source code per the W3C Software Notice and License:
+    https://www.w3.org/Consortium/Legal/2002/copyright-software-20021231
 
- Purpose
-   This protocol and class define and implement a structure suitable for
-   storing CLibTidy output messages.
+    Purpose
+      This protocol and class define and implement a structure suitable for
+      storing CLibTidy output messages.
+
+    Audience
+      Intended for use both when using SwLibTidy directly, as well as with
+      protocol-based Tidy.
 
  ******************************************************************************/
 

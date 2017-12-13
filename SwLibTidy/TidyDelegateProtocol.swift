@@ -1,6 +1,6 @@
 /******************************************************************************
 
-	TidyDelegateProtocol.swift
+    TidyDelegateProtocol.swift
     Part of the SwLibTidy wrapper library for tidy-html5 ("CLibTidy").
     See https://github.com/htacg/tidy-html5
 
@@ -14,6 +14,10 @@
       SwLibTidy. As a C library, LibTidy places a lot of emphasis on
       callbacks, but SwLibTidy provides this delegate interface as a more
       Cocoa-like alternative.
+
+    Audience
+      Intended for use both when using SwLibTidy directly, as well as with
+      protocol-based Tidy.
 
  ******************************************************************************/
 

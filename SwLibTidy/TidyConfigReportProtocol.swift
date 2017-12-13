@@ -1,6 +1,6 @@
 /******************************************************************************
 
-	TidyConfigReportProtocol.swift
+    TidyConfigReportProtocol.swift
     Part of the SwLibTidy wrapper library for tidy-html5 ("CLibTidy").
     See https://github.com/htacg/tidy-html5
 
@@ -13,6 +13,10 @@
       This protocol and class define and implement an object for the
       collection of configuration report data as a supplement/substitute
       for using the ConfigCallback.
+
+    Audience
+      Intended for use both when using SwLibTidy directly, as well as with
+      protocol-based Tidy.
 
  ******************************************************************************/
 
