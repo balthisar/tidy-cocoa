@@ -219,21 +219,6 @@ import Foundation
 @objc public protocol TidyDocumentOptionsProtocol: AnyObject {
 
     /**
-     Native LibTidy uses strings to specify file paths. Adopters of this
-     protocol may choose to continue doing so, or define their own type
-     such as NSURL.
-    */
-//    associatedtype tidyPathType = String
-
-    /**
-     Native LibTidy uses strings representing the character encodings that
-     it know about. Adopters of this protocol may choose to continue doing
-     so, or define their own type such as NSEncoding.
-    */
-//    associatedtype tidyEncodingType = String
-
-    
-    /**
      Load an ASCII Tidy configuration file and set the configuration per its
      contents.
 
@@ -242,7 +227,7 @@ import Foundation
      - returns:
          Returns `0` upon success, or any other value if there was an error.
      */
-//    func tidyLoad( configFile: tidyPathType ) -> Int
+    func tidyLoad( configFile: String ) -> Int
 
 
     /**
@@ -255,7 +240,7 @@ import Foundation
      - returns:
          Returns `0` upon success, or any other value if there was an error.
      */
-//    func tidyLoad( configFile: tidyPathType, encoding: tidyEncodingType ) -> Int
+    func tidyLoad( configFile: String, encoding: String ) -> Int
 
 
 
@@ -268,7 +253,7 @@ import Foundation
      - returns:
      An integer representing the status.
      */
-//    func tidyOptSaveFile( _ tdoc: TidyDoc, _ cfgfil: tidyPathType ) -> Int
+    func tidyOptSaveFile( _ tdoc: TidyDoc, _ cfgfil: String ) -> Int
 
 
     /**
@@ -993,26 +978,33 @@ import Foundation
 }
 
 
-protocol JimProtocol {
+public protocol JimProtocol {
     associatedtype JimType: AnyObject = String
     var jimvar: JimType { get }
 }
 
 @objc public class JimClass: NSObject, JimProtocol {
-    var jimvar: String = "Hello"
+    public var jimvar: String = "Hello from JimClass."
 }
 
 
-@objc public protocol TestHelloProtocol: AnyObject {
+@objc public protocol SwiftProtocol {
+    var value: String { get }
+}
+
+@objc public class SwiftClass: NSObject, SwiftProtocol {
+    public var value: String { return "Hello from Swiftclass" }
+}
+
+@objc public protocol TestHelloProtocol {
     var hello: String { get }
 }
 
-@objc public protocol TestGoodbyeProtocol: AnyObject {
+@objc public protocol TestGoodbyeProtocol {
     var goodbye: String { get }
 }
 
 @objc public protocol TestProtocol: TestHelloProtocol, TestGoodbyeProtocol {}
-
 
 
 @objc public class TestClass: NSObject, TestProtocol {
@@ -1026,40 +1018,23 @@ protocol JimProtocol {
         super.init()
     }
 
-    public func sayHello() {
+    @objc public func sayHello() {
         print( hello )
     }
 
-    public func sayGoodbye() {
+    @objc public func sayGoodbye() {
         print( goodbye )
     }
-}
 
-
-@objc public class TidyDocument: NSObject {
-
-    private var doc = tidyCreate()
-
-//    public init?() {
-//    }
-//
-    deinit {
-        if let doc = doc {
-            tidyRelease( doc )
-        }
+    /* Not visible in Objective-C! */
+    @objc public func getSwiftProtocol() -> SwiftProtocol {
+        return SwiftClass()
     }
 
-    // Can't return optional to objc.
-    @objc public func getOptionId( forName: String ) -> TidyOptionId {
-
-        return tidyOptGetIdForName( forName )!
+    @objc public func getSwiftClass() -> SwiftClass {
+        return SwiftClass()
     }
 
-    @objc public func getHello() -> String {
-        return "Hello, Jim"
-    }
-
-    
 }
 
 

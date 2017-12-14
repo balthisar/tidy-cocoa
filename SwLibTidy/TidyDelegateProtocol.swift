@@ -44,7 +44,7 @@ import Foundation
          Your delegate should return true if it successfully handled the
          unknown option; return false to let Tidy output an error message.
      */
-    @objc optional func tidyReports( unknownOption: TidyConfigReportProtocol ) -> Swift.Bool
+    @objc optional func tidyReports( unknownOption: TidyConfigReportProtocol ) -> Bool
 
     /**
      This delegate method is called whenever an option value is changed.
@@ -65,7 +65,7 @@ import Foundation
          Your delegate should return false to indicate that Tidy should not
          further process the message itself.
      */
-    @objc optional func tidyReports( message: TidyMessageProtocol ) -> Swift.Bool
+    @objc optional func tidyReports( message: TidyMessageProtocol ) -> Bool
 
     /**
      This delegate method is called during the pretty printing process in order

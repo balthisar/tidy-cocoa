@@ -19,5 +19,5 @@ a single structure.
 `SwLibTidy` dynamically links to `libtidy-sw.dylib`, which is put into the
 framework bundle where the dynamic linker will find it. Additionally the dynamic
 linker will first search `/usr/local/lib`, so that end-user applications can
-update their versions of Tidy if your provide instructions.
+update their versions of Tidy if you provide instructions.
 

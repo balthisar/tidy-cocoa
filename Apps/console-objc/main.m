@@ -10,22 +10,15 @@
 @import SwLibTidy;
 @import CLibTidyEnum;
 
-
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
 
-//        TidyDocument *doc = [[TidyDocument alloc] init];
-//
-//
-//        NSString *myString = [doc getHello];
-//        NSLog(@"\n%@\n", myString);
-//
-//        TidyOptionId id = [doc getOptionIdForName: @"clean"];
-//        NSLog(@"\n%u\n", id);
+        NSString *someString = nil;
+
 
         TestClass *myTest = [[TestClass alloc] init];
-        NSString *myString = myTest.hello;
-        NSLog( @"\n%@\n", myString );
+        someString = [myTest hello];
+        NSLog( @"\n%@\n", someString );
         [myTest sayGoodbye];
 
         if ([TestClass conformsToProtocol:@protocol(TestHelloProtocol)] ) {
@@ -39,6 +32,8 @@ int main(int argc, const char * argv[]) {
         if ([TestClass conformsToProtocol:@protocol(TestProtocol)] ) {
             NSLog( @"\n%@\n", @"Conforms to TestProtocol" );
         };
+
+        SwiftClass *swiftClass = [myTest getSwiftClass];
 
     }
     return 0;
