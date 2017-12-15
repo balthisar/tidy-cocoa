@@ -355,7 +355,7 @@ public func JSDAssertHasSuffix( _ expect: String?, _ result: String?, _ message:
  This alternate to TidyConfigReport will be used in a test case just to
  demonstrate that user-supplied classes can be used instead of the default.
  */
-@objc public class AlternateTidyConfigReport: NSObject, TidyConfigReportProtocol {
+@objc public class AlternateTidyConfigReport: NSObject, SwLibTidyConfigReportProtocol {
 
     public var option: String = ""
     public var value: String = ""
@@ -373,7 +373,7 @@ public func JSDAssertHasSuffix( _ expect: String?, _ result: String?, _ message:
 /**
  A sample class to handle TidyDelegateProtocol methods during testing.
  */
-@objc public class SampleTidyDelegate: NSObject, TidyDelegateProtocol {
+@objc public class SampleTidyDelegate: NSObject, SwLibTidyDelegateProtocol {
 
     /* We will set this from the test case in order to pass the expectation. */
     var asyncTidyReportsUnknownOption: XCTestExpectation?
@@ -381,7 +381,7 @@ public func JSDAssertHasSuffix( _ expect: String?, _ result: String?, _ message:
     var asyncTidyReportsMessage: XCTestExpectation?
     var asyncTidyReportsPrettyPrinting: XCTestExpectation?
 
-    public func tidyReports( unknownOption: TidyConfigReportProtocol ) -> Swift.Bool {
+    public func tidyReports( unknownOption: SwLibTidyConfigReportProtocol ) -> Swift.Bool {
         guard let expectation = asyncTidyReportsUnknownOption else {
             XCTFail("Delegate failed; did you remember to set asyncExpectation?")
             return false
@@ -399,7 +399,7 @@ public func JSDAssertHasSuffix( _ expect: String?, _ result: String?, _ message:
         return
     }
 
-    public func tidyReports( message: TidyMessageProtocol ) -> Swift.Bool {
+    public func tidyReports( message: SwLibTidyMessageProtocol ) -> Swift.Bool {
         guard let expectation = asyncTidyReportsMessage else {
             XCTFail("Delegate failed; did you remember to set asyncExpectation?")
             return false
@@ -408,7 +408,7 @@ public func JSDAssertHasSuffix( _ expect: String?, _ result: String?, _ message:
         return true
     }
 
-    public func tidyReports( pprint: TidyPPProgressProtocol ) {
+    public func tidyReports( pprint: SwLibTidyPPProgressProtocol ) {
         guard let expectation = asyncTidyReportsPrettyPrinting else {
             XCTFail("Delegate failed; did you remember to set asyncExpectation?")
             return

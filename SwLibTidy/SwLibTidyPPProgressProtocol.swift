@@ -1,6 +1,6 @@
 /******************************************************************************
 
-    TidyPPProgressProtocol.swift
+    SwLibTidyPPProgressProtocol.swift
     Part of the SwLibTidy wrapper library for tidy-html5 ("CLibTidy").
     See https://github.com/htacg/tidy-html5
 
@@ -30,7 +30,7 @@ import CLibTidy
  progress report data, which establishes a spatial relationship between
  items in the input document and items in the output document.
 */
-@objc public protocol TidyPPProgressProtocol: AnyObject {
+@objc public protocol SwLibTidyPPProgressProtocol: AnyObject {
 
     /** The document from which the message originates. */
     var document: TidyDoc { get }
@@ -51,7 +51,7 @@ import CLibTidy
 
 
 /** A default implementation of the `TidyPPProgressProtocol`. */
-@objc public class TidyPPProgressReport: NSObject, TidyPPProgressProtocol {
+@objc public class SwLibTidyPPProgressReport: NSObject, SwLibTidyPPProgressProtocol {
 
     public var document: TidyDoc
     public var sourceLine: UInt32 = 0

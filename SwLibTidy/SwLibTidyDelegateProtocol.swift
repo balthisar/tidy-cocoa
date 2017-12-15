@@ -1,6 +1,6 @@
 /******************************************************************************
 
-    TidyDelegateProtocol.swift
+    SwLibTidyDelegateProtocol.swift
     Part of the SwLibTidy wrapper library for tidy-html5 ("CLibTidy").
     See https://github.com/htacg/tidy-html5
 
@@ -31,7 +31,7 @@ import Foundation
  can serve as an alternative to closures and/or callbacks that are native to
  Tidy.
  */
-@objc public protocol TidyDelegateProtocol: AnyObject {
+@objc public protocol SwLibTidyDelegateProtocol: AnyObject {
 
     /**
      This delegate method is called any time Tidy tries to parse an unknown
@@ -44,7 +44,7 @@ import Foundation
          Your delegate should return true if it successfully handled the
          unknown option; return false to let Tidy output an error message.
      */
-    @objc optional func tidyReports( unknownOption: TidyConfigReportProtocol ) -> Bool
+    @objc optional func tidyReports( unknownOption: SwLibTidyConfigReportProtocol ) -> Bool
 
     /**
      This delegate method is called whenever an option value is changed.
@@ -65,7 +65,7 @@ import Foundation
          Your delegate should return false to indicate that Tidy should not
          further process the message itself.
      */
-    @objc optional func tidyReports( message: TidyMessageProtocol ) -> Bool
+    @objc optional func tidyReports( message: SwLibTidyMessageProtocol ) -> Bool
 
     /**
      This delegate method is called during the pretty printing process in order
@@ -76,7 +76,7 @@ import Foundation
        - pprint: An instance of TidyPProgressProtocol containing the progress
            report.
      */
-    @objc optional func tidyReports( pprint: TidyPPProgressProtocol )
+    @objc optional func tidyReports( pprint: SwLibTidyPPProgressProtocol )
 }
 
 

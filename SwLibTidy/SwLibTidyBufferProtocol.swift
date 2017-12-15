@@ -1,6 +1,6 @@
 /******************************************************************************
 
-    TidyBufferProtocol.swift
+    SwLibTidyBufferProtocol.swift
     Part of the SwLibTidy wrapper library for tidy-html5 ("CLibTidy").
     See https://github.com/htacg/tidy-html5
 
@@ -38,7 +38,7 @@ public typealias TidyRawBuffer = UnsafeMutablePointer<byte>
  Conforming objects are also required to provide accessors and functions that
  enable accessing the raw, stored data.
 */
-@objc public protocol TidyBufferProtocol: AnyObject {
+@objc public protocol SwLibTidyBufferProtocol: AnyObject {
     
     /** An accessor to the underlying TidyBuffer type from CLibTidy. */
     var tidyBuffer: TidyBufferPtr { get }
@@ -89,7 +89,7 @@ public typealias TidyRawBuffer = UnsafeMutablePointer<byte>
 
 
 /** A default implementation of the `TidyBufferProtocol`. */
-@objc public class SwTidyBuffer: NSObject, TidyBufferProtocol {
+@objc public class SwLibTidyBuffer: NSObject, SwLibTidyBufferProtocol {
     
     public var tidyBuffer: TidyBufferPtr
 

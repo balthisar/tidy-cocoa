@@ -16,13 +16,13 @@
 
 @implementation ObjectiveCTests
 
-TidyDocument *mydoc;
+//TidyDocument *mydoc;
 
 - (void)setUp
 {
     [super setUp];
 
-    mydoc = [[TidyDocument alloc] init];
+//    mydoc = [[TidyDocument alloc] init];
 }
 
 - (void)tearDown
@@ -34,11 +34,11 @@ TidyDocument *mydoc;
 
 - (void)testExample
 {
-    NSString *myString = [NSString stringWithString:[mydoc getHello]];
-    NSLog(@"===>%@\n", myString);
+//    NSString *myString = [NSString stringWithString:[mydoc getHello]];
+//    NSLog(@"===>%@\n", myString);
 
-    TidyOptionId theId = [mydoc getOptionIdForName: @"clean" ];
-    NSLog(@"%u", theId);
+//    TidyOptionId theId = [mydoc getOptionIdForName: @"clean" ];
+//    NSLog(@"%u", theId);
 }
 
 - (void)testPerformanceExample

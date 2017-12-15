@@ -276,7 +276,7 @@ class SwLibTidyTests: XCTestCase {
         let _ = tidyParseString( tdoc, "<img src='#'>")
 
         /* Now let's setup error buffers. */
-        let errorBuffer = SwTidyBuffer()
+        let errorBuffer = SwLibTidyBuffer()
         let err = tidySetErrorBuffer( tdoc, errbuf: errorBuffer )
         XCTAssert( err == 0, "tidySetErrorBuffer() returned \(err) instead of 0.")
 
@@ -387,7 +387,7 @@ class SwLibTidyTests: XCTestCase {
         let callbackSuccess = XCTestExpectation( description: "The callback should execute at least once." )
 
         /* Closures can be used as callbacks, which is what we do here. */
-        let _ = tidySetConfigCallback( tdoc, { (report: TidyConfigReportProtocol) -> Swift.Bool in
+        let _ = tidySetConfigCallback( tdoc, { (report: SwLibTidyConfigReportProtocol) -> Swift.Bool in
 
             callbackSuccess.fulfill()
 
@@ -917,7 +917,7 @@ class SwLibTidyTests: XCTestCase {
             bit below goes through a typical Tidy cycle, and saves the buffer,
             which should ensure that our options are exactly how we set them.
          */
-        let outpBuffer = SwTidyBuffer()
+        let outpBuffer = SwLibTidyBuffer()
         _ = tidyParseString( tdoc, "<h1>How now, brown cow?</h1>")
         _ = tidyCleanAndRepair( tdoc )
         _ = tidySaveBuffer( tdoc, outpBuffer ) /* needed to restore snapshot */
@@ -1135,7 +1135,7 @@ class SwLibTidyTests: XCTestCase {
         let emacs_file = "/home/charliebrown/httpd/mywebsite"
 
         /* Setup error buffers. */
-        let errorBuffer = SwTidyBuffer()
+        let errorBuffer = SwLibTidyBuffer()
         let err = tidySetErrorBuffer( tdoc, errbuf: errorBuffer )
         JSDAssertEqual( 0, err )
 
@@ -1303,7 +1303,7 @@ class SwLibTidyTests: XCTestCase {
 
 
         /* Closures can be used as callbacks, which is what we do here. */
-        let _ = tidySetMessageCallback( tdoc, { ( message: TidyMessageProtocol ) -> Swift.Bool in
+        let _ = tidySetMessageCallback( tdoc, { ( message: SwLibTidyMessageProtocol ) -> Swift.Bool in
 
             callbackSuccess.fulfill()
 
@@ -1454,7 +1454,7 @@ class SwLibTidyTests: XCTestCase {
 
 
         /* Tidy and Pretty Print a Document */
-        let outpBuffer = SwTidyBuffer()
+        let outpBuffer = SwLibTidyBuffer()
         let _ = tidySample( doc: tdoc )
         let _ = tidyCleanAndRepair( tdoc )
         let _ = tidySaveBuffer( tdoc, outpBuffer ) /* does the printing */
@@ -1499,7 +1499,7 @@ class SwLibTidyTests: XCTestCase {
         sampleDelegate.asyncTidyReportsPrettyPrinting =  XCTestExpectation( description: description )
 
         /* Tidy and Pretty Print a Document */
-        let outpBuffer = SwTidyBuffer()
+        let outpBuffer = SwLibTidyBuffer()
         let _ = tidySample( doc: tdoc, useConfig: true )
         let _ = tidyCleanAndRepair( tdoc )
         let _ = tidySaveBuffer( tdoc, outpBuffer ) /* does the printing */
@@ -1528,27 +1528,27 @@ class SwLibTidyTests: XCTestCase {
         else { XCTFail( TidyCreateFailed ); return }
         defer { tidyRelease( tdoc ) }
 
-        var errBuffer: SwTidyBuffer
+        var errBuffer: SwLibTidyBuffer
 
-        errBuffer = SwTidyBuffer()
+        errBuffer = SwLibTidyBuffer()
         let _ = tidySetErrorBuffer( tdoc, errbuf: errBuffer )
         let _ = tidySample( doc: tdoc, useConfig: false )
         printhr( errBuffer.StringValue() ?? "Oops", "errBuffer after tidySample()" )
         JSDAssertHasPrefix( "line 1 column 1 - Warning: missing", errBuffer.StringValue() )
 
-        errBuffer = SwTidyBuffer()
+        errBuffer = SwLibTidyBuffer()
         let _ = tidySetErrorBuffer( tdoc, errbuf: errBuffer )
         let _ = tidyCleanAndRepair( tdoc )
         printhr( errBuffer.StringValue() ?? "Oops", "errBuffer after tidyCleanAndRepair()" )
         JSDAssertHasPrefix( "line 1 column 1 - Warning: <div> proprietary attribute", errBuffer.StringValue() )
 
-        errBuffer = SwTidyBuffer()
+        errBuffer = SwLibTidyBuffer()
         let _ = tidySetErrorBuffer( tdoc, errbuf: errBuffer )
         let _ = tidyReportDoctype( tdoc )
         printhr( errBuffer.StringValue() ?? "Oops", "errBuffer after tidyReportDoctype()" )
         JSDAssertHasPrefix( "Info: Document content looks like HTML5", errBuffer.StringValue() )
 
-        errBuffer = SwTidyBuffer()
+        errBuffer = SwLibTidyBuffer()
         let _ = tidySetErrorBuffer( tdoc, errbuf: errBuffer )
         let _ = tidyRunDiagnostics( tdoc )
         printhr( errBuffer.StringValue() ?? "Oops", "errBuffer after tidyRunDiagnostics()" )
@@ -1579,7 +1579,7 @@ class SwLibTidyTests: XCTestCase {
          Save to a buffer, which a lot of tests already do, too.
          */
 
-        let outbuff = SwTidyBuffer()
+        let outbuff = SwLibTidyBuffer()
         let _ = tidySaveBuffer( tdoc, outbuff )
         if let result = outbuff.StringValue() {
             printhr( result, "outbuff after tidySaveBuffer()" )
@@ -1759,7 +1759,7 @@ class SwLibTidyTests: XCTestCase {
 		/* We've deleted the pnode, so let's check the result to make sure
            that it's really gone. */
 
-		let docBuffer = SwTidyBuffer()
+		let docBuffer = SwLibTidyBuffer()
 		let _ = tidySaveBuffer( tdoc, docBuffer )
 
 		if let docString = docBuffer.StringValue() {
@@ -1838,7 +1838,7 @@ class SwLibTidyTests: XCTestCase {
 		attr = attrs[3]
 		tidyAttrDiscard( tdoc, divnode, attr! )
 
-		let docBuffer = SwTidyBuffer()
+		let docBuffer = SwLibTidyBuffer()
 		let _ = tidySaveBuffer( tdoc, docBuffer )
 
 		if let docString = docBuffer.StringValue() {
@@ -1922,17 +1922,17 @@ class SwLibTidyTests: XCTestCase {
         JSDAssertEqual( true,  tidyNodeHasText( tdoc, h1text ) )
 
 
-        var buffer: SwTidyBuffer
+        var buffer: SwLibTidyBuffer
         var expect: String
         var result: String
 
-        buffer = SwTidyBuffer()
+        buffer = SwLibTidyBuffer()
         expect = "<body>"
         XCTAssert( tidyNodeGetText( tdoc, bodynode, buffer ), "Unable to get bodynode text." )
         printhr( buffer.StringValue(), "tidyNodeGetText() bodynode" )
         JSDAssertHasPrefix( expect, buffer.StringValue() )
 
-        buffer = SwTidyBuffer()
+        buffer = SwLibTidyBuffer()
         expect = "<h1>\n  Hello, world!\n</h1>"
         XCTAssert( tidyNodeGetText( tdoc, h1node, buffer ), "Unable to get h1node text." )
         printhr( buffer.StringValue(), "tidyNodeGetText() h1node" )
@@ -1945,10 +1945,10 @@ class SwLibTidyTests: XCTestCase {
         JSDAssertHasPrefix( expect, result )
 
 
-        buffer = SwTidyBuffer()
+        buffer = SwLibTidyBuffer()
         XCTAssertFalse( tidyNodeGetValue( tdoc, bodynode, buffer ), "This node shouldn't have a value." )
 
-        buffer = SwTidyBuffer()
+        buffer = SwLibTidyBuffer()
         expect = "Hello, world!"
         XCTAssert( tidyNodeGetValue( tdoc, h1text, buffer ), "This node should have a value." )
         printhr( buffer.StringValue(), "tidyNodeGetValue() h1text" )

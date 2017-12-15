@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D01EB1381FC732BE00AF8BE0 /* TidyMessageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01EB1371FC732BE00AF8BE0 /* TidyMessageProtocol.swift */; };
-		D01EB13A1FC86DA900AF8BE0 /* TidyPPProgressProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01EB1391FC86DA900AF8BE0 /* TidyPPProgressProtocol.swift */; };
+		D01EB1381FC732BE00AF8BE0 /* SwLibTidyMessageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01EB1371FC732BE00AF8BE0 /* SwLibTidyMessageProtocol.swift */; };
+		D01EB13A1FC86DA900AF8BE0 /* SwLibTidyPPProgressProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01EB1391FC86DA900AF8BE0 /* SwLibTidyPPProgressProtocol.swift */; };
 		D027FFB91F9BBAF5009A274E /* tidyRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A5C6AE1F92B81600CABB67 /* tidyRunner.swift */; };
 		D027FFBA1F9BBAFE009A274E /* SwLibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; };
 		D027FFBC1F9BBB1C009A274E /* SwLibTidy.framework in Copy Frameworks to Bundle */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -81,11 +81,11 @@
 		D0DBB5BF1F9CFDDB001F2021 /* case-001.html in Resources */ = {isa = PBXBuildFile; fileRef = D0DBB5B41F9CFD3A001F2021 /* case-001.html */; };
 		D0DBB5C11F9CFDE9001F2021 /* case-001.conf in Resources */ = {isa = PBXBuildFile; fileRef = D0DBB5B51F9CFD3A001F2021 /* case-001.conf */; };
 		D0DBB5C21F9CFDEC001F2021 /* case-001.html in Resources */ = {isa = PBXBuildFile; fileRef = D0DBB5B41F9CFD3A001F2021 /* case-001.html */; };
-		D0F640D81F8F9AC7005A945B /* TidyBufferProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F640D41F8F9AC6005A945B /* TidyBufferProtocol.swift */; };
-		D0F640D91F8F9AC7005A945B /* TidyConfigReportProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F640D51F8F9AC6005A945B /* TidyConfigReportProtocol.swift */; };
+		D0F640D81F8F9AC7005A945B /* SwLibTidyBufferProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F640D41F8F9AC6005A945B /* SwLibTidyBufferProtocol.swift */; };
+		D0F640D91F8F9AC7005A945B /* SwLibTidyConfigReportProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F640D51F8F9AC6005A945B /* SwLibTidyConfigReportProtocol.swift */; };
 		D0F640DB1F8F9AC7005A945B /* SwLibTidy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F640D71F8F9AC7005A945B /* SwLibTidy.swift */; };
 		D0F6C7841FC386CD001F2C2E /* SwLibTidyUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F6C7831FC386CD001F2C2E /* SwLibTidyUtilities.swift */; };
-		D0F6C7861FC64DF2001F2C2E /* TidyDelegateProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F6C7851FC64DF2001F2C2E /* TidyDelegateProtocol.swift */; };
+		D0F6C7861FC64DF2001F2C2E /* SwLibTidyDelegateProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F6C7851FC64DF2001F2C2E /* SwLibTidyDelegateProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -220,8 +220,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		D01EB1371FC732BE00AF8BE0 /* TidyMessageProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidyMessageProtocol.swift; sourceTree = "<group>"; };
-		D01EB1391FC86DA900AF8BE0 /* TidyPPProgressProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidyPPProgressProtocol.swift; sourceTree = "<group>"; };
+		D01EB1371FC732BE00AF8BE0 /* SwLibTidyMessageProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwLibTidyMessageProtocol.swift; sourceTree = "<group>"; };
+		D01EB1391FC86DA900AF8BE0 /* SwLibTidyPPProgressProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwLibTidyPPProgressProtocol.swift; sourceTree = "<group>"; };
 		D027FFB51F9B7ABF009A274E /* iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
 		D03B6F781F9BF246009C2F64 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D04034871F43659C00A2A9DC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
@@ -339,12 +339,12 @@
 		D0DBB5B51F9CFD3A001F2021 /* case-001.conf */ = {isa = PBXFileReference; lastKnownFileType = text; path = "case-001.conf"; sourceTree = "<group>"; };
 		D0F640CC1F8F998A005A945B /* SwLibTidy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwLibTidy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0F640CF1F8F998A005A945B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D0F640D41F8F9AC6005A945B /* TidyBufferProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidyBufferProtocol.swift; sourceTree = "<group>"; };
-		D0F640D51F8F9AC6005A945B /* TidyConfigReportProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidyConfigReportProtocol.swift; sourceTree = "<group>"; };
+		D0F640D41F8F9AC6005A945B /* SwLibTidyBufferProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwLibTidyBufferProtocol.swift; sourceTree = "<group>"; };
+		D0F640D51F8F9AC6005A945B /* SwLibTidyConfigReportProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwLibTidyConfigReportProtocol.swift; sourceTree = "<group>"; };
 		D0F640D61F8F9AC6005A945B /* TidyDocumentProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidyDocumentProtocol.swift; sourceTree = "<group>"; };
 		D0F640D71F8F9AC7005A945B /* SwLibTidy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwLibTidy.swift; sourceTree = "<group>"; };
 		D0F6C7831FC386CD001F2C2E /* SwLibTidyUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwLibTidyUtilities.swift; sourceTree = "<group>"; };
-		D0F6C7851FC64DF2001F2C2E /* TidyDelegateProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidyDelegateProtocol.swift; sourceTree = "<group>"; };
+		D0F6C7851FC64DF2001F2C2E /* SwLibTidyDelegateProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwLibTidyDelegateProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -648,14 +648,14 @@
 			isa = PBXGroup;
 			children = (
 				D0A5C6AB1F92B18E00CABB67 /* README.md */,
-				D0F640D71F8F9AC7005A945B /* SwLibTidy.swift */,
 				D0F640D61F8F9AC6005A945B /* TidyDocumentProtocol.swift */,
 				D05A5E1C1FE1B37D00CBBDD4 /* TidyOptionProtocol.swift */,
-				D0F640D41F8F9AC6005A945B /* TidyBufferProtocol.swift */,
-				D0F640D51F8F9AC6005A945B /* TidyConfigReportProtocol.swift */,
-				D0F6C7851FC64DF2001F2C2E /* TidyDelegateProtocol.swift */,
-				D01EB1371FC732BE00AF8BE0 /* TidyMessageProtocol.swift */,
-				D01EB1391FC86DA900AF8BE0 /* TidyPPProgressProtocol.swift */,
+				D0F640D71F8F9AC7005A945B /* SwLibTidy.swift */,
+				D0F640D41F8F9AC6005A945B /* SwLibTidyBufferProtocol.swift */,
+				D0F640D51F8F9AC6005A945B /* SwLibTidyConfigReportProtocol.swift */,
+				D0F6C7851FC64DF2001F2C2E /* SwLibTidyDelegateProtocol.swift */,
+				D01EB1371FC732BE00AF8BE0 /* SwLibTidyMessageProtocol.swift */,
+				D01EB1391FC86DA900AF8BE0 /* SwLibTidyPPProgressProtocol.swift */,
 				D0F640CF1F8F998A005A945B /* Info.plist */,
 			);
 			path = SwLibTidy;
@@ -1005,11 +1005,11 @@
 				D0C5A9C81FE33418009C8668 /* TidyOptionProtocol.swift in Sources */,
 				D0C5A9C71FE33418009C8668 /* TidyDocumentProtocol.swift in Sources */,
 				D0F640DB1F8F9AC7005A945B /* SwLibTidy.swift in Sources */,
-				D0F640D81F8F9AC7005A945B /* TidyBufferProtocol.swift in Sources */,
-				D0F640D91F8F9AC7005A945B /* TidyConfigReportProtocol.swift in Sources */,
-				D01EB13A1FC86DA900AF8BE0 /* TidyPPProgressProtocol.swift in Sources */,
-				D0F6C7861FC64DF2001F2C2E /* TidyDelegateProtocol.swift in Sources */,
-				D01EB1381FC732BE00AF8BE0 /* TidyMessageProtocol.swift in Sources */,
+				D0F640D81F8F9AC7005A945B /* SwLibTidyBufferProtocol.swift in Sources */,
+				D0F640D91F8F9AC7005A945B /* SwLibTidyConfigReportProtocol.swift in Sources */,
+				D01EB13A1FC86DA900AF8BE0 /* SwLibTidyPPProgressProtocol.swift in Sources */,
+				D0F6C7861FC64DF2001F2C2E /* SwLibTidyDelegateProtocol.swift in Sources */,
+				D01EB1381FC732BE00AF8BE0 /* SwLibTidyMessageProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

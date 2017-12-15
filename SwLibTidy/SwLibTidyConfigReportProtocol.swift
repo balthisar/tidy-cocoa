@@ -1,6 +1,6 @@
 /******************************************************************************
 
-    TidyConfigReportProtocol.swift
+    SwLibTidyConfigReportProtocol.swift
     Part of the SwLibTidy wrapper library for tidy-html5 ("CLibTidy").
     See https://github.com/htacg/tidy-html5
 
@@ -29,7 +29,7 @@ import CLibTidy
  reporting unknown configuration options and proposed values, usually supplied
  by end application users. It is usually used as an array.
 */
-@objc public protocol TidyConfigReportProtocol: AnyObject {
+@objc public protocol SwLibTidyConfigReportProtocol: AnyObject {
 
     /** The Tidy document from which the report originated. */
     var document: TidyDoc { get }
@@ -47,7 +47,7 @@ import CLibTidy
 
 
 /** A default implementation of the `TidyConfigReportProtocol`. */
-@objc public class TidyConfigReport: NSObject, TidyConfigReportProtocol {
+@objc public class SwLibTidyConfigReport: NSObject, SwLibTidyConfigReportProtocol {
     
     public var document: TidyDoc
     public var option: String = ""

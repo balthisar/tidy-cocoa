@@ -752,7 +752,7 @@ public func tidySetOutCharEncoding( _ tdoc: TidyDoc, _ encnam: String ) -> Int {
      option, or `false` if it does not. In the latter case, Tidy will issue an 
      error indicating the unknown configuration option.
 */
-public typealias TidyConfigCallback = ( _ report: TidyConfigReportProtocol ) -> Swift.Bool
+public typealias TidyConfigCallback = ( _ report: SwLibTidyConfigReportProtocol ) -> Swift.Bool
 
 
 /**
@@ -1578,7 +1578,7 @@ public func tidyGetEmacsFile( _ tdoc: TidyDoc ) -> String {
  - returns:
      Returns 0 upon success or a standard error number.
 */
-public func tidySetErrorBuffer( _ tdoc: TidyDoc, errbuf: TidyBufferProtocol ) -> Int {
+public func tidySetErrorBuffer( _ tdoc: TidyDoc, errbuf: SwLibTidyBufferProtocol ) -> Int {
 
     return Int( CLibTidy.tidySetErrorBuffer( tdoc, errbuf.tidyBuffer) )
 }
@@ -1603,7 +1603,7 @@ public func tidySetErrorBuffer( _ tdoc: TidyDoc, errbuf: TidyBufferProtocol ) ->
  - returns: Your callback function will return `true` if Tidy should include the
      report in its own output sink, or `false` if Tidy should suppress it.
 */
-public typealias TidyMessageCallback = ( _ record: TidyMessageProtocol ) -> Swift.Bool
+public typealias TidyMessageCallback = ( _ record: SwLibTidyMessageProtocol ) -> Swift.Bool
 
  
 /** 
@@ -1655,7 +1655,7 @@ public func tidySetMessageCallback( _ tdoc: TidyDoc, _ swiftCallback: @escaping 
      report in its own output sink, or `false` if Tidy should suppress it.
 */
 
-public typealias TidyPPProgress = ( _ report: TidyPPProgressProtocol ) -> Void
+public typealias TidyPPProgress = ( _ report: SwLibTidyPPProgressProtocol ) -> Void
 
 
 /**
@@ -1839,7 +1839,7 @@ public func tidySaveStdout( _ tdoc: TidyDoc ) -> Int {
  - returns: 
      An integer representing the status.
 */
-public func tidySaveBuffer( _ tdoc: TidyDoc, _ buf: TidyBufferProtocol ) -> Int {
+public func tidySaveBuffer( _ tdoc: TidyDoc, _ buf: SwLibTidyBufferProtocol ) -> Int {
  
     return Int( CLibTidy.tidySaveBuffer( tdoc, buf.tidyBuffer ) )
 }
@@ -2266,7 +2266,7 @@ public func tidyNodeHasText( _ tdoc: TidyDoc, _ tnod: TidyNode ) -> Swift.Bool {
  - returns: 
      Returns a bool indicating success or not.
 */
-public func tidyNodeGetText( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: TidyBufferProtocol ) -> Swift.Bool {
+public func tidyNodeGetText( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: SwLibTidyBufferProtocol ) -> Swift.Bool {
  
     return CLibTidy.tidyNodeGetText( tdoc, tnod, buf.tidyBuffer ) == yes ? true : false
 }
@@ -2286,7 +2286,7 @@ public func tidyNodeGetText( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: TidyBuffe
 */
 public func tidyNodeGetText( _ tdoc: TidyDoc, _ tnod: TidyNode ) -> String {
 
-    let buffer = SwTidyBuffer()
+    let buffer = SwLibTidyBuffer()
     if CLibTidy.tidyNodeGetText( tdoc, tnod, buffer.tidyBuffer ) == yes {
         if let result = buffer.StringValue() {
             return result
@@ -2307,7 +2307,7 @@ public func tidyNodeGetText( _ tdoc: TidyDoc, _ tnod: TidyNode ) -> String {
  - returns:
      Returns a bool indicating success or not.
 */
-public func tidyNodeGetValue( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: TidyBufferProtocol ) -> Swift.Bool {
+public func tidyNodeGetValue( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: SwLibTidyBufferProtocol ) -> Swift.Bool {
  
     return CLibTidy.tidyNodeGetValue( tdoc, tnod, buf.tidyBuffer ) == yes ? true : false
 }
@@ -2329,7 +2329,7 @@ public func tidyNodeGetValue( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: TidyBuff
 */
 public func tidyNodeGetValue( _ tdoc: TidyDoc, _ tnod: TidyNode ) -> String? {
 
-    let buffer = SwTidyBuffer()
+    let buffer = SwLibTidyBuffer()
     if CLibTidy.tidyNodeGetValue( tdoc, tnod, buffer.tidyBuffer ) == yes {
         if let result = buffer.StringValue() {
             return result
@@ -2658,7 +2658,7 @@ public func getInstalledLanguageList() -> [String] {
 /**
  Set the delegate for an instance of TidyDoc.
  */
-public func tidySetDelegate( anObject: TidyDelegateProtocol, forTidyDoc: TidyDoc ) {
+public func tidySetDelegate( anObject: SwLibTidyDelegateProtocol, forTidyDoc: TidyDoc ) {
 
     guard
         let ptrStorage = CLibTidy.tidyGetAppData( forTidyDoc )
@@ -2685,7 +2685,7 @@ public func tidySetDelegate( anObject: TidyDelegateProtocol, forTidyDoc: TidyDoc
      by default, of type TidyConfigReport. You can instruct SwLibTidy to use
      a different class via setTidyConfigRecords(toClass:forTidyDoc:).
 */
-public func tidyConfigRecords( forTidyDoc: TidyDoc ) -> [TidyConfigReportProtocol] {
+public func tidyConfigRecords( forTidyDoc: TidyDoc ) -> [SwLibTidyConfigReportProtocol] {
     
     guard
         let ptrStorage = CLibTidy.tidyGetAppData( forTidyDoc )
@@ -2711,7 +2711,7 @@ public func tidyConfigRecords( forTidyDoc: TidyDoc ) -> [TidyConfigReportProtoco
  - returns:
      Returns true or false indicating whether or not the class could be set.
  */
-public func setTidyConfigRecords( toClass: TidyConfigReportProtocol.Type, forTidyDoc: TidyDoc ) -> Swift.Bool {
+public func setTidyConfigRecords( toClass: SwLibTidyConfigReportProtocol.Type, forTidyDoc: TidyDoc ) -> Swift.Bool {
 
     guard
         let ptrStorage = CLibTidy.tidyGetAppData( forTidyDoc )
@@ -2738,7 +2738,7 @@ public func setTidyConfigRecords( toClass: TidyConfigReportProtocol.Type, forTid
      default, of type TidyMessageContainer. You can instruct SwLibTidy to use
      a different class via setTidyMessageRecords(toClass:forTidyDoc:).
 */
-public func tidyMessageRecords( forTidyDoc: TidyDoc ) -> [TidyMessageProtocol] {
+public func tidyMessageRecords( forTidyDoc: TidyDoc ) -> [SwLibTidyMessageProtocol] {
 
     guard
         let ptrStorage = CLibTidy.tidyGetAppData( forTidyDoc )
@@ -2763,7 +2763,7 @@ public func tidyMessageRecords( forTidyDoc: TidyDoc ) -> [TidyMessageProtocol] {
  - returns:
      Returns true or false indicating whether or not the class could be set.
  */
-public func setTidyMessageRecords( toClass: TidyMessageProtocol.Type, forTidyDoc: TidyDoc ) -> Swift.Bool {
+public func setTidyMessageRecords( toClass: SwLibTidyMessageProtocol.Type, forTidyDoc: TidyDoc ) -> Swift.Bool {
 
     guard
         let ptrStorage = CLibTidy.tidyGetAppData( forTidyDoc )
@@ -2790,7 +2790,7 @@ public func setTidyMessageRecords( toClass: TidyMessageProtocol.Type, forTidyDoc
      default, of type TidyPPProgressReport. You can instruct SwLibTidy to use
      a different class via setTidyPPProgressRecords(toClass:forTidyDoc:).
 */
-public func tidyPPProgressRecords( forTidyDoc: TidyDoc ) -> [TidyPPProgressProtocol] {
+public func tidyPPProgressRecords( forTidyDoc: TidyDoc ) -> [SwLibTidyPPProgressProtocol] {
 
     guard
         let ptrStorage = CLibTidy.tidyGetAppData( forTidyDoc )
@@ -2815,7 +2815,7 @@ public func tidyPPProgressRecords( forTidyDoc: TidyDoc ) -> [TidyPPProgressProto
  - returns:
      Returns true or false indicating whether or not the class could be set.
  */
-public func setTidyPPProgressRecords( toClass: TidyPPProgressProtocol.Type, forTidyDoc: TidyDoc ) -> Swift.Bool {
+public func setTidyPPProgressRecords( toClass: SwLibTidyPPProgressProtocol.Type, forTidyDoc: TidyDoc ) -> Swift.Bool {
 
     guard
         let ptrStorage = CLibTidy.tidyGetAppData( forTidyDoc )
@@ -2844,21 +2844,21 @@ public func setTidyPPProgressRecords( toClass: TidyPPProgressProtocol.Type, forT
 private class ApplicationData {
 
     var appData: AnyObject?
-    var delegate: TidyDelegateProtocol?
+    var delegate: SwLibTidyDelegateProtocol?
 
     var configCallback: TidyConfigCallback?
-    var configCallbackRecords: [TidyConfigReportProtocol]
-    var configRecordClass: TidyConfigReportProtocol.Type
+    var configCallbackRecords: [SwLibTidyConfigReportProtocol]
+    var configRecordClass: SwLibTidyConfigReportProtocol.Type
 
     var configChangeCallback: TidyConfigChangeCallback?
 
     var messageCallback: TidyMessageCallback?
-    var messageCallbackRecords: [TidyMessageProtocol]
-    var messageRecordClass: TidyMessageProtocol.Type
+    var messageCallbackRecords: [SwLibTidyMessageProtocol]
+    var messageRecordClass: SwLibTidyMessageProtocol.Type
 
     var ppCallback: TidyPPProgress?
-    var ppCallbackRecords: [TidyPPProgressProtocol]
-    var ppRecordClass: TidyPPProgressProtocol.Type
+    var ppCallbackRecords: [SwLibTidyPPProgressProtocol]
+    var ppRecordClass: SwLibTidyPPProgressProtocol.Type
 
     init() {
         self.appData = nil
@@ -2866,16 +2866,16 @@ private class ApplicationData {
 
         self.configCallback = nil
         self.configCallbackRecords = []
-        self.configRecordClass = TidyConfigReport.self
+        self.configRecordClass = SwLibTidyConfigReport.self
 
         self.configChangeCallback = nil
 
         self.messageCallback = nil
         self.messageCallbackRecords = []
-        self.messageRecordClass = TidyMessageContainer.self
+        self.messageRecordClass = SwLibTidyMessage.self
 
         self.ppCallback = nil
         self.ppCallbackRecords = []
-        self.ppRecordClass = TidyPPProgressReport.self
+        self.ppRecordClass = SwLibTidyPPProgressReport.self
     }
 }

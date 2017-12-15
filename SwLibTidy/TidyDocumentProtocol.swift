@@ -129,7 +129,7 @@ import Foundation
 @objc public protocol TidyDocumentCallbackProtocol: AnyObject {
 
     /** The delegate for this instance of the TidyDocument. */
-    var delegate: TidyDelegateProtocol? { get set }
+    var delegate: SwLibTidyDelegateProtocol? { get set }
 
     /**
      Allows the host application to store a reference to an object instance.
@@ -648,7 +648,7 @@ import Foundation
      - returns:
      Returns a bool indicating success or not.
      */
-    func tidyNodeGetText( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: TidyBufferProtocol ) -> Swift.Bool
+    func tidyNodeGetText( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: SwLibTidyBufferProtocol ) -> Swift.Bool
 
 
     /**
@@ -677,7 +677,7 @@ import Foundation
      - returns:
      Returns a bool indicating success or not.
      */
-    func tidyNodeGetValue( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: TidyBufferProtocol ) -> Swift.Bool
+    func tidyNodeGetValue( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: SwLibTidyBufferProtocol ) -> Swift.Bool
 
 
     /**
@@ -899,7 +899,7 @@ import Foundation
      by default, of type TidyConfigReport. You can instruct SwLibTidy to use
      a different class via setTidyConfigRecords(toClass:forTidyDoc:).
      */
-    func tidyConfigRecords( forTidyDoc: TidyDoc ) -> [TidyConfigReportProtocol]
+    func tidyConfigRecords( forTidyDoc: TidyDoc ) -> [SwLibTidyConfigReportProtocol]
 
 
     /**
@@ -914,7 +914,7 @@ import Foundation
      - returns:
      Returns true or false indicating whether or not the class could be set.
      */
-    func setTidyConfigRecords( toClass: TidyConfigReportProtocol.Type, forTidyDoc: TidyDoc ) -> Swift.Bool
+    func setTidyConfigRecords( toClass: SwLibTidyConfigReportProtocol.Type, forTidyDoc: TidyDoc ) -> Swift.Bool
 
 
     /**
@@ -929,7 +929,7 @@ import Foundation
      default, of type TidyMessageContainer. You can instruct SwLibTidy to use
      a different class via setTidyMessageRecords(toClass:forTidyDoc:).
      */
-    func tidyMessageRecords( forTidyDoc: TidyDoc ) -> [TidyMessageProtocol]
+    func tidyMessageRecords( forTidyDoc: TidyDoc ) -> [SwLibTidyMessageProtocol]
 
 
     /**
@@ -943,7 +943,7 @@ import Foundation
      - returns:
      Returns true or false indicating whether or not the class could be set.
      */
-    func setTidyMessageRecords( toClass: TidyMessageProtocol.Type, forTidyDoc: TidyDoc ) -> Swift.Bool
+    func setTidyMessageRecords( toClass: SwLibTidyMessageProtocol.Type, forTidyDoc: TidyDoc ) -> Swift.Bool
 
 
     /**
@@ -958,7 +958,7 @@ import Foundation
      default, of type TidyPPProgressReport. You can instruct SwLibTidy to use
      a different class via setTidyPPProgressRecords(toClass:forTidyDoc:).
      */
-    func tidyPPProgressRecords( forTidyDoc: TidyDoc ) -> [TidyPPProgressProtocol]
+    func tidyPPProgressRecords( forTidyDoc: TidyDoc ) -> [SwLibTidyPPProgressProtocol]
 
 
     /**
@@ -972,7 +972,7 @@ import Foundation
      - returns:
      Returns true or false indicating whether or not the class could be set.
      */
-    func setTidyPPProgressRecords( toClass: TidyPPProgressProtocol.Type, forTidyDoc: TidyDoc ) -> Swift.Bool
+    func setTidyPPProgressRecords( toClass: SwLibTidyPPProgressProtocol.Type, forTidyDoc: TidyDoc ) -> Swift.Bool
 
 
 }

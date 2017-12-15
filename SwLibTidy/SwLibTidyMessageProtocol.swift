@@ -1,6 +1,6 @@
 /******************************************************************************
 
-    TidyMessageProtocol.swift
+    SwLibTidyMessageProtocol.swift
     Part of the SwLibTidy wrapper library for tidy-html5 ("CLibTidy").
     See https://github.com/htacg/tidy-html5
 
@@ -27,7 +27,7 @@ import CLibTidy
  This protocol describes an interface for accessing the fields of a TidyMessage
  object without having to use the CLibTidy API.
  */
-@objc public protocol TidyMessageProtocol: AnyObject {
+@objc public protocol SwLibTidyMessageProtocol: AnyObject {
 
     /** A reference to the TidyDocument from which the message originates. */
     var document: TidyDoc { get }
@@ -92,7 +92,7 @@ import CLibTidy
 
     /** An array of message arguments and argument type information used to
         generate the message. */
-    var messageArguments: [TidyMessageArgumentProtocol] { get }
+    var messageArguments: [SwLibTidyMessageArgumentProtocol] { get }
 
     /** Creates a new instance of this class and sets the values. */
     init( withMessage: TidyMessage )
@@ -103,7 +103,7 @@ import CLibTidy
  This protocol describes an interface for accessing the fields of a
  TidyMessageArgument object without having to use the CLibTidy API.
  */
-@objc public protocol TidyMessageArgumentProtocol: AnyObject {
+@objc public protocol SwLibTidyMessageArgumentProtocol: AnyObject {
 
     /** Indicates the data type of the C printf argument. */
     var type: TidyFormatParameterType { get }
@@ -130,7 +130,7 @@ import CLibTidy
 
 
 /** A default implementation of the `TidyMessageProtocol`. */
-@objc public class TidyMessageContainer: NSObject, TidyMessageProtocol {
+@objc public class SwLibTidyMessage: NSObject, SwLibTidyMessageProtocol {
 
     public var document: TidyDoc
     public var messageCode: UInt
@@ -149,7 +149,7 @@ import CLibTidy
     public var prefix: String
     public var messageOutputDefault: String
     public var messageOutput: String
-    public var messageArguments: [TidyMessageArgumentProtocol]
+    public var messageArguments: [SwLibTidyMessageArgumentProtocol]
 
     public required init( withMessage: TidyMessage ) {
 
@@ -176,7 +176,7 @@ import CLibTidy
 
         while ( it != nil ) {
             if let arg = CLibTidy.tidyGetNextMessageArgument( withMessage, &it ) {
-                self.messageArguments.append( TidyMessageArgumentContainer( withArg: arg, fromMessage: withMessage ) )
+                self.messageArguments.append( SwLibTidyMessageArgument( withArg: arg, fromMessage: withMessage ) )
             }
         }
 
@@ -186,7 +186,7 @@ import CLibTidy
 
 
 /** A default implementation of the `TidyMessageArgumentProtocol`. */
-@objc public class TidyMessageArgumentContainer: NSObject, TidyMessageArgumentProtocol {
+@objc public class SwLibTidyMessageArgument: NSObject, SwLibTidyMessageArgumentProtocol {
 
     public var type: TidyFormatParameterType
     public var format: String
