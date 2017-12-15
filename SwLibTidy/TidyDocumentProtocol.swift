@@ -129,7 +129,7 @@ import Foundation
 @objc public protocol TidyDocumentCallbackProtocol: AnyObject {
 
     /** The delegate for this instance of the TidyDocument. */
-    var delegate: SwLibTidyDelegateProtocol? { get set }
+//    var delegate: SwLibTidyDelegateProtocol? { get set }
 
     /**
      Allows the host application to store a reference to an object instance.

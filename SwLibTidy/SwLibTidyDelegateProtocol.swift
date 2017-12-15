@@ -22,16 +22,13 @@
  ******************************************************************************/
 
 
-import Foundation
-
-
 /**
  This protocol describes an interface for Tidy to report on status and changes
  during certain operations. These methods, if implemented by your delegate,
  can serve as an alternative to closures and/or callbacks that are native to
  Tidy.
  */
-@objc public protocol SwLibTidyDelegateProtocol: AnyObject {
+public protocol SwLibTidyDelegateProtocol {
 
     /**
      This delegate method is called any time Tidy tries to parse an unknown
@@ -44,7 +41,7 @@ import Foundation
          Your delegate should return true if it successfully handled the
          unknown option; return false to let Tidy output an error message.
      */
-    @objc optional func tidyReports( unknownOption: SwLibTidyConfigReportProtocol ) -> Bool
+    func tidyReports( unknownOption: SwLibTidyConfigReportProtocol ) -> Bool?
 
     /**
      This delegate method is called whenever an option value is changed.
@@ -53,7 +50,7 @@ import Foundation
        - optionChanged: The option that was changed.
        - forTidyDoc: The TidyDoc whose option was changed.
      */
-    @objc optional func tidyReports( optionChanged: TidyOption, forTidyDoc: TidyDoc )
+    func tidyReports( optionChanged: TidyOption, forTidyDoc: TidyDoc )
 
     /**
      This delegate method is called any time Tidy is about to emit a message
@@ -65,7 +62,7 @@ import Foundation
          Your delegate should return false to indicate that Tidy should not
          further process the message itself.
      */
-    @objc optional func tidyReports( message: SwLibTidyMessageProtocol ) -> Bool
+    func tidyReports( message: SwLibTidyMessageProtocol ) -> Bool?
 
     /**
      This delegate method is called during the pretty printing process in order
@@ -76,7 +73,19 @@ import Foundation
        - pprint: An instance of TidyPProgressProtocol containing the progress
            report.
      */
-    @objc optional func tidyReports( pprint: SwLibTidyPPProgressProtocol )
+    func tidyReports( pprint: SwLibTidyPPProgressProtocol )
 }
 
 
+/** Provide default implementations in order to treat as optional. */
+public extension SwLibTidyDelegateProtocol {
+
+	func tidyReports( unknownOption: SwLibTidyConfigReportProtocol ) -> Bool? { return nil }
+
+	func tidyReports( optionChanged: TidyOption, forTidyDoc: TidyDoc ) {}
+
+	func tidyReports( message: SwLibTidyMessageProtocol ) -> Bool? { return nil }
+
+	func tidyReports( pprint: SwLibTidyPPProgressProtocol ) {}
+	
+}

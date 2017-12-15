@@ -253,7 +253,7 @@ public func tidyCreate() -> TidyDoc? {
            return CLibTidy.yes if the option was handled, so consider the
            existing result.
          */
-        if let local_result = storage.delegate?.tidyReports?( unknownOption: record ) {
+        if let local_result = storage.delegate?.tidyReports( unknownOption: record ) {
             let native_result = result == yes ? true : false
             /* Either the callback or delegate indicate they've handled it. */
             result = ( local_result || native_result ) ? yes : no
@@ -281,7 +281,7 @@ public func tidyCreate() -> TidyDoc? {
         }
 
         /* If there's a delegate, then call the delegate method. */
-        storage.delegate?.tidyReports?(optionChanged: option, forTidyDoc: tdoc )
+        storage.delegate?.tidyReports(optionChanged: option, forTidyDoc: tdoc )
 
     }) else { tidyRelease( tdoc ); return nil }
 
@@ -319,7 +319,7 @@ public func tidyCreate() -> TidyDoc? {
            return true, CLibTidy will output the message in its buffer.
            Since this is going to CLibTidy, we're looking for yes or no.
          */
-        if let local_result = storage.delegate?.tidyReports?(message: record) {
+        if let local_result = storage.delegate?.tidyReports(message: record) {
             let native_result = result == yes ? true : false
             /* Either the callback or delegate can filter the message. */
             result = ( local_result && native_result ) ? yes : no
@@ -357,7 +357,7 @@ public func tidyCreate() -> TidyDoc? {
         }
 
         /* If there's a delegate, then call the delegate method. */
-        storage.delegate?.tidyReports?( pprint: record )
+        storage.delegate?.tidyReports( pprint: record )
 
     }) else { tidyRelease( tdoc ); return nil }
     

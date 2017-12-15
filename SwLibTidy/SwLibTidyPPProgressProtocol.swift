@@ -15,13 +15,8 @@
       a spatial relationship between items in the input document and items
       in the output document.
 
-    Audience
-      Intended for use both when using SwLibTidy directly, as well as with
-      protocol-based Tidy.
-
  ******************************************************************************/
 
-//import Foundation
 import CLibTidy
 
 
