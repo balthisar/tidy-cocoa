@@ -4,8 +4,6 @@ This directory:
 
 - Defines a module for use with Xcode/Clang named `SwLibTidy`.
 - Provides a direct implementation of CLibTidy using Swift native types.
-- Provides an abstracted implementation of CLibTidy using Swift/Objective-C
-  native types, and compatible with both Swift and Objective-C.
 
 
 ## Framework
