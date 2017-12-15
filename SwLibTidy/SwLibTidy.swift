@@ -22,8 +22,9 @@
         - Maintain full compatibility with Objective-C (when wrapped into a
           class).
         - Maintain full compatibility with "Pure Swift" (no linkage to other
-          than standard libraries), so that it can be used on other platforms.
-          Note that this does not apply to derived classes.
+          than standard libraries and open-source Foundation), so that it can
+          be used on other platforms. Note that this does not apply to derived
+		  classes, which are intended to be used in macOS and iOS.
         - Provide some additional tools and functionality useful within Swift.
  
     Unsupported APIs
@@ -82,6 +83,7 @@
 
  ******************************************************************************/
 
+import Foundation
 import CLibTidy
 
 
