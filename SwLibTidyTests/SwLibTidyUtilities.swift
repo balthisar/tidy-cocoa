@@ -373,7 +373,7 @@ public func JSDAssertHasSuffix( _ expect: String?, _ result: String?, _ message:
 /**
  A sample class to handle TidyDelegateProtocol methods during testing.
  */
-@objc public class SampleTidyDelegate: NSObject, SwLibTidyDelegateProtocol {
+public class SampleTidyDelegate: SwLibTidyDelegateProtocol {
 
     /* We will set this from the test case in order to pass the expectation. */
     var asyncTidyReportsUnknownOption: XCTestExpectation?
@@ -381,7 +381,7 @@ public func JSDAssertHasSuffix( _ expect: String?, _ result: String?, _ message:
     var asyncTidyReportsMessage: XCTestExpectation?
     var asyncTidyReportsPrettyPrinting: XCTestExpectation?
 
-    public func tidyReports( unknownOption: SwLibTidyConfigReportProtocol ) -> Swift.Bool {
+    public func tidyReports( unknownOption: SwLibTidyConfigReportProtocol ) -> Swift.Bool? {
         guard let expectation = asyncTidyReportsUnknownOption else {
             XCTFail("Delegate failed; did you remember to set asyncExpectation?")
             return false
@@ -399,7 +399,7 @@ public func JSDAssertHasSuffix( _ expect: String?, _ result: String?, _ message:
         return
     }
 
-    public func tidyReports( message: SwLibTidyMessageProtocol ) -> Swift.Bool {
+    public func tidyReports( message: SwLibTidyMessageProtocol ) -> Swift.Bool? {
         guard let expectation = asyncTidyReportsMessage else {
             XCTFail("Delegate failed; did you remember to set asyncExpectation?")
             return false
