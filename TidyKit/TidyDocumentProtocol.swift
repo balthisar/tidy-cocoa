@@ -47,6 +47,14 @@
       they clutter the interface any your own application can implement them
       trivially.
 
+    Protocols
+      Because `SwLibTidy` was written to be "pure Swift" (with Foundation),
+      it does not support @objc protocols and instantiations. However because
+      Objective-C support is desired, `TidyKit` uses different protocols than
+      `SwLibTidy`. Unfortunately this means that to enable greater use of
+      protocols, only reference types (rather than value types) can be used
+      with Swift.
+
  ******************************************************************************/
 
 import Foundation
