@@ -27,6 +27,12 @@
       Objective-C, which cannot use Swift top level functions. For example,
       `tidyReleaseDate()`.
 
+      While SwTidyLib is written to be as "pure Swift" as possible (assuming
+      the open-source Foundation is used on other platforms), TidyKit is
+      unabashedly designed for use with macOS and iOS, as well as offering
+      full support for Objective-C (even if this limits some of the potential
+      API magic offered by Swift).
+
     Unimplemented Functions
       Functions with built-in Cocoa equivalents have not been included, e.g.,
       `tidyFileExists()`.
@@ -191,7 +197,7 @@ import Foundation
      - returns:
          A boolean indicating success or failure setting the callback.
      */
-    func tidySet( messageCallback: @escaping TidyMessageCallback ) -> Bool
+//    func tidySet( messageCallback: @escaping TidyMessageCallback ) -> Bool
 
 
     /**
@@ -207,7 +213,7 @@ import Foundation
      - returns:
          True or false indicating the success or failure of setting the callback.
      */
-    func tidySet( prettyPrinterCallback: @escaping TidyPPProgress ) -> Bool
+//    func tidySet( prettyPrinterCallback: @escaping TidyPPProgress ) -> Bool
 
 }
 
@@ -929,7 +935,7 @@ import Foundation
      default, of type TidyMessageContainer. You can instruct SwLibTidy to use
      a different class via setTidyMessageRecords(toClass:forTidyDoc:).
      */
-    func tidyMessageRecords( forTidyDoc: TidyDoc ) -> [SwLibTidyMessageProtocol]
+//    func tidyMessageRecords( forTidyDoc: TidyDoc ) -> [SwLibTidyMessageProtocol]
 
 
     /**
@@ -943,7 +949,7 @@ import Foundation
      - returns:
      Returns true or false indicating whether or not the class could be set.
      */
-    func setTidyMessageRecords( toClass: SwLibTidyMessageProtocol.Type, forTidyDoc: TidyDoc ) -> Swift.Bool
+//    func setTidyMessageRecords( toClass: SwLibTidyMessageProtocol.Type, forTidyDoc: TidyDoc ) -> Swift.Bool
 
 
     /**
@@ -958,7 +964,7 @@ import Foundation
      default, of type TidyPPProgressReport. You can instruct SwLibTidy to use
      a different class via setTidyPPProgressRecords(toClass:forTidyDoc:).
      */
-    func tidyPPProgressRecords( forTidyDoc: TidyDoc ) -> [SwLibTidyPPProgressProtocol]
+//    func tidyPPProgressRecords( forTidyDoc: TidyDoc ) -> [SwLibTidyPPProgressProtocol]
 
 
     /**
@@ -972,7 +978,7 @@ import Foundation
      - returns:
      Returns true or false indicating whether or not the class could be set.
      */
-    func setTidyPPProgressRecords( toClass: SwLibTidyPPProgressProtocol.Type, forTidyDoc: TidyDoc ) -> Swift.Bool
+//    func setTidyPPProgressRecords( toClass: SwLibTidyPPProgressProtocol.Type, forTidyDoc: TidyDoc ) -> Swift.Bool
 
 
 }
