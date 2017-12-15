@@ -13,14 +13,8 @@
       This protocol and class define and implement an abstraction to the
       CLibTidy `TidyBuffer` that is more useful in Swift.
 
-    Audience
-      It's primarily intended for use with SwLibTidy directly, rather than
-      for use in interacting with any classes adopting protocol-based Tidy,
-      which expose everything as strings.
- 
  ******************************************************************************/
 
-//import Foundation
 import CLibTidy
 
 
@@ -36,9 +30,10 @@ public typealias TidyRawBuffer = UnsafeMutablePointer<byte>
  types that are involved in such.
  
  Conforming objects are also required to provide accessors and functions that
- enable accessing the raw, stored data.
+ enable accessing the raw, stored data. Because we are dealing with dynamic
+ memory, this object can only exist as an instance of a class.
 */
-@objc public protocol SwLibTidyBufferProtocol: AnyObject {
+public protocol SwLibTidyBufferProtocol: AnyObject {
     
     /** An accessor to the underlying TidyBuffer type from CLibTidy. */
     var tidyBuffer: TidyBufferPtr { get }
@@ -89,7 +84,7 @@ public typealias TidyRawBuffer = UnsafeMutablePointer<byte>
 
 
 /** A default implementation of the `TidyBufferProtocol`. */
-@objc public class SwLibTidyBuffer: NSObject, SwLibTidyBufferProtocol {
+public class SwLibTidyBuffer: SwLibTidyBufferProtocol {
     
     public var tidyBuffer: TidyBufferPtr
 
@@ -104,10 +99,9 @@ public typealias TidyRawBuffer = UnsafeMutablePointer<byte>
     }
 
 
-    override public init() {
+	public init() {
         tidyBuffer = TidyBufferPtr.allocate(capacity: MemoryLayout<TidyBufferPtr>.size)
         tidyBufInit( tidyBuffer )
-        super.init()
     }
 
 
@@ -159,7 +153,6 @@ public typealias TidyRawBuffer = UnsafeMutablePointer<byte>
         default             : return nil
         }
     }
-
 
 }
 

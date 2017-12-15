@@ -21,6 +21,9 @@
           iterator mechanism.
         - Maintain full compatibility with Objective-C (when wrapped into a
           class).
+        - Maintain full compatibility with "Pure Swift" (no linkage to other
+          than standard libraries), so that it can be used on other platforms.
+          Note that this does not apply to derived classes.
         - Provide some additional tools and functionality useful within Swift.
  
     Unsupported APIs
@@ -81,6 +84,7 @@
 
 import CLibTidy
 
+
 /******************************************************************************
  ** Globals used within this file.
  **************************************************************************** */
@@ -126,6 +130,13 @@ public typealias TidyNode = CLibTidy.TidyNode
 */
 public typealias TidyAttr = CLibTidy.TidyAttr
 
+public typealias TidyReportLevel = CLibTidy.TidyReportLevel
+
+public typealias TidyMessage = CLibTidy.TidyMessage
+
+public typealias TidyFormatParameterType = CLibTidy.TidyFormatParameterType
+
+public typealias TidyMessageArgument = CLibTidy.TidyMessageArgument
 
 /******************************************************************************
  ** These type definitions expose CLibTidy types as Swift types without having

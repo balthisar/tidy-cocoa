@@ -17,15 +17,13 @@
 
  ******************************************************************************/
 
-import CLibTidy
-
 
 /**
  This protocol defines an interface for the collection of pretty printing
  progress report data, which establishes a spatial relationship between
  items in the input document and items in the output document.
 */
-@objc public protocol SwLibTidyPPProgressProtocol: AnyObject {
+public protocol SwLibTidyPPProgressProtocol {
 
     /** The document from which the message originates. */
     var document: TidyDoc { get }
@@ -46,7 +44,7 @@ import CLibTidy
 
 
 /** A default implementation of the `TidyPPProgressProtocol`. */
-@objc public class SwLibTidyPPProgressReport: NSObject, SwLibTidyPPProgressProtocol {
+public class SwLibTidyPPProgressReport: SwLibTidyPPProgressProtocol {
 
     public var document: TidyDoc
     public var sourceLine: UInt32 = 0
@@ -59,7 +57,6 @@ import CLibTidy
         self.sourceLine = withLine
         self.sourceColumn = column
         self.destLine = destLine
-        super.init()
     }
 }
 

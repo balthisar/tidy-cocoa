@@ -157,7 +157,7 @@ import Foundation
      - returns:
          Returns `true` upon success.
      */
-    func tidySet( configCallback: @escaping TidyConfigCallback ) -> Bool
+//    func tidySet( configCallback: @escaping TidyConfigCallback ) -> Bool
 
 
     /**
@@ -648,7 +648,7 @@ import Foundation
      - returns:
      Returns a bool indicating success or not.
      */
-    func tidyNodeGetText( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: SwLibTidyBufferProtocol ) -> Swift.Bool
+//    func tidyNodeGetText( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: SwLibTidyBufferProtocol ) -> Swift.Bool
 
 
     /**
@@ -677,7 +677,7 @@ import Foundation
      - returns:
      Returns a bool indicating success or not.
      */
-    func tidyNodeGetValue( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: SwLibTidyBufferProtocol ) -> Swift.Bool
+//    func tidyNodeGetValue( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: SwLibTidyBufferProtocol ) -> Swift.Bool
 
 
     /**
@@ -899,7 +899,7 @@ import Foundation
      by default, of type TidyConfigReport. You can instruct SwLibTidy to use
      a different class via setTidyConfigRecords(toClass:forTidyDoc:).
      */
-    func tidyConfigRecords( forTidyDoc: TidyDoc ) -> [SwLibTidyConfigReportProtocol]
+//    func tidyConfigRecords( forTidyDoc: TidyDoc ) -> [SwLibTidyConfigReportProtocol]
 
 
     /**
@@ -914,7 +914,7 @@ import Foundation
      - returns:
      Returns true or false indicating whether or not the class could be set.
      */
-    func setTidyConfigRecords( toClass: SwLibTidyConfigReportProtocol.Type, forTidyDoc: TidyDoc ) -> Swift.Bool
+//    func setTidyConfigRecords( toClass: SwLibTidyConfigReportProtocol.Type, forTidyDoc: TidyDoc ) -> Swift.Bool
 
 
     /**

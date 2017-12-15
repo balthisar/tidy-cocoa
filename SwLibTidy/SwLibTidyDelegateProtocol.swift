@@ -15,10 +15,6 @@
       callbacks, but SwLibTidy provides this delegate interface as a more
       Cocoa-like alternative.
 
-    Audience
-      Intended for use both when using SwLibTidy directly, as well as with
-      protocol-based Tidy.
-
  ******************************************************************************/
 
 

@@ -13,13 +13,8 @@
       This protocol and class define and implement a structure suitable for
       storing CLibTidy output messages.
 
-    Audience
-      Intended for use both when using SwLibTidy directly, as well as with
-      protocol-based Tidy.
-
  ******************************************************************************/
 
-//import Foundation
 import CLibTidy
 
 
@@ -27,7 +22,7 @@ import CLibTidy
  This protocol describes an interface for accessing the fields of a TidyMessage
  object without having to use the CLibTidy API.
  */
-@objc public protocol SwLibTidyMessageProtocol: AnyObject {
+public protocol SwLibTidyMessageProtocol {
 
     /** A reference to the TidyDocument from which the message originates. */
     var document: TidyDoc { get }
@@ -103,7 +98,7 @@ import CLibTidy
  This protocol describes an interface for accessing the fields of a
  TidyMessageArgument object without having to use the CLibTidy API.
  */
-@objc public protocol SwLibTidyMessageArgumentProtocol: AnyObject {
+public protocol SwLibTidyMessageArgumentProtocol {
 
     /** Indicates the data type of the C printf argument. */
     var type: TidyFormatParameterType { get }
@@ -130,7 +125,7 @@ import CLibTidy
 
 
 /** A default implementation of the `TidyMessageProtocol`. */
-@objc public class SwLibTidyMessage: NSObject, SwLibTidyMessageProtocol {
+public class SwLibTidyMessage: SwLibTidyMessageProtocol {
 
     public var document: TidyDoc
     public var messageCode: UInt
@@ -179,14 +174,12 @@ import CLibTidy
                 self.messageArguments.append( SwLibTidyMessageArgument( withArg: arg, fromMessage: withMessage ) )
             }
         }
-
-        super.init()
     }
 }
 
 
 /** A default implementation of the `TidyMessageArgumentProtocol`. */
-@objc public class SwLibTidyMessageArgument: NSObject, SwLibTidyMessageArgumentProtocol {
+public class SwLibTidyMessageArgument: SwLibTidyMessageArgumentProtocol {
 
     public var type: TidyFormatParameterType
     public var format: String
@@ -219,8 +212,6 @@ import CLibTidy
 
         default: break
         }
-
-        super.init()
     }
 
 }
