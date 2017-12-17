@@ -44,7 +44,7 @@
 
       Convenience option value setters such as `TidySetInCharEncoding()` have
       been omitted. While these are conveniences for the CLibTidy CLI app,
-      they clutter the interface any your own application can implement them
+      they clutter the interface and your own application can implement them
       trivially.
 
     Protocols
@@ -1050,7 +1050,4 @@ public protocol JimProtocol {
     }
 
 }
-
-
-
 

@@ -54,8 +54,8 @@
 		NSLog( @"\n%@\n", @"Conforms to TestProtocol" );
 	};
 
-	SwiftClass *swiftClass = [myTest getSwiftClass];
-	
+//	SwiftClass *swiftClass = [myTest getSwiftClass];
+
 }
 
 - (void)testPerformanceExample
