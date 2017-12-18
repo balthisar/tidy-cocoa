@@ -53,7 +53,8 @@
       Objective-C support is desired, `TidyKit` uses different protocols than
       `SwLibTidy`. Unfortunately this means that to enable greater use of
       protocols, only reference types (rather than value types) can be used
-      with Swift.
+      with Swift. For compatibility with SwLibTidy, these protocols must
+      use the same names.
 
  ******************************************************************************/
 

@@ -15,6 +15,7 @@
 
  ******************************************************************************/
 
+import Foundation
 import CLibTidy
 
 
@@ -22,7 +23,7 @@ import CLibTidy
  This protocol describes an interface for accessing the fields of a TidyMessage
  object without having to use the CLibTidy API.
  */
-public protocol SwLibTidyMessageProtocol {
+@objc public protocol SwLibTidyMessageProtocol: AnyObject {
 
     /** A reference to the TidyDocument from which the message originates. */
     var document: TidyDoc { get }
@@ -98,7 +99,7 @@ public protocol SwLibTidyMessageProtocol {
  This protocol describes an interface for accessing the fields of a
  TidyMessageArgument object without having to use the CLibTidy API.
  */
-public protocol SwLibTidyMessageArgumentProtocol {
+@objc public protocol SwLibTidyMessageArgumentProtocol: AnyObject {
 
     /** Indicates the data type of the C printf argument. */
     var type: TidyFormatParameterType { get }
@@ -125,28 +126,28 @@ public protocol SwLibTidyMessageArgumentProtocol {
 
 
 /** A default implementation of the `SwLibTidyMessageProtocol`. */
-public class SwLibTidyMessage: SwLibTidyMessageProtocol {
+@objc public class SwLibTidyMessage: NSObject, SwLibTidyMessageProtocol {
 
-    public var document: TidyDoc
-    public var messageCode: UInt
-    public var messageKey: String
-    public var line: Int
-    public var column: Int
-    public var level: TidyReportLevel
-    public var muted: Swift.Bool
-    public var formatDefault: String
-    public var format: String
-    public var messageDefault: String
-    public var message: String
-    public var posDefault: String
-    public var pos: String
-    public var prefixDefault: String
-    public var prefix: String
-    public var messageOutputDefault: String
-    public var messageOutput: String
-    public var messageArguments: [SwLibTidyMessageArgumentProtocol]
+    @objc public var document: TidyDoc
+    @objc public var messageCode: UInt
+    @objc public var messageKey: String
+    @objc public var line: Int
+    @objc public var column: Int
+    @objc public var level: TidyReportLevel
+    @objc public var muted: Swift.Bool
+    @objc public var formatDefault: String
+    @objc public var format: String
+    @objc public var messageDefault: String
+    @objc public var message: String
+    @objc public var posDefault: String
+    @objc public var pos: String
+    @objc public var prefixDefault: String
+    @objc public var prefix: String
+    @objc public var messageOutputDefault: String
+    @objc public var messageOutput: String
+    @objc public var messageArguments: [SwLibTidyMessageArgumentProtocol]
 
-    public required init( withMessage: TidyMessage ) {
+    @objc public required init( withMessage: TidyMessage ) {
 
         self.document = CLibTidy.tidyGetMessageDoc( withMessage )
         self.messageCode = UInt( CLibTidy.tidyGetMessageCode( withMessage ) )
@@ -179,17 +180,17 @@ public class SwLibTidyMessage: SwLibTidyMessageProtocol {
 
 
 /** A default implementation of the `SwLibTidyMessageArgumentProtocol`. */
-public class SwLibTidyMessageArgument: SwLibTidyMessageArgumentProtocol {
+@objc public class SwLibTidyMessageArgument: NSObject, SwLibTidyMessageArgumentProtocol {
 
-    public var type: TidyFormatParameterType
-    public var format: String
-    public var valueString: String
-    public var valueUInt: UInt
-    public var valueInt: Int
-    public var valueDouble: Double
+    @objc public var type: TidyFormatParameterType
+    @objc public var format: String
+    @objc public var valueString: String
+    @objc public var valueUInt: UInt
+    @objc public var valueInt: Int
+    @objc public var valueDouble: Double
 
 
-    public required init( withArg: TidyMessageArgument, fromMessage: TidyMessage ) {
+    @objc public required init( withArg: TidyMessageArgument, fromMessage: TidyMessage ) {
 
         var ptrArg: TidyMessageArgument? = withArg
 

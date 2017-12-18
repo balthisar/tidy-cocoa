@@ -16,13 +16,15 @@
 
  ******************************************************************************/
 
+import Foundation
+
 
 /**
  This protocol describes an interface for objects that SwLibTidy can use for
  reporting unknown configuration options and proposed values, usually supplied
  by end application users. It is usually used as an array.
 */
-public protocol SwLibTidyConfigReportProtocol {
+@objc public protocol SwLibTidyConfigReportProtocol: AnyObject {
 
     /** The Tidy document from which the report originated. */
     var document: TidyDoc { get }
@@ -40,13 +42,13 @@ public protocol SwLibTidyConfigReportProtocol {
 
 
 /** A default implementation of the `SwLibTidyConfigReportProtocol`. */
-public class SwLibTidyConfigReport: SwLibTidyConfigReportProtocol {
+@objc public class SwLibTidyConfigReport: NSObject, SwLibTidyConfigReportProtocol {
     
-    public var document: TidyDoc
-    public var option: String = ""
-    public var value: String = ""
+    @objc public var document: TidyDoc
+    @objc public var option: String = ""
+    @objc public var value: String = ""
 
-    public required init(withValue: String, forOption: String, ofDocument: TidyDoc) {
+    @objc public required init(withValue: String, forOption: String, ofDocument: TidyDoc) {
 
         document = ofDocument
         option = forOption

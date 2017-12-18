@@ -17,6 +17,7 @@
 
  ******************************************************************************/
 
+import Foundation
 
 /**
  This protocol describes an interface for Tidy to report on status and changes
