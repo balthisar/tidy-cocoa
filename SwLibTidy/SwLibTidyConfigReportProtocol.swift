@@ -39,7 +39,7 @@ public protocol SwLibTidyConfigReportProtocol {
 }
 
 
-/** A default implementation of the `TidyConfigReportProtocol`. */
+/** A default implementation of the `SwLibTidyConfigReportProtocol`. */
 public class SwLibTidyConfigReport: SwLibTidyConfigReportProtocol {
     
     public var document: TidyDoc

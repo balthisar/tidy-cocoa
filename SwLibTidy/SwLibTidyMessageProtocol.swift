@@ -90,7 +90,7 @@ public protocol SwLibTidyMessageProtocol {
     var messageArguments: [SwLibTidyMessageArgumentProtocol] { get }
 
     /** Creates a new instance of this class and sets the values. */
-    init( withMessage: TidyMessage )
+    init( withMessage: CLibTidy.TidyMessage )
 }
 
 
@@ -124,7 +124,7 @@ public protocol SwLibTidyMessageArgumentProtocol {
 }
 
 
-/** A default implementation of the `TidyMessageProtocol`. */
+/** A default implementation of the `SwLibTidyMessageProtocol`. */
 public class SwLibTidyMessage: SwLibTidyMessageProtocol {
 
     public var document: TidyDoc
@@ -178,7 +178,7 @@ public class SwLibTidyMessage: SwLibTidyMessageProtocol {
 }
 
 
-/** A default implementation of the `TidyMessageArgumentProtocol`. */
+/** A default implementation of the `SwLibTidyMessageArgumentProtocol`. */
 public class SwLibTidyMessageArgument: SwLibTidyMessageArgumentProtocol {
 
     public var type: TidyFormatParameterType

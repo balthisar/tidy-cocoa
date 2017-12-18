@@ -24,7 +24,7 @@
  can serve as an alternative to closures and/or callbacks that are native to
  Tidy.
  */
-public protocol TidyDelegateProtocol {
+public protocol SwLibTidyDelegateProtocol {
 
     /**
      This delegate method is called any time Tidy tries to parse an unknown

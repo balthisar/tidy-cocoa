@@ -22,7 +22,7 @@ import CLibTidy
  This protocol describes an interface for accessing the fields of a TidyMessage
  object without having to use the CLibTidy API.
  */
-public protocol TidyMessageProtocol {
+public protocol SwLibTidyMessageProtocol {
 
     /** A reference to the TidyDocument from which the message originates. */
     var document: TidyDoc { get }
@@ -98,7 +98,7 @@ public protocol TidyMessageProtocol {
  This protocol describes an interface for accessing the fields of a
  TidyMessageArgument object without having to use the CLibTidy API.
  */
-public protocol TidyMessageArgumentProtocol {
+public protocol SwLibTidyMessageArgumentProtocol {
 
     /** Indicates the data type of the C printf argument. */
     var type: TidyFormatParameterType { get }
@@ -124,8 +124,8 @@ public protocol TidyMessageArgumentProtocol {
 }
 
 
-/** A default implementation of the `TidyMessageProtocol`. */
-public class TidyMessage: TidyMessageProtocol {
+/** A default implementation of the `SwLibTidyMessageProtocol`. */
+public class SwLibTidyMessage: SwLibTidyMessageProtocol {
 
     public var document: TidyDoc
     public var messageCode: UInt
@@ -178,8 +178,8 @@ public class TidyMessage: TidyMessageProtocol {
 }
 
 
-/** A default implementation of the `TidyMessageArgumentProtocol`. */
-public class TidyMessageArgument: TidyMessageArgumentProtocol {
+/** A default implementation of the `SwLibTidyMessageArgumentProtocol`. */
+public class SwLibTidyMessageArgument: SwLibTidyMessageArgumentProtocol {
 
     public var type: TidyFormatParameterType
     public var format: String

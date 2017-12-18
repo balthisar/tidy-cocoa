@@ -22,7 +22,7 @@
  reporting unknown configuration options and proposed values, usually supplied
  by end application users. It is usually used as an array.
 */
-public protocol TidyConfigReportProtocol {
+public protocol SwLibTidyConfigReportProtocol {
 
     /** The Tidy document from which the report originated. */
     var document: TidyDoc { get }
@@ -39,8 +39,8 @@ public protocol TidyConfigReportProtocol {
 }
 
 
-/** A default implementation of the `TidyConfigReportProtocol`. */
-public class SwLibTidyConfigReport: TidyConfigReportProtocol {
+/** A default implementation of the `SwLibTidyConfigReportProtocol`. */
+public class SwLibTidyConfigReport: SwLibTidyConfigReportProtocol {
     
     public var document: TidyDoc
     public var option: String = ""

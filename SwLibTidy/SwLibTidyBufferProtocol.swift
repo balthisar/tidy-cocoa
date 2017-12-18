@@ -84,7 +84,7 @@ public protocol SwLibTidyBufferProtocol: AnyObject {
 }
 
 
-/** A default implementation of the `TidyBufferProtocol`. */
+/** A default implementation of the `SwLibTidyBufferProtocol`. */
 public class SwLibTidyBuffer: SwLibTidyBufferProtocol {
     
     public var tidyBuffer: TidyBufferPtr

@@ -43,7 +43,7 @@ public protocol SwLibTidyPPProgressProtocol {
 }
 
 
-/** A default implementation of the `TidyPPProgressProtocol`. */
+/** A default implementation of the `SwLibTidyPPProgressProtocol`. */
 public class SwLibTidyPPProgressReport: SwLibTidyPPProgressProtocol {
 
     public var document: TidyDoc

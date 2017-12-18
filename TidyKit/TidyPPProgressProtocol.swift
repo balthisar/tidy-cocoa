@@ -23,7 +23,7 @@
  progress report data, which establishes a spatial relationship between
  items in the input document and items in the output document.
 */
-public protocol TidyPPProgressProtocol {
+public protocol SwLibTidyPPProgressProtocol {
 
     /** The document from which the message originates. */
     var document: TidyDoc { get }
@@ -44,7 +44,7 @@ public protocol TidyPPProgressProtocol {
 
 
 /** A default implementation of the `TidyPPProgressProtocol`. */
-public class TidyPPProgressReport: TidyPPProgressProtocol {
+public class SwLibTidyPPProgressReport: SwLibTidyPPProgressProtocol {
 
     public var document: TidyDoc
     public var sourceLine: UInt32 = 0
