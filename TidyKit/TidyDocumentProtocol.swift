@@ -249,6 +249,9 @@ import Foundation
      Load a Tidy configuration file with the specified character encoding, and
      set the configuration per its contents.
 
+     - TODO: This shouldn't be necessary. Instead, we should use macOS to
+         interpret the file encoding, or accept an NSEncoding instead of String.
+
      - parameters:
        - configFile: The complete path to the file to load.
        - encoding: The encoding to use. See struct `_enc2iana` for valid values.
