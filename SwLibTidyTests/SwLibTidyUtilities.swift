@@ -381,7 +381,7 @@ public class SampleTidyDelegate: SwLibTidyDelegateProtocol {
     var asyncTidyReportsMessage: XCTestExpectation?
     var asyncTidyReportsPrettyPrinting: XCTestExpectation?
 
-    public func tidyReports( unknownOption: SwLibTidyConfigReportProtocol ) -> Swift.Bool? {
+    public func tidyReports( unknownOption: SwLibTidyConfigReportProtocol ) -> Swift.Bool {
         guard let expectation = asyncTidyReportsUnknownOption else {
             XCTFail("Delegate failed; did you remember to set asyncExpectation?")
             return false
@@ -399,7 +399,7 @@ public class SampleTidyDelegate: SwLibTidyDelegateProtocol {
         return
     }
 
-    public func tidyReports( message: SwLibTidyMessageProtocol ) -> Swift.Bool? {
+    public func tidyReports( message: SwLibTidyMessageProtocol ) -> Swift.Bool {
         guard let expectation = asyncTidyReportsMessage else {
             XCTFail("Delegate failed; did you remember to set asyncExpectation?")
             return false

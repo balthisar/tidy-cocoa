@@ -37,7 +37,7 @@ public protocol SwLibTidyDelegateProtocol {
          Your delegate should return true if it successfully handled the
          unknown option; return false to let Tidy output an error message.
      */
-    func tidyReports( unknownOption: SwLibTidyConfigReportProtocol ) -> Bool?
+    func tidyReports( unknownOption: SwLibTidyConfigReportProtocol ) -> Bool
 
     /**
      This delegate method is called whenever an option value is changed.
@@ -58,7 +58,7 @@ public protocol SwLibTidyDelegateProtocol {
          Your delegate should return false to indicate that Tidy should not
          further process the message itself.
      */
-    func tidyReports( message: SwLibTidyMessageProtocol ) -> Bool?
+    func tidyReports( message: SwLibTidyMessageProtocol ) -> Bool
 
     /**
      This delegate method is called during the pretty printing process in order
@@ -76,11 +76,13 @@ public protocol SwLibTidyDelegateProtocol {
 /** Provide default implementations in order to treat as optional. */
 public extension SwLibTidyDelegateProtocol {
 
-	func tidyReports( unknownOption: SwLibTidyConfigReportProtocol ) -> Bool? { return nil }
+    /* The default results in CLibTidy handling the unknown option. */
+	func tidyReports( unknownOption: SwLibTidyConfigReportProtocol ) -> Bool { return false }
 
 	func tidyReports( optionChanged: TidyOption, forTidyDoc: TidyDoc ) {}
 
-	func tidyReports( message: SwLibTidyMessageProtocol ) -> Bool? { return nil }
+    /* The default results in CLibTidy not filtering the message. */
+	func tidyReports( message: SwLibTidyMessageProtocol ) -> Bool { return false }
 
 	func tidyReports( pprint: SwLibTidyPPProgressProtocol ) {}
 	

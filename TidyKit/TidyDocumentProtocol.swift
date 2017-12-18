@@ -144,7 +144,7 @@ import Foundation
 @objc public protocol TidyDocumentCallbackProtocol: AnyObject {
 
     /** The delegate for this instance of the TidyDocument. */
-//    var delegate: SwLibTidyDelegateProtocol? { get set }
+    var delegate: SwLibTidyDelegateProtocol? { get set }
 
     /**
      Allows the host application to store a reference to an object instance.
@@ -172,7 +172,7 @@ import Foundation
      - returns:
          Returns `true` upon success.
      */
-//    func tidySet( configCallback: @escaping TidyConfigCallback ) -> Bool
+    func tidySet( configCallback: @escaping TidyConfigCallback ) -> Bool
 
 
     /**
@@ -206,7 +206,7 @@ import Foundation
      - returns:
          A boolean indicating success or failure setting the callback.
      */
-//    func tidySet( messageCallback: @escaping TidyMessageCallback ) -> Bool
+    func tidySet( messageCallback: @escaping TidyMessageCallback ) -> Bool
 
 
     /**
@@ -222,7 +222,7 @@ import Foundation
      - returns:
          True or false indicating the success or failure of setting the callback.
      */
-//    func tidySet( prettyPrinterCallback: @escaping TidyPPProgress ) -> Bool
+    func tidySet( prettyPrinterCallback: @escaping TidyPPProgress ) -> Bool
 
 }
 
