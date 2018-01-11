@@ -132,13 +132,26 @@ public typealias TidyNode = CLibTidy.TidyNode
 */
 public typealias TidyAttr = CLibTidy.TidyAttr
 
+/**
+ Indicates the classification of a TidyMessage.
+ */
 public typealias TidyReportLevel = CLibTidy.TidyReportLevel
 
+/**
+ A native TidyMessage.
+ */
 public typealias TidyMessage = CLibTidy.TidyMessage
 
+/**
+ The parameter type for a given parameter composing a TidyMessage.
+ */
 public typealias TidyFormatParameterType = CLibTidy.TidyFormatParameterType
 
+/**
+ A particular argument of a TidyMessage.
+ */
 public typealias TidyMessageArgument = CLibTidy.TidyMessageArgument
+
 
 /******************************************************************************
  ** These type definitions expose CLibTidy types as Swift types without having
@@ -1860,6 +1873,9 @@ public func tidySaveBuffer( _ tdoc: TidyDoc, _ buf: SwLibTidyBufferProtocol ) ->
 
 /**
  Save current settings to named file. Only writes non-default values.
+
+ - Note: The configuration file will be written with Tidy's `output-encoding`
+     and `newline` settings.
  
  - parameters:
    - tdoc: The tidy document to save.

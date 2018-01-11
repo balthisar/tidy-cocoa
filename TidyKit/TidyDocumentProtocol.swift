@@ -62,6 +62,19 @@ import Foundation
 
 
 /******************************************************************************
+ ** Type Aliases
+ **************************************************************************** */
+
+/**
+ Swift tries to deprecate NSStringEncoding with String.Encoding, which is not
+ compatible with Objective-C for some dumb reason. Since both resolve to UInt,
+ let's use a sensible type that works for both.
+ */
+public typealias NSStringEncoding = UInt
+
+
+
+/******************************************************************************
  This composed protocol encompasses all of the separate protocols that make up
  a TidyDocument.
  ******************************************************************************/
@@ -235,66 +248,71 @@ import Foundation
 
     /**
      Load an ASCII Tidy configuration file and set the configuration per its
-     contents.
+     contents. This method will attempt to determine file encoding
+     automatically.
 
      - parameters:
        - configFile: The complete path to the file to load.
      - returns:
          Returns `0` upon success, or any other value if there was an error.
      */
-    func tidyLoad( configFile: String ) -> Int
+    func tidyLoad( configFile: URL ) -> Int
 
 
     /**
      Load a Tidy configuration file with the specified character encoding, and
      set the configuration per its contents.
 
-     - TODO: This shouldn't be necessary. Instead, we should use macOS to
-         interpret the file encoding, or accept an NSEncoding instead of String.
+     - Note: This method may be required if supporting configuration files
+         generated with HTML Tidy proper, as it will write config files using
+         the users' specified document output encoding.
 
      - parameters:
        - configFile: The complete path to the file to load.
-       - encoding: The encoding to use. See struct `_enc2iana` for valid values.
+       - encoding: The encoding to use. This is a String.Encoding (Swift) or
+           NSStringEncoding (Objective-C).
      - returns:
          Returns `0` upon success, or any other value if there was an error.
      */
-    func tidyLoad( configFile: String, encoding: String ) -> Int
+    func tidyLoad( configFile: URL, encoding: NSStringEncoding ) -> Int
 
 
 
     /**
-     Save current configuration to named file. Only writes non-default values.
+     Save current configuration to named file.
+
+     - Note: This method always writes files in UTF-8 using macOS/Unix line
+         endings. This is different than typical CLibTidy behavior.
 
      - parameters:
-     - tdoc: The tidy document to save.
-     - cfgfil: The filename to save the configuration to.
+       - configFile: The filename to save the configuration to.
+       - withAllOptions: Specifies whether to save _all_ option settings, or
+           just the ones that differ from default (the normal CLibTidy
+           behavior).
      - returns:
-     An integer representing the status.
+         An integer representing the status.
      */
-    func tidyOptSaveFile( _ tdoc: TidyDoc, _ cfgfil: String ) -> Int
+    func tidySave( configFile: URL, withAllOptions: Bool  ) -> Int
 
 
     /**
      Reset all options to their default values.
 
-     - parameters:
-     - tdoc: The tidy document for which to reset all values.
      - returns:
-     Returns a bool indicating success or failure.
+         Returns a bool indicating success or failure.
      */
     func tidyOptResetAllToDefault() -> Bool
 
 
     /**
-     Take a snapshot of current config settings. These settings are stored within
-     the tidy document. Note, however, that snapshots do not reliably survive the
-     the `tidyParseXXX()` process, as Tidy uses the snapshot mechanism in order to
-     store the current configuration right at the beginning of the parsing process.
+     Take a snapshot of current config settings. These settings are stored
+     within the tidy document. Note, however, that snapshots do not reliably
+     survive the the `tidyParseXXX()` process, as Tidy uses the snapshot
+     mechanism in order to store the current configuration right at the
+     beginning of the parsing process.
 
-     - parameters:
-     - tdoc: The tidy document for which to take a snapshot.
      - returns:
-     Returns a bool indicating success or failure.
+         Returns a bool indicating success or failure.
      */
     func tidyOptSnapshot() -> Bool
 
@@ -302,10 +320,8 @@ import Foundation
     /**
      Apply a snapshot of config settings to a document.
 
-     - parameters:
-     - tdoc: The tidy document for which to apply a snapshot.
      - returns:
-     Returns a bool indicating success or failure.
+         Returns a bool indicating success or failure.
      */
     func tidyOptResetToSnapshot() -> Bool
 
@@ -313,10 +329,8 @@ import Foundation
     /**
      Any settings different than default?
 
-     - parameters:
-     - tdoc: The tidy document to check.
      - returns:
-     Returns a bool indicating whether or not a difference exists.
+         Returns a bool indicating whether or not a difference exists.
      */
     func tidyOptDiffThanDefault() -> Bool
 
@@ -324,19 +338,17 @@ import Foundation
     /**
      Any settings different than snapshot?
 
-     - parameters:
-     - tdoc: The tidy document to check.
      - returns:
-     Returns a bool indicating whether or not a difference exists.
+         Returns a bool indicating whether or not a difference exists.
      */
     func tidyOptDiffThanSnapshot() -> Bool
 
 
     /**
-     Copy current configuration settings from one document to another. Note that
-     the destination document's existing settings will be stored as that document's
-     snapshot prior to having its option values overwritten by the source
-     document's settings.
+     Copy current configuration settings from one document to another. Note
+     that the destination document's existing settings will be stored as that
+     document's snapshot prior to having its option values overwritten by the
+     source document's settings.
 
      - parameters:
      - tdocTo: The destination tidy document.
@@ -344,179 +356,115 @@ import Foundation
      - returns:
      Returns a bool indicating success or failure.
      */
-    func tidyOptCopyConfig( _ tdocTo: TidyDoc, _ tdocFrom: TidyDoc ) -> Swift.Bool
-
+    func tidyOptCopyConfig( toTidyDoc: TidyDocumentProtocol ) -> Bool
 
 
     /**
-     Set the file path to use for reports when `TidyEmacs` is being used. This
-     function provides a proper interface for using the hidden, internal-only
-     `TidyEmacsFile` configuration option.
+     The file path to use for reports when `TidyEmacs` is being used.
 
      - Note: This is useful if you work with Emacs and prefer Tidy's report
-     output to be in a form that is easy for Emacs to parse
-
-     - parameters:
-     - tdoc: The tidy document for which you are setting the `filePath`.
-     - filePath: The path of the document that should be reported.
+         output to be in a form that is easy for Emacs to parse.
      */
-    func tidySetEmacsFile( _ tdoc: TidyDoc, _ filePath: String )
-
-    /**
-     Get the file path to use for reports when `TidyEmacs` is being used. This
-     function provides a proper interface for using the hidden, internal-only
-     `TidyEmacsFile` configuration option.
-
-     - parameters:
-     - tdoc: The tidy document for which you want to fetch the file path.
-     - returns:
-     Returns a string indicating the file path.
-     */
-    func tidyGetEmacsFile( _ tdoc: TidyDoc ) -> String
-
-
+    var tidyEmacsFile: String { get set }
 }
 
 
 /******************************************************************************
  Provides functionality for working with document nodes.
+ TODO: most of these shouldn't be here. We should really wrap individual nodes
+   in a class on demand, and treat them as objects instead of using Tidy's
+   interface. The same goes for attributes.
  ******************************************************************************/
 @objc public protocol TidyNodeProtocol: AnyObject {
 
+    /** The root node. */
+    var tidyRootNode: TidyNode? { get }
 
-    // MARK: - Document Tree:
-    // MARK: Nodes for Document Sections
+    /** The HTML node. */
+    var tidyHtmlNode: TidyNode? { get }
 
+    /** The HEAD node. */
+    var tidyHeadNode: TidyNode? { get }
 
-    /**
-     Get the root node.
-
-     - parameters:
-     - tdoc: The document to query.
-     - returns:
-     Returns a tidy node.
-     */
-    func tidyGetRoot( _ tdoc: TidyDoc ) -> TidyNode?
-
-
-    /**
-     Get the HTML node.
-
-     - parameters:
-     - tdoc: The document to query.
-     - returns:
-     Returns a tidy node.
-     */
-    func tidyGetHtml( _ tdoc: TidyDoc ) -> TidyNode?
-
-
-    /**
-     Get the HEAD node.
-
-     - parameters:
-     - tdoc: The document to query.
-     - returns:
-     Returns a tidy node.
-     */
-    func tidyGetHead( _ tdoc: TidyDoc ) -> TidyNode?
-
-
-    /**
-     Get the BODY node.
-
-     - parameters:
-     - tdoc: The document to query.
-     - returns:
-     Returns a tidy node.
-     */
-    func tidyGetBody( _ tdoc: TidyDoc ) -> TidyNode?
-
-
-    // MARK: Relative Nodes
+    /** The BODY node. */
+    var tidyBodyNode: TidyNode? { get }
 
 
     /**
      Get the parent of the indicated node.
 
      - parameters:
-     - tnod: The node to query.
+       - ofNode: The node to query.
      - returns:
-     Returns a tidy node.
+         Returns a tidy node.
      */
-    func tidyGetParent( _ tnod: TidyNode ) -> TidyNode?
+    func tidyGetParent( ofNode: TidyNode ) -> TidyNode?
 
 
     /**
      Get the child of the indicated node.
 
      - parameters:
-     - tnod: The node to query.
+       - ofNode: The node to query.
      - returns:
-     Returns a tidy node.
+         Returns a tidy node.
      */
-    func tidyGetChild( _ tnod: TidyNode ) -> TidyNode?
+    func tidyGetChild( ofNode: TidyNode ) -> TidyNode?
 
 
     /**
      Get the next sibling node.
 
      - parameters:
-     - tnod: The node to query.
+       - ofNode: The node to query.
      - returns:
-     Returns a tidy node.
+         Returns a tidy node.
      */
-    func tidyGetNext( _ tnod: TidyNode ) -> TidyNode?
+    func tidyGetNext( ofNode: TidyNode ) -> TidyNode?
 
 
     /**
      Get the previous sibling node.
 
      - parameters:
-     - tnod: The node to query.
+       - ofNode: The node to query.
      - returns:
-     Returns a tidy node.
+         Returns a tidy node.
      */
-    func tidyGetPrev( _ tnod: TidyNode ) -> TidyNode?
-
-
-    // MARK: Miscellaneous Node Functions
+    func tidyGetPrev( ofNode: TidyNode ) -> TidyNode?
 
 
     /**
      Remove the indicated node.
 
      - parameters:
-     - tdoc: The tidy document from which to remove the node.
-     - tnod: The node to remove.
+       - tnod: The node to remove.
      - returns:
-     Returns the next tidy node.
+         Returns the next tidy node.
      */
-    func tidyDiscardElement( _ tdoc: TidyDoc, _ tnod: TidyNode ) -> TidyNode?
-
-
-    // MARK: Node Attribute Functions
+    func tidyDiscardElement( _ tnod: TidyNode ) -> TidyNode?
 
 
     /**
      Get the first attribute.
 
      - parameters:
-     - tnod: The node for which to get attributes.
+       - ofNode: The node for which to get attributes.
      - returns:
-     Returns an instance of TidyAttr.
+         Returns an instance of TidyAttr.
      */
-    func tidyAttrFirst( _ tnod: TidyNode ) -> TidyAttr?
+    func tidyAttrFirst( ofNode: TidyNode ) -> TidyAttr?
 
 
     /**
      Get the next attribute.
 
      - parameters:
-     - tattr: The current attribute, so the next one can be returned.
+       - ofAttribute: The current attribute, so the next one can be returned.
      - returns:
-     Returns and instance of TidyAttr.
+         Returns an instance of TidyAttr.
      */
-    func tidyAttrNext( _ tattr: TidyAttr ) -> TidyAttr?
+    func tidyAttrNext( ofAttribute: TidyAttr ) -> TidyAttr?
 
 
     /**
