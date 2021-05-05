@@ -44,6 +44,9 @@ GCC_C_LANGUAGE_STANDARD = gnu89
 // Ensure that the result of compiled `version.txt` in included
 GCC_PREFIX_HEADER = ${SRCROOT}/CLibTidy/tidy-html5-version.h
 
+// Don't warn about imported code.
+CLANG_WARN_COMMA = NO
+
 
 //////////////////////////////////////////////////////////
 // Library and Module Setup
@@ -81,4 +84,3 @@ INSTALL_PATH = @rpath
 //   ENABLE_ALLOC_DEBUG - define to output node allocation diagnostics.
 //   ENABLE_MEMORY_DEBUG - define to output some memory diagnostics.
 GCC_PREPROCESSOR_DEFINITIONS =  $(inherited) SUPPORT_GETPWNAM=1 SUPPORT_LOCALIZATIONS=1 SUPPORT_CONSOLE_APP=1
-
