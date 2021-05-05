@@ -944,14 +944,14 @@ public typealias NSStringEncoding = UInt
 }
 
 
-public protocol JimProtocol {
-    associatedtype JimType: AnyObject = String
-    var jimvar: JimType { get }
-}
-
-@objc public class JimClass: NSObject, JimProtocol {
-    public var jimvar: String = "Hello from JimClass."
-}
+//public protocol JimProtocol {
+//    associatedtype JimType: AnyObject = String
+//    var jimvar: JimType { get }
+//}
+//
+//@objc public class JimClass: NSObject, JimProtocol {
+//    public var jimvar: String = "Hello from JimClass."
+//}
 
 
 @objc public protocol SwiftProtocol {

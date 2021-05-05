@@ -33,7 +33,7 @@ COPY_PHASE_STRIP = NO
 // for null function pointers or specific system versions before calling newer
 // APIs.
 
-MACOSX_DEPLOYMENT_TARGET = 10.10
+MACOSX_DEPLOYMENT_TARGET = 10.12
 
 
 
@@ -403,5 +403,4 @@ SWIFT_OBJC_BRIDGING_HEADER =
 // 
 // 
 
-SWIFT_VERSION = 4.0
-
+SWIFT_VERSION = 5.0

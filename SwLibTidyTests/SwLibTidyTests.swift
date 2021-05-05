@@ -792,7 +792,7 @@ class SwLibTidyTests: XCTestCase {
          an effect on other option values.
          */
         let options: [TidyOptionId] = tidyGetOptionList( tdoc )
-            .flatMap { tidyOptGetId($0) }
+            .compactMap { tidyOptGetId($0) }
             .shuffled()
 
         /*
@@ -975,8 +975,8 @@ class SwLibTidyTests: XCTestCase {
 
         /* Get all of the option Id's of type TidyString */
         let stringOptions: [TidyOptionId] = tidyGetOptionList( tdoc )
-            .flatMap { tidyOptGetType( $0 ) == TidyString ? $0 : nil }
-            .flatMap { tidyOptGetId( $0 ) }
+            .compactMap { tidyOptGetType( $0 ) == TidyString ? $0 : nil }
+            .compactMap { tidyOptGetId( $0 ) }
 
         for optId in stringOptions {
 
