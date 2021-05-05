@@ -898,7 +898,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0900;
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 1250;
 				ORGANIZATIONNAME = "Jim Derry";
 				TargetAttributes = {
 					D06AD6AF1F3CF33E00199B88 = {
@@ -927,10 +927,9 @@
 			};
 			buildConfigurationList = D0C3BD031F3CB3680007BB54 /* Build configuration list for PBXProject "Swift LibTidy" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				Base,
 			);
@@ -1234,6 +1233,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0AB754E1F9A44EC0072028C /* Common-Debug.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 			};
 			name = Debug;
@@ -1242,7 +1247,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0AB754F1F9A44EC0072028C /* Common-Release.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Release;
 		};
