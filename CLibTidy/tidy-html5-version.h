@@ -7,5 +7,5 @@
 #ifdef RELEASE_DATE
 #undef RELEASE_DATE
 #endif
-#define LIBTIDY_VERSION "5.7.0"
-#define RELEASE_DATE "2017.11.25"
+#define LIBTIDY_VERSION "5.7.47"
+#define RELEASE_DATE "2021.04.15"
