@@ -16,7 +16,7 @@ import SwLibTidy
  It's a good example of getting the app data: in this case, we'll use the
  TidyRunner's output routine.
  */
-public func messageCallback( _ message: TidyMessageProtocol ) -> Bool {
+public func messageCallback( _ message: SwLibTidyMessageProtocol ) -> Bool {
 
     if let owner = tidyGetAppData( message.document ) as? TidyRunner {
         owner.output( "** \(message.messageOutputDefault)");
@@ -54,7 +54,7 @@ class TidyRunner {
      This will be our pretty printer progress callback. Apparently since
      Swift 3, this is safe to do now.
      */
-    private func ppCallback( _ report: TidyPPProgressProtocol ) -> Void {
+    private func ppCallback( _ report: SwLibTidyPPProgressProtocol ) -> Void {
         self.pppList += "Source Line: \(report.sourceLine), Col: \(report.sourceColumn); Destination Line: \(report.destLine)\n"
     }
 
@@ -82,11 +82,11 @@ class TidyRunner {
 
 
         /* We're going to capture Tidy's reporting output in this buffer. */
-        let errorBuffer = SwTidyBuffer()
+        let errorBuffer = SwLibTidyBuffer()
         let _ = tidySetErrorBuffer( tdoc, errbuf: errorBuffer )
 
         /* We're going to capture Tidy's document output in this buffer. */
-        let docBuffer = SwTidyBuffer()
+        let docBuffer = SwLibTidyBuffer()
 
 
         /*
@@ -104,7 +104,7 @@ class TidyRunner {
          context is available; it's essentially outside of any instances of
          this class.
          */
-        let _ = tidySetConfigCallback( tdoc, { (report: TidyConfigReportProtocol ) -> Swift.Bool in
+        let _ = tidySetConfigCallback( tdoc, { (report: SwLibTidyConfigReportProtocol ) -> Swift.Bool in
 
             if let owner = tidyGetAppData( report.document ) as? TidyRunner {
                 owner.output( "\(report.option) \(report.value)" );

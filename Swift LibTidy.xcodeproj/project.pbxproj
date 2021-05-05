@@ -102,6 +102,8 @@
 			compilerSpec = com.apple.compilers.proxy.script;
 			filePatterns = "*.txt";
 			fileType = pattern.proxy;
+			inputFiles = (
+			);
 			isEditable = 1;
 			outputFiles = (
 				"$(SRCROOT)/CLibTidy/tidy-html5-version.h",
@@ -544,8 +546,8 @@
 				D0F640CD1F8F998A005A945B /* SwLibTidy */,
 				D0D06CCE1F8AE6ED00370E9D /* CLibTidy */,
 				D0C3BD161F3CB3690007BB54 /* SwLibTidyTests */,
-				D0C3BD0A1F3CB3680007BB54 /* Products */,
 				D0D06F4B1F8AF13A00370E9D /* Frameworks */,
+				D0C3BD0A1F3CB3680007BB54 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -928,6 +930,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);

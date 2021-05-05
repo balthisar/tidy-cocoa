@@ -18,7 +18,7 @@ import SwLibTidy
 
 class ViewController: NSViewController {
 
-    @IBOutlet weak var textView: NSTextView!
+    @IBOutlet var textView: NSTextView!
 
     /* Use the same output creator as the sample console application. */
     var myExample = TidyRunner.init()
