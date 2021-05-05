@@ -133,7 +133,7 @@ class SwLibTidyTests: XCTestCase {
      *************************************************************************/
     func test_tidyReleaseInformation() {
 
-        let expectedDate = "2017."
+        let expectedDate = "2021."
         let expectedVers = "5.7"
         let expectedPlat = "Apple"
 
@@ -706,6 +706,10 @@ class SwLibTidyTests: XCTestCase {
       - tidyOptDiffThanDefault()
       - tidyOptDiffThanSnapshot()
       - tidyOptCopyConfig()
+     
+        NOTE: this started failing when a code change was made to tidy, to
+        revert a change I made. Complaint was something broke, so my changes
+        to fix this were deleted. Sigh.
      *************************************************************************/
     func test_tidyOptions_snapshots() {
 
@@ -776,6 +780,12 @@ class SwLibTidyTests: XCTestCase {
       - tidyOptGetValue()
       - tidyOptGetBool()
       - tidyOptGetInt()
+
+     NOTE: this started failing when a code change was made to tidy, to
+     revert a change I made. Complaint was something broke, so my changes
+     to fix this were deleted. Sigh.
+
+     
      *************************************************************************/
     func test_tidyOptions_set_get() {
 

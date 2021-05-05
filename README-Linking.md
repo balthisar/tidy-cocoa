@@ -1,8 +1,8 @@
 # Important Swift Standard Library Linking Information
 
-Note that Swift standard libraries are _not_ part of macOS at the current time.
-This means that all macOS Swift projects must link to the Swift standard
-library somehow.
+Note: Swift standard libraries are only part of macOS starting with 10.14.4,
+meaning that if you want to support deployments prior to this, you’ll have
+to think about linking strategies just a bit more.
 
 Console applications typically statically link to the Swift library (i.e.,
 the library becomes part of the excecutable, hence a 10 Mb "hello world")
