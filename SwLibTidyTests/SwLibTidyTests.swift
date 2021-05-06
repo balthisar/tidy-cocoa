@@ -18,7 +18,6 @@
 
 import XCTest
 @testable import SwLibTidy
-import CLibTidyEnum
 
 
 class SwLibTidyTests: XCTestCase {

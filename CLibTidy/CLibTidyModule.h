@@ -1,5 +1,7 @@
-extern double CLibTidyModuleVersionNumber;
-extern const unsigned char CLibTidyModuleVersionString[];
+#import <Foundation/Foundation.h>
+
+FOUNDATION_EXPORT double CLibTidyModuleVersionNumber;
+FOUNDATION_EXPORT const unsigned char CLibTidyModuleVersionString[];
 
 #import "tidy.h"
 #import "tidybuffio.h"

@@ -52,7 +52,6 @@
 		D0B4948E264378D600E9D79D /* CLibTidyModule.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D082E77D1F8D401100C8C192 /* CLibTidyModule.h */; };
 		D0B4949026437B0100E9D79D /* libCLibTidy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D05E34BB264373CF0045C99D /* libCLibTidy.a */; };
 		D0B49493264383A900E9D79D /* module.modulemap in CopyFiles */ = {isa = PBXBuildFile; fileRef = D082E77F1F8D404F00C8C192 /* module.modulemap */; };
-		D0B49494264386A200E9D79D /* tidyenum.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D0D06E8D1F8AE7CE00370E9D /* tidyenum.h */; };
 		D0C3A2D51F9B7A22005921F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C3A2D41F9B7A22005921F7 /* AppDelegate.swift */; };
 		D0C3A2D71F9B7A22005921F7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C3A2D61F9B7A22005921F7 /* ViewController.swift */; };
 		D0C3A2DA1F9B7A22005921F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0C3A2D81F9B7A22005921F7 /* Main.storyboard */; };
@@ -88,6 +87,8 @@
 		D0F640DB1F8F9AC7005A945B /* SwLibTidy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F640D71F8F9AC7005A945B /* SwLibTidy.swift */; };
 		D0F6C7841FC386CD001F2C2E /* SwLibTidyUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F6C7831FC386CD001F2C2E /* SwLibTidyUtilities.swift */; };
 		D0F6C7861FC64DF2001F2C2E /* SwLibTidyDelegateProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F6C7851FC64DF2001F2C2E /* SwLibTidyDelegateProtocol.swift */; };
+		D0FA77A5264414DA00C8D2AF /* SwLibTidy.h in Headers */ = {isa = PBXBuildFile; fileRef = D0FA77A4264414DA00C8D2AF /* SwLibTidy.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D0FA77B026441CBD00C8D2AF /* tidyenum.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D0D06E8D1F8AE7CE00370E9D /* tidyenum.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -191,7 +192,7 @@
 			files = (
 				D0B49493264383A900E9D79D /* module.modulemap in CopyFiles */,
 				D0B4948E264378D600E9D79D /* CLibTidyModule.h in CopyFiles */,
-				D0B49494264386A200E9D79D /* tidyenum.h in CopyFiles */,
+				D0FA77B026441CBD00C8D2AF /* tidyenum.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -351,6 +352,7 @@
 		D0F640D71F8F9AC7005A945B /* SwLibTidy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwLibTidy.swift; sourceTree = "<group>"; };
 		D0F6C7831FC386CD001F2C2E /* SwLibTidyUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwLibTidyUtilities.swift; sourceTree = "<group>"; };
 		D0F6C7851FC64DF2001F2C2E /* SwLibTidyDelegateProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwLibTidyDelegateProtocol.swift; sourceTree = "<group>"; };
+		D0FA77A4264414DA00C8D2AF /* SwLibTidy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwLibTidy.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -679,6 +681,7 @@
 		D0F640CD1F8F998A005A945B /* SwLibTidy */ = {
 			isa = PBXGroup;
 			children = (
+				D0FA77A4264414DA00C8D2AF /* SwLibTidy.h */,
 				D0A5C6AB1F92B18E00CABB67 /* README.md */,
 				D0F640D71F8F9AC7005A945B /* SwLibTidy.swift */,
 				D0F640D41F8F9AC6005A945B /* SwLibTidyBufferProtocol.swift */,
@@ -712,6 +715,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0FA77A5264414DA00C8D2AF /* SwLibTidy.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

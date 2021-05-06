@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 @import SwLibTidy;
-@import CLibTidyEnum;
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
