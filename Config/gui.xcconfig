@@ -1,17 +1,21 @@
 //
 // gui-Shared.xcconfig
 //
-//  Created by Jim Derry on 2017/10/20 with help by BuildSettingExtractor
+//  Created by Jim Derry on 2017/10/20
 //
 
 
-// App Setup and Configuration
+//
+// MARK: - APP SETUP AND CONFIGURATION
+//
+
 INFOPLIST_FILE = Apps/gui/Info.plist
 PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.gui
 PRODUCT_NAME = $(TARGET_NAME)
 
 
-// Runpath Search Paths
+//
+// MARK: - SEARCH PATHS
 //
 // This is a list of paths to be added to the runpath search path list for the
 // image being created.  At runtime, dyld uses the runpath when searching for

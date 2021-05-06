@@ -1,31 +1,31 @@
 //
 // SwLibTidy-Shared.xcconfig
 //
-//  Created by Jim Derry on 2017/10/20 with help by BuildSettingExtractor
+//  Created by Jim Derry on 2017/10/20
 //
 
 
-//////////////////////////////////////////////////////////
-// Framework Setup and Configuration
-//////////////////////////////////////////////////////////
+//
+// MARK: - FRAMEWORK SETUP AND CONFIGURATION
+//
 
 INFOPLIST_FILE = TidyKit/Info.plist
 PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.TidyKit
 PRODUCT_NAME = $(TARGET_NAME:c99extidentifier)
 
 
-//////////////////////////////////////////////////////////
-// Code Signing - Required on iOS
-//////////////////////////////////////////////////////////
+//
+// MARK: - CODE SIGNING - Required on iOS
+//
 
 CODE_SIGN_IDENTITY[sdk=iphoneos*] = iPhone Developer
 CODE_SIGN_STYLE[sdk=iphoneos*] = Automatic
 DEVELOPMENT_TEAM[sdk=iphoneos*] = 9PN2JXXG7Y
 
 
-//////////////////////////////////////////////////////////
-// Cross Platform setup
-//////////////////////////////////////////////////////////
+//
+// MARK: - CROSS PLATFORM SETUP
+//
 
 SUPPORTED_PLATFORMS = iphonesimulator iphoneos macosx
 VALID_ARCHS[sdk=macosx*] = x86_64
@@ -33,9 +33,9 @@ VALID_ARCHS[sdk=iphoneos*] = arm64 armv7 armv7s
 VALID_ARCHS[sdk=iphonesimulator*] = i386 x86_64
 
 
-//////////////////////////////////////////////////////////
-// Library and Module Setup
-//////////////////////////////////////////////////////////
+//
+// MARK: - LIBRARY AND MODULE SETUP
+//
 
 // Defines Module. We'll let Xcode generate the module automatically. This
 // enables the use of a simple import SwLibTidy.
@@ -55,9 +55,9 @@ FRAMEWORK_VERSION = A
 INSTALL_PATH = @rpath
 
 
-//////////////////////////////////////////////////////////
-// Linking
-//////////////////////////////////////////////////////////
+//
+// MARK: - LINKING
+//
 
 // Swift is still unstable, so we have to distribute the Swift Standard
 // library in our built apps. To prevent symbol collisions, we'll put this

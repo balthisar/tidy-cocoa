@@ -31,9 +31,19 @@ system will ensure that all of the correct Swift dylibs are in the final bundle.
 
 ## Command Line Tools
 
-The situation is kind of poor for command line tools, and you will be in
-dependency and linker hell until the Swift Standard Library is part of macOS.
-Therefore the sample command line tools in this package have been distributed
-as bundles. If you choose this route for your own tools, simply create an
-alias or symbolic link to the tool in the bundle, whereever you need it.
+The situation is kind of poor for command line tools (see next section), so the
+deployment target for the command line tools in this project are for 10.15+.
+
+
+## 10.14.4 and newer solves everything?
+
+Since 10.14.4, though, Swift has been part of the operating system, and there’s
+no need to statically link. Problem solved, unless you want to deploy to systems
+prior to 10.14.4. The solution to this is to include the standard library as
+part of the distribution anyway, and the linker will use your included version
+only on pre-10.14.4 systems, and to ask your command line tool users to install
+the (Swift runtime)[https://support.apple.com/kb/DL1998]. This is a very
+.Net-ish way of doing things.
+
+
 

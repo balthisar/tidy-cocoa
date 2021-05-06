@@ -1,28 +1,38 @@
 //
 // iOS-Shared.xcconfig
 //
-//  Created by Jim Derry on 2017/10/21 with help by BuildSettingExtractor
+//  Created by Jim Derry on 2017/10/21
 //
 
 
-// App Setup and Configuration
+//
+// MARK: - APP SETUP AND CONFIGURATION
+//
+
 INFOPLIST_FILE = Apps/iOS/Info.plist
 PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.iOS
 PRODUCT_NAME = $(TARGET_NAME)
 
 
-// Base SDK and Products
+//
+// MARK: - BASE SDK AND PRODUCTS
+//
+
 SDKROOT = iphoneos
 TARGETED_DEVICE_FAMILY = 1,2
 
 
-// Code Signing
+//
+// MARK: - CODE SIGNING
+//
+
 CODE_SIGN_IDENTITY = iPhone Developer
 CODE_SIGN_STYLE = Automatic
 DEVELOPMENT_TEAM = 9PN2JXXG7Y
 
 
-// Runpath Search Paths
+//
+// MARK: - SEARCH PATHS
 //
 // This is a list of paths to be added to the runpath search path list for the
 // image being created.  At runtime, dyld uses the runpath when searching for

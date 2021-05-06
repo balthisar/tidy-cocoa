@@ -14,9 +14,9 @@ manner.
 `SwLibTidy` proper is the procedural wrapper for `LibTidy` (referred to as
 `CLibTidy` within this project). As it consists of Swift top-level functions,
 this is not useful in Objective-C. In most cases, developers will prefer to use
-the `TidyEngine` and associated classes.
+the `TidyKit` and associated classes.
 
-## TidyEngine
+## TidyKit
 
 wip…
 

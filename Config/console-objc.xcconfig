@@ -1,22 +1,31 @@
 //
 // console-objc-Shared.xcconfig
 //
-//  Created by Jim Derry on 2017/10/20 with help by BuildSettingExtractor
+//  Created by Jim Derry on 2017/10/20
 //
 
 
-// App Setup and Configuration
+//
+// MARK: - APP SETUP AND CONFIGURATION
+//
+
 INFOPLIST_FILE = Apps/console-objc/Info.plist
 PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.console-objc
 PRODUCT_NAME = $(TARGET_NAME)
 WRAPPER_EXTENSION = bundle
 
 
-// Runpath Search Paths
+//
+// MARK: - SEARCH PATHS
+//
+
 LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/../Frameworks
 
 
-// Ensure all the Swift stuff can access the standard libraries.
+//
+// MARK: - SWIFT STANDARD LIBS
+//
+
 ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES
 
 

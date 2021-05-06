@@ -1,9 +1,13 @@
 //
 // SwLibTidy Tests-Shared.xcconfig
 //
-//  Created by Jim Derry on 2017/10/20 with help by BuildSettingExtractor
+//  Created by Jim Derry on 2017/10/20
 //
 
+
+//
+// MARK: - BASIC SETUP
+//
 
 INFOPLIST_FILE = SwLibTidyTests/Info.plist
 LD_RUNPATH_SEARCH_PATHS = $(inherited) @loader_path/../Frameworks @loader_path/Frameworks
@@ -12,12 +16,13 @@ PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.LibTidyTests
 SWIFT_OPTIMIZATION_LEVEL = -Onone
 CLANG_WARN_DOCUMENTATION_COMMENTS = no
 
-//////////////////////////////////////////////////////////
-// Cross Platform setup
-//////////////////////////////////////////////////////////
+
+//
+// MARK: - CROSS PLATFORM SETUP
+//
 
 SUPPORTED_PLATFORMS = iphonesimulator iphoneos macosx
-VALID_ARCHS[sdk=macosx*] = x86_64
+VALID_ARCHS[sdk=macosx*] = x86_64 arm64
 VALID_ARCHS[sdk=iphoneos*] = arm64 armv7 armv7s
 VALID_ARCHS[sdk=iphonesimulator*] = i386 x86_64
 

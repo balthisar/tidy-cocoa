@@ -1,13 +1,13 @@
 //
 //  Common-Release.xcconfig
 //
-//  Created by Jim Derry on 2017/10/20 with help by BuildSettingExtractor
+//  Created by Jim Derry on 2017/10/20
 //
 
 #include "Common-Shared.xcconfig"
 
 
-DEBUG_INFORMATION_FORMAT = dwarf-with-dsym
-ENABLE_NS_ASSERTIONS = NO
-SWIFT_OPTIMIZATION_LEVEL = -Owholemodule
-SWIFT_COMPILATION_MODE = wholemodule
+DEBUG_INFORMATION_FORMAT            = dwarf-with-dsym
+ENABLE_NS_ASSERTIONS                = NO
+SWIFT_OPTIMIZATION_LEVEL            = -Owholemodule
+SWIFT_COMPILATION_MODE              = wholemodule

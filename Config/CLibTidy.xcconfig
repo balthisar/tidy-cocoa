@@ -1,29 +1,29 @@
 //
 // tidy-sw-Shared.xcconfig
 //
-//  Created by Jim Derry on 2017/10/20 with help by BuildSettingExtractor
+//  Created by Jim Derry on 2017/10/20
 //
 
 
-//////////////////////////////////////////////////////////
-// Framework Setup and Configuration
-//////////////////////////////////////////////////////////
+//
+// MARK: - FRAMEWORK SETUP AND CONFIGURATION
+//
 
 PRODUCT_NAME = $(TARGET_NAME)
 
 
-//////////////////////////////////////////////////////////
-// Code Signing - Required on iOS
-//////////////////////////////////////////////////////////
+//
+// MARK: - CODE SIGNING - Required on iOS
+//
 
 CODE_SIGN_IDENTITY[sdk=iphoneos*] = iPhone Developer
 CODE_SIGN_STYLE[sdk=iphoneos*] = Automatic
 DEVELOPMENT_TEAM[sdk=iphoneos*] = 9PN2JXXG7Y
 
 
-//////////////////////////////////////////////////////////
-// Cross Platform setup
-//////////////////////////////////////////////////////////
+//
+// MARK: - CROSS PLATFORM SETUP
+//
 
 SUPPORTED_PLATFORMS = iphonesimulator iphoneos macosx
 VALID_ARCHS[sdk=macosx*] = x86_64
@@ -31,9 +31,9 @@ VALID_ARCHS[sdk=iphoneos*] = arm64 armv7 armv7s
 VALID_ARCHS[sdk=iphonesimulator*] = i386 x86_64
 
 
-//////////////////////////////////////////////////////////
-// Compiler Setup
-//////////////////////////////////////////////////////////
+//
+// MARK: - COMPILER SETUP
+//
 
 // Hide third party library's documentation comment warnings.
 CLANG_WARN_DOCUMENTATION_COMMENTS = no
@@ -51,9 +51,9 @@ GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO
 GCC_WARN_SHADOW                           = NO
 
 
-//////////////////////////////////////////////////////////
-// Library and Module Setup
-//////////////////////////////////////////////////////////
+//
+// MARK: - LIBRARY AND MODULE SETUP
+//
 
 
 // Module Map File. We're manually creating a module, and this modulemap
@@ -74,9 +74,9 @@ EXECUTABLE_PREFIX = lib
 //INSTALL_PATH = @rpath
 
 
-//////////////////////////////////////////////////////////
-// Preprocessor Macros
-//////////////////////////////////////////////////////////
+//
+// MARK: - PREPROCESSOR MACROS
+//
 
 // LibTidy has some macro definitions available to control the build:
 //   SUPPORT_GETPWNAM - define to use getpwnam() in file paths.
@@ -95,7 +95,7 @@ GCC_PREPROCESSOR_DEFINITIONS =  $(inherited) SUPPORT_GETPWNAM=1 SUPPORT_LOCALIZA
 
 
 //
-// CLibTidy.xcconfig
+// MARK: - INSTALL SETUP
 //
 // This is the configuration for the LibTidy used by SwLibtidy. Note that
 // most of the build settings are inherited from the project settings.
