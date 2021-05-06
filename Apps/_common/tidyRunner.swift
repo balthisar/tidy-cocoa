@@ -3,18 +3,17 @@
 //  console, gui, ios
 //
 //  Created by Jim Derry on 10/14/17.
-//  Copyright © 2017 Jim Derry. All rights reserved.
+//  Copyright © 2017-2021 Jim Derry. All rights reserved.
 //
 
 import Foundation
 import SwLibTidy
 
 
-/*
- Will be used as the callback for messages emitted by Tidy. In this case, the
- callback is to a top-level function.
- It's a good example of getting the app data: in this case, we'll use the
- TidyRunner's output routine.
+/**
+ *  Will be used as the callback for messages emitted by Tidy. In this case, the
+ *  callback is to a top-level function. It's a good example of getting the app
+ *  data: in this case, we'll use the  TidyRunner's output routine.
  */
 public func messageCallback( _ message: SwLibTidyMessageProtocol ) -> Bool {
 
@@ -28,17 +27,16 @@ public func messageCallback( _ message: SwLibTidyMessageProtocol ) -> Bool {
 }
 
 
-/*
- This class simply makes it possible to run the same tests in multiple
- targets. Most of this functionality should be migrated to the unit tests,
- but sometimes it's nice simply to see output during development.
+/**
+ *  This class simply makes it possible to run the same tests in multiple
+ *  targets. Most of this functionality should be migrated to the unit tests,
+ *  but sometimes it's nice simply to see output during development.
  */
 class TidyRunner {
 
-    /*
-     Replace this variable's closure if you don't want to use print().
-     For example, the GUI demos use this class as well, and direct output
-     to the text views.
+    /* Replace this variable's closure if you don't want to use print().
+     * For example, the GUI demos use this class as well, and direct output
+     * to the text views.
      */
     public var output: ( String ) -> Void = { arg in
         print(arg)
@@ -50,9 +48,8 @@ class TidyRunner {
     /* Just a string for a horizontal rule. */
     private var horizontal_rule = "\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n"
 
-    /*
-     This will be our pretty printer progress callback. Apparently since
-     Swift 3, this is safe to do now.
+    /* This will be our pretty printer progress callback. Apparently since
+     * Swift 3, this is safe to do now.
      */
     private func ppCallback( _ report: SwLibTidyPPProgressProtocol ) -> Void {
         self.pppList += "Source Line: \(report.sourceLine), Col: \(report.sourceColumn); Destination Line: \(report.destLine)\n"
@@ -73,10 +70,9 @@ class TidyRunner {
         guard let tdoc = tidyCreate() else { return }
 
 
-        /*
-         Store a reference to self in our document. Callbacks cannot call
-         back into an instance method, but the top-level method will be able
-         to look at this value, and call into an instance method with it.
+        /* Store a reference to self in our document. Callbacks cannot call
+         * back into an instance method, but the top-level method will be able
+         * to look at this value, and call into an instance method with it.
          */
         tidySetAppData(tdoc, self)
 
@@ -89,20 +85,18 @@ class TidyRunner {
         let docBuffer = SwLibTidyBuffer()
 
 
-        /*
-         Let's set our message callback. If using a function, as here, then it
-         should be outside of this class, i.e., a top-level function.
+        /* Let's set our message callback. If using a function, as here, then it
+         * should be outside of this class, i.e., a top-level function.
          */
         let _ = tidySetMessageCallback( tdoc, messageCallback)
 
-        /*
-         Let's set our unknown configuration option callback. In this case,
-         we'll use a closure so that we don't have to define a top-level
-         function.
-         It's a good example of getting the app data: in this case, we'll use
-         the TidyRunner's output routine. Remember, this is a closure, so no
-         context is available; it's essentially outside of any instances of
-         this class.
+        /* Let's set our unknown configuration option callback. In this case,
+         * we'll use a closure so that we don't have to define a top-level
+         * function.
+         * It's a good example of getting the app data: in this case, we'll use
+         * the TidyRunner's output routine. Remember, this is a closure, so no
+         * context is available; it's essentially outside of any instances of
+         * this class.
          */
         let _ = tidySetConfigCallback( tdoc, { (report: SwLibTidyConfigReportProtocol ) -> Swift.Bool in
 
@@ -114,10 +108,9 @@ class TidyRunner {
             return false
         })
 
-        /*
-         Let's set our pretty printer progress callback. In this case, we will
-         set it to an instance method. Apparently since Swift 3, this is safe
-         to do now.
+        /* Let's set our pretty printer progress callback. In this case, we will
+         * set it to an instance method. Apparently since Swift 3, this is safe
+         * to do now.
          */
         let _ = tidySetPrettyPrinterCallback( tdoc, self.ppCallback)
 
@@ -141,9 +134,8 @@ class TidyRunner {
         output(horizontal_rule)
         output("tidyDetectedXhtml is \(tidyDetectedXhtml(tdoc))")
 
-        /*
-         These will be added to our buffer, and not output yet. However
-         the callback will output the messages they generate.
+        /* These will be added to our buffer, and not output yet. However
+         * the callback will output the messages they generate.
          */
         output(horizontal_rule)
         tidyErrorSummary(tdoc)

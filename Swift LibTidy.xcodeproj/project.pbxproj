@@ -336,7 +336,7 @@
 		D0D06EEC1F8AE7CE00370E9D /* version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
 		D0D06EEE1F8AE7CE00370E9D /* version.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = version.txt; sourceTree = "<group>"; };
 		D0D7C18B1F8FAA6A0091FFCE /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
-		D0DBB5921F9CE75F001F2021 /* console.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = console.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0DBB5921F9CE75F001F2021 /* console.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = console.bundle; path = console.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0DBB5931F9CE75F001F2021 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = "/Users/jderry/Development/tidy-cocoa/Apps/console/Info.plist"; sourceTree = "<absolute>"; };
 		D0DBB5AE1F9CF489001F2021 /* console-objc.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "console-objc.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0DBB5AF1F9CF489001F2021 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = "/Users/jderry/Development/tidy-cocoa/Apps/console-objc/Info.plist"; sourceTree = "<absolute>"; };

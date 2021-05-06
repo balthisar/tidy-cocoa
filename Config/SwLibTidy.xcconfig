@@ -89,3 +89,6 @@ ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO
 
 //LIBRARY_SEARCH_PATHS = $(inherited) $inherited "$(SOURCE_ROOT)/CLibTidy"
 //FRAMEWORK_SEARCH_PATHS = $(inherited) $inherited "$(SOURCE_ROOT)/CLibTidy"
+
+
+MACH_O_TYPE = staticlib
