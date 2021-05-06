@@ -8,14 +8,7 @@ This directory:
 
 ## Framework
 
-`SwLibTidy` is intended to be used as a framework. While this complicates
-console applications, it ensures that all of its resources can be bundled into
-a single structure.
-
-## Linking
-
-`SwLibTidy` dynamically links to `libtidy-sw.dylib`, which is put into the
-framework bundle where the dynamic linker will find it. Additionally the dynamic
-linker will first search `/usr/local/lib`, so that end-user applications can
-update their versions of Tidy if you provide instructions.
-
+`SwLibTidy` is intended to be used as a static framework. Although there are
+no resources, this makes it simple to use as a module and manage headers,
+while being friendly to console applications that don't have bundles to install
+frameworks.
