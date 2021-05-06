@@ -45,7 +45,10 @@ GCC_C_LANGUAGE_STANDARD = gnu89
 GCC_PREFIX_HEADER = ${SRCROOT}/CLibTidy/tidy-html5-version.h
 
 // Don't warn about imported code.
-CLANG_WARN_COMMA = NO
+CLANG_WARN_COMMA                          = NO
+GCC_WARN_64_TO_32_BIT_CONVERSION          = NO
+GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO
+GCC_WARN_SHADOW                           = NO
 
 
 //////////////////////////////////////////////////////////
@@ -54,21 +57,21 @@ CLANG_WARN_COMMA = NO
 
 
 // Module Map File. We're manually creating a module, and this modulemap
-// file defines the module to Xcode. This allows simply impot CLibTidy.
-MODULEMAP_FILE = $(SOURCE_ROOT)/CLibTidy/module.modulemap
+// file defines the module to Xcode. This allows simply import CLibTidy.
+//MODULEMAP_FILE = $(SOURCE_ROOT)/CLibTidy/module.modulemap
 
 // Note that we are tracking LibTidy's major version 5, which is implied
 // below. For example, 5.7 refers to LibTidy 5.5.70 and better. This makes
 // it difficult to support versions such at 5.78, as we are limited to
 // supporting only 5.70 and better, given the decimal nature of this setting.
-DYLIB_COMPATIBILITY_VERSION = 5.7
-DYLIB_CURRENT_VERSION = 5.7
+//DYLIB_COMPATIBILITY_VERSION = 5.7
+//DYLIB_CURRENT_VERSION = 5.7
 
 // Executable Prefix
 EXECUTABLE_PREFIX = lib
 
 // Installation Directory. This dylib can be installed anywhere.
-INSTALL_PATH = @rpath
+//INSTALL_PATH = @rpath
 
 
 //////////////////////////////////////////////////////////
@@ -84,3 +87,22 @@ INSTALL_PATH = @rpath
 //   ENABLE_ALLOC_DEBUG - define to output node allocation diagnostics.
 //   ENABLE_MEMORY_DEBUG - define to output some memory diagnostics.
 GCC_PREPROCESSOR_DEFINITIONS =  $(inherited) SUPPORT_GETPWNAM=1 SUPPORT_LOCALIZATIONS=1 SUPPORT_CONSOLE_APP=1
+
+
+
+
+
+
+
+//
+// CLibTidy.xcconfig
+//
+// This is the configuration for the LibTidy used by SwLibtidy. Note that
+// most of the build settings are inherited from the project settings.
+//
+
+
+
+SKIP_INSTALL            = YES
+STRIP_INSTALLED_PRODUCT = NO
+

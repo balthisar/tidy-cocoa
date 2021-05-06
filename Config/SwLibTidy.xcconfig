@@ -45,8 +45,8 @@ DEFINES_MODULE = YES
 // below. For example, 5.7 refers to LibTidy 5.5.70 and better. This makes
 // it difficult to support versions such at 5.78, as we are limited to
 // supporting only 5.70 and better, given the decimal nature of this setting.
-DYLIB_COMPATIBILITY_VERSION = 5.7
-DYLIB_CURRENT_VERSION = 5.7
+//DYLIB_COMPATIBILITY_VERSION = 5.7
+//DYLIB_CURRENT_VERSION = 5.7
 
 // Framework Version
 FRAMEWORK_VERSION = A
@@ -86,4 +86,7 @@ ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO
 // Note that dylibs and frameworks in /Library/Frameworks/ and
 // ~/Library/Frameworks/ would be detected automatically, too.
 
-LD_RUNPATH_SEARCH_PATHS = $(inherited) /usr/local/lib @executable_path/../Frameworks @executable_path/Frameworks @loader_path
+//LD_RUNPATH_SEARCH_PATHS = $(inherited) /usr/local/lib @executable_path/../Frameworks @executable_path/Frameworks @loader_path
+
+//LIBRARY_SEARCH_PATHS = $(inherited) $inherited "$(SOURCE_ROOT)/CLibTidy"
+//FRAMEWORK_SEARCH_PATHS = $(inherited) $inherited "$(SOURCE_ROOT)/CLibTidy"
