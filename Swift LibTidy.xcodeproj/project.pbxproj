@@ -462,10 +462,10 @@
 				D0AB75531F9A44ED0072028C /* console-objc.xcconfig */,
 				D0AB75581F9A44ED0072028C /* gui.xcconfig */,
 				D027FFB51F9B7ABF009A274E /* iOS.xcconfig */,
-				D0AB75451F9A44EB0072028C /* SwLibTidy Tests.xcconfig */,
+				D02B4C511FE4761700EDACA8 /* TidyKit.xcconfig */,
 				D0AB754D1F9A44EC0072028C /* SwLibTidy.xcconfig */,
 				D05E3518264374FA0045C99D /* CLibTidy.xcconfig */,
-				D02B4C511FE4761700EDACA8 /* TidyKit.xcconfig */,
+				D0AB75451F9A44EB0072028C /* SwLibTidy Tests.xcconfig */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -925,10 +925,10 @@
 				D0DBB5A11F9CF489001F2021 /* console-objc */,
 				D06AD6AF1F3CF33E00199B88 /* gui */,
 				D0C3A2D11F9B7A22005921F7 /* iOS */,
-				D0C3BD111F3CB3690007BB54 /* Swift LibTidy Tests */,
 				D02B4C3B1FE4758D00EDACA8 /* TidyKit */,
 				D0F640CB1F8F998A005A945B /* SwLibTidy */,
 				D05E34BA264373CF0045C99D /* CLibTidy */,
+				D0C3BD111F3CB3690007BB54 /* Swift LibTidy Tests */,
 			);
 		};
 /* End PBXProject section */
