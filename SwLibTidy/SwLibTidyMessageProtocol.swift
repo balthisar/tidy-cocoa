@@ -1,130 +1,181 @@
-/******************************************************************************
-
-    SwLibTidyMessageProtocol.swift
-    Part of the SwLibTidy wrapper library for tidy-html5 ("CLibTidy").
-    See https://github.com/htacg/tidy-html5
-
-    Copyright © 2107 by HTACG. All rights reserved.
-    Created by Jim Derry 2017; copyright assigned to HTACG. Permission to use
-    this source code per the W3C Software Notice and License:
-    https://www.w3.org/Consortium/Legal/2002/copyright-software-20021231
-
-    Purpose
-      This protocol and class define and implement a structure suitable for
-      storing CLibTidy output messages.
-
- ******************************************************************************/
+/**
+ *  SwLibTidyMessageProtocol.swift
+ *   Part of the SwLibTidy wrapper library for tidy-html5 ("CLibTidy").
+ *   See https://github.com/htacg/tidy-html5
+ *
+ *   Copyright © 2017-2021 by HTACG. All rights reserved.
+ *   Created by Jim Derry 2017; copyright assigned to HTACG. Permission to use
+ *   this source code per the W3C Software Notice and License:
+ *   https://www.w3.org/Consortium/Legal/2002/copyright-software-20021231
+ *
+ *   Purpose
+ *     This protocol and class define and implement a structure suitable for
+ *     storing CLibTidy output messages.
+ */
 
 import CLibTidy
 
 
 /**
- This protocol describes an interface for accessing the fields of a TidyMessage
- object without having to use the CLibTidy API.
+ *  This protocol describes an interface for accessing the fields of a
+ *  `TidyMessage` object without having to use the CLibTidy API.
  */
 public protocol SwLibTidyMessageProtocol {
 
-    /** A reference to the TidyDocument from which the message originates. */
+    /**
+     *  A reference to the `TidyDocument` from which the message originates.
+     */
     var document: TidyDoc { get }
 
-    /** An integer representing the internal message code. In native LibTidy,
-        this would be a meaningful enum, which doesn't carry over into Swift.
-        THIS IS NOT A STABLE VALUE. Use messageKey, instead, which is the
-        textual representation of the enum label. */
+    /**
+     *  An integer representing the internal message code. In native LibTidy,
+     *  this would be a meaningful enum, which doesn't carry over into Swift.
+     *  THIS IS NOT A STABLE VALUE. Use `messageKey`, instead, which is the
+     *  textual representation of the enum label.
+     */
     var messageCode: UInt { get }
 
-    /** A string representing the unique key that identifies a messages type
-        within LibTidy. While not guaranteed not to disappear, these do tend
-        to remain stable between releases. */
+    /**
+     *  A string representing the unique key that identifies a messages type
+     *  within LibTidy. While not guaranteed not to disappear, these do tend
+     *  to remain stable between releases.
+     */
     var messageKey: String { get }
 
-    /** The line number the message refers to, if any. */
+    /**
+     *  The line number the message refers to, if any.
+     */
     var line: Int { get }
 
-    /** The column number the messages refers to, if any. */
+    /**
+     *  The column number the messages refers to, if any.
+     */
     var column: Int { get }
 
-    /** The TidyReportLevel of the message. */
+    /**
+     *  The `TidyReportLevel` of the message.
+     */
     var level: TidyReportLevel { get }
 
-    /** Whether or not the user set an option indicating that this message
-        should be muted. */
+    /**
+     *  Whether or not the user set an option indicating that this message
+     *  should be muted.
+     */
     var muted: Swift.Bool { get }
 
-    /** The C format string used to create the main body of the message, in
-        Tidy's default (English) localization. */
+    /**
+     *  The C format string used to create the main body of the message, in
+     *  Tidy's default (English) localization.
+     */
     var formatDefault: String { get }
 
-    /** The C format string used to create the main body of the message, in
-        Tidy's currently set language. */
+    /**
+     *  The C format string used to create the main body of the message, in
+     *  Tidy's currently set language.
+     */
     var format: String { get }
 
-    /** The main body of the message, in Tidy's default (English) language. */
+    /**
+     *  The main body of the message, in Tidy's default (English) language.
+     */
     var messageDefault: String { get }
 
-    /** The main body of the message, in Tidy's curently set language. */
+    /**
+     *  The main body of the message, in Tidy's currently set language.
+     */
     var message: String { get }
 
-    /** The position part of the complete message, if any, in Tidy's default
-        (English) localization. */
+    /**
+     *  The position part of the complete message, if any, in Tidy's default
+     *  (English) localization.
+     */
     var posDefault: String { get }
 
-    /** The position part of the complete message, if any, in Tidy's currently
-        set localization. */
+    /**
+     *  The position part of the complete message, if any, in Tidy's currently
+     *  set localization.
+     */
     var pos: String { get }
 
-    /** The prefix part of the message in Tidy's default (English) language. */
+    /**
+     *  The prefix part of the message in Tidy's default (English) language.
+     */
     var prefixDefault: String { get }
 
-    /** The prefix part of the message in Tidy's currently set language. */
+    /**
+     *  The prefix part of the message in Tidy's currently set language.
+     */
     var prefix: String { get }
 
-    /** The complete message as Tidy would output it in the default language.*/
+    /**
+     *  The complete message as Tidy would output it in the default language.
+     */
     var messageOutputDefault: String { get }
 
-    /** The complete message as Tidy would output it in the current language.*/
+    /**
+     *  The complete message as Tidy would output it in the current language.
+     */
     var messageOutput: String { get }
 
-    /** An array of message arguments and argument type information used to
-        generate the message. */
+    /**
+     *  An array of message arguments and argument type information used to
+     *   generate the message.
+     */
     var messageArguments: [SwLibTidyMessageArgumentProtocol] { get }
 
-    /** Creates a new instance of this class and sets the values. */
+    /**
+     *  Creates a new instance of this class and sets the values.
+     */
     init( withMessage: CLibTidy.TidyMessage )
 }
 
 
 /**
- This protocol describes an interface for accessing the fields of a
- TidyMessageArgument object without having to use the CLibTidy API.
+ *  This protocol describes an interface for accessing the fields of a
+ *  `TidyMessageArgument` object without having to use the CLibTidy API.
  */
 public protocol SwLibTidyMessageArgumentProtocol {
 
-    /** Indicates the data type of the C printf argument. */
+    /**
+     *  Indicates the data type of the C printf argument. */
     var type: TidyFormatParameterType { get }
 
-    /** Indicates the C printf format specifier for the argument. */
+    /**
+     *  Indicates the C printf format specifier for the argument.
+     */
     var format: String { get }
 
-    /** The value of the argument, if it's tidyFormatType_STRING. */
+    /**
+     *  The value of the argument, if it's `tidyFormatType_STRING`.
+     */
     var valueString: String { get }
 
-    /** The value of the argument, if it's tidyFormatType_UINT. */
+    /**
+     *  The value of the argument, if it's `tidyFormatType_UINT`.
+     */
     var valueUInt: UInt { get }
 
-    /** The value of the argument, if it's tidyFormatType_INT. */
+    /**
+     *  The value of the argument, if it's `tidyFormatType_INT`.
+     */
     var valueInt: Int { get }
 
-    /** The value of the argument, if it's tidyFormatType_DOUBLE. */
+    /**
+     *  The value of the argument, if it's `tidyFormatType_DOUBLE`.
+     */
     var valueDouble: Double { get }
 
-    /** Creates a new instance of this class populating the fields
-        from the given TidyMessage and argument */
+    /**
+     *  Creates a new instance of this class populating the fields
+     *  from the given `TidyMessage` and argument
+     */
     init( withArg: TidyMessageArgument, fromMessage: TidyMessage )
 }
 
 
-/** A default implementation of the `SwLibTidyMessageProtocol`. */
+/**
+ *  A default implementation of the `SwLibTidyMessageProtocol`.
+ */
 public class SwLibTidyMessage: SwLibTidyMessageProtocol {
 
     public var document: TidyDoc
@@ -178,7 +229,9 @@ public class SwLibTidyMessage: SwLibTidyMessageProtocol {
 }
 
 
-/** A default implementation of the `SwLibTidyMessageArgumentProtocol`. */
+/**
+ *  A default implementation of the `SwLibTidyMessageArgumentProtocol`.
+ */
 public class SwLibTidyMessageArgument: SwLibTidyMessageArgumentProtocol {
 
     public var type: TidyFormatParameterType
@@ -215,5 +268,3 @@ public class SwLibTidyMessageArgument: SwLibTidyMessageArgumentProtocol {
     }
 
 }
-
-

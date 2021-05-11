@@ -3,6 +3,8 @@ module CLibTidy {
     export *
 }
 
+// We need this so that the header will be considered a modular header, and
+// avoid non-modulur header claims by Xcode.
 module CLibTidyEnum {
     header "tidyenum.h"
     export *

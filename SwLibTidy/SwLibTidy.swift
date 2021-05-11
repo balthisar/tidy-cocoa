@@ -180,7 +180,7 @@ public typealias TidyConfigCategory = CLibTidy.TidyConfigCategory
 public typealias TidyNodeType = CLibTidy.TidyNodeType
 
 /**
- * configuration option values and retrieve their descriptions.
+ * Configuration option values and their descriptions.
  */
 public typealias TidyOptionId = CLibTidy.TidyOptionId
 
@@ -2886,17 +2886,17 @@ public func setTidyMessageRecords( toClass: SwLibTidyMessageProtocol.Type, forTi
 
 
 /**
- Returns an array of every Pretty Printing Progress update that was generated
- during the pretty printing process. This convenience method allows you to
- access this data without having to use a callback or delegate method.
-
- - parameters:
-   - forTidyDoc: the document for which you want to retrieve data.
- - returns:
-     Returns an array of objects conforming to the TidyPPProgressProtocol, by
-     default, of type TidyPPProgressReport. You can instruct SwLibTidy to use
-     a different class via setTidyPPProgressRecords(toClass:forTidyDoc:).
-*/
+ *  Returns an array of every Pretty Printing Progress update that was generated
+ *  during the pretty printing process. This convenience method allows you to
+ *  access this data without having to use a callback or delegate method.
+ *
+ *  - parameters:
+ *    - forTidyDoc: the document for which you want to retrieve data.
+ *  - returns:
+ *      Returns an array of objects conforming to the TidyPPProgressProtocol, by
+ *      default, of type TidyPPProgressReport. You can instruct SwLibTidy to use
+ *      a different class via setTidyPPProgressRecords(toClass:forTidyDoc:).
+ */
 public func tidyPPProgressRecords( forTidyDoc: TidyDoc ) -> [SwLibTidyPPProgressProtocol] {
 
     guard
@@ -2912,15 +2912,15 @@ public func tidyPPProgressRecords( forTidyDoc: TidyDoc ) -> [SwLibTidyPPProgress
 
 
 /**
- Allows you to set an alternate class to be used in the tidyPPProgressRecords()
- array. The alternate class must conform to TidyPPProgressProtocol, and might be
- used if you want a class to provide more sophisticated management of reports.
-
- - parameters:
-   - forTidyDoc: The TidyDoc for which you are setting the class.
-   - toClass: The class that you want to use to collect data.
- - returns:
-     Returns true or false indicating whether or not the class could be set.
+ *  Allows you to set an alternate class to be used in the tidyPPProgressRecords()
+ *  array. The alternate class must conform to TidyPPProgressProtocol, and might be
+ *  used if you want a class to provide more sophisticated management of reports.
+ *
+ *  - parameters:
+ *    - forTidyDoc: The TidyDoc for which you are setting the class.
+ *    - toClass: The class that you want to use to collect data.
+ *  - returns:
+ *      Returns true or false indicating whether or not the class could be set.
  */
 public func setTidyPPProgressRecords( toClass: SwLibTidyPPProgressProtocol.Type, forTidyDoc: TidyDoc ) -> Swift.Bool {
 
@@ -2937,17 +2937,16 @@ public func setTidyPPProgressRecords( toClass: SwLibTidyPPProgressProtocol.Type,
 }
 
 
-/******************************************************************************
- ** Private Stuff
- **************************************************************************** */
+//*****************************************************************************
 // MARK: - Private -
+//*****************************************************************************
 
 
 /**
- An instance of this class is retained by CLibTidy's AppData, and is used to
- store additional pointers that we cannot store in CLibTidy directly. It
- serves as a global variable store for each instance of a TidyDocument.
-*/
+ *  An instance of this class is retained by CLibTidy's AppData, and is used to
+ *  store additional pointers that we cannot store in CLibTidy directly. It
+ *  serves as a global variable store for each instance of a TidyDocument.
+ */
 private class ApplicationData {
 
     var appData: AnyObject?
