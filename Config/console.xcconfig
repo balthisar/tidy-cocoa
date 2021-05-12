@@ -12,18 +12,3 @@
 INFOPLIST_FILE = Apps/console/Info.plist
 PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.console
 PRODUCT_NAME = $(TARGET_NAME)
-//WRAPPER_EXTENSION = bundle
-
-
-//
-// MARK: - SEARCH PATHS
-//
-
-//LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/../Frameworks
-
-
-//
-// MARK: - SWIFT STANDARD LIBS
-//
-
-//ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES

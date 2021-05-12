@@ -48,9 +48,9 @@
 		D0A5C6B01F92C26B00CABB67 /* tidyRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A5C6AE1F92B81600CABB67 /* tidyRunner.swift */; };
 		D0A8A9DF1F41F74E00A2DB63 /* SwLibTidyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A8A9DD1F41F74500A2DB63 /* SwLibTidyTests.swift */; };
 		D0B32CE31F918B4500477C4B /* SwLibTidy.framework in Copy Frameworks to Bundle */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		D0B4948D264378C300E9D79D /* libCLibTidy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D05E34BB264373CF0045C99D /* libCLibTidy.a */; };
+		D0B4948D264378C300E9D79D /* CLibTidy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D05E34BB264373CF0045C99D /* CLibTidy.a */; };
 		D0B4948E264378D600E9D79D /* CLibTidyModule.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D082E77D1F8D401100C8C192 /* CLibTidyModule.h */; };
-		D0B4949026437B0100E9D79D /* libCLibTidy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D05E34BB264373CF0045C99D /* libCLibTidy.a */; };
+		D0B4949026437B0100E9D79D /* CLibTidy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D05E34BB264373CF0045C99D /* CLibTidy.a */; };
 		D0B49493264383A900E9D79D /* module.modulemap in CopyFiles */ = {isa = PBXBuildFile; fileRef = D082E77F1F8D404F00C8C192 /* module.modulemap */; };
 		D0C3A2D51F9B7A22005921F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C3A2D41F9B7A22005921F7 /* AppDelegate.swift */; };
 		D0C3A2D71F9B7A22005921F7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C3A2D61F9B7A22005921F7 /* ViewController.swift */; };
@@ -234,7 +234,7 @@
 		D04034871F43659C00A2A9DC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
 		D043B72F1F92DAA3009A61BE /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
 		D05A5E1C1FE1B37D00CBBDD4 /* TidyOptionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidyOptionProtocol.swift; sourceTree = "<group>"; };
-		D05E34BB264373CF0045C99D /* libCLibTidy.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCLibTidy.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D05E34BB264373CF0045C99D /* CLibTidy.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = CLibTidy.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D05E3518264374FA0045C99D /* CLibTidy.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = CLibTidy.xcconfig; sourceTree = "<group>"; };
 		D0692FC91F3CE8930045AB69 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = Apps/console/README.md; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = "<none>"; };
 		D06AD6A21F3CED5A00199B88 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -336,7 +336,7 @@
 		D0D06EEC1F8AE7CE00370E9D /* version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
 		D0D06EEE1F8AE7CE00370E9D /* version.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = version.txt; sourceTree = "<group>"; };
 		D0D7C18B1F8FAA6A0091FFCE /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
-		D0DBB5921F9CE75F001F2021 /* console.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = console.bundle; path = console.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0DBB5921F9CE75F001F2021 /* console */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = console; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0DBB5931F9CE75F001F2021 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = "/Users/jderry/Development/tidy-cocoa/Apps/console/Info.plist"; sourceTree = "<absolute>"; };
 		D0DBB5AE1F9CF489001F2021 /* console-objc.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "console-objc.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0DBB5AF1F9CF489001F2021 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = "/Users/jderry/Development/tidy-cocoa/Apps/console-objc/Info.plist"; sourceTree = "<absolute>"; };
@@ -360,7 +360,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0B4948D264378C300E9D79D /* libCLibTidy.a in Frameworks */,
+				D0B4948D264378C300E9D79D /* CLibTidy.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -415,7 +415,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0B4949026437B0100E9D79D /* libCLibTidy.a in Frameworks */,
+				D0B4949026437B0100E9D79D /* CLibTidy.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -530,10 +530,10 @@
 				D06AD6B01F3CF33E00199B88 /* gui.app */,
 				D0F640CC1F8F998A005A945B /* SwLibTidy.framework */,
 				D0C3A2D21F9B7A22005921F7 /* iOS.app */,
-				D0DBB5921F9CE75F001F2021 /* console.bundle */,
+				D0DBB5921F9CE75F001F2021 /* console */,
 				D0DBB5AE1F9CF489001F2021 /* console-objc.bundle */,
 				D02B4C4D1FE4758D00EDACA8 /* TidyKit.framework */,
-				D05E34BB264373CF0045C99D /* libCLibTidy.a */,
+				D05E34BB264373CF0045C99D /* CLibTidy.a */,
 			);
 			name = Products;
 			sourceTree = SOURCE_ROOT;
@@ -756,7 +756,7 @@
 			);
 			name = CLibTidy;
 			productName = CLibTidy;
-			productReference = D05E34BB264373CF0045C99D /* libCLibTidy.a */;
+			productReference = D05E34BB264373CF0045C99D /* CLibTidy.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		D06AD6AF1F3CF33E00199B88 /* gui */ = {
@@ -831,8 +831,8 @@
 			);
 			name = console;
 			productName = gui;
-			productReference = D0DBB5921F9CE75F001F2021 /* console.bundle */;
-			productType = "com.apple.product-type.application";
+			productReference = D0DBB5921F9CE75F001F2021 /* console */;
+			productType = "com.apple.product-type.tool";
 		};
 		D0DBB5A11F9CF489001F2021 /* console-objc */ = {
 			isa = PBXNativeTarget;

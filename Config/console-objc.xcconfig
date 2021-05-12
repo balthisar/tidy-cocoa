@@ -20,12 +20,3 @@ WRAPPER_EXTENSION = bundle
 //
 
 LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/../Frameworks
-
-
-//
-// MARK: - SWIFT STANDARD LIBS
-//
-
-ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES
-
-

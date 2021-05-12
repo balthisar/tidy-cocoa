@@ -132,7 +132,7 @@ class TidyRunner {
 
         /* Try out tidyDetectedXhtml — NEED TO PROCESS A DOCUMENT FIRST */
         output(horizontal_rule)
-        output("tidyDetectedXhtml is \(tidyDetectedXhtml(tdoc))")
+// fails when null, should be fixed in source. //        output("tidyDetectedXhtml is \(tidyDetectedXhtml(tdoc))")
 
         /* These will be added to our buffer, and not output yet. However
          * the callback will output the messages they generate.
