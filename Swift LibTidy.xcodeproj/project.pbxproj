@@ -11,7 +11,6 @@
 		D01EB13A1FC86DA900AF8BE0 /* SwLibTidyPPProgressProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01EB1391FC86DA900AF8BE0 /* SwLibTidyPPProgressProtocol.swift */; };
 		D027FFB91F9BBAF5009A274E /* tidyRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A5C6AE1F92B81600CABB67 /* tidyRunner.swift */; };
 		D027FFBA1F9BBAFE009A274E /* SwLibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; };
-		D027FFBC1F9BBB1C009A274E /* SwLibTidy.framework in Copy Frameworks to Bundle */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		D02B4C3F1FE4758D00EDACA8 /* SwLibTidy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F640D71F8F9AC7005A945B /* SwLibTidy.swift */; };
 		D02B4C521FE4765400EDACA8 /* TidyDocumentProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F640D61F8F9AC6005A945B /* TidyDocumentProtocol.swift */; };
 		D05E34C3264374310045C99D /* version.txt in Sources */ = {isa = PBXBuildFile; fileRef = D0D06EEE1F8AE7CE00370E9D /* version.txt */; };
@@ -45,6 +44,8 @@
 		D06AD6B51F3CF33E00199B88 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06AD6B41F3CF33E00199B88 /* ViewController.swift */; };
 		D06AD6B71F3CF33E00199B88 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D06AD6B61F3CF33E00199B88 /* Assets.xcassets */; };
 		D06AD6BA1F3CF33E00199B88 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D06AD6B81F3CF33E00199B88 /* Main.storyboard */; };
+		D06EF1F8264C6AEF007B60CC /* case-001.conf in CopyFiles */ = {isa = PBXBuildFile; fileRef = D0DBB5B51F9CFD3A001F2021 /* case-001.conf */; };
+		D06EF1F9264C6AF2007B60CC /* case-001.html in CopyFiles */ = {isa = PBXBuildFile; fileRef = D0DBB5B41F9CFD3A001F2021 /* case-001.html */; };
 		D0A5C6B01F92C26B00CABB67 /* tidyRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A5C6AE1F92B81600CABB67 /* tidyRunner.swift */; };
 		D0A8A9DF1F41F74E00A2DB63 /* SwLibTidyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A8A9DD1F41F74500A2DB63 /* SwLibTidyTests.swift */; };
 		D0B32CE31F918B4500477C4B /* SwLibTidy.framework in Copy Frameworks to Bundle */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -68,12 +69,9 @@
 		D0DBB59A1F9CEC66001F2021 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06AD6A21F3CED5A00199B88 /* main.swift */; };
 		D0DBB59B1F9CEC69001F2021 /* tidyRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A5C6AE1F92B81600CABB67 /* tidyRunner.swift */; };
 		D0DBB59E1F9CECC5001F2021 /* SwLibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; };
-		D0DBB5A01F9CED00001F2021 /* SwLibTidy.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D0DBB5A81F9CF489001F2021 /* SwLibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; };
 		D0DBB5AA1F9CF489001F2021 /* SwLibTidy.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D0DBB5B01F9CF4A3001F2021 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D082E79C1F8D4CE100C8C192 /* main.m */; };
-		D0DBB5B71F9CFD7A001F2021 /* case-001.conf in Resources */ = {isa = PBXBuildFile; fileRef = D0DBB5B51F9CFD3A001F2021 /* case-001.conf */; };
-		D0DBB5B81F9CFD7D001F2021 /* case-001.html in Resources */ = {isa = PBXBuildFile; fileRef = D0DBB5B41F9CFD3A001F2021 /* case-001.html */; };
 		D0DBB5BA1F9CFDC2001F2021 /* case-001.conf in Resources */ = {isa = PBXBuildFile; fileRef = D0DBB5B51F9CFD3A001F2021 /* case-001.conf */; };
 		D0DBB5BB1F9CFDC5001F2021 /* case-001.html in Resources */ = {isa = PBXBuildFile; fileRef = D0DBB5B41F9CFD3A001F2021 /* case-001.html */; };
 		D0DBB5BC1F9CFDCE001F2021 /* case-001.conf in Resources */ = {isa = PBXBuildFile; fileRef = D0DBB5B51F9CFD3A001F2021 /* case-001.conf */; };
@@ -162,15 +160,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		D027FFBB1F9BBB05009A274E /* Copy Frameworks to Bundle */ = {
+		D06EF1F7264C6AD9007B60CC /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
-			dstSubfolderSpec = 10;
+			dstSubfolderSpec = 16;
 			files = (
-				D027FFBC1F9BBB1C009A274E /* SwLibTidy.framework in Copy Frameworks to Bundle */,
+				D06EF1F8264C6AEF007B60CC /* case-001.conf in CopyFiles */,
+				D06EF1F9264C6AF2007B60CC /* case-001.html in CopyFiles */,
 			);
-			name = "Copy Frameworks to Bundle";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		D0B32CE21F918B3C00477C4B /* Copy Frameworks to Bundle */ = {
@@ -193,16 +191,6 @@
 				D0B49493264383A900E9D79D /* module.modulemap in CopyFiles */,
 				D0B4948E264378D600E9D79D /* CLibTidyModule.h in CopyFiles */,
 				D0FA77B026441CBD00C8D2AF /* tidyenum.h in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D0DBB59F1F9CECF5001F2021 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				D0DBB5A01F9CED00001F2021 /* SwLibTidy.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -785,7 +773,6 @@
 				D0C3A2CE1F9B7A22005921F7 /* Sources */,
 				D0C3A2CF1F9B7A22005921F7 /* Frameworks */,
 				D0C3A2D01F9B7A22005921F7 /* Resources */,
-				D027FFBB1F9BBB05009A274E /* Copy Frameworks to Bundle */,
 			);
 			buildRules = (
 			);
@@ -821,8 +808,7 @@
 			buildPhases = (
 				D0DBB5841F9CE75F001F2021 /* Sources */,
 				D0DBB5881F9CE75F001F2021 /* Frameworks */,
-				D0DBB59F1F9CECF5001F2021 /* CopyFiles */,
-				D0DBB5B61F9CFD6E001F2021 /* Resources */,
+				D06EF1F7264C6AD9007B60CC /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -954,15 +940,6 @@
 				D0C3A2DA1F9B7A22005921F7 /* Main.storyboard in Resources */,
 				D0DBB5BE1F9CFDD8001F2021 /* case-001.conf in Resources */,
 				D0DBB5BF1F9CFDDB001F2021 /* case-001.html in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D0DBB5B61F9CFD6E001F2021 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D0DBB5B71F9CFD7A001F2021 /* case-001.conf in Resources */,
-				D0DBB5B81F9CFD7D001F2021 /* case-001.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
