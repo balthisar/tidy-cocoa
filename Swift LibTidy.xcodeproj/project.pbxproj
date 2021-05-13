@@ -65,7 +65,7 @@
 		D0CC0339264CB4B4000F4427 /* TidyMessageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02B4C591FE5626700EDACA8 /* TidyMessageProtocol.swift */; };
 		D0CC033A264CB4B9000F4427 /* TidyPPProgressProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02B4C581FE5626700EDACA8 /* TidyPPProgressProtocol.swift */; };
 		D0CC033B264CB510000F4427 /* SwLibTidyBufferProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F640D41F8F9AC6005A945B /* SwLibTidyBufferProtocol.swift */; };
-		D0CC033E264CB6AE000F4427 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CC033D264CB6AE000F4427 /* File.swift */; };
+		D0CC0342264D62E9000F4427 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CC0340264D62DD000F4427 /* File.swift */; };
 		D0D7C17E1F8F9BF80091FFCE /* SwLibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; };
 		D0D7C18A1F8FA5130091FFCE /* SwLibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; };
 		D0DBB59A1F9CEC66001F2021 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06AD6A21F3CED5A00199B88 /* main.swift */; };
@@ -249,8 +249,7 @@
 		D0C3A2E01F9B7A22005921F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D0C3A2E41F9B7A48005921F7 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		D0C3BD121F3CB3690007BB54 /* Swift LibTidy Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Swift LibTidy Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D0CC033C264CB6AD000F4427 /* console-objc-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "console-objc-Bridging-Header.h"; sourceTree = "<group>"; };
-		D0CC033D264CB6AE000F4427 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		D0CC0340264D62DD000F4427 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		D0D06E671F8AE7AC00370E9D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
 		D0D06E8B1F8AE7CE00370E9D /* tidy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tidy.h; sourceTree = "<group>"; };
 		D0D06E8C1F8AE7CE00370E9D /* tidybuffio.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tidybuffio.h; sourceTree = "<group>"; };
@@ -453,11 +452,10 @@
 		D082E79B1F8D4CE100C8C192 /* console-objc */ = {
 			isa = PBXGroup;
 			children = (
-				D0CC033D264CB6AE000F4427 /* File.swift */,
+				D0CC0340264D62DD000F4427 /* File.swift */,
 				D0DBB5B11F9CF972001F2021 /* README.md */,
 				D082E79C1F8D4CE100C8C192 /* main.m */,
 				D0DBB5AF1F9CF489001F2021 /* Info.plist */,
-				D0CC033C264CB6AD000F4427 /* console-objc-Bridging-Header.h */,
 			);
 			name = "console-objc";
 			path = "Apps/console-objc";
@@ -1052,7 +1050,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0DBB5B01F9CF4A3001F2021 /* main.m in Sources */,
-				D0CC033E264CB6AE000F4427 /* File.swift in Sources */,
+				D0CC0342264D62E9000F4427 /* File.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1231,14 +1229,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0AB75531F9A44ED0072028C /* console-objc.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				SWIFT_OBJC_BRIDGING_HEADER = "Apps/console-objc/console-objc-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -1246,13 +1236,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0AB75531F9A44ED0072028C /* console-objc.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				SWIFT_OBJC_BRIDGING_HEADER = "Apps/console-objc/console-objc-Bridging-Header.h";
-				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};

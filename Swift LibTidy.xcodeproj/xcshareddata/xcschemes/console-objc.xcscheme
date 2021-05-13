@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D0DBB5A11F9CF489001F2021"
-               BuildableName = "console-objc.bundle"
+               BuildableName = "console-objc.app"
                BlueprintName = "console-objc"
                ReferencedContainer = "container:Swift LibTidy.xcodeproj">
             </BuildableReference>
@@ -31,7 +31,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D0DBB5A11F9CF489001F2021"
-            BuildableName = "console-objc.bundle"
+            BuildableName = "console-objc.app"
             BlueprintName = "console-objc"
             ReferencedContainer = "container:Swift LibTidy.xcodeproj">
          </BuildableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D0DBB5A11F9CF489001F2021"
-            BuildableName = "console-objc.bundle"
+            BuildableName = "console-objc.app"
             BlueprintName = "console-objc"
             ReferencedContainer = "container:Swift LibTidy.xcodeproj">
          </BuildableReference>
@@ -81,7 +81,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D0DBB5A11F9CF489001F2021"
-            BuildableName = "console-objc.bundle"
+            BuildableName = "console-objc.app"
             BlueprintName = "console-objc"
             ReferencedContainer = "container:Swift LibTidy.xcodeproj">
          </BuildableReference>
