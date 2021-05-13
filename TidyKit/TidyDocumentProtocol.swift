@@ -996,8 +996,9 @@ public typealias NSStringEncoding = UInt
 
 
 public protocol JimProtocol {
-    associatedtype JimType: AnyObject = String
-    var jimvar: JimType { get }
+//    associatedtype JimType: AnyObject = String
+//    var jimvar: JimType { get }
+    var jimvar: String { get }
 }
 
 @objc public class JimClass: NSObject, JimProtocol {

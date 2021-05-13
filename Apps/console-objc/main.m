@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-@import SwLibTidy;
+@import TidyKit;
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
@@ -32,7 +32,7 @@ int main(int argc, const char * argv[]) {
             NSLog( @"\n%@\n", @"Conforms to TestProtocol" );
         };
 
-        SwiftClass *swiftClass = [myTest getSwiftClass];
+//        SwiftClass *swiftClass = [myTest getSwiftClass];
 
     }
     return 0;

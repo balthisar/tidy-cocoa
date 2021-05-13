@@ -5,20 +5,15 @@ This directory:
 - Defines a module for use with Xcode/Clang named `TidyKit`.
 - Provides protocols and default implementations of `SwLibTidy` as a protocol-
   oriented set of parts.
+- Is compatible with Objective-C, unlike `SwLibTidy` that consists of top level
+  functions and non-Objective-C-compatible protocols.
 
 
 ## Framework
 
-`TidyKit` is intended to be used as a framework. While this complicates
-console applications, it ensures that all of its resources can be bundled into
-a single structure.
+`TidyKit` is intended to be used as a static framework. It has no resources, and
+makes it simple to bind to console applications.
 
-## Linking
-
-`TidyKit` dynamically links to `libtidy-sw.dylib`, which is put into the
-framework bundle where the dynamic linker will find it. Additionally the dynamic
-linker will first search `/usr/local/lib`, so that end-user applications can
-update their versions of Tidy if you provide instructions.
 
 ## SwLibTidy Linking
 

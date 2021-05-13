@@ -41,13 +41,6 @@ VALID_ARCHS[sdk=iphonesimulator*] = i386 x86_64
 // enables the use of a simple import SwLibTidy.
 DEFINES_MODULE = YES
 
-// Note that we are tracking LibTidy's major version 5, which is implied
-// below. For example, 5.7 refers to LibTidy 5.5.70 and better. This makes
-// it difficult to support versions such at 5.78, as we are limited to
-// supporting only 5.70 and better, given the decimal nature of this setting.
-//DYLIB_COMPATIBILITY_VERSION = 5.7
-//DYLIB_CURRENT_VERSION = 5.7
-
 // Framework Version
 FRAMEWORK_VERSION = A
 
@@ -58,37 +51,6 @@ INSTALL_PATH = @rpath
 //
 // MARK: - LINKING
 //
-// Swift is still unstable, so we have to distribute the Swift Standard
-// library in our built apps. To prevent symbol collisions, we'll put this
-// responsibility on the host application, so here we will specifically
-// exclude the standard libraries.
+
 ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO
-
-
-// Since this framework depends on libtidy-sw.dylib, it could be in various
-// locations, and so this path supports those possibilities, in the specified
-// order.
-//   /usr/local/lib is a traditional spot for pure Unix dylibs. If the dylib
-//     is found here, it will be used first. This allows users to upgrade Tidy
-//     without any input from the developer, if they know they can.
-//
-//   @executable_path/../Frameworks is where a macOS application might have put
-//     the dylib, overriding the dylib produced by this framework. This gives
-//     developers the chance to include their own versions of dylibs.
-//
-//  @executable_path/Frameworks is where an iOS application might have put the
-//    dylib, override the dylib included in this framework.
-//
-//   @loader_path is where we put libtidy-sw.dylib, where is resides side-by-
-//     side with this framework's dylib.
-//
-// Note that dylibs and frameworks in /Library/Frameworks/ and
-// ~/Library/Frameworks/ would be detected automatically, too.
-
-//LD_RUNPATH_SEARCH_PATHS = $(inherited) /usr/local/lib @executable_path/../Frameworks @executable_path/Frameworks @loader_path
-
-//LIBRARY_SEARCH_PATHS = $(inherited) $inherited "$(SOURCE_ROOT)/CLibTidy"
-//FRAMEWORK_SEARCH_PATHS = $(inherited) $inherited "$(SOURCE_ROOT)/CLibTidy"
-
-
-MACH_O_TYPE = staticlib
+MACH_O_TYPE                           = staticlib

@@ -9,14 +9,9 @@
 // MARK: - APP SETUP AND CONFIGURATION
 //
 
-INFOPLIST_FILE = Apps/console-objc/Info.plist
+INFOPLIST_FILE            = Apps/console-objc/Info.plist
 PRODUCT_BUNDLE_IDENTIFIER = com.balthisar.console-objc
-PRODUCT_NAME = $(TARGET_NAME)
-WRAPPER_EXTENSION = bundle
+PRODUCT_NAME              = $(TARGET_NAME)
 
-
-//
-// MARK: - SEARCH PATHS
-//
-
-LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/../Frameworks
+//LIBRARY_SEARCH_PATHS      = $(SDKROOT)/usr/lib/swift
+//LD_VERIFY_BITCODE = NO

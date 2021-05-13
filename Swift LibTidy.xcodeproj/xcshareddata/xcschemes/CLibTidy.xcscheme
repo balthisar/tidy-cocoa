@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D05E34BA264373CF0045C99D"
-               BuildableName = "libCLibTidy.a"
+               BuildableName = "CLibTidy.a"
                BlueprintName = "CLibTidy"
                ReferencedContainer = "container:Swift LibTidy.xcodeproj">
             </BuildableReference>
@@ -61,7 +61,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D05E34BA264373CF0045C99D"
-            BuildableName = "libCLibTidy.a"
+            BuildableName = "CLibTidy.a"
             BlueprintName = "CLibTidy"
             ReferencedContainer = "container:Swift LibTidy.xcodeproj">
          </BuildableReference>
