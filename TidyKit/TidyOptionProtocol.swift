@@ -12,7 +12,7 @@
  *    This protocol and class define and implement an object that is capable
  *    of handling Tidy's vast array of options.
  *
- *  Audience
+ *   Audience
  *    Intended for use both when using SwLibTidy directly, as well as with
  *    protocol-based Tidy.
  */

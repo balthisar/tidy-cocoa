@@ -1,25 +1,24 @@
-/******************************************************************************
-
-    SwLibTidyTests.swift
-    Basic tests of the SwLibTidy wrapper library for tidy-html5 ("CLibTidy").
-    Given that tidy-html5 doesn't have its own unit tests, this suite also
-    manages to test nearly all of CLibTidy's public API.
-    See https://github.com/htacg/tidy-html5
-
-    Copyright © 2107 by HTACG. All rights reserved.
-    Created by Jim Derry 2017; copyright assigned to HTACG. Permission to use
-    this source code per the W3C Software Notice and License:
-    https://www.w3.org/Consortium/Legal/2002/copyright-software-20021231
-
-    Created by Jim Derry on 8/10/17.
-    Copyright © 2017 Jim Derry. All rights reserved.
-
- ******************************************************************************/
+/**
+ *  SwLibTidyTests.swift
+ *   Part of the SwLibTidy wrapper library for tidy-html5 ("CLibTidy").
+ *   See https://github.com/htacg/tidy-html5
+ *
+ *   Copyright © 2017-2021 by HTACG. All rights reserved.
+ *   Created by Jim Derry 2017; copyright assigned to HTACG. Permission to use
+ *   this source code per the W3C Software Notice and License:
+ *   https://www.w3.org/Consortium/Legal/2002/copyright-software-20021231
+ *
+ *   Purpose
+ *     Provide test cases for the SwLibTidy, which also effectively tests 100%
+ *     of the HTML Tidy public API.
+ */
 
 import XCTest
 @testable import SwLibTidy
 
-
+/**
+ *  Test cases for SwLibTidy.
+ */
 class SwLibTidyTests: XCTestCase {
 
     /* Common Strings */
@@ -55,10 +54,9 @@ class SwLibTidyTests: XCTestCase {
     }
 
 
-    /*
-     Many of our tests require Tidy to Tidy a file first. This will tidy
-     the included sample file using the given TidyDoc, optionally using
-     the included sample configuration file.
+    /* Many of our tests require Tidy to Tidy a file first. This will tidy
+     * the included sample file using the given TidyDoc, optionally using
+     * the included sample configuration file.
      */
     private func tidySample( doc: TidyDoc, useConfig: Swift.Bool = false ) -> Swift.Bool {
 
@@ -76,15 +74,18 @@ class SwLibTidyTests: XCTestCase {
         return true
     }
 
+    //*****************************************************************************
     // MARK: - Test Cases
-    /*************************************************************************
-      In order to do anything at all with Tidy, we need an instance of a Tidy
-      document (TidyDoc), and when we're done with it, we have to release it
-      in order to free its memory and resources.
+    //*****************************************************************************
 
-      - tidyCreate()
-      - tidyRelease()
-     *************************************************************************/
+    /**
+     *  In order to do anything at all with Tidy, we need an instance of a Tidy
+     *  document (TidyDoc), and when we're done with it, we have to release it
+     *  in order to free its memory and resources.
+     *
+     *  - tidyCreate()
+     *  - tidyRelease()
+     */
     func test_tidyCreate() {
 
         if let tdoc: TidyDoc = tidyCreate() {
@@ -95,15 +96,15 @@ class SwLibTidyTests: XCTestCase {
     }
 
 
-    /*************************************************************************
-      If you are going to use Tidy's callbacks, then Tidy needs some context
-      information so that when the callback occurs, your callback knows the
-      where it originates. For example, you might set a reference to the
-      instance of your class that is invoking Tidy.
-
-      - tidySetAppData()
-      - tidyGetAppData()
-     *************************************************************************/
+    /**
+     *  If you are going to use Tidy's callbacks, then Tidy needs some context
+     *  information so that when the callback occurs, your callback knows the
+     *  where it originates. For example, you might set a reference to the
+     *  instance of your class that is invoking Tidy.
+     *
+     *  - tidySetAppData()
+     *  - tidyGetAppData()
+     */
     func test_tidySetAppData_tidyGetAppData() {
 
         guard
@@ -118,18 +119,18 @@ class SwLibTidyTests: XCTestCase {
     }
     
     
-    /*************************************************************************
-      Tidy is able to report basic information about itself, such as its
-      release date, its current version, and the platform for which is was
-      compiled.
-
-      Note that this test is fragile, as it depends on the library date and
-      version numbers.
-
-      - tidyReleaseDate()
-      - tidyLibraryVersion()
-      - tidyPlatform()
-     *************************************************************************/
+    /**
+     *  Tidy is able to report basic information about itself, such as its
+     *  release date, its current version, and the platform for which is was
+     *  compiled.
+     *
+     *  Note that this test is fragile, as it depends on the library date and
+     *  version numbers.
+     *
+     *  - tidyReleaseDate()
+     *  - tidyLibraryVersion()
+     *  - tidyPlatform()
+     */
     func test_tidyReleaseInformation() {
 
         let expectedDate = "2021."
@@ -142,20 +143,20 @@ class SwLibTidyTests: XCTestCase {
     }
     
     
-    /*************************************************************************
-      Tidy is able to use a configuration loaded from a configuration file,
-      and so this case indicates how to load such a file which has been
-      included in the bundle. We will judge that this operation is successful
-      if one of the configuration values we loaded matches what we expect,
-      which is different from the built-in default value.
-
-      Because we're also testing the encoding version of the configuration
-      loader, we'll opportunistically test tidyOptResetAllToDefault().
-
-      - tidyLoadConfig()
-      - tidyLoadConfigEnc()
-      - tidyOptResetAllToDefault()
-     *************************************************************************/
+    /**
+     *  Tidy is able to use a configuration loaded from a configuration file,
+     *  and so this case indicates how to load such a file which has been
+     *  included in the bundle. We will judge that this operation is successful
+     *  if one of the configuration values we loaded matches what we expect,
+     *  which is different from the built-in default value.
+     *
+     *  Because we're also testing the encoding version of the configuration
+     *  loader, we'll opportunistically test tidyOptResetAllToDefault().
+     *
+     *  - tidyLoadConfig()
+     *  - tidyLoadConfigEnc()
+     *  - tidyOptResetAllToDefault()
+     */
     func test_tidyLoadConfig() {
 
         guard
@@ -177,19 +178,19 @@ class SwLibTidyTests: XCTestCase {
     }
 
 
-    /*************************************************************************
-      Tidy, of course, has to be able to parse HTML from a variety of sources
-      before clean and repair operations can take place, and before most
-      operations can take place on a TidyDoc. Here we will demonstrate that
-      parsing is successful via examining the tidyStatus() after parsing. In
-      each case, the status should be 1, indicating that warnings were found,
-      but not errors.
-
-      - tidyStatus()
-      - tidyParseString()
-      - tidyParseFile()
-      - tidyParseStdin()
-     *************************************************************************/
+    /**
+     *  Tidy, of course, has to be able to parse HTML from a variety of sources
+     *  before clean and repair operations can take place, and before most
+     *  operations can take place on a TidyDoc. Here we will demonstrate that
+     *  parsing is successful via examining the tidyStatus() after parsing. In
+     *  each case, the status should be 1, indicating that warnings were found,
+     *  but not errors.
+     *
+     *  - tidyStatus()
+     *  - tidyParseString()
+     *  - tidyParseFile()
+     *  - tidyParseStdin()
+     */
     func test_tidyParse() {
 
         guard
@@ -217,20 +218,20 @@ class SwLibTidyTests: XCTestCase {
     }
 
 
-    /*************************************************************************
-      After parsing, Tidy makes available a lot of status information about
-      the document it's parsed, such as error and warning counts and some
-      general information.
-
-      - tidyStatus()
-      - tidyDetectedXhtml()
-      - tidyDetectedGenericXml()
-      - tidyErrorCount()
-      - tidyWarningCount()
-      - tidyAccessWarningCount()
-      - tidyConfigErrorCount()
-      - tidyDetectedHtmlVersion()
-     *************************************************************************/
+    /**
+     *  After parsing, Tidy makes available a lot of status information about
+     *  the document it's parsed, such as error and warning counts and some
+     *  general information.
+     *
+     *  - tidyStatus()
+     *  - tidyDetectedXhtml()
+     *  - tidyDetectedGenericXml()
+     *  - tidyErrorCount()
+     *  - tidyWarningCount()
+     *  - tidyAccessWarningCount()
+     *  - tidyConfigErrorCount()
+     *  - tidyDetectedHtmlVersion()
+     */
     func test_tidyStatusInformation() {
 
         guard
@@ -253,17 +254,17 @@ class SwLibTidyTests: XCTestCase {
     }
 
 
-    /*************************************************************************
-      After parsing, Tidy makes available an error summary as well as some
-      static general information. In a console application these are normally
-      dumped to STDOUT, but as we're not building console applications, we
-      want to capture them in a buffer.
-
-      - tidySetErrorBuffer()
-      - tidyErrorSummary()
-      - tidyGeneralInfo()
-      - tidyLocalizedString()
-     *************************************************************************/
+    /**
+     *  After parsing, Tidy makes available an error summary as well as some
+     *  static general information. In a console application these are normally
+     *  dumped to STDOUT, but as we're not building console applications, we
+     *  want to capture them in a buffer.
+     *
+     *  - tidySetErrorBuffer()
+     *  - tidyErrorSummary()
+     *  - tidyGeneralInfo()
+     *  - tidyLocalizedString()
+     */
     func test_errorBufferAndSummaries() {
 
         guard
@@ -283,9 +284,8 @@ class SwLibTidyTests: XCTestCase {
         tidyErrorSummary( tdoc )
         tidyGeneralInfo( tdoc )
 
-        /*
-         Our test HTML generates this footnote as part of tidyErrorSummary(),
-         and tidyGeneralInfo() finishes with the specified text and newline.
+        /* Our test HTML generates this footnote as part of tidyErrorSummary(),
+           and tidyGeneralInfo() finishes with the specified text and newline.
          */
         let messg_start = tidyLocalizedString( TEXT_M_IMAGE_ALT )
         let messg_end = "/README/LOCALIZE.md\n"
@@ -299,12 +299,12 @@ class SwLibTidyTests: XCTestCase {
     }
 
 
-    /*************************************************************************
-      Tidy offers a cross-platform file exists function, which is good if
-      you're writing cross-platform applications. Let's try it out.
-
-      - tidyFileExists()
-     *************************************************************************/
+    /**
+     *  Tidy offers a cross-platform file exists function, which is good if
+     *  you're writing cross-platform applications. Let's try it out.
+     *
+     *  - tidyFileExists()
+     */
     func test_tidyFileExists() {
 
         guard
@@ -323,17 +323,17 @@ class SwLibTidyTests: XCTestCase {
     }
 
 
-    /*************************************************************************
-      Tidy can work with multiple combinations of input and out character
-      encodings. We're not going to test that Tidy actually works, because
-      we're better off using native encoding methods, and using Tidy in pure
-      UTF-8. However, we will test that Tidy accepts our wrapped methods.
-
-      - tidySetCharEncoding()
-      - tidySetInCharEncoding()
-      - tidySetOutCharEncoding()
-      - tidyOptGetInt()
-     *************************************************************************/
+    /**
+     *  Tidy can work with multiple combinations of input and out character
+     *  encodings. We're not going to test that Tidy actually works, because
+     *  we're better off using native encoding methods, and using Tidy in pure
+     *  UTF-8. However, we will test that Tidy accepts our wrapped methods.
+     *
+     *  - tidySetCharEncoding()
+     *  - tidySetInCharEncoding()
+     *  - tidySetOutCharEncoding()
+     *  - tidyOptGetInt()
+     */
     func test_tidySetCharEncoding() {
 
         guard
@@ -366,15 +366,15 @@ class SwLibTidyTests: XCTestCase {
     }
 
 
-    /*************************************************************************
-      When Tidy parses a configuration option that it doesn't understand or
-      is deprecated, it can call back to a closure or top-level function that
-      you provide. SwLibTidy also collects this information for you so that
-      you don't have to use callbacks.
-
-      - tidySetConfigCallback()
-      - tidyConfigRecords()
-     *************************************************************************/
+    /**
+     *  When Tidy parses a configuration option that it doesn't understand or
+     *  is deprecated, it can call back to a closure or top-level function that
+     *  you provide. SwLibTidy also collects this information for you so that
+     *  you don't have to use callbacks.
+     *
+     *  - tidySetConfigCallback()
+     *  - tidyConfigRecords()
+     */
     func test_tidyConfigCallback() {
 
         guard
@@ -390,9 +390,8 @@ class SwLibTidyTests: XCTestCase {
 
             callbackSuccess.fulfill()
 
-            /*
-             Return false to indicate that the callback did NOT handle the
-             option, so that Tidy can issue a warning.
+            /* Return false to indicate that the callback did NOT handle the
+               option, so that Tidy can issue a warning.
              */
             return false
         })
@@ -405,11 +404,10 @@ class SwLibTidyTests: XCTestCase {
         /* Issue the assert here if the callback doesn't fire at least once. */
         wait(for: [callbackSuccess], timeout: 1.0)
 
-        /*
-         Our sample config should have generated at least one record. Using
-         tidyConfigRecords() is an SwLibTidy alternative to using a callback.
-         The first unknown configuration record in our sample file should be
-         for a proposed option 'mynewconfig'.
+        /* Our sample config should have generated at least one record. Using
+           tidyConfigRecords() is an SwLibTidy alternative to using a callback.
+           The first unknown configuration record in our sample file should be
+           for a proposed option 'mynewconfig'.
          */
         let records = tidyConfigRecords( forTidyDoc: tdoc )
         dump( records )
@@ -422,16 +420,16 @@ class SwLibTidyTests: XCTestCase {
     }
 
 
-    /*************************************************************************
-      When Tidy parses a configuration option that it doesn't understand or
-      is deprecated, it can call back to a closure or top-level function that
-      you provide. SwLibTidy also collects this information for you so that
-      you don't have to use callbacks, and you can use your own, conforming
-      class for this data collection.
-
-      - setTidyConfigRecords()
-      - tidyConfigRecords()
-     *************************************************************************/
+    /**
+     *  When Tidy parses a configuration option that it doesn't understand or
+     *  is deprecated, it can call back to a closure or top-level function that
+     *  you provide. SwLibTidy also collects this information for you so that
+     *  you don't have to use callbacks, and you can use your own, conforming
+     *  class for this data collection.
+     *
+     *  - setTidyConfigRecords()
+     *  - tidyConfigRecords()
+     */
     func test_setTidyConfigRecords() {
 
         guard
@@ -454,11 +452,10 @@ class SwLibTidyTests: XCTestCase {
             let _ = tidyLoadConfig( tdoc, file )
         }
 
-        /*
-         Our sample config should have generated at least one record. Using
-         tidyConfigRecords() is an SwLibTidy alternative to using a callback.
-         The first unknown configuration record in our sample file should be
-         for a proposed option 'mynewconfig'.
+        /* Our sample config should have generated at least one record. Using
+           tidyConfigRecords() is an SwLibTidy alternative to using a callback.
+           The first unknown configuration record in our sample file should be
+           for a proposed option 'mynewconfig'.
          */
         if let result = tidyConfigRecords( forTidyDoc: tdoc ).first?.value {
             let expected = "---poopy---"
@@ -469,27 +466,27 @@ class SwLibTidyTests: XCTestCase {
     }
 
 
-    /*************************************************************************
-      A whole lot of Tidy is dedicated to managing options, and clients will
-      want to manage options as well.
-
-      Tidy uses the TidyOptionId where it's possible, and instances of
-      TidyOption where contextual information is needed.
-
-      This test deals primarily with discovery of options and getting
-      instances of options, as well as querying options for information
-      about options.
-
-      - tidyGetOptionList()
-      - tidyOptGetId()
-      - tidyOptGetIdForName()
-      - tidyGetOption()
-      - tidyGetOptionByName()
-      - tidyOptGetName()
-      - tidyOptGetType()
-      - tidyOptGetCategory()
-      - tidyOptionIsList()
-     *************************************************************************/
+    /**
+     * A whole lot of Tidy is dedicated to managing options, and clients will
+     * want to manage options as well.
+     *
+     * Tidy uses the TidyOptionId where it's possible, and instances of
+     * TidyOption where contextual information is needed.
+     *
+     * This test deals primarily with discovery of options and getting
+     * instances of options, as well as querying options for information
+     * about options.
+     *
+     * - tidyGetOptionList()
+     * - tidyOptGetId()
+     * - tidyOptGetIdForName()
+     * - tidyGetOption()
+     * - tidyGetOptionByName()
+     * - tidyOptGetName()
+     * - tidyOptGetType()
+     * - tidyOptGetCategory()
+     * - tidyOptionIsList()
+     */
     func test_tidyOptions_general() {
 
         guard
@@ -502,9 +499,8 @@ class SwLibTidyTests: XCTestCase {
         /* Verify that our options list has some options. */
         XCTAssert( optionList.count > 0, "The options list is empty." )
 
-        /*
-         Verify that the TidyOptionID for the first item is as expected.
-         This test is fragile if LibTidy changes its enum ahead of this item.
+        /* Verify that the TidyOptionID for the first item is as expected.
+           This test is fragile if LibTidy changes its enum ahead of this item.
          */
         if let optionId = tidyOptGetId( optionList[0] ) {
             JSDAssertEqual( TidyAccessibilityCheckLevel, optionId )
@@ -515,9 +511,8 @@ class SwLibTidyTests: XCTestCase {
         /* Verify that getting the option id by name works. */
         JSDAssertEqual( TidyFixBackslash, tidyOptGetIdForName( "fix-backslash") ?? TidyUnknownOption )
 
-        /*
-         Let's get an instance of an option, and try to get its name,
-         type, list status, and category.
+        /* Let's get an instance of an option, and try to get its name,
+           type, list status, and category.
          */
         if let opt = tidyGetOption( tdoc, TidyIndentSpaces ) {
 
@@ -547,17 +542,17 @@ class SwLibTidyTests: XCTestCase {
     }
 
 
-    /*************************************************************************
-      A whole lot of Tidy is dedicated to managing options, and clients will
-      want to manage options as well.
-
-      This test deals with using options' pick lists, which can be an
-      introspective source of information, particularly for GUI programs.
-
-      - tidyOptGetPickList()
-      - tidyOptGetCurrPick()
-      - tidyOptGetName()
-     *************************************************************************/
+    /**
+     *  A whole lot of Tidy is dedicated to managing options, and clients will
+     *  want to manage options as well.
+     *
+     *  This test deals with using options' pick lists, which can be an
+     *  introspective source of information, particularly for GUI programs.
+     *
+     *  - tidyOptGetPickList()
+     *  - tidyOptGetCurrPick()
+     *  - tidyOptGetName()
+     */
     func test_tidyOptions_picklists() {
 
         guard
@@ -583,28 +578,28 @@ class SwLibTidyTests: XCTestCase {
     }
 
 
-    /*************************************************************************
-      A whole lot of Tidy is dedicated to managing options, and clients will
-      want to manage options as well.
-
-      This test deals with all of the ways to get and set options.
-
-      - tidyGetOption()
-      - tidyOptGetDefault()
-      - tidyOptGetDefaultInt()
-      - tidyOptGetDefaultBool()
-      - tidyOptGetValue()
-      - tidyOptSetValue()
-      - tidyOptParseValue()
-      - tidyOptGetInt()
-      - tidyOptSetInt()
-      - tidyOptGetBool()
-      - tidyOptSetBool()
-      - tidyOptResetToDefault()
-      - tidyOptResetAllToDefault()
-      - tidyOptGetEncName()
-      - tidyOptGetDeclTagList()
-     *************************************************************************/
+    /**
+     *  A whole lot of Tidy is dedicated to managing options, and clients will
+     *  want to manage options as well.
+     *
+     *  This test deals with all of the ways to get and set options.
+     *
+     *  - tidyGetOption()
+     *  - tidyOptGetDefault()
+     *  - tidyOptGetDefaultInt()
+     *  - tidyOptGetDefaultBool()
+     *  - tidyOptGetValue()
+     *  - tidyOptSetValue()
+     *  - tidyOptParseValue()
+     *  - tidyOptGetInt()
+     *  - tidyOptSetInt()
+     *  - tidyOptGetBool()
+     *  - tidyOptSetBool()
+     *  - tidyOptResetToDefault()
+     *  - tidyOptResetAllToDefault()
+     *  - tidyOptGetEncName()
+     *  - tidyOptGetDeclTagList()
+     */
     func test_tidyOptions_values() {
         
         guard
@@ -645,11 +640,10 @@ class SwLibTidyTests: XCTestCase {
         /* …and an Integer option. */
         if let opt = tidyGetOption( tdoc, TidySortAttributes ) {
 
-            /*
-             Note! We return an integer, so if we want to use Tidy's enum
-             values, we need to look at its integer value! The enum is UInt32,
-             so for these particular calls, we have to cast to UInt because the
-             assertion requires equal types.
+            /* Note! We return an integer, so if we want to use Tidy's enum
+               values, we need to look at its integer value! The enum is UInt32,
+               so for these particular calls, we have to cast to UInt because the
+               assertion requires equal types.
              */
             JSDAssertEqual( UInt(TidySortAttrNone.rawValue), tidyOptGetDefaultInt( opt ) )
             JSDAssertEqual( UInt(TidySortAttrNone.rawValue), tidyOptGetInt( tdoc, TidySortAttributes ) )
@@ -693,23 +687,23 @@ class SwLibTidyTests: XCTestCase {
     }
 
 
-    /*************************************************************************
-      A whole lot of Tidy is dedicated to managing options, and clients will
-      want to manage options as well.
-
-      This test is about option snapshots, and copying options between
-      document instances.
-
-      - tidyOptSnapshot()
-      - tidyOptResetToSnapshot()
-      - tidyOptDiffThanDefault()
-      - tidyOptDiffThanSnapshot()
-      - tidyOptCopyConfig()
-     
-        NOTE: this started failing when a code change was made to tidy, to
-        revert a change I made. Complaint was something broke, so my changes
-        to fix this were deleted. Sigh.
-     *************************************************************************/
+    /**
+     *  A whole lot of Tidy is dedicated to managing options, and clients will
+     *  want to manage options as well.
+     *
+     *  This test is about option snapshots, and copying options between
+     *  document instances.
+     *
+     *  - tidyOptSnapshot()
+     *  - tidyOptResetToSnapshot()
+     *  - tidyOptDiffThanDefault()
+     *  - tidyOptDiffThanSnapshot()
+     *  - tidyOptCopyConfig()
+     *
+     *    NOTE: this started failing when a code change was made to tidy, to
+     *    revert a change I made. Complaint was something broke, so my changes
+     *    to fix this were deleted. Sigh.
+     */
     func test_tidyOptions_snapshots() {
 
         guard
@@ -764,28 +758,26 @@ class SwLibTidyTests: XCTestCase {
     }
 
 
-    /*************************************************************************
-      A whole lot of Tidy is dedicated to managing options, and clients will
-      want to manage options as well.
-
-      This test demonstrates that when we set an option, we can read it back.
-
-      - tidyParseString()
-      - tidyCleanAndRepair()
-      - tidySaveBuffer()
-      - tidyOptSetValue()
-      - tidyOptSetBool()
-      - tidyOptSetInt()
-      - tidyOptGetValue()
-      - tidyOptGetBool()
-      - tidyOptGetInt()
-
-     NOTE: this started failing when a code change was made to tidy, to
-     revert a change I made. Complaint was something broke, so my changes
-     to fix this were deleted. Sigh.
-
-     
-     *************************************************************************/
+    /**
+     *  A whole lot of Tidy is dedicated to managing options, and clients will
+     *  want to manage options as well.
+     *
+     *  This test demonstrates that when we set an option, we can read it back.
+     *
+     *  - tidyParseString()
+     *  - tidyCleanAndRepair()
+     *  - tidySaveBuffer()
+     *  - tidyOptSetValue()
+     *  - tidyOptSetBool()
+     *  - tidyOptSetInt()
+     *  - tidyOptGetValue()
+     *  - tidyOptGetBool()
+     *  - tidyOptGetInt()
+     *
+     * NOTE: this started failing when a code change was made to tidy, to
+     * revert a change I made. Complaint was something broke, so my changes
+     * to fix this were deleted. Sigh.
+     */
     func test_tidyOptions_set_get() {
 
         guard
@@ -795,18 +787,16 @@ class SwLibTidyTests: XCTestCase {
 
         var results: [String] = []
 
-        /*
-         Create an array of option id's in a random order, which should
-         help us trap any conditions where setting an option value has
-         an effect on other option values.
+        /* Create an array of option id's in a random order, which should
+           help us trap any conditions where setting an option value has
+           an effect on other option values.
          */
         let options: [TidyOptionId] = tidyGetOptionList( tdoc )
             .compactMap { tidyOptGetId($0) }
             .shuffled()
 
-        /*
-         For each tidy option that exists…
-         We will check each option immediately after setting it.
+        /* For each tidy option that exists…
+           We will check each option immediately after setting it.
          */
         for optId in options {
 
@@ -888,9 +878,8 @@ class SwLibTidyTests: XCTestCase {
         }
 
 
-        /*
-         The test above checked options as they were set. Now let's
-         check them all to determine if there's any interaction going on.
+        /* The test above checked options as they were set. Now let's
+           check them all to determine if there's any interaction going on.
          */
         for ( index, optId ) in options.enumerated() {
 
@@ -919,12 +908,11 @@ class SwLibTidyTests: XCTestCase {
             XCTAssert( valueIn == valueOut, outp )
         }
 
-        /*
-            During the main Tidying operations, CLibTidy changes the
-            configuration for internal use, but does _not_ restore it until
-            the buffer is saved (although you can manually restore it). This
-            bit below goes through a typical Tidy cycle, and saves the buffer,
-            which should ensure that our options are exactly how we set them.
+        /* During the main Tidying operations, CLibTidy changes the
+           configuration for internal use, but does _not_ restore it until
+           the buffer is saved (although you can manually restore it). This
+           bit below goes through a typical Tidy cycle, and saves the buffer,
+           which should ensure that our options are exactly how we set them.
          */
         let outpBuffer = SwLibTidyBuffer()
         _ = tidyParseString( tdoc, "<h1>How now, brown cow?</h1>")
@@ -932,9 +920,8 @@ class SwLibTidyTests: XCTestCase {
         _ = tidySaveBuffer( tdoc, outpBuffer ) /* needed to restore snapshot */
 
 
-        /*
-         Now ensure that the act of Tidying a document doesn't fiddle with
-         the configuration settings.
+        /* Now ensure that the act of Tidying a document doesn't fiddle with
+           the configuration settings.
          */
         for ( index, optId ) in options.enumerated() {
 
@@ -965,16 +952,16 @@ class SwLibTidyTests: XCTestCase {
     }
 
 
-    /*************************************************************************
-     A whole lot of Tidy is dedicated to managing options, and clients will
-     want to manage options as well.
-
-     This test demonstrates that all of the string options can take empty
-     strings without failing. This does not imply that the setting is valid,
-     for example, TidyDocType will always have a doctype.
-
-     - tidyOptSetValue()
-     *************************************************************************/
+    /**
+     * A whole lot of Tidy is dedicated to managing options, and clients will
+     * want to manage options as well.
+     *
+     * This test demonstrates that all of the string options can take empty
+     * strings without failing. This does not imply that the setting is valid,
+     * for example, TidyDocType will always have a doctype.
+     *
+     * - tidyOptSetValue()
+     */
     func test_tidyOptions_emptystrings() {
 
         guard
@@ -995,17 +982,17 @@ class SwLibTidyTests: XCTestCase {
     }
 
 
-    /*************************************************************************
-     A whole lot of Tidy is dedicated to managing options, and clients will
-     want to manage options as well.
-
-     This test demonstrates the iterators for prioritized attributes and for
-     muted messages.
-
-     - tidyOptGetPriorityAttrList()
-     - tidyOptGetMutedMessageList()
-     - tidyOptGetDeclTagList()
-     *************************************************************************/
+    /**
+     * A whole lot of Tidy is dedicated to managing options, and clients will
+     * want to manage options as well.
+     *
+     * This test demonstrates the iterators for prioritized attributes and for
+     * muted messages.
+     *
+     * - tidyOptGetPriorityAttrList()
+     * - tidyOptGetMutedMessageList()
+     * - tidyOptGetDeclTagList()
+     */
     func test_tidyOptions_iterators() {
 
         guard
@@ -1040,15 +1027,15 @@ class SwLibTidyTests: XCTestCase {
     }
 
 
-    /*************************************************************************
-      A whole lot of Tidy is dedicated to managing options, and clients will
-      want to manage options as well.
-
-      This test demonstrates how an fpi can be set in the doctype option.
-
-      - tidyOptGetDoc()
-      - tidyOptGetDocLinksList()
-     *************************************************************************/
+    /**
+     *  A whole lot of Tidy is dedicated to managing options, and clients will
+     *  want to manage options as well.
+     *
+     *  This test demonstrates how an fpi can be set in the doctype option.
+     *
+     *  - tidyOptGetDoc()
+     *  - tidyOptGetDocLinksList()
+     */
     func test_tidyOptions_doctype_fpi() {
 
         guard
@@ -1087,16 +1074,16 @@ class SwLibTidyTests: XCTestCase {
     }
 
 
-    /*************************************************************************
-      A whole lot of Tidy is dedicated to managing options, and clients will
-      want to manage options as well.
-
-      This test demonstrates how documentation for Tidy options can be
-      generated, and it is fragile if CLibTidy changes its documentation.
-
-      - tidyOptGetDoc()
-      - tidyOptGetDocLinksList()
-     *************************************************************************/
+    /**
+     *  A whole lot of Tidy is dedicated to managing options, and clients will
+     *  want to manage options as well.
+     *
+     *  This test demonstrates how documentation for Tidy options can be
+     *  generated, and it is fragile if CLibTidy changes its documentation.
+     *
+     *  - tidyOptGetDoc()
+     *  - tidyOptGetDocLinksList()
+     */
     func test_tidyOptions_documentation() {
 
         guard
@@ -1105,7 +1092,8 @@ class SwLibTidyTests: XCTestCase {
         defer { tidyRelease( tdoc ) }
 
         /* Let's get the documentation for TidyPreTags, since it has xref
-           links we can look at, too. */
+           links we can look at, too.
+         */
         if let topt = tidyGetOption( tdoc, TidyPreTags ) {
 
             let dox = tidyOptGetDoc( tdoc, topt )
@@ -1125,15 +1113,15 @@ class SwLibTidyTests: XCTestCase {
     }
 
 
-    /*************************************************************************
-      When Tidy is used with the gnu-emacs option, it will display its error
-      reports in a format that's useful to emacs users. The implementing
-      program will have to specify the file and path to be used in this
-      modified report.
-
-      - tidySetEmacsFile()
-      - tidyGetEmacsFile()
-     *************************************************************************/
+    /**
+     *  When Tidy is used with the gnu-emacs option, it will display its error
+     *  reports in a format that's useful to emacs users. The implementing
+     *  program will have to specify the file and path to be used in this
+     *  modified report.
+     *
+     *  - tidySetEmacsFile()
+     *  - tidyGetEmacsFile()
+     */
     func test_tidyOptions_emacs() {
 
         guard
@@ -1157,7 +1145,8 @@ class SwLibTidyTests: XCTestCase {
         JSDAssertEqual( emacs_file, tidyGetEmacsFile( tdoc ) )
 
         /* Finally, let's see if the error table is prefixed with the correct
-           emacs file information. */
+           emacs file information.
+         */
         if let output = errorBuffer.StringValue() {
             let prefix_expected = "\(emacs_file):1:1:"
             JSDAssertHasPrefix( prefix_expected, output )
@@ -1167,12 +1156,12 @@ class SwLibTidyTests: XCTestCase {
     }
 
 
-    /*************************************************************************
-      When Tidy makes a change to a configuration option, it can callback
-      into your application.
-
-      - tidySetConfigChangeCallback()
-     *************************************************************************/
+    /**
+     *  When Tidy makes a change to a configuration option, it can callback
+     *  into your application.
+     *
+     *  - tidySetConfigChangeCallback()
+     */
     func test_tidyOptions_changeCallback() {
 
         guard
@@ -1182,7 +1171,8 @@ class SwLibTidyTests: XCTestCase {
 
         /* Setup expectation for asynchronous test. In this case, we
            set an option various times below, and so the final count
-           should match our expectation. */
+           should match our expectation.
+         */
         let callbackSuccess = XCTestExpectation(description: "The callback should execute 5 times.")
         callbackSuccess.expectedFulfillmentCount = 5
 
@@ -1250,13 +1240,13 @@ class SwLibTidyTests: XCTestCase {
     }
 
 
-    /*************************************************************************
-      Tidy normally sends message output to STDOUT, which can be useful in
-      command line tools, but luckily Tidy supports other types of output,
-      as demonstrated in this test.
-
-      - tidySetErrorFile()
-     *************************************************************************/
+    /**
+     *  Tidy normally sends message output to STDOUT, which can be useful in
+     *  command line tools, but luckily Tidy supports other types of output,
+     *  as demonstrated in this test.
+     *
+     *  - tidySetErrorFile()
+     */
     func test_errorOut() {
 
         guard
@@ -1279,7 +1269,8 @@ class SwLibTidyTests: XCTestCase {
 
 
         /* Read the beginning of the file to ensure it matches our
-           expections. */
+           expections.
+         */
         do {
             let expects = "line 1 column 1 - Warning: missing <!DOCTYPE> declaration"
             let result = try String(contentsOf: errorURL, encoding: .utf8)
@@ -1292,14 +1283,14 @@ class SwLibTidyTests: XCTestCase {
     }
 
 
-    /*************************************************************************
-      Sophisticated programs will want more control over Tidy's message
-      output, and the use of the message callback enables this. This test
-      demonstrates setting up such a callback, as well as uses the message
-      interrogation API in order to pick apart the message.
-
-      - tidySetMessageCallback()
-     *************************************************************************/
+    /**
+     *  Sophisticated programs will want more control over Tidy's message
+     *  output, and the use of the message callback enables this. This test
+     *  demonstrates setting up such a callback, as well as uses the message
+     *  interrogation API in order to pick apart the message.
+     *
+     *  - tidySetMessageCallback()
+     */
     func test_messageCallback() {
 
         guard
@@ -1321,7 +1312,8 @@ class SwLibTidyTests: XCTestCase {
 
             /* The message API returns the various pieces that makes up a
                message in Tidy. You can use these to provide your own
-               messages, and provide your own localizations. */
+               messages, and provide your own localizations.
+             */
             let doc = message.document
             let code = message.messageCode
             let key = message.messageKey
@@ -1393,7 +1385,8 @@ class SwLibTidyTests: XCTestCase {
             }
 
             /* Return false to indicate that we've handled the message and
-               that Tidy needs to take no action with it. */
+               that Tidy needs to take no action with it.
+             */
             return false
         })
 
@@ -1408,14 +1401,14 @@ class SwLibTidyTests: XCTestCase {
     }
 
 
-    /*************************************************************************
-      SwLibTidy adds a feature to Tidy that can avoid all of the message
-      callback and nested APIs. The tidyMessageRecords() function provides
-      an instance of a class or structure that captures all of the message
-      related information into a nice, easy to use structure.
-
-      - tidyMessageRecords()
-     *************************************************************************/
+    /**
+     *  SwLibTidy adds a feature to Tidy that can avoid all of the message
+     *  callback and nested APIs. The tidyMessageRecords() function provides
+     *  an instance of a class or structure that captures all of the message
+     *  related information into a nice, easy to use structure.
+     *
+     *  - tidyMessageRecords()
+     */
     func test_tidyMessageRecords() {
 
         guard
@@ -1433,17 +1426,17 @@ class SwLibTidyTests: XCTestCase {
     }
 
 
-    /*************************************************************************
-      Tidy provides a simple pretty pretter callback and a convenience
-      function (for avoiding a callback) that can be used to track the
-      progress of the pretty printing process. It correlates (as best as is
-      possible) where location of source document components in the tidied
-      document. This might be useful, for example, in scrolling before and
-      after documents in a synchronized fashion.
-
-      - tidySetPrettyPrinterCallback()
-      - tidyPPProgressRecords()
-     *************************************************************************/
+    /**
+     *  Tidy provides a simple pretty pretter callback and a convenience
+     *  function (for avoiding a callback) that can be used to track the
+     *  progress of the pretty printing process. It correlates (as best as is
+     *  possible) where location of source document components in the tidied
+     *  document. This might be useful, for example, in scrolling before and
+     *  after documents in a synchronized fashion.
+     *
+     *  - tidySetPrettyPrinterCallback()
+     *  - tidyPPProgressRecords()
+     */
     func test_pppCallback() {
 
         guard
@@ -1472,7 +1465,8 @@ class SwLibTidyTests: XCTestCase {
         wait(for: [callbackSuccess], timeout: 1.0)
 
         /* Pretty printing would have triggered the callback, so that's
-           tested. Let's have a look at the tidyPPProgresRecords(). */
+           tested. Let's have a look at the tidyPPProgresRecords().
+         */
         let records = tidyPPProgressRecords( forTidyDoc: tdoc )
         printhr( records, "all pprogress records" )
 
@@ -1483,13 +1477,13 @@ class SwLibTidyTests: XCTestCase {
     }
 
 
-    /*************************************************************************
-      With all of this talk of callbacks, SwLibTidy also supports traditional
-      delegates, so you have an additional option. This test ensures that all
-      of the delegates are working just as well as the callbacks.
-
-      - setDelegate()
-     *************************************************************************/
+    /**
+     *  With all of this talk of callbacks, SwLibTidy also supports traditional
+     *  delegates, so you have an additional option. This test ensures that all
+     *  of the delegates are working just as well as the callbacks.
+     *
+     *  - setDelegate()
+     */
     func test_setDelegate() {
 
         guard
@@ -1521,15 +1515,15 @@ class SwLibTidyTests: XCTestCase {
     }
 
 
-    /*************************************************************************
-      A parsed document can have additional clean and repair operations
-      performed upon it, as well as report some related information about
-      the process.
-
-      - tidyCleanAndRepair()
-      - tidyRunDiagnostics()
-      - tidyReportDocType()
-     *************************************************************************/
+    /**
+     *  A parsed document can have additional clean and repair operations
+     *  performed upon it, as well as report some related information about
+     *  the process.
+     *
+     *  - tidyCleanAndRepair()
+     *  - tidyRunDiagnostics()
+     *  - tidyReportDocType()
+     */
     func test_diagnostics() {
 
         guard
@@ -1565,16 +1559,16 @@ class SwLibTidyTests: XCTestCase {
     }
 
 
-    /*************************************************************************
-      Saving tidied files to different output types is directly supported by
-      Tidy, although it's probably more likely you will take advantage of
-      macOS-native means. Still, you need to learn how to save to a buffer,
-      here.
-
-      - tidySaveFile()
-      - tidySaveStdout()
-      - tidySaveBuffer()
-     *************************************************************************/
+    /**
+     *  Saving tidied files to different output types is directly supported by
+     *  Tidy, although it's probably more likely you will take advantage of
+     *  macOS-native means. Still, you need to learn how to save to a buffer,
+     *  here.
+     *
+     *  - tidySaveFile()
+     *  - tidySaveStdout()
+     *  - tidySaveBuffer()
+     */
     func test_tidySave() {
 
         guard
@@ -1584,10 +1578,8 @@ class SwLibTidyTests: XCTestCase {
 
         let _ = tidySample( doc: tdoc, useConfig: false )
 
-        /*
-         Save to a buffer, which a lot of tests already do, too.
-         */
-
+        /* Save to a buffer, which a lot of tests already do, too. */
+        
         let outbuff = SwLibTidyBuffer()
         let _ = tidySaveBuffer( tdoc, outbuff )
         if let result = outbuff.StringValue() {
@@ -1598,9 +1590,7 @@ class SwLibTidyTests: XCTestCase {
         }
 
 
-        /*
-         Save and check a physical file.
-         */
+        /* Save and check a physical file. */
 
         /* Setup error file -- assume we have permissions for tmp file. */
         let outfile = "\(NSTemporaryDirectory())\(NSUUID().uuidString).txt"
@@ -1623,9 +1613,7 @@ class SwLibTidyTests: XCTestCase {
         }
 
 
-        /*
-         Save to stdout, but hijack stdout so we can check it.
-         */
+        /* Save to stdout, but hijack stdout so we can check it. */
 
         /* Redirect a file to stdout, so we can test tidyParseStdin(). */
         let fp = freopen( outfile, "w", stdout )
@@ -1649,13 +1637,13 @@ class SwLibTidyTests: XCTestCase {
     }
 
 
-    /*************************************************************************
-      Tidy supports saving configuration files directly, however it only
-      writes from a given document's configuration, and only for options that
-      have non-default values (it's trivial to do this yourself anyway).
-
-      - tidyOptSaveFile()
-     *************************************************************************/
+    /**
+     *  Tidy supports saving configuration files directly, however it only
+     *  writes from a given document's configuration, and only for options that
+     *  have non-default values (it's trivial to do this yourself anyway).
+     *
+     *  - tidyOptSaveFile()
+     */
     func test_tidyOptSave() {
 
         guard
@@ -1689,22 +1677,22 @@ class SwLibTidyTests: XCTestCase {
     }
 
 
-    /*************************************************************************
-      Although Tidy is well known as an error-correcting parser and pretty
-      printer, it's also very capable of being used to work with HTML nodes
-      directly. This test demonstrates how to get the major nodes of a
-      parsed document, as well as how to traverse the document.
-
-      - tidyGetRoot()
-      - tidyGetHtml()
-      - tidyGetHead()
-      - tidyGetBody()
-      - tidyGetParent()
-      - tidyGetChild()
-      - tidyGetNext()
-      - tidyGetPrev()
-      - tidyDiscardElement()
-     *************************************************************************/
+    /**
+     *  Although Tidy is well known as an error-correcting parser and pretty
+     *  printer, it's also very capable of being used to work with HTML nodes
+     *  directly. This test demonstrates how to get the major nodes of a
+     *  parsed document, as well as how to traverse the document.
+     *
+     *  - tidyGetRoot()
+     *  - tidyGetHtml()
+     *  - tidyGetHead()
+     *  - tidyGetBody()
+     *  - tidyGetParent()
+     *  - tidyGetChild()
+     *  - tidyGetNext()
+     *  - tidyGetPrev()
+     *  - tidyDiscardElement()
+     */
     func test_traversal() {
 
         guard
@@ -1747,53 +1735,54 @@ class SwLibTidyTests: XCTestCase {
 
         guard let pnode = tidyGetNext( divnode ) else {
             XCTFail( failMessage )
-			return
-		}
+            return
+        }
         JSDAssertEqual( "p", tidyNodeGetName( pnode ) )
 
-		guard let divnode_again = tidyGetPrev( pnode ) else {
+        guard let divnode_again = tidyGetPrev( pnode ) else {
             XCTFail( failMessage )
-			return
-		}
+            return
+        }
         JSDAssertEqual( "div", tidyNodeGetName( divnode_again ) )
 
-		guard let bodynode_again = tidyGetParent( divnode_again ) else {
+        guard let bodynode_again = tidyGetParent( divnode_again ) else {
             XCTFail( failMessage )
-			return
-		}
+            return
+        }
         JSDAssertEqual( "body", tidyNodeGetName( bodynode_again ) )
 
-		let _ = tidyDiscardElement( tdoc, pnode )
+        let _ = tidyDiscardElement( tdoc, pnode )
 
-		/* We've deleted the pnode, so let's check the result to make sure
-           that it's really gone. */
+        /* We've deleted the pnode, so let's check the result to make sure
+           that it's really gone.
+         */
 
-		let docBuffer = SwLibTidyBuffer()
-		let _ = tidySaveBuffer( tdoc, docBuffer )
+        let docBuffer = SwLibTidyBuffer()
+        let _ = tidySaveBuffer( tdoc, docBuffer )
 
-		if let docString = docBuffer.StringValue() {
-			let result = docString.range( of: "This is a paragraph" )
-			printhr( docString, "docString with deleted pnode" )
+        if let docString = docBuffer.StringValue() {
+            let result = docString.range( of: "This is a paragraph" )
+            printhr( docString, "docString with deleted pnode" )
             JSDAssertTrue( nil == result, "The substring is still in the document." )
-		} else {
-			XCTFail( "The document string was empty for some reason." )
-		}
+        } else {
+            XCTFail( "The document string was empty for some reason." )
+        }
     }
 
 
-    /*************************************************************************
-      Given a node, Tidy makes it simple to work with the node's attributes.
-      This test demonstrates this important feature.
-
-      - tidyAttrFirst()
-      - tidyAttrNext()
-      - tidyAttrName()
-      - tidyAttrValue()
-      - tidyAttrDiscard()
-      - tidyAttrGetId()
-      - tidyAttrIsEvent()
-      - tidyAttrGetById()
-     *************************************************************************/
+    /**
+     *  Given a node, Tidy makes it simple to work with the node's attributes.
+     *  This test demonstrates this important feature.
+     *
+     *  - tidyAttrFirst()
+     *  - tidyAttrNext()
+     *  - tidyAttrName()
+     *  - tidyAttrValue()
+     *  - tidyAttrDiscard()
+     *  - tidyAttrGetId()
+     *  - tidyAttrIsEvent()
+     *  - tidyAttrGetById()
+     */
     func test_attributes() {
 
         guard
@@ -1803,23 +1792,23 @@ class SwLibTidyTests: XCTestCase {
 
         let _ = tidySample( doc: tdoc )
 
-		guard
-			let bodynode = tidyGetBody( tdoc ),
-			let divnode = tidyGetChild( bodynode ) else {
-				XCTFail( "Unable to get the required node from the sample." )
-				return
-		}
+        guard
+            let bodynode = tidyGetBody( tdoc ),
+            let divnode = tidyGetChild( bodynode ) else {
+                XCTFail( "Unable to get the required node from the sample." )
+                return
+        }
 
-		/* Build an array of attributes on the div. */
-		var attrs: [TidyAttr] = []
-		var attr = tidyAttrFirst( divnode )
-		while attr != nil {
-			attrs.append( attr! )
-			attr = tidyAttrNext( attr! )
-		}
+        /* Build an array of attributes on the div. */
+        var attrs: [TidyAttr] = []
+        var attr = tidyAttrFirst( divnode )
+        while attr != nil {
+            attrs.append( attr! )
+            attr = tidyAttrNext( attr! )
+        }
         JSDAssertEqual( 4, attrs.count, "There should have been %@ attributes, but counted %@.")
 
-		attr = attrs[0]
+        attr = attrs[0]
         if let attr = attr {
             JSDAssertEqual( "id", tidyAttrName( attr ) )
             JSDAssertEqual( "", tidyAttrValue( attr ) )
@@ -1827,7 +1816,7 @@ class SwLibTidyTests: XCTestCase {
             JSDAssertFalse( tidyAttrIsEvent( attr ) )
         }
 
-		attr = attrs[2]
+        attr = attrs[2]
         if let attr = attr {
             JSDAssertEqual( "onclick", tidyAttrName( attr ) )
             JSDAssertEqual( "someFunction()", tidyAttrValue( attr ) )
@@ -1837,45 +1826,45 @@ class SwLibTidyTests: XCTestCase {
 
         if let attr = tidyAttrGetById( divnode, TidyAttr_CLASS ) {
             JSDAssertEqual( "high", tidyAttrValue( attr ) )
-		}
+        }
 
-		if let _ = tidyAttrGetById( divnode, TidyAttr_DATA ) {
-			XCTFail( "The data attribute was found, which is strange." )
-		}
+        if let _ = tidyAttrGetById( divnode, TidyAttr_DATA ) {
+            XCTFail( "The data attribute was found, which is strange." )
+        }
 
-		/* Now discard an attribute. */
-		attr = attrs[3]
-		tidyAttrDiscard( tdoc, divnode, attr! )
+        /* Now discard an attribute. */
+        attr = attrs[3]
+        tidyAttrDiscard( tdoc, divnode, attr! )
 
-		let docBuffer = SwLibTidyBuffer()
-		let _ = tidySaveBuffer( tdoc, docBuffer )
+        let docBuffer = SwLibTidyBuffer()
+        let _ = tidySaveBuffer( tdoc, docBuffer )
 
-		if let docString = docBuffer.StringValue() {
-			let result = docString.range( of: "idl" )
-			printhr( docString, "docString after dropping idl attribute" )
-			JSDAssertTrue( result == nil )
-		} else {
-			XCTFail( "The document string was empty for some reason." )
-		}
+        if let docString = docBuffer.StringValue() {
+            let result = docString.range( of: "idl" )
+            printhr( docString, "docString after dropping idl attribute" )
+            JSDAssertTrue( result == nil )
+        } else {
+            XCTFail( "The document string was empty for some reason." )
+        }
     }
 
 
-    /*************************************************************************
-      Given a node, Tidy makes it simple to work with other information about
-      the node, as tested in this case.
-
-      - tidyNodeGetType()
-      - tidyNodeGetName()
-      - tidyNodeIsText()
-      - tidyNodeIsProp()
-      - tidyNodeIsHeader()
-      - tidyNodeHasText()
-      - tidyNodeGetText()
-      - tidyNodeGetValue()
-      - tidyNodeGetId()
-      - tidyNodeLine()
-      - tidyNodeColumn()
-     *************************************************************************/
+    /**
+     *  Given a node, Tidy makes it simple to work with other information about
+     *  the node, as tested in this case.
+     *
+     *  - tidyNodeGetType()
+     *  - tidyNodeGetName()
+     *  - tidyNodeIsText()
+     *  - tidyNodeIsProp()
+     *  - tidyNodeIsHeader()
+     *  - tidyNodeHasText()
+     *  - tidyNodeGetText()
+     *  - tidyNodeGetValue()
+     *  - tidyNodeGetId()
+     *  - tidyNodeLine()
+     *  - tidyNodeColumn()
+     */
     func test_node_interrogation() {
 
         guard
@@ -1997,22 +1986,22 @@ class SwLibTidyTests: XCTestCase {
     }
 
 
-    /*************************************************************************
-      Tidy works with message codes internally as enums, and these carry over
-      fairly well into Swift and excellently in Objective-C, however the
-      specific values are *never* guaranteed. This means that we need some
-      persistent string-based representation of message codes for use outside
-      of LibTidy and outside of linked applications. For example, for string
-      lookup in localized versions of .strings files.
-
-      These functions provide discovery of these persistent strings, which
-      might be used in your strings files for providing your own localized
-      strings.
-
-      - tidyErrorCodeAsKey()
-      - tidyErrorCodeFromKey()
-      - getErrorCodeList()
-     *************************************************************************/
+    /**
+     *  Tidy works with message codes internally as enums, and these carry over
+     *  fairly well into Swift and excellently in Objective-C, however the
+     *  specific values are *never* guaranteed. This means that we need some
+     *  persistent string-based representation of message codes for use outside
+     *  of LibTidy and outside of linked applications. For example, for string
+     *  lookup in localized versions of .strings files.
+     *
+     *  These functions provide discovery of these persistent strings, which
+     *  might be used in your strings files for providing your own localized
+     *  strings.
+     *
+     *  - tidyErrorCodeAsKey()
+     *  - tidyErrorCodeFromKey()
+     *  - getErrorCodeList()
+     */
     func test_error_codes() {
 
         let codeList = getErrorCodeList()
@@ -2036,25 +2025,25 @@ class SwLibTidyTests: XCTestCase {
     }
 
 
-    /*************************************************************************
-      Tidy natively supports localization, although your higher-level classes
-      may choose to use macOS localization instead. Tidy always gets strings
-      of type `tidyStrings`, except when it doesn't, because in addition to
-      strings for each `tidyStrings`, it also has strings for `TidyOptionID`
-      `TidyConfigCategory` and `TidyReportLevel`. This compromise between
-      sloppiness and functionality make it difficult for us to enforce type
-      safety in Swift, but there are always workarounds: C enumerations
-      imported by Swift do not fail when initializing with a raw value that
-      does not correspond to an enumeration case. This is done for
-      compatibility with C, which allows any value to be stored in an
-      enumeration, including values used internally but not exposed in
-      headers.
-
-      - tidyLocalizedString()
-      - tidyLocalizedStringN()
-      - tidyDefaultString()
-      - tidySetLanguage()
-     *************************************************************************/
+    /**
+     *  Tidy natively supports localization, although your higher-level classes
+     *  may choose to use macOS localization instead. Tidy always gets strings
+     *  of type `tidyStrings`, except when it doesn't, because in addition to
+     *  strings for each `tidyStrings`, it also has strings for `TidyOptionID`
+     *  `TidyConfigCategory` and `TidyReportLevel`. This compromise between
+     *  sloppiness and functionality make it difficult for us to enforce type
+     *  safety in Swift, but there are always workarounds: C enumerations
+     *  imported by Swift do not fail when initializing with a raw value that
+     *  does not correspond to an enumeration case. This is done for
+     *  compatibility with C, which allows any value to be stored in an
+     *  enumeration, including values used internally but not exposed in
+     *  headers.
+     *
+     *  - tidyLocalizedString()
+     *  - tidyLocalizedStringN()
+     *  - tidyDefaultString()
+     *  - tidySetLanguage()
+     */
     func test_tidyLocalizedString() {
 
         var expects: String
@@ -2092,17 +2081,17 @@ class SwLibTidyTests: XCTestCase {
     }
 
 
-    /*************************************************************************
-      Tidy natively supports localization, although your higher-level classes
-      may choose to use macOS localization instead. These extra utilities
-      make it simple to support Tidy's native localization support.
-
-      - tidySetLanguage()
-      - tidyGetLanguage()
-      - getWindowsLanguageList()
-      - getInstalledLanguageList()
-      - getStringKeyList()
-     *************************************************************************/
+    /**
+     *  Tidy natively supports localization, although your higher-level classes
+     *  may choose to use macOS localization instead. These extra utilities
+     *  make it simple to support Tidy's native localization support.
+     *
+     *  - tidySetLanguage()
+     *  - tidyGetLanguage()
+     *  - getWindowsLanguageList()
+     *  - getInstalledLanguageList()
+     *  - getStringKeyList()
+     */
     func test_locales() {
 
         /* Let's force the language to English. */
@@ -2119,8 +2108,7 @@ class SwLibTidyTests: XCTestCase {
         printhr( langList, "langList" )
         JSDAssertTrue( langList.count > 0 )
 
-        /*
-         Tidy uses ISO names, but provides utilities for CLI and other
+        /* Tidy uses ISO names, but provides utilities for CLI and other
          applications to accept Windows legacy language names.
          */
 

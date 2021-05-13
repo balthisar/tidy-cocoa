@@ -1,10 +1,16 @@
-//
-//  SwLibTidyUtilities.swift
-//  Swift LibTidy Tests
-//
-//  Created by Jim Derry on 11/20/17.
-//  Copyright © 2017 Jim Derry. All rights reserved.
-//
+/**
+ *  SwLibTidyUtilities.swift
+ *   Part of the SwLibTidy wrapper library for tidy-html5 ("CLibTidy").
+ *   See https://github.com/htacg/tidy-html5
+ *
+ *   Copyright © 2017-2021 by HTACG. All rights reserved.
+ *   Created by Jim Derry 2017; copyright assigned to HTACG. Permission to use
+ *   this source code per the W3C Software Notice and License:
+ *   https://www.w3.org/Consortium/Legal/2002/copyright-software-20021231
+ *
+ *   Purpose
+ *    Provide some basic utilities for the unit tests.
+ */
 
 import Foundation
 import XCTest
@@ -15,8 +21,8 @@ import SwLibTidy
 
 
 /**
- Shuffles the contents of this collection.
- Contributed by Nate Cook from Stack Overflow.
+ *  Shuffles the contents of this collection.
+ *  Contributed by Nate Cook from Stack Overflow.
  */
 extension MutableCollection {
 
@@ -34,8 +40,8 @@ extension MutableCollection {
 
 
 /**
- Returns an array with the contents of this sequence, shuffled.
- Contributed by Nate Cook from Stack Overflow.
+ *  Returns an array with the contents of this sequence, shuffled.
+ *  Contributed by Nate Cook from Stack Overflow.
  */
 extension Sequence {
 
@@ -51,9 +57,9 @@ extension Sequence {
 
 
 /*
- Returns x random words in an optional array of string. The words are provided
- by macOS in /usr/share/dict/words, and we will return nil if this can't be
- loaded.
+ *  Returns x random words in an optional array of string. The words are provided
+ *  by macOS in /usr/share/dict/words, and we will return nil if this can't be
+ *  loaded.
  */
 public func random_words( _ x: Int ) -> [String]? {
 
@@ -73,7 +79,7 @@ public func random_words( _ x: Int ) -> [String]? {
 
 
 /*
- Returns a string with a random doctype from the doctypes that Tidy recognizes.
+ * Returns a string with a random doctype from the doctypes that Tidy recognizes.
  */
 public func random_doctype() -> String {
 
@@ -84,9 +90,9 @@ public func random_doctype() -> String {
 
 
 /*
- Returns an array of x random strings for use with the `mute` option. These
- are from CLibTidy `tidyenum.h`, defined in the `FOREACH_REPORT_MSG` macro.
- The test is fragile if CLibTidy removes any of these strings.
+ *  Returns an array of x random strings for use with the `mute` option. These
+ *  are from CLibTidy `tidyenum.h`, defined in the `FOREACH_REPORT_MSG` macro.
+ *  The test is fragile if CLibTidy removes any of these strings.
  */
 public func random_mute( _ x: Int ) -> [String] {
 
@@ -219,7 +225,7 @@ public func random_mute( _ x: Int ) -> [String] {
 
 
 /**
- Prints what's given with a horizontal rule and optional heading.
+ *  Prints what's given with a horizontal rule and optional heading.
  */
 public func printhr( _ value: String?, _ header: String? = nil ) {
 
@@ -243,7 +249,7 @@ public func printhr( _ value: String?, _ header: String? = nil ) {
 
 
 /**
- Dumps what's given with a horizontal rule and optional heading.
+ *  Dumps what's given with a horizontal rule and optional heading.
  */
 public func printhr( _ value: Any, _ header: String? = nil ) {
 
@@ -270,8 +276,8 @@ public func printhr( _ value: Any, _ header: String? = nil ) {
 
 
 /**
- A supplemental assert equal function that provides a (semi-) automatic message,
- greatly cleaning up all of the strings in the test cases.
+ *  A supplemental assert equal function that provides a (semi-) automatic message,
+ *  greatly cleaning up all of the strings in the test cases.
  */
 public func JSDAssertEqual<T: Equatable>( _ expect: T, _ result: T, _ message: String = "", file: StaticString = #file, line: UInt = #line) {
     let mssg: String
@@ -285,8 +291,8 @@ public func JSDAssertEqual<T: Equatable>( _ expect: T, _ result: T, _ message: S
 
 
 /**
- A supplemental assert equal function that provides a (semi-) automatic message,
- greatly cleaning up all of the strings in the test cases.
+ *  A supplemental assert equal function that provides a (semi-) automatic message,
+ *  greatly cleaning up all of the strings in the test cases.
  */
 public func JSDAssertTrue( _ result: Bool, _ message: String = "", file: StaticString = #file, line: UInt = #line) {
 
@@ -295,8 +301,8 @@ public func JSDAssertTrue( _ result: Bool, _ message: String = "", file: StaticS
 
 
 /**
- A supplemental assert equal function that provides a (semi-) automatic message,
- greatly cleaning up all of the strings in the test cases.
+ *  A supplemental assert equal function that provides a (semi-) automatic message,
+ *  greatly cleaning up all of the strings in the test cases.
  */
 public func JSDAssertFalse( _ result: Bool, _ message: String = "", file: StaticString = #file, line: UInt = #line) {
 
@@ -305,9 +311,9 @@ public func JSDAssertFalse( _ result: Bool, _ message: String = "", file: Static
 
 
 /**
- A supplemental assert to determine if an (optional) string has a given
- prefix, and provides a (semi-) automatic message, greatly cleaning up all of
- the strings in the test cases.
+ *  A supplemental assert to determine if an (optional) string has a given
+ *  prefix, and provides a (semi-) automatic message, greatly cleaning up all of
+ *  the strings in the test cases.
  */
 public func JSDAssertHasPrefix( _ expect: String?, _ result: String?, _ message: String = "", file: StaticString = #file, line: UInt = #line) {
 
@@ -327,9 +333,9 @@ public func JSDAssertHasPrefix( _ expect: String?, _ result: String?, _ message:
 
 
 /**
- A supplemental assert to determine if an (optional) string has a given
- suffix, and provides a (semi-) automatic message, greatly cleaning up all of
- the strings in the test cases.
+ *  A supplemental assert to determine if an (optional) string has a given
+ *  suffix, and provides a (semi-) automatic message, greatly cleaning up all of
+ *  the strings in the test cases.
  */
 public func JSDAssertHasSuffix( _ expect: String?, _ result: String?, _ message: String = "", file: StaticString = #file, line: UInt = #line) {
 
@@ -352,8 +358,8 @@ public func JSDAssertHasSuffix( _ expect: String?, _ result: String?, _ message:
 
 
 /**
- This alternate to TidyConfigReport will be used in a test case just to
- demonstrate that user-supplied classes can be used instead of the default.
+ *  This alternate to TidyConfigReport will be used in a test case just to
+ *  demonstrate that user-supplied classes can be used instead of the default.
  */
 @objc public class AlternateTidyConfigReport: NSObject, SwLibTidyConfigReportProtocol {
 
@@ -371,7 +377,7 @@ public func JSDAssertHasSuffix( _ expect: String?, _ result: String?, _ message:
 }
 
 /**
- A sample class to handle TidyDelegateProtocol methods during testing.
+ *  A sample class to handle TidyDelegateProtocol methods during testing.
  */
 public class SampleTidyDelegate: SwLibTidyDelegateProtocol {
 
@@ -419,6 +425,3 @@ public class SampleTidyDelegate: SwLibTidyDelegateProtocol {
 
 
 }
-
-
-
