@@ -8,6 +8,5 @@
 
 import Foundation
 
-let myExample = TidyRunner.init()
+let myExample = TidyRunner()
 myExample.RunTidy()
-

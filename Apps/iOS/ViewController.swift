@@ -6,15 +6,14 @@
 //  Copyright © 2017 Jim Derry. All rights reserved.
 //
 
-import UIKit
 import SwLibTidy
+import UIKit
 
 class ViewController: UIViewController {
-
-    @IBOutlet weak var textView: UITextView!
+    @IBOutlet var textView: UITextView!
 
     /* Use the same output creator as the sample console application. */
-    var myExample = TidyRunner.init()
+    var myExample = TidyRunner()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,9 +23,7 @@ class ViewController: UIViewController {
             self.textView.textStorage.append(NSAttributedString(string: "\(arg)\n"))
         }
 
-        self.textView.text = ""
+        textView.text = ""
         myExample.RunTidy()
     }
-
 }
-
