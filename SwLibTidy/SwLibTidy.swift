@@ -92,14 +92,14 @@ import CLibTidy
 
 
 /** Enforce a minimum LibTidy version for compatibility. */
-fileprivate let MINIMUM_LIBTIDY_VERSION = "5.7.0"
+private let MINIMUM_LIBTIDY_VERSION = "5.7.0"
 
 
 //*****************************************************************************
 // MARK: - Type Definitions
 //*****************************************************************************
 
-    
+
 //-----------------------------------------------------------------------------
 // MARK: Opaque Types
 // Instances of these types are returned by LibTidy API functions, however
@@ -201,7 +201,7 @@ public typealias TidyOptionType = CLibTidy.TidyOptionType
  *  keys that are used in message callback filters (these are defined in
  *  `tidyStringsKeys[]`).
  */
-public typealias tidyStrings  = CLibTidy.tidyStrings
+public typealias tidyStrings = CLibTidy.tidyStrings
 
 /**
  *  Known HTML element types.
@@ -229,50 +229,50 @@ public typealias TidyTagId = CLibTidy.TidyTagId
  *      Returns a `TidyDoc` instance.
  */
 public func tidyCreate() -> TidyDoc? {
-    
+
     /* Perform CLibTidy version checking, because we count on some of the
      * newer API's.
      */
     let versionCurrent: String = tidyLibraryVersion()
-    
-    let vaMin = MINIMUM_LIBTIDY_VERSION.components(separatedBy: ".").map { Int.init($0) ?? 0 }
-    let vaCurrent = versionCurrent.components(separatedBy: ".").map { Int.init($0) ?? 0 }
-    
+
+    let vaMin = MINIMUM_LIBTIDY_VERSION.components(separatedBy: ".").map { Int($0) ?? 0 }
+    let vaCurrent = versionCurrent.components(separatedBy: ".").map { Int($0) ?? 0 }
+
     if vaCurrent.lexicographicallyPrecedes(vaMin) {
-        debugPrint( "LibTidy: oldest recommended version is \(MINIMUM_LIBTIDY_VERSION), but you have linked against \(versionCurrent)." )
+        debugPrint("LibTidy: oldest recommended version is \(MINIMUM_LIBTIDY_VERSION), but you have linked against \(versionCurrent).")
     }
-    
+
     /* This is the only real "wrapper" part! */
     guard let tdoc = CLibTidy.tidyCreate() else { return nil }
 
     /* Create some extra storage to attach to Tidy's AppData. */
-    let appData: ApplicationData = ApplicationData.init()
+    let appData = ApplicationData()
 
     /* Convert it to a pointer that we can store, increasing the retain count. */
-    let ptr = UnsafeMutableRawPointer( Unmanaged.passRetained(appData).toOpaque() )
+    let ptr = UnsafeMutableRawPointer(Unmanaged.passRetained(appData).toOpaque())
 
     /* Attach it to Tidy's AppData for safe-keeping. */
     CLibTidy.tidySetAppData(tdoc, ptr)
-    
-    
+
+
     /* Now we're going to usurp all of Tidy's callbacks so that we can use them
      * for our own purposes, such as building Swift-like data structures that
      * can avoid the need for user callbacks, as well as for calling delegate
      * methods. The user can still specify a callback, but our internal
      * callbacks will call them.
      */
-    
-    guard yes == CLibTidy.tidySetConfigCallback( tdoc, { tdoc, option, value in
+
+    guard yes == CLibTidy.tidySetConfigCallback(tdoc, { tdoc, option, value in
 
         guard
             let option = option,
             let value = value,
             let tdoc = tdoc,
-            let ptrStorage = CLibTidy.tidyGetAppData( tdoc )
+            let ptrStorage = CLibTidy.tidyGetAppData(tdoc)
         else { return no }
 
-        let strOption = String( cString: option )
-        let strValue = String( cString: value )
+        let strOption = String(cString: option)
+        let strValue = String(cString: value)
 
         let storage: ApplicationData = Unmanaged<ApplicationData>
             .fromOpaque(ptrStorage)
@@ -284,13 +284,13 @@ public func tidyCreate() -> TidyDoc? {
          */
         let userClass = storage.configRecordClass
         let record = userClass.init(withValue: strValue, forOption: strOption, ofDocument: tdoc)
-        storage.configCallbackRecords.append( record )
+        storage.configCallbackRecords.append(record)
 
 
         /* Fire the user's desired callback, if applicable. */
         var result = no
         if let callback = storage.configCallback {
-            result = callback( record ) ? yes : no
+            result = callback(record) ? yes : no
         } else {
             result = no
         }
@@ -299,23 +299,23 @@ public func tidyCreate() -> TidyDoc? {
            return CLibTidy.yes if the option was handled, so consider the
            existing result.
          */
-        if let local_result = storage.delegate?.tidyReports( unknownOption: record ) {
+        if let local_result = storage.delegate?.tidyReports(unknownOption: record) {
             let native_result = result == yes ? true : false
             /* Either the callback or delegate indicate they've handled it. */
-            result = ( local_result || native_result ) ? yes : no
+            result = (local_result || native_result) ? yes : no
         }
 
         return result
 
-    }) else { tidyRelease( tdoc ); return nil }
+    }) else { tidyRelease(tdoc); return nil }
 
 
-    guard yes == CLibTidy.tidySetConfigChangeCallback( tdoc, { tdoc, option in
+    guard yes == CLibTidy.tidySetConfigChangeCallback(tdoc, { tdoc, option in
 
         guard
             let tdoc = tdoc,
             let option = option,
-            let ptrStorage = CLibTidy.tidyGetAppData( tdoc )
+            let ptrStorage = CLibTidy.tidyGetAppData(tdoc)
         else { return }
 
         let storage: ApplicationData = Unmanaged<ApplicationData>
@@ -323,23 +323,23 @@ public func tidyCreate() -> TidyDoc? {
             .takeUnretainedValue()
 
         if let callback = storage.configChangeCallback {
-            callback( tdoc, option )
+            callback(tdoc, option)
         }
 
         /* If there's a delegate, then call the delegate method. */
-        storage.delegate?.tidyReports(optionChanged: option, forTidyDoc: tdoc )
+        storage.delegate?.tidyReports(optionChanged: option, forTidyDoc: tdoc)
 
-    }) else { tidyRelease( tdoc ); return nil }
+    }) else { tidyRelease(tdoc); return nil }
 
 
-    guard yes == CLibTidy.tidySetMessageCallback( tdoc, { tmessage in
-        
+    guard yes == CLibTidy.tidySetMessageCallback(tdoc, { tmessage in
+
         guard
             let tmessage = tmessage,
-            let tdoc = CLibTidy.tidyGetMessageDoc( tmessage ),
-            let ptrStorage = CLibTidy.tidyGetAppData( tdoc )
+            let tdoc = CLibTidy.tidyGetMessageDoc(tmessage),
+            let ptrStorage = CLibTidy.tidyGetAppData(tdoc)
         else { return yes }
-        
+
         let storage = Unmanaged<ApplicationData>
             .fromOpaque(ptrStorage)
             .takeUnretainedValue()
@@ -349,14 +349,14 @@ public func tidyCreate() -> TidyDoc? {
          * of forcing TidyConfigReport.
          */
         let userClass = storage.messageRecordClass
-        let record = userClass.init(withMessage: tmessage )
-        storage.messageCallbackRecords.append( record )
+        let record = userClass.init(withMessage: tmessage)
+        storage.messageCallbackRecords.append(record)
 
 
         /* Fire the user's desired callback, if applicable. */
         var result = no
         if let callback = storage.messageCallback {
-            result = callback( record ) ? yes : no
+            result = callback(record) ? yes : no
         } else {
             result = yes
         }
@@ -368,21 +368,21 @@ public func tidyCreate() -> TidyDoc? {
         if let local_result = storage.delegate?.tidyReports(message: record) {
             let native_result = result == yes ? true : false
             /* Either the callback or delegate can filter the message. */
-            result = ( local_result && native_result ) ? yes : no
+            result = (local_result && native_result) ? yes : no
         }
 
         return result
 
-    }) else { tidyRelease( tdoc ); return nil }
+    }) else { tidyRelease(tdoc); return nil }
 
 
-    guard yes == CLibTidy.tidySetPrettyPrinterCallback( tdoc, { tdoc, line, col, destLine in
-        
+    guard yes == CLibTidy.tidySetPrettyPrinterCallback(tdoc, { tdoc, line, col, destLine in
+
         guard
             let tdoc = tdoc,
-            let ptrStorage = CLibTidy.tidyGetAppData( tdoc )
+            let ptrStorage = CLibTidy.tidyGetAppData(tdoc)
         else { return }
-        
+
         let storage = Unmanaged<ApplicationData>
             .fromOpaque(ptrStorage)
             .takeUnretainedValue()
@@ -393,20 +393,20 @@ public func tidyCreate() -> TidyDoc? {
          * forcing TidyPPProgressReport.
          */
         let userClass = storage.ppRecordClass
-        let record = userClass.init( withLine: line, column: col, destLine: destLine, forDocument: tdoc )
-        storage.ppCallbackRecords.append( record )
+        let record = userClass.init(withLine: line, column: col, destLine: destLine, forDocument: tdoc)
+        storage.ppCallbackRecords.append(record)
 
 
         /* Fire the user's desired callback, if applicable. */
         if let callback = storage.ppCallback {
-            callback( record )
+            callback(record)
         }
 
         /* If there's a delegate, then call the delegate method. */
-        storage.delegate?.tidyReports( pprint: record )
+        storage.delegate?.tidyReports(pprint: record)
 
-    }) else { tidyRelease( tdoc ); return nil }
-    
+    }) else { tidyRelease(tdoc); return nil }
+
     return tdoc
 }
 
@@ -420,11 +420,11 @@ public func tidyCreate() -> TidyDoc? {
  */
 
 
-public func tidyRelease( _ tdoc: TidyDoc ) {
-    
+public func tidyRelease(_ tdoc: TidyDoc) {
+
     /* Release our auxilliary structure. */
     if let ptr = CLibTidy.tidyGetAppData(tdoc) {
-        
+
         /* Decreasing the retain count should cause it to release everything
          * it holds, and to deallocate.
          */
@@ -433,7 +433,7 @@ public func tidyRelease( _ tdoc: TidyDoc ) {
             .takeRetainedValue()
     }
 
-    CLibTidy.tidyRelease( tdoc )
+    CLibTidy.tidyRelease(tdoc)
 }
 
 
@@ -454,11 +454,11 @@ public func tidyRelease( _ tdoc: TidyDoc ) {
  *    - tdoc: The `TidyDoc` for which you are setting the reference.
  *    - appData: A reference to self.
  */
-public func tidySetAppData( _ tdoc: TidyDoc, _ appData: AnyObject ) {
-    
+public func tidySetAppData(_ tdoc: TidyDoc, _ appData: AnyObject) {
+
     /* Turn our opaque reference to an ApplicationData into a real instance. */
     guard let ptrStorage = CLibTidy.tidyGetAppData(tdoc) else { return }
-    
+
     let storage: ApplicationData = Unmanaged<ApplicationData>
         .fromOpaque(ptrStorage)
         .takeUnretainedValue()
@@ -475,15 +475,15 @@ public func tidySetAppData( _ tdoc: TidyDoc, _ appData: AnyObject ) {
  *  - returns:
  *      The reference to the object previously stored.
  */
-public func tidyGetAppData( _ tdoc: TidyDoc ) -> AnyObject? {
-    
+public func tidyGetAppData(_ tdoc: TidyDoc) -> AnyObject? {
+
     // Let's turn our opaque reference to an ApplicationData into an instance.
     guard let ptrStorage = CLibTidy.tidyGetAppData(tdoc) else { return nil }
-    
+
     let storage: ApplicationData = Unmanaged<ApplicationData>
         .fromOpaque(ptrStorage)
         .takeUnretainedValue()
-    
+
     return storage.appData
 }
 
@@ -500,8 +500,8 @@ public func tidyGetAppData( _ tdoc: TidyDoc ) -> AnyObject? {
  *      The string representing the release date.
  */
 public func tidyReleaseDate() -> String {
-    
-    return String( cString: CLibTidy.tidyReleaseDate() )
+
+    String(cString: CLibTidy.tidyReleaseDate())
 }
 
 
@@ -512,8 +512,8 @@ public func tidyReleaseDate() -> String {
  *      The string representing the version number.
  */
 public func tidyLibraryVersion() -> String {
-    
-    return String( cString: CLibTidy.tidyLibraryVersion() )
+
+    String(cString: CLibTidy.tidyLibraryVersion())
 }
 
 
@@ -528,7 +528,7 @@ public func tidyPlatform() -> String {
 
     guard let platform = CLibTidy.tidyPlatform() else { return "" }
 
-    return String( cString: platform )
+    return String(cString: platform)
 }
 
 
@@ -547,9 +547,9 @@ public func tidyPlatform() -> String {
  *      docment, `1` indicating warnings, and `0` in the case of everything
  *      being okay.
  */
-public func tidyStatus( _ tdoc: TidyDoc ) -> Int {
-    
-    return Int(CLibTidy.tidyStatus( tdoc ))
+public func tidyStatus(_ tdoc: TidyDoc) -> Int {
+
+    Int(CLibTidy.tidyStatus(tdoc))
 }
 
 
@@ -562,9 +562,9 @@ public func tidyStatus( _ tdoc: TidyDoc ) -> Int {
  *  - returns:
  *      Returns the HTML version number (x100).
  */
-public func tidyDetectedHtmlVersion( _ tdoc: TidyDoc ) -> Int {
-    
-    return Int(CLibTidy.tidyDetectedHtmlVersion( tdoc ))
+public func tidyDetectedHtmlVersion(_ tdoc: TidyDoc) -> Int {
+
+    Int(CLibTidy.tidyDetectedHtmlVersion(tdoc))
 }
 
 
@@ -576,9 +576,9 @@ public func tidyDetectedHtmlVersion( _ tdoc: TidyDoc ) -> Int {
  *  - returns:
  *      Returns `true` if the document is an XHTML type.
  */
-public func tidyDetectedXhtml( _ tdoc: TidyDoc ) -> Swift.Bool {
+public func tidyDetectedXhtml(_ tdoc: TidyDoc) -> Swift.Bool {
 
-    return CLibTidy.tidyDetectedXhtml( tdoc ) == yes ? true : false
+    CLibTidy.tidyDetectedXhtml(tdoc) == yes ? true : false
 }
 
 
@@ -592,9 +592,9 @@ public func tidyDetectedXhtml( _ tdoc: TidyDoc ) -> Swift.Bool {
  *  - returns:
  *      Returns `true` if the input document was XML.
  */
-public func tidyDetectedGenericXml( _ tdoc: TidyDoc ) -> Swift.Bool {
-    
-    return CLibTidy.tidyDetectedGenericXml( tdoc ) == yes ? true : false
+public func tidyDetectedGenericXml(_ tdoc: TidyDoc) -> Swift.Bool {
+
+    CLibTidy.tidyDetectedGenericXml(tdoc) == yes ? true : false
 }
 
 
@@ -607,9 +607,9 @@ public func tidyDetectedGenericXml( _ tdoc: TidyDoc ) -> Swift.Bool {
  *  - returns:
  *      Returns the number of `TidyError` messages that were generated.
  */
-public func tidyErrorCount( _ tdoc: TidyDoc ) -> UInt {
-    
-    return UInt(CLibTidy.tidyErrorCount( tdoc ))
+public func tidyErrorCount(_ tdoc: TidyDoc) -> UInt {
+
+    UInt(CLibTidy.tidyErrorCount(tdoc))
 }
 
 
@@ -621,9 +621,9 @@ public func tidyErrorCount( _ tdoc: TidyDoc ) -> UInt {
  *  - returns:
  *      Returns the number of `TidyWarning` messages that were generated.
  */
-public func tidyWarningCount( _ tdoc: TidyDoc ) -> UInt {
-    
-    return UInt(CLibTidy.tidyWarningCount( tdoc ))
+public func tidyWarningCount(_ tdoc: TidyDoc) -> UInt {
+
+    UInt(CLibTidy.tidyWarningCount(tdoc))
 }
 
 
@@ -635,9 +635,9 @@ public func tidyWarningCount( _ tdoc: TidyDoc ) -> UInt {
  *  - returns:
  *      Returns the number of `TidyAccess` messages that were generated.
  */
-public func tidyAccessWarningCount( _ tdoc: TidyDoc ) -> UInt {
-    
-    return UInt(CLibTidy.tidyAccessWarningCount( tdoc ))
+public func tidyAccessWarningCount(_ tdoc: TidyDoc) -> UInt {
+
+    UInt(CLibTidy.tidyAccessWarningCount(tdoc))
 }
 
 
@@ -649,9 +649,9 @@ public func tidyAccessWarningCount( _ tdoc: TidyDoc ) -> UInt {
  *  - returns:
  *      Returns the number of configuration error messages that were generated.
  */
-public func tidyConfigErrorCount( _ tdoc: TidyDoc ) -> UInt {
-    
-    return UInt(CLibTidy.tidyConfigErrorCount( tdoc ))
+public func tidyConfigErrorCount(_ tdoc: TidyDoc) -> UInt {
+
+    UInt(CLibTidy.tidyConfigErrorCount(tdoc))
 }
 
 
@@ -661,9 +661,9 @@ public func tidyConfigErrorCount( _ tdoc: TidyDoc ) -> UInt {
  *  - parameters:
  *    - tdoc: An instance of a `TidyDoc` to query.
  */
-public func tidyErrorSummary( _ tdoc: TidyDoc ) {
-    
-    CLibTidy.tidyErrorSummary( tdoc )
+public func tidyErrorSummary(_ tdoc: TidyDoc) {
+
+    CLibTidy.tidyErrorSummary(tdoc)
 }
 
 
@@ -673,9 +673,9 @@ public func tidyErrorSummary( _ tdoc: TidyDoc ) {
  *  - parameters:
  *    - tdoc: An instance of a `TidyDoc` to query.
  */
-public func tidyGeneralInfo( _ tdoc: TidyDoc ) {
-    
-    CLibTidy.tidyGeneralInfo( tdoc )
+public func tidyGeneralInfo(_ tdoc: TidyDoc) {
+
+    CLibTidy.tidyGeneralInfo(tdoc)
 }
 
 
@@ -683,7 +683,7 @@ public func tidyGeneralInfo( _ tdoc: TidyDoc ) {
 // MARK: - Configuration, File, and Encoding Operations
 //*****************************************************************************
 
-    
+
 //-----------------------------------------------------------------------------
 // MARK: File Operations
 //-----------------------------------------------------------------------------
@@ -699,13 +699,13 @@ public func tidyGeneralInfo( _ tdoc: TidyDoc ) {
  *  - returns:
  *      Returns `0` upon success, or any other value if there was an error.
  */
-public func tidyLoadConfig( _ tdoc: TidyDoc, _ configFile: String ) -> Int {
-    
-    return Int( CLibTidy.tidyLoadConfig( tdoc, configFile ) )
+public func tidyLoadConfig(_ tdoc: TidyDoc, _ configFile: String) -> Int {
+
+    Int(CLibTidy.tidyLoadConfig(tdoc, configFile))
 }
 
 
-/** 
+/**
  *  Load a Tidy configuration file with the specified character encoding, and
  *  set the configuration per its contents.
  *
@@ -716,9 +716,9 @@ public func tidyLoadConfig( _ tdoc: TidyDoc, _ configFile: String ) -> Int {
  *  - returns:
  *      Returns `0` upon success, or any other value if there was an error.
  */
-public func tidyLoadConfigEnc( _ tdoc: TidyDoc, _ configFile: String, _ charenc: String ) -> Int {
-    
-    return Int( CLibTidy.tidyLoadConfigEnc( tdoc, configFile, charenc ) )
+public func tidyLoadConfigEnc(_ tdoc: TidyDoc, _ configFile: String, _ charenc: String) -> Int {
+
+    Int(CLibTidy.tidyLoadConfigEnc(tdoc, configFile, charenc))
 }
 
 
@@ -732,9 +732,9 @@ public func tidyLoadConfigEnc( _ tdoc: TidyDoc, _ configFile: String, _ charenc:
  *  - returns:
  *      Returns `true` or `false`, indicating whether or not the file exists.
  */
-public func tidyFileExists( _ tdoc: TidyDoc, _ filename: String ) -> Swift.Bool {
-    
-    return CLibTidy.tidyFileExists( tdoc, filename ) == yes ? true : false
+public func tidyFileExists(_ tdoc: TidyDoc, _ filename: String) -> Swift.Bool {
+
+    CLibTidy.tidyFileExists(tdoc, filename) == yes ? true : false
 }
 
 
@@ -743,7 +743,7 @@ public func tidyFileExists( _ tdoc: TidyDoc, _ filename: String ) -> Swift.Bool 
 //-----------------------------------------------------------------------------
 
 
-/** 
+/**
  *  Set the input/output character encoding for parsing markup. Valid values
  *  include `ascii`, `latin1`, `raw`, `utf8`, `iso2022`, `mac`, `win1252`,
  *  `utf16le`, `utf16be`, `utf16`, `big5`, and `shiftjis`. These values are not
@@ -759,9 +759,9 @@ public func tidyFileExists( _ tdoc: TidyDoc, _ filename: String ) -> Swift.Bool 
  *  - returns:
  *      Returns `0` upon success, or a system standard error number `EINVAL`.
  */
-public func tidySetCharEncoding( _ tdoc: TidyDoc, _ encnam: String ) -> Int {
-    
-    return Int( CLibTidy.tidySetCharEncoding( tdoc, encnam ) )
+public func tidySetCharEncoding(_ tdoc: TidyDoc, _ encnam: String) -> Int {
+
+    Int(CLibTidy.tidySetCharEncoding(tdoc, encnam))
 }
 
 
@@ -776,9 +776,9 @@ public func tidySetCharEncoding( _ tdoc: TidyDoc, _ encnam: String ) -> Int {
  *  - returns:
  *      Returns `0` upon success, or a system standard error number `EINVAL`.
  */
-public func tidySetInCharEncoding( _ tdoc: TidyDoc, _ encnam: String ) -> Int {
-    
-    return Int( CLibTidy.tidySetInCharEncoding( tdoc, encnam ) )
+public func tidySetInCharEncoding(_ tdoc: TidyDoc, _ encnam: String) -> Int {
+
+    Int(CLibTidy.tidySetInCharEncoding(tdoc, encnam))
 }
 
 
@@ -796,18 +796,18 @@ public func tidySetInCharEncoding( _ tdoc: TidyDoc, _ encnam: String ) -> Int {
  *  - returns:
  *      Returns `0` upon success, or a system standard error number `EINVAL`.
  */
-public func tidySetOutCharEncoding( _ tdoc: TidyDoc, _ encnam: String ) -> Int {
-    
-    return Int( CLibTidy.tidySetOutCharEncoding( tdoc, encnam ) )
+public func tidySetOutCharEncoding(_ tdoc: TidyDoc, _ encnam: String) -> Int {
+
+    Int(CLibTidy.tidySetOutCharEncoding(tdoc, encnam))
 }
 
- 
+
 //-----------------------------------------------------------------------------
 // MARK: Configuration Callback Functions
 //-----------------------------------------------------------------------------
 
 
-/** 
+/**
  *  This typealias represents the required signature for your provided callback
  *  function should you wish to register one with `tidySetConfigCallback()`. Your
  *  callback function will be provided with the following parameters.
@@ -823,7 +823,7 @@ public func tidySetOutCharEncoding( _ tdoc: TidyDoc, _ encnam: String ) -> Int {
  *      option, or `false` if it does not. In the latter case, Tidy will issue an
  *      error indicating the unknown configuration option.
  */
-public typealias TidyConfigCallback = ( _ report: SwLibTidyConfigReportProtocol ) -> Swift.Bool
+public typealias TidyConfigCallback = (_ report: SwLibTidyConfigReportProtocol) -> Swift.Bool
 
 
 /**
@@ -843,17 +843,17 @@ public typealias TidyConfigCallback = ( _ report: SwLibTidyConfigReportProtocol 
  *  - returns:
  *      Returns `true` upon success.
  */
-public func tidySetConfigCallback( _ tdoc: TidyDoc, _ swiftCallback: @escaping TidyConfigCallback ) -> Swift.Bool {
-    
+public func tidySetConfigCallback(_ tdoc: TidyDoc, _ swiftCallback: @escaping TidyConfigCallback) -> Swift.Bool {
+
     /* Let's turn our opaque reference to an ApplicationData into an instance. */
     guard let ptrStorage = CLibTidy.tidyGetAppData(tdoc) else { return false }
-    
+
     let storage: ApplicationData = Unmanaged<ApplicationData>
         .fromOpaque(ptrStorage)
         .takeUnretainedValue()
-    
-    storage.configCallback = swiftCallback;
-    
+
+    storage.configCallback = swiftCallback
+
     return true
 }
 
@@ -867,7 +867,7 @@ public func tidySetConfigCallback( _ tdoc: TidyDoc, _ swiftCallback: @escaping T
  *    - tdoc: The document instance for which the callback was invoked.
  *    - option: The option that will be changed.
  */
-public typealias TidyConfigChangeCallback = ( _ tdoc: TidyDoc, _ option: TidyOption ) -> Void
+public typealias TidyConfigChangeCallback = (_ tdoc: TidyDoc, _ option: TidyOption) -> Void
 
 
 /**
@@ -886,7 +886,7 @@ public typealias TidyConfigChangeCallback = ( _ tdoc: TidyDoc, _ option: TidyOpt
  *  - returns:
  *      Returns true upon success setting the callback.
  */
-public func tidySetConfigChangeCallback( _ tdoc: TidyDoc, _ swiftCallback: @escaping TidyConfigChangeCallback ) -> Swift.Bool {
+public func tidySetConfigChangeCallback(_ tdoc: TidyDoc, _ swiftCallback: @escaping TidyConfigChangeCallback) -> Swift.Bool {
 
     // Let's turn our opaque reference to an ApplicationData into an instance.
     guard let ptrStorage = CLibTidy.tidyGetAppData(tdoc) else { return false }
@@ -895,7 +895,7 @@ public func tidySetConfigChangeCallback( _ tdoc: TidyDoc, _ swiftCallback: @esca
         .fromOpaque(ptrStorage)
         .takeUnretainedValue()
 
-    storage.configChangeCallback = swiftCallback;
+    storage.configChangeCallback = swiftCallback
 
     return true
 }
@@ -914,9 +914,9 @@ public func tidySetConfigChangeCallback( _ tdoc: TidyDoc, _ swiftCallback: @esca
  *  - returns:
  *      The `TidyOptionId` of the given option.
  */
-public func tidyOptGetId( _ opt: TidyOption ) -> TidyOptionId? {
+public func tidyOptGetId(_ opt: TidyOption) -> TidyOptionId? {
 
-    let optId = CLibTidy.tidyOptGetId( opt )
+    let optId = CLibTidy.tidyOptGetId(opt)
 
     return optId == N_TIDY_OPTIONS ? nil : optId
 }
@@ -931,9 +931,9 @@ public func tidyOptGetId( _ opt: TidyOption ) -> TidyOptionId? {
  *  - returns:
  *      The `TidyOptionId` of the given `optname`.
  */
-public func tidyOptGetIdForName( _ optnam: String) -> TidyOptionId? {
+public func tidyOptGetIdForName(_ optnam: String) -> TidyOptionId? {
 
-    let optId = CLibTidy.tidyOptGetIdForName( optnam )
+    let optId = CLibTidy.tidyOptGetIdForName(optnam)
 
     return optId == N_TIDY_OPTIONS ? nil : optId
 }
@@ -958,21 +958,21 @@ public func tidyOptGetIdForName( _ optnam: String) -> TidyOptionId? {
  *  - returns:
  *      Returns an array of `TidyOption` opaque tokens.
  */
-public func tidyGetOptionList( _ tdoc: TidyDoc ) -> [TidyOption] {
-    
-    var it: TidyIterator? = CLibTidy.tidyGetOptionList( tdoc )
-    
+public func tidyGetOptionList(_ tdoc: TidyDoc) -> [TidyOption] {
+
+    var it: TidyIterator? = CLibTidy.tidyGetOptionList(tdoc)
+
     var result: [TidyOption] = []
-    
-    while ( it != nil ) {
-        
+
+    while it != nil {
+
         if let opt = CLibTidy.tidyGetNextOption(tdoc, &it) {
-            if ( tidyOptGetCategory( opt ) != TidyInternalCategory ) {
+            if tidyOptGetCategory(opt) != TidyInternalCategory {
                 result.append(opt)
             }
         }
     }
-    
+
     return result
 }
 
@@ -986,17 +986,17 @@ public func tidyGetOptionList( _ tdoc: TidyDoc ) -> [TidyOption] {
  *  - returns:
  *      An instance of `TidyOption` matching the provided `TidyOptionId`.
  */
-public func tidyGetOption( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> TidyOption? {
+public func tidyGetOption(_ tdoc: TidyDoc, _ optId: TidyOptionId) -> TidyOption? {
 
     /* CLibTidy can return garbage on this call, so check it ourselves. */
     if optId.rawValue <= TidyUnknownOption.rawValue || optId.rawValue >= N_TIDY_OPTIONS.rawValue {
-        return nil;
+        return nil
     }
 
-    return CLibTidy.tidyGetOption( tdoc, optId )
+    return CLibTidy.tidyGetOption(tdoc, optId)
 }
 
- 
+
 /**
  *  Returns an instance of `TidyOption` by providing the name of a Tidy
  *  configuration option.
@@ -1007,9 +1007,9 @@ public func tidyGetOption( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> TidyOptio
  *  - returns:
  *      The `TidyOption` of the given `optname`.
  */
-public func tidyGetOptionByName( _ tdoc: TidyDoc, _ optnam: String ) -> TidyOption? {
+public func tidyGetOptionByName(_ tdoc: TidyDoc, _ optnam: String) -> TidyOption? {
 
-    return CLibTidy.tidyGetOptionByName( tdoc, optnam )
+    CLibTidy.tidyGetOptionByName(tdoc, optnam)
 }
 
 
@@ -1026,12 +1026,12 @@ public func tidyGetOptionByName( _ tdoc: TidyDoc, _ optnam: String ) -> TidyOpti
  *  - returns:
  *      The name of the given option.
  */
-public func tidyOptGetName( _ opt: TidyOption ) -> String {
- 
-    return String( cString: CLibTidy.tidyOptGetName( opt ) )
+public func tidyOptGetName(_ opt: TidyOption) -> String {
+
+    String(cString: CLibTidy.tidyOptGetName(opt))
 }
 
- 
+
 /**
  *  Get datatype of given option
  *
@@ -1040,9 +1040,9 @@ public func tidyOptGetName( _ opt: TidyOption ) -> String {
  *  - returns:
  *      The `TidyOptionType` of the given option.
  */
-public func tidyOptGetType( _ opt: TidyOption ) -> TidyOptionType {
- 
-    return CLibTidy.tidyOptGetType( opt )
+public func tidyOptGetType(_ opt: TidyOption) -> TidyOptionType {
+
+    CLibTidy.tidyOptGetType(opt)
 }
 
 
@@ -1054,9 +1054,9 @@ public func tidyOptGetType( _ opt: TidyOption ) -> TidyOptionType {
  *  - returns:
  *      Returns true or false indicating whether or not the value is a list.
  */
-public func tidyOptionIsList( _ opt: TidyOption ) -> Swift.Bool {
-    
-    return CLibTidy.tidyOptionIsList( opt ) == yes ? true : false;
+public func tidyOptionIsList(_ opt: TidyOption) -> Swift.Bool {
+
+    CLibTidy.tidyOptionIsList(opt) == yes ? true : false
 }
 
 
@@ -1068,13 +1068,13 @@ public func tidyOptionIsList( _ opt: TidyOption ) -> Swift.Bool {
  *  - returns:
  *      The `TidyConfigCategory` of the specified option.
  */
-public func tidyOptGetCategory( _ opt: TidyOption ) -> TidyConfigCategory {
- 
-    return CLibTidy.tidyOptGetCategory( opt )
+public func tidyOptGetCategory(_ opt: TidyOption) -> TidyConfigCategory {
+
+    CLibTidy.tidyOptGetCategory(opt)
 }
 
- 
-/** 
+
+/**
  *  Get default value of given option as a string
  *
  *  - parameters:
@@ -1082,16 +1082,16 @@ public func tidyOptGetCategory( _ opt: TidyOption ) -> TidyConfigCategory {
  *  - returns:
  *      A string indicating the default value of the specified option.
  */
-public func tidyOptGetDefault( _ opt: TidyOption ) -> String {
+public func tidyOptGetDefault(_ opt: TidyOption) -> String {
 
-    if let result = CLibTidy.tidyOptGetDefault( opt ) {
-        return String( cString: result )
+    if let result = CLibTidy.tidyOptGetDefault(opt) {
+        return String(cString: result)
     }
 
     return ""
 }
 
- 
+
 /**
  *  Get default value of given option as an unsigned integer
  *
@@ -1100,12 +1100,12 @@ public func tidyOptGetDefault( _ opt: TidyOption ) -> String {
  *  - returns:
  *      An unsigned integer indicating the default value of the specified option.
  */
-public func tidyOptGetDefaultInt( _ opt: TidyOption ) -> UInt {
- 
-    return UInt( CLibTidy.tidyOptGetDefaultInt( opt ) )
+public func tidyOptGetDefaultInt(_ opt: TidyOption) -> UInt {
+
+    UInt(CLibTidy.tidyOptGetDefaultInt(opt))
 }
 
- 
+
 /**
  *  Get default value of given option as a Boolean value
  *
@@ -1114,9 +1114,9 @@ public func tidyOptGetDefaultInt( _ opt: TidyOption ) -> UInt {
  *  - returns:
  *      A boolean indicating the default value of the specified option.
  */
-public func tidyOptGetDefaultBool( _ opt: TidyOption ) -> Swift.Bool {
- 
-    return tidyOptGetDefaultBool( opt ) == yes ? true : false
+public func tidyOptGetDefaultBool(_ opt: TidyOption) -> Swift.Bool {
+
+    tidyOptGetDefaultBool(opt) == yes ? true : false
 }
 
 
@@ -1133,19 +1133,19 @@ public func tidyOptGetDefaultBool( _ opt: TidyOption ) -> Swift.Bool {
  *  - returns:
  *      An array of strings with the picklist values, if any.
  */
-public func tidyOptGetPickList( _ opt: TidyOption ) -> [String] {
-    
-    var it: TidyIterator? = CLibTidy.tidyOptGetPickList( opt )
-    
-    var result : [String] = []
-    
-    while ( it != nil ) {
-        
-        if let pick = CLibTidy.tidyOptGetNextPick( opt, &it) {
-            result.append( String( cString:pick ) )
+public func tidyOptGetPickList(_ opt: TidyOption) -> [String] {
+
+    var it: TidyIterator? = CLibTidy.tidyOptGetPickList(opt)
+
+    var result: [String] = []
+
+    while it != nil {
+
+        if let pick = CLibTidy.tidyOptGetNextPick(opt, &it) {
+            result.append(String(cString: pick))
         }
     }
-    
+
     return result
 }
 
@@ -1155,7 +1155,7 @@ public func tidyOptGetPickList( _ opt: TidyOption ) -> [String] {
 //-----------------------------------------------------------------------------
 
 
-/** 
+/**
  *  Get the current value of the `TidyOptionId` for the given document.
  *
  *  - Note: The `optId` *must* have a `TidyOptionType` of `TidyString`.
@@ -1166,16 +1166,16 @@ public func tidyOptGetPickList( _ opt: TidyOption ) -> [String] {
  *  - returns:
  *      The string value of the given optId.
  */
-public func tidyOptGetValue( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> String {
+public func tidyOptGetValue(_ tdoc: TidyDoc, _ optId: TidyOptionId) -> String {
 
-    if let result = CLibTidy.tidyOptGetValue( tdoc, optId ) {
-        return String( cString: result )
+    if let result = CLibTidy.tidyOptGetValue(tdoc, optId) {
+        return String(cString: result)
     }
 
     return ""
 }
 
- 
+
 /**
  *  Set the option value as a string.
  *
@@ -1188,13 +1188,13 @@ public func tidyOptGetValue( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> String 
  *  - returns:
  *      Returns a bool indicating success or failure.
  */
-public func tidyOptSetValue( _ tdoc: TidyDoc, _ optId: TidyOptionId, _ val: String ) -> Swift.Bool {
+public func tidyOptSetValue(_ tdoc: TidyDoc, _ optId: TidyOptionId, _ val: String) -> Swift.Bool {
 
-    return CLibTidy.tidyOptSetValue( tdoc, optId, val ) == yes ? true : false
+    CLibTidy.tidyOptSetValue(tdoc, optId, val) == yes ? true : false
 }
 
- 
-/** 
+
+/**
  *  Set named option value as a string, regardless of the `TidyOptionType`.
  *
  *  - Note: This is good setter if you are unsure of the type.
@@ -1207,13 +1207,13 @@ public func tidyOptSetValue( _ tdoc: TidyDoc, _ optId: TidyOptionId, _ val: Stri
  *  - returns:
  *      Returns a bool indicating success or failure.
  */
-public func tidyOptParseValue( _ tdoc: TidyDoc, _ optnam: String, _ val: String ) -> Swift.Bool {
+public func tidyOptParseValue(_ tdoc: TidyDoc, _ optnam: String, _ val: String) -> Swift.Bool {
 
-    return CLibTidy.tidyOptParseValue( tdoc, optnam, val ) == yes ? true : false
+    CLibTidy.tidyOptParseValue(tdoc, optnam, val) == yes ? true : false
 }
 
- 
-/** 
+
+/**
  *  Get current option value as an integer.
  *
  *  - Note: This function returns an integer value, which in C is compatible with
@@ -1228,12 +1228,12 @@ public func tidyOptParseValue( _ tdoc: TidyDoc, _ optnam: String, _ val: String 
  *  - returns:
  *      Returns the integer value of the specified option.
  */
-public func tidyOptGetInt( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> UInt {
+public func tidyOptGetInt(_ tdoc: TidyDoc, _ optId: TidyOptionId) -> UInt {
 
-    return UInt( CLibTidy.tidyOptGetInt( tdoc, optId) )
+    UInt(CLibTidy.tidyOptGetInt(tdoc, optId))
 }
 
- 
+
 /**
  *  Set option value as an integer.
  *
@@ -1250,13 +1250,13 @@ public func tidyOptGetInt( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> UInt {
  *  - returns:
  *      Returns a bool indicating success or failure.
  */
-public func tidyOptSetInt( _ tdoc: TidyDoc, _ optId: TidyOptionId, _ val: UInt32 ) -> Swift.Bool {
+public func tidyOptSetInt(_ tdoc: TidyDoc, _ optId: TidyOptionId, _ val: UInt32) -> Swift.Bool {
 
-    return CLibTidy.tidyOptSetInt( tdoc, optId, UInt(val) ) == yes ? true : false
+    CLibTidy.tidyOptSetInt(tdoc, optId, UInt(val)) == yes ? true : false
 }
 
- 
-/** 
+
+/**
  *  Get current option value as a Boolean.
  *
  *  - parameters:
@@ -1265,13 +1265,13 @@ public func tidyOptSetInt( _ tdoc: TidyDoc, _ optId: TidyOptionId, _ val: UInt32
  *  - returns:
  *      Returns a bool indicating the value.
  */
-public func tidyOptGetBool( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> Swift.Bool {
- 
-    return CLibTidy.tidyOptGetBool( tdoc, optId ) == yes ? true : false
+public func tidyOptGetBool(_ tdoc: TidyDoc, _ optId: TidyOptionId) -> Swift.Bool {
+
+    CLibTidy.tidyOptGetBool(tdoc, optId) == yes ? true : false
 }
 
- 
-/** 
+
+/**
  *  Set option value as a Boolean.
  *
  *  - parameters:
@@ -1281,12 +1281,12 @@ public func tidyOptGetBool( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> Swift.Bo
  *  - returns:
  *      Returns a bool indicating success or failure.
  */
-public func tidyOptSetBool( _ tdoc: TidyDoc, _ optId: TidyOptionId, _ val: Swift.Bool ) -> Swift.Bool {
- 
-    return CLibTidy.tidyOptSetBool( tdoc, optId, val == true ? yes : no ) == yes ? true : false
+public func tidyOptSetBool(_ tdoc: TidyDoc, _ optId: TidyOptionId, _ val: Swift.Bool) -> Swift.Bool {
+
+    CLibTidy.tidyOptSetBool(tdoc, optId, val == true ? yes : no) == yes ? true : false
 }
 
- 
+
 /**
  *  Reset option to default value by ID.
  *
@@ -1296,12 +1296,12 @@ public func tidyOptSetBool( _ tdoc: TidyDoc, _ optId: TidyOptionId, _ val: Swift
  *  - returns:
  *      Returns a bool indicating success or failure.
  */
-public func tidyOptResetToDefault( _ tdoc: TidyDoc, _ opt: TidyOptionId ) -> Swift.Bool {
+public func tidyOptResetToDefault(_ tdoc: TidyDoc, _ opt: TidyOptionId) -> Swift.Bool {
 
-    return CLibTidy.tidyOptResetToDefault( tdoc, opt ) == yes ? true : false
+    CLibTidy.tidyOptResetToDefault(tdoc, opt) == yes ? true : false
 }
 
- 
+
 /**
  *  Reset all options to their default values.
  *
@@ -1310,12 +1310,12 @@ public func tidyOptResetToDefault( _ tdoc: TidyDoc, _ opt: TidyOptionId ) -> Swi
  *  - returns:
  *      Returns a bool indicating success or failure.
  */
-public func tidyOptResetAllToDefault( _ tdoc: TidyDoc ) -> Swift.Bool {
+public func tidyOptResetAllToDefault(_ tdoc: TidyDoc) -> Swift.Bool {
 
-    return CLibTidy.tidyOptResetAllToDefault( tdoc ) == yes ? true : false
+    CLibTidy.tidyOptResetAllToDefault(tdoc) == yes ? true : false
 }
 
- 
+
 /**
  *  Take a snapshot of current config settings. These settings are stored within
  *  the tidy document. Note, however, that snapshots do not reliably survive the
@@ -1327,12 +1327,12 @@ public func tidyOptResetAllToDefault( _ tdoc: TidyDoc ) -> Swift.Bool {
  *  - returns:
  *      Returns a bool indicating success or failure.
  */
-public func tidyOptSnapshot( _ tdoc: TidyDoc ) -> Swift.Bool {
- 
-    return CLibTidy.tidyOptSnapshot( tdoc ) == yes ? true : false
+public func tidyOptSnapshot(_ tdoc: TidyDoc) -> Swift.Bool {
+
+    CLibTidy.tidyOptSnapshot(tdoc) == yes ? true : false
 }
 
- 
+
 /**
  *  Apply a snapshot of config settings to a document.
  *
@@ -1341,12 +1341,12 @@ public func tidyOptSnapshot( _ tdoc: TidyDoc ) -> Swift.Bool {
  *  - returns:
  *      Returns a bool indicating success or failure.
  */
-public func tidyOptResetToSnapshot( _ tdoc: TidyDoc ) -> Swift.Bool {
- 
-    return CLibTidy.tidyOptResetToSnapshot( tdoc ) == yes ? true : false
+public func tidyOptResetToSnapshot(_ tdoc: TidyDoc) -> Swift.Bool {
+
+    CLibTidy.tidyOptResetToSnapshot(tdoc) == yes ? true : false
 }
 
- 
+
 /**
  *  Any settings different than default?
  *
@@ -1355,12 +1355,12 @@ public func tidyOptResetToSnapshot( _ tdoc: TidyDoc ) -> Swift.Bool {
  *  - returns:
  *      Returns a bool indicating whether or not a difference exists.
  */
-public func tidyOptDiffThanDefault( _ tdoc: TidyDoc ) -> Swift.Bool {
- 
-    return CLibTidy.tidyOptDiffThanDefault( tdoc ) == yes ? true : false
+public func tidyOptDiffThanDefault(_ tdoc: TidyDoc) -> Swift.Bool {
+
+    CLibTidy.tidyOptDiffThanDefault(tdoc) == yes ? true : false
 }
 
- 
+
 /**
  *  Any settings different than snapshot?
  *
@@ -1369,12 +1369,12 @@ public func tidyOptDiffThanDefault( _ tdoc: TidyDoc ) -> Swift.Bool {
  *  - returns:
  *      Returns a bool indicating whether or not a difference exists.
  */
-public func tidyOptDiffThanSnapshot( _ tdoc: TidyDoc ) -> Swift.Bool {
- 
-    return CLibTidy.tidyOptDiffThanSnapshot( tdoc ) == yes ? true : false
+public func tidyOptDiffThanSnapshot(_ tdoc: TidyDoc) -> Swift.Bool {
+
+    CLibTidy.tidyOptDiffThanSnapshot(tdoc) == yes ? true : false
 }
 
- 
+
 /**
  *  Copy current configuration settings from one document to another. Note that
  *  the destination document's existing settings will be stored as that document's
@@ -1387,12 +1387,12 @@ public func tidyOptDiffThanSnapshot( _ tdoc: TidyDoc ) -> Swift.Bool {
  *  - returns:
  *      Returns a bool indicating success or failure.
  */
-public func tidyOptCopyConfig( _ tdocTo: TidyDoc, _ tdocFrom: TidyDoc ) -> Swift.Bool {
- 
-    return CLibTidy.tidyOptCopyConfig( tdocTo, tdocFrom ) == yes ? true : false
+public func tidyOptCopyConfig(_ tdocTo: TidyDoc, _ tdocFrom: TidyDoc) -> Swift.Bool {
+
+    CLibTidy.tidyOptCopyConfig(tdocTo, tdocFrom) == yes ? true : false
 }
 
- 
+
 /**
  *  Get character encoding name. Used with `TidyCharEncoding`,
  *  `TidyOutCharEncoding`, and `TidyInCharEncoding`.
@@ -1403,12 +1403,12 @@ public func tidyOptCopyConfig( _ tdocTo: TidyDoc, _ tdocFrom: TidyDoc ) -> Swift
  *  - returns:
  *      The encoding name as a string for the specified option.
  */
-public func tidyOptGetEncName( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> String {
- 
-    return String( cString: CLibTidy.tidyOptGetEncName( tdoc, optId ) )
+public func tidyOptGetEncName(_ tdoc: TidyDoc, _ optId: TidyOptionId) -> String {
+
+    String(cString: CLibTidy.tidyOptGetEncName(tdoc, optId))
 }
 
- 
+
 /**
  *  Get the current pick list value for the option ID, which can be useful for
  *  enum types.
@@ -1419,9 +1419,9 @@ public func tidyOptGetEncName( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> Strin
  *  - returns:
  *      Returns a string indicating the current value of the given option.
  */
-public func tidyOptGetCurrPick( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> String {
- 
-    return String( cString: CLibTidy.tidyOptGetCurrPick( tdoc, optId ) )
+public func tidyOptGetCurrPick(_ tdoc: TidyDoc, _ optId: TidyOptionId) -> String {
+
+    String(cString: CLibTidy.tidyOptGetCurrPick(tdoc, optId))
 }
 
 
@@ -1444,21 +1444,21 @@ public func tidyOptGetCurrPick( _ tdoc: TidyDoc, _ optId: TidyOptionId ) -> Stri
  *  - returns:
  *      An array of strings with the tag names, if any.
  */
-public func tidyOptGetDeclTagList( _ tdoc: TidyDoc, forOptionId optId: TidyOptionId ) -> [String] {
-    
-    var it: TidyIterator? = CLibTidy.tidyOptGetDeclTagList( tdoc )
-    
-    var result : [String] = []
-    
-    while ( it != nil ) {
-        
-        if let tag = CLibTidy.tidyOptGetNextDeclTag( tdoc, optId, &it) {
-            result.append( String( cString: tag ) )
+public func tidyOptGetDeclTagList(_ tdoc: TidyDoc, forOptionId optId: TidyOptionId) -> [String] {
+
+    var it: TidyIterator? = CLibTidy.tidyOptGetDeclTagList(tdoc)
+
+    var result: [String] = []
+
+    while it != nil {
+
+        if let tag = CLibTidy.tidyOptGetNextDeclTag(tdoc, optId, &it) {
+            result.append(String(cString: tag))
         }
     }
 
     /* The native iterator works backwords, so reverse the result so that
-       the array represents the string order. */
+     * the array represents the string order. */
     return result.reversed()
 }
 
@@ -1476,16 +1476,16 @@ public func tidyOptGetDeclTagList( _ tdoc: TidyDoc, forOptionId optId: TidyOptio
  *  - returns:
  *      An array of strings with the attribute names, if any.
  */
-public func tidyOptGetPriorityAttrList( _ tdoc: TidyDoc ) -> [String] {
+public func tidyOptGetPriorityAttrList(_ tdoc: TidyDoc) -> [String] {
 
-    var it: TidyIterator? = CLibTidy.tidyOptGetPriorityAttrList( tdoc )
+    var it: TidyIterator? = CLibTidy.tidyOptGetPriorityAttrList(tdoc)
 
-    var result : [String] = []
+    var result: [String] = []
 
-    while ( it != nil ) {
+    while it != nil {
 
-        if let attr = CLibTidy.tidyOptGetNextPriorityAttr( tdoc, &it) {
-            result.append( String( cString: attr ) )
+        if let attr = CLibTidy.tidyOptGetNextPriorityAttr(tdoc, &it) {
+            result.append(String(cString: attr))
         }
     }
 
@@ -1505,30 +1505,30 @@ public func tidyOptGetPriorityAttrList( _ tdoc: TidyDoc ) -> [String] {
  *    - tdoc: The `TidyDoc` for which to get user-declared tags.
  *  - returns:
  *      An array of strings with the muted message names, if any.
-*/
-public func tidyOptGetMutedMessageList( _ tdoc: TidyDoc ) -> [String] {
+ */
+public func tidyOptGetMutedMessageList(_ tdoc: TidyDoc) -> [String] {
 
-    var it: TidyIterator? = CLibTidy.tidyOptGetMutedMessageList( tdoc )
+    var it: TidyIterator? = CLibTidy.tidyOptGetMutedMessageList(tdoc)
 
-    var result : [String] = []
+    var result: [String] = []
 
-    while ( it != nil ) {
+    while it != nil {
 
-        if let message = CLibTidy.tidyOptGetNextMutedMessage( tdoc, &it) {
-            result.append( String( cString: message ) )
+        if let message = CLibTidy.tidyOptGetNextMutedMessage(tdoc, &it) {
+            result.append(String(cString: message))
         }
     }
 
     return result
 }
 
- 
+
 //-----------------------------------------------------------------------------
 // MARK: Option Documentation
 //-----------------------------------------------------------------------------
 
 
-/** 
+/**
  *  Get the description of the specified option.
  *
  *  - parameters:
@@ -1537,9 +1537,9 @@ public func tidyOptGetMutedMessageList( _ tdoc: TidyDoc ) -> [String] {
  *  - returns:
  *      Returns a string containing a description of the given option.
  */
-public func tidyOptGetDoc( _ tdoc: TidyDoc, _ opt: TidyOption ) -> String {
-    
-    return String( cString: CLibTidy.tidyOptGetDoc( tdoc, opt ) )
+public func tidyOptGetDoc(_ tdoc: TidyDoc, _ opt: TidyOption) -> String {
+
+    String(cString: CLibTidy.tidyOptGetDoc(tdoc, opt))
 }
 
 
@@ -1557,19 +1557,19 @@ public func tidyOptGetDoc( _ tdoc: TidyDoc, _ opt: TidyOption ) -> String {
  *  - returns:
  *      An array of `TidyOption` instances, if any.
  */
-public func tidyOptGetDocLinksList( _ tdoc: TidyDoc, _ opt: TidyOption ) -> [TidyOption] {
-    
-    var it: TidyIterator? = CLibTidy.tidyOptGetDocLinksList( tdoc, opt )
-    
-    var result : [TidyOption] = []
-    
-    while ( it != nil ) {
-        
-        if let opt = CLibTidy.tidyOptGetNextDocLinks( tdoc, &it) {
-            result.append( opt )
+public func tidyOptGetDocLinksList(_ tdoc: TidyDoc, _ opt: TidyOption) -> [TidyOption] {
+
+    var it: TidyIterator? = CLibTidy.tidyOptGetDocLinksList(tdoc, opt)
+
+    var result: [TidyOption] = []
+
+    while it != nil {
+
+        if let opt = CLibTidy.tidyOptGetNextDocLinks(tdoc, &it) {
+            result.append(opt)
         }
     }
-    
+
     return result
 }
 
@@ -1599,7 +1599,7 @@ public typealias CFilePointer = UnsafeMutablePointer<FILE>
 // MARK: - Emacs-compatible reporting support
 //-----------------------------------------------------------------------------
 
- 
+
 /**
  *  Set the file path to use for reports when `TidyEmacs` is being used. This
  *  function provides a proper interface for using the hidden, internal-only
@@ -1612,12 +1612,12 @@ public typealias CFilePointer = UnsafeMutablePointer<FILE>
  *    - tdoc: The tidy document for which you are setting the `filePath`.
  *    - filePath: The path of the document that should be reported.
  */
-public func tidySetEmacsFile( _ tdoc: TidyDoc, _ filePath: String ) {
+public func tidySetEmacsFile(_ tdoc: TidyDoc, _ filePath: String) {
 
-    CLibTidy.tidySetEmacsFile( tdoc, filePath )
+    CLibTidy.tidySetEmacsFile(tdoc, filePath)
 }
 
-/** 
+/**
  *  Get the file path to use for reports when `TidyEmacs` is being used. This
  *  function provides a proper interface for using the hidden, internal-only
  *  `TidyEmacsFile` configuration option.
@@ -1627,44 +1627,44 @@ public func tidySetEmacsFile( _ tdoc: TidyDoc, _ filePath: String ) {
  *  - returns:
  *      Returns a string indicating the file path.
  */
-public func tidyGetEmacsFile( _ tdoc: TidyDoc ) -> String {
+public func tidyGetEmacsFile(_ tdoc: TidyDoc) -> String {
 
-    return String( cString: CLibTidy.tidyGetEmacsFile( tdoc ) )
+    String(cString: CLibTidy.tidyGetEmacsFile(tdoc))
 }
 
- 
+
 //-----------------------------------------------------------------------------
 // MARK: Error Sink
 //-----------------------------------------------------------------------------
 
 
-/** 
- Set error sink to named file.
+/**
+ *  Set error sink to named file.
+ *
+ *  - parameters:
+ *    - tdoc: The document to set.
+ *    - errfilname: The file path to send output.
+ *  - returns:
+ *      Returns a file handle.
+ */
+@discardableResult public func tidySetErrorFile(_ tdoc: TidyDoc, _ errfilnam: String) -> CFilePointer? {
 
- - parameters:
-   - tdoc: The document to set.
-   - errfilname: The file path to send output.
- - returns: 
-     Returns a file handle.
-*/
-@discardableResult public func tidySetErrorFile( _ tdoc: TidyDoc, _ errfilnam: String ) -> CFilePointer? {
- 
-    return CLibTidy.tidySetErrorFile( tdoc, errfilnam )
+    CLibTidy.tidySetErrorFile(tdoc, errfilnam)
 }
 
 
 /**
- Set error sink to given buffer.
- 
- - parameters:
-   - tdoc: The document to set.
-   - errbuf: An instance of TidyBuffer to provide output.
- - returns:
-     Returns 0 upon success or a standard error number.
-*/
-public func tidySetErrorBuffer( _ tdoc: TidyDoc, errbuf: SwLibTidyBufferProtocol ) -> Int {
+ *  Set error sink to given buffer.
+ *
+ *  - parameters:
+ *    - tdoc: The document to set.
+ *    - errbuf: An instance of TidyBuffer to provide output.
+ *  - returns:
+ *      Returns 0 upon success or a standard error number.
+ */
+public func tidySetErrorBuffer(_ tdoc: TidyDoc, errbuf: SwLibTidyBufferProtocol) -> Int {
 
-    return Int( CLibTidy.tidySetErrorBuffer( tdoc, errbuf.tidyBuffer) )
+    Int(CLibTidy.tidySetErrorBuffer(tdoc, errbuf.tidyBuffer))
 }
 
 
@@ -1687,10 +1687,10 @@ public func tidySetErrorBuffer( _ tdoc: TidyDoc, errbuf: SwLibTidyBufferProtocol
  *  - returns: Your callback function will return `true` if Tidy should include the
  *      report in its own output sink, or `false` if Tidy should suppress it.
  */
-public typealias TidyMessageCallback = ( _ record: SwLibTidyMessageProtocol ) -> Swift.Bool
+public typealias TidyMessageCallback = (_ record: SwLibTidyMessageProtocol) -> Swift.Bool
 
- 
-/** 
+
+/**
  *  This function informs Tidy to use the specified callback to send reports.
  *
  *  # See also:
@@ -1704,17 +1704,17 @@ public typealias TidyMessageCallback = ( _ record: SwLibTidyMessageProtocol ) ->
  *  - returns:
  *      A boolean indicating success or failure setting the callback.
  */
-public func tidySetMessageCallback( _ tdoc: TidyDoc, _ swiftCallback: @escaping TidyMessageCallback ) -> Swift.Bool {
+public func tidySetMessageCallback(_ tdoc: TidyDoc, _ swiftCallback: @escaping TidyMessageCallback) -> Swift.Bool {
 
     // Let's turn our opaque reference to an ApplicationData into an instance.
     guard let ptrStorage = CLibTidy.tidyGetAppData(tdoc) else { return false }
-    
+
     let storage: ApplicationData = Unmanaged<ApplicationData>
         .fromOpaque(ptrStorage)
         .takeUnretainedValue()
-    
-    storage.messageCallback = swiftCallback;
-    
+
+    storage.messageCallback = swiftCallback
+
     return true
 }
 
@@ -1740,7 +1740,7 @@ public func tidySetMessageCallback( _ tdoc: TidyDoc, _ swiftCallback: @escaping 
  *      report in its own output sink, or `false` if Tidy should suppress it.
  */
 
-public typealias TidyPPProgress = ( _ report: SwLibTidyPPProgressProtocol ) -> Void
+public typealias TidyPPProgress = (_ report: SwLibTidyPPProgressProtocol) -> Void
 
 
 /**
@@ -1757,16 +1757,16 @@ public typealias TidyPPProgress = ( _ report: SwLibTidyPPProgressProtocol ) -> V
  *  - returns:
  *      True or false indicating the success or failure of setting the callback.
  */
-public func tidySetPrettyPrinterCallback( _ tdoc: TidyDoc, _ callback: @escaping TidyPPProgress ) -> Swift.Bool {
-    
+public func tidySetPrettyPrinterCallback(_ tdoc: TidyDoc, _ callback: @escaping TidyPPProgress) -> Swift.Bool {
+
     // Let's turn our opaque reference to an ApplicationData into an instance.
     guard let ptrStorage = CLibTidy.tidyGetAppData(tdoc) else { return false }
-    
+
     let storage: ApplicationData = Unmanaged<ApplicationData>
         .fromOpaque(ptrStorage)
         .takeUnretainedValue()
-    
-    storage.ppCallback = callback;
+
+    storage.ppCallback = callback
 
     return true
 }
@@ -1791,12 +1791,12 @@ public func tidySetPrettyPrinterCallback( _ tdoc: TidyDoc, _ callback: @escaping
  *      document, `1` indicating warnings, and `0` in the case of everything being
  *      okay.
  */
-public func tidyParseFile( _ tdoc: TidyDoc, _ filename: String ) -> Int {
+public func tidyParseFile(_ tdoc: TidyDoc, _ filename: String) -> Int {
 
-        return Int( CLibTidy.tidyParseFile( tdoc, filename ) )
+    Int(CLibTidy.tidyParseFile(tdoc, filename))
 }
 
- 
+
 /**
  *  Parse markup from the standard input.
  *
@@ -1807,9 +1807,9 @@ public func tidyParseFile( _ tdoc: TidyDoc, _ filename: String ) -> Int {
  *      docment, `1` indicating warnings, and `0` in the case of everything being
  *      okay.
  */
-public func tidyParseStdin( _ tdoc: TidyDoc ) -> Int {
-    
-    return Int( CLibTidy.tidyParseStdin( tdoc ) )
+public func tidyParseStdin(_ tdoc: TidyDoc) -> Int {
+
+    Int(CLibTidy.tidyParseStdin(tdoc))
 }
 
 
@@ -1819,9 +1819,9 @@ public func tidyParseStdin( _ tdoc: TidyDoc ) -> Int {
  *      the docment, `1` indicating warnings, and `0` in the case of
  *      everything being okay.
  */
-public func tidyParseString( _ tdoc: TidyDoc, _ content: String ) -> Int {
-    
-    return Int( CLibTidy.tidyParseString( tdoc, content ) )
+public func tidyParseString(_ tdoc: TidyDoc, _ content: String) -> Int {
+
+    Int(CLibTidy.tidyParseString(tdoc, content))
 }
 
 
@@ -1832,7 +1832,7 @@ public func tidyParseString( _ tdoc: TidyDoc, _ content: String ) -> Int {
 //  repair, get additional diagnostics, and determine the document type.
 //*****************************************************************************
 
- 
+
 /**
  *  Execute configured cleanup and repair operations on parsed markup.
  *
@@ -1841,12 +1841,12 @@ public func tidyParseString( _ tdoc: TidyDoc, _ content: String ) -> Int {
  *  - returns:
  *      An integer representing the status.
  */
-public func tidyCleanAndRepair( _ tdoc: TidyDoc ) -> Int {
- 
-    return Int( CLibTidy.tidyCleanAndRepair( tdoc ) )
+public func tidyCleanAndRepair(_ tdoc: TidyDoc) -> Int {
+
+    Int(CLibTidy.tidyCleanAndRepair(tdoc))
 }
 
- 
+
 /**
  *  Add additional diagnostics information into the current error output sink.
  *
@@ -1858,12 +1858,12 @@ public func tidyCleanAndRepair( _ tdoc: TidyDoc ) -> Int {
  *  - returns:
  *      An integer representing the status.
  */
-public func tidyRunDiagnostics( _ tdoc: TidyDoc ) -> Int {
- 
-    return Int( CLibTidy.tidyRunDiagnostics( tdoc ) )
+public func tidyRunDiagnostics(_ tdoc: TidyDoc) -> Int {
+
+    Int(CLibTidy.tidyRunDiagnostics(tdoc))
 }
 
- 
+
 /**
  *  Reports the document type into the output sink.
  *
@@ -1872,9 +1872,9 @@ public func tidyRunDiagnostics( _ tdoc: TidyDoc ) -> Int {
  *  - returns:
  *      An integer representing the status.
  */
-public func tidyReportDoctype( _ tdoc: TidyDoc ) -> Int {
- 
-    return Int( CLibTidy.tidyReportDoctype( tdoc ) )
+public func tidyReportDoctype(_ tdoc: TidyDoc) -> Int {
+
+    Int(CLibTidy.tidyReportDoctype(tdoc))
 }
 
 
@@ -1884,8 +1884,8 @@ public func tidyReportDoctype( _ tdoc: TidyDoc ) -> Int {
 //  and string/buffer functions provided for convenience.
 //*****************************************************************************
 
- 
-/** 
+
+/**
  *  Save the tidy document to the named file.
  *
  *  - parameters:
@@ -1894,12 +1894,12 @@ public func tidyReportDoctype( _ tdoc: TidyDoc ) -> Int {
  *  - returns:
  *      An integer representing the status.
  */
-public func tidySaveFile( _ tdoc: TidyDoc, _ filename: String ) -> Int {
- 
-    return Int( CLibTidy.tidySaveFile( tdoc, filename ) )
+public func tidySaveFile(_ tdoc: TidyDoc, _ filename: String) -> Int {
+
+    Int(CLibTidy.tidySaveFile(tdoc, filename))
 }
 
- 
+
 /**
  *  Save the tidy document to standard output (FILE*).
  *
@@ -1908,12 +1908,12 @@ public func tidySaveFile( _ tdoc: TidyDoc, _ filename: String ) -> Int {
  *  - returns:
  *      An integer representing the status.
  */
-public func tidySaveStdout( _ tdoc: TidyDoc ) -> Int {
- 
-    return Int( CLibTidy.tidySaveStdout( tdoc ) )
+public func tidySaveStdout(_ tdoc: TidyDoc) -> Int {
+
+    Int(CLibTidy.tidySaveStdout(tdoc))
 }
- 
- 
+
+
 /**
  *  Save the tidy document to given TidyBuffer object.
  *
@@ -1923,11 +1923,11 @@ public func tidySaveStdout( _ tdoc: TidyDoc ) -> Int {
  *  - returns:
  *      An integer representing the status.
  */
-public func tidySaveBuffer( _ tdoc: TidyDoc, _ buf: SwLibTidyBufferProtocol ) -> Int {
- 
-    return Int( CLibTidy.tidySaveBuffer( tdoc, buf.tidyBuffer ) )
+public func tidySaveBuffer(_ tdoc: TidyDoc, _ buf: SwLibTidyBufferProtocol) -> Int {
+
+    Int(CLibTidy.tidySaveBuffer(tdoc, buf.tidyBuffer))
 }
- 
+
 
 /**
  *  Save current settings to named file. Only writes non-default values.
@@ -1941,9 +1941,9 @@ public func tidySaveBuffer( _ tdoc: TidyDoc, _ buf: SwLibTidyBufferProtocol ) ->
  *  - returns:
  *      An integer representing the status.
  */
-public func tidyOptSaveFile( _ tdoc: TidyDoc, _ cfgfil: String ) -> Int {
- 
-    return Int( CLibTidy.tidyOptSaveFile( tdoc, cfgfil ) )
+public func tidyOptSaveFile(_ tdoc: TidyDoc, _ cfgfil: String) -> Int {
+
+    Int(CLibTidy.tidyOptSaveFile(tdoc, cfgfil))
 }
 
 
@@ -2004,7 +2004,7 @@ public func tidyOptSaveFile( _ tdoc: TidyDoc, _ cfgfil: String ) -> Int {
 //-----------------------------------------------------------------------------
 
 
-/** 
+/**
  *  Get the root node.
  *
  *  - parameters:
@@ -2012,13 +2012,13 @@ public func tidyOptSaveFile( _ tdoc: TidyDoc, _ cfgfil: String ) -> Int {
  *  - returns:
  *      Returns a tidy node.
  */
-public func tidyGetRoot( _ tdoc: TidyDoc ) -> TidyNode? {
+public func tidyGetRoot(_ tdoc: TidyDoc) -> TidyNode? {
 
-    return CLibTidy.tidyGetRoot( tdoc )
+    CLibTidy.tidyGetRoot(tdoc)
 }
 
- 
-/** 
+
+/**
  *  Get the HTML node.
  *
  *  - parameters:
@@ -2026,13 +2026,13 @@ public func tidyGetRoot( _ tdoc: TidyDoc ) -> TidyNode? {
  *  - returns:
  *      Returns a tidy node.
  */
-public func tidyGetHtml( _ tdoc: TidyDoc ) -> TidyNode? {
- 
-    return CLibTidy.tidyGetHtml( tdoc )
+public func tidyGetHtml(_ tdoc: TidyDoc) -> TidyNode? {
+
+    CLibTidy.tidyGetHtml(tdoc)
 }
- 
- 
-/** 
+
+
+/**
  *  Get the HEAD node.
  *
  *  - parameters:
@@ -2040,13 +2040,13 @@ public func tidyGetHtml( _ tdoc: TidyDoc ) -> TidyNode? {
  *  - returns:
  *      Returns a tidy node.
  */
-public func tidyGetHead( _ tdoc: TidyDoc ) -> TidyNode? {
- 
-    return CLibTidy.tidyGetHead( tdoc )
+public func tidyGetHead(_ tdoc: TidyDoc) -> TidyNode? {
+
+    CLibTidy.tidyGetHead(tdoc)
 }
- 
- 
-/** 
+
+
+/**
  *  Get the BODY node.
  *
  *  - parameters:
@@ -2054,9 +2054,9 @@ public func tidyGetHead( _ tdoc: TidyDoc ) -> TidyNode? {
  *  - returns:
  *      Returns a tidy node.
  */
-public func tidyGetBody( _ tdoc: TidyDoc ) -> TidyNode? {
- 
-    return CLibTidy.tidyGetBody( tdoc )
+public func tidyGetBody(_ tdoc: TidyDoc) -> TidyNode? {
+
+    CLibTidy.tidyGetBody(tdoc)
 }
 
 
@@ -2065,7 +2065,7 @@ public func tidyGetBody( _ tdoc: TidyDoc ) -> TidyNode? {
 //-----------------------------------------------------------------------------
 
 
-/** 
+/**
  *  Get the parent of the indicated node.
  *
  *  - parameters:
@@ -2073,13 +2073,13 @@ public func tidyGetBody( _ tdoc: TidyDoc ) -> TidyNode? {
  *  - returns:
  *      Returns a tidy node.
  */
-public func tidyGetParent( _ tnod: TidyNode ) -> TidyNode? {
- 
-    return CLibTidy.tidyGetParent( tnod )
+public func tidyGetParent(_ tnod: TidyNode) -> TidyNode? {
+
+    CLibTidy.tidyGetParent(tnod)
 }
- 
- 
-/** 
+
+
+/**
  *  Get the child of the indicated node.
  *
  *  - parameters:
@@ -2087,12 +2087,12 @@ public func tidyGetParent( _ tnod: TidyNode ) -> TidyNode? {
  *  - returns:
  *      Returns a tidy node.
  */
-public func tidyGetChild( _ tnod: TidyNode ) -> TidyNode? {
- 
-    return CLibTidy.tidyGetChild( tnod )
+public func tidyGetChild(_ tnod: TidyNode) -> TidyNode? {
+
+    CLibTidy.tidyGetChild(tnod)
 }
- 
- 
+
+
 /**
  *  Get the next sibling node.
  *
@@ -2101,12 +2101,12 @@ public func tidyGetChild( _ tnod: TidyNode ) -> TidyNode? {
  *  - returns:
  *      Returns a tidy node.
  */
-public func tidyGetNext( _ tnod: TidyNode ) -> TidyNode? {
- 
-    return CLibTidy.tidyGetNext( tnod )
+public func tidyGetNext(_ tnod: TidyNode) -> TidyNode? {
+
+    CLibTidy.tidyGetNext(tnod)
 }
- 
- 
+
+
 /**
  *  Get the previous sibling node.
  *
@@ -2115,9 +2115,9 @@ public func tidyGetNext( _ tnod: TidyNode ) -> TidyNode? {
  *  - returns:
  *      Returns a tidy node.
  */
-public func tidyGetPrev( _ tnod: TidyNode ) -> TidyNode? {
- 
-    return CLibTidy.tidyGetPrev( tnod )
+public func tidyGetPrev(_ tnod: TidyNode) -> TidyNode? {
+
+    CLibTidy.tidyGetPrev(tnod)
 }
 
 
@@ -2126,7 +2126,7 @@ public func tidyGetPrev( _ tnod: TidyNode ) -> TidyNode? {
 //-----------------------------------------------------------------------------
 
 
-/** 
+/**
  *  Remove the indicated node.
  *
  *  - parameters:
@@ -2135,9 +2135,9 @@ public func tidyGetPrev( _ tnod: TidyNode ) -> TidyNode? {
  *  - returns:
  *      Returns the next tidy node.
  */
-public func tidyDiscardElement( _ tdoc: TidyDoc, _ tnod: TidyNode ) -> TidyNode? {
- 
-    return CLibTidy.tidyDiscardElement( tdoc, tnod )
+public func tidyDiscardElement(_ tdoc: TidyDoc, _ tnod: TidyNode) -> TidyNode? {
+
+    CLibTidy.tidyDiscardElement(tdoc, tnod)
 }
 
 
@@ -2146,7 +2146,7 @@ public func tidyDiscardElement( _ tdoc: TidyDoc, _ tnod: TidyNode ) -> TidyNode?
 //-----------------------------------------------------------------------------
 
 
-/** 
+/**
  *  Get the first attribute.
  *
  *  - parameters:
@@ -2154,12 +2154,12 @@ public func tidyDiscardElement( _ tdoc: TidyDoc, _ tnod: TidyNode ) -> TidyNode?
  *  - returns:
  *      Returns an instance of TidyAttr.
  */
-public func tidyAttrFirst( _ tnod: TidyNode ) -> TidyAttr? {
- 
-    return CLibTidy.tidyAttrFirst( tnod )
+public func tidyAttrFirst(_ tnod: TidyNode) -> TidyAttr? {
+
+    CLibTidy.tidyAttrFirst(tnod)
 }
 
- 
+
 /**
  *  Get the next attribute.
  *
@@ -2168,12 +2168,12 @@ public func tidyAttrFirst( _ tnod: TidyNode ) -> TidyAttr? {
  *  - returns:
  *      Returns and instance of TidyAttr.
  */
-public func tidyAttrNext( _ tattr: TidyAttr ) -> TidyAttr? {
- 
-    return CLibTidy.tidyAttrNext( tattr )
+public func tidyAttrNext(_ tattr: TidyAttr) -> TidyAttr? {
+
+    CLibTidy.tidyAttrNext(tattr)
 }
 
- 
+
 /**
  *  Get the name of a TidyAttr instance.
  *  - parameters:
@@ -2181,28 +2181,28 @@ public func tidyAttrNext( _ tattr: TidyAttr ) -> TidyAttr? {
  *  - returns:
  *      Returns a string indicating the name of the attribute.
  */
-public func tidyAttrName( _ tattr: TidyAttr ) -> String {
- 
-    return String( cString: CLibTidy.tidyAttrName( tattr ) )
+public func tidyAttrName(_ tattr: TidyAttr) -> String {
+
+    String(cString: CLibTidy.tidyAttrName(tattr))
 }
 
- 
-/** 
+
+/**
  *  Get the value of a TidyAttr instance.
  *
  *  - parameters:
  *    - tattr: The tidy attribute to query.
  *  - returns: Returns a string indicating the value of the attribute.
  */
-public func tidyAttrValue( _ tattr: TidyAttr ) -> String {
+public func tidyAttrValue(_ tattr: TidyAttr) -> String {
 
-	if let result = CLibTidy.tidyAttrValue( tattr ) {
-		return String( cString: result )
-	}
-	return ""
+    if let result = CLibTidy.tidyAttrValue(tattr) {
+        return String(cString: result)
+    }
+    return ""
 }
 
- 
+
 /**
  *  Discard an attribute.
  *
@@ -2211,13 +2211,13 @@ public func tidyAttrValue( _ tattr: TidyAttr ) -> String {
  *    - tnod: The node from which to discard the attribute.
  *    - tattr: The attribute to discard.
  */
-public func tidyAttrDiscard( _ tdoc: TidyDoc, _ tnod: TidyNode, _ tattr: TidyAttr ) -> Void {
-    
-    CLibTidy.tidyAttrDiscard( tdoc, tnod, tattr )
+public func tidyAttrDiscard(_ tdoc: TidyDoc, _ tnod: TidyNode, _ tattr: TidyAttr) {
+
+    CLibTidy.tidyAttrDiscard(tdoc, tnod, tattr)
 }
 
- 
-/** 
+
+/**
  *  Get the attribute ID given a tidy attribute.
  *
  *  - parameters:
@@ -2225,12 +2225,12 @@ public func tidyAttrDiscard( _ tdoc: TidyDoc, _ tnod: TidyNode, _ tattr: TidyAtt
  *  - returns:
  *      Returns the TidyAttrId of the given attribute.
  */
-public func tidyAttrGetId( _ tattr: TidyAttr ) -> TidyAttrId {
- 
-    return CLibTidy.tidyAttrGetId( tattr )
+public func tidyAttrGetId(_ tattr: TidyAttr) -> TidyAttrId {
+
+    CLibTidy.tidyAttrGetId(tattr)
 }
 
- 
+
 /**
  *  Indicates whether or not a given attribute is an event attribute.
  *
@@ -2239,12 +2239,12 @@ public func tidyAttrGetId( _ tattr: TidyAttr ) -> TidyAttrId {
  *  - returns:
  *      Returns a bool indicating whether or not the attribute is an event.
  */
-public func tidyAttrIsEvent( _ tattr: TidyAttr ) -> Swift.Bool {
- 
-    return CLibTidy.tidyAttrIsEvent( tattr ) == yes ? true : false
+public func tidyAttrIsEvent(_ tattr: TidyAttr) -> Swift.Bool {
+
+    CLibTidy.tidyAttrIsEvent(tattr) == yes ? true : false
 }
 
- 
+
 /**
  *  Get an instance of TidyAttr by specifying an attribute ID.
  *
@@ -2254,12 +2254,12 @@ public func tidyAttrIsEvent( _ tattr: TidyAttr ) -> Swift.Bool {
  *  - returns:
  *      Returns a TidyAttr instance.
  */
-public func tidyAttrGetById( _ tnod: TidyNode, _ attId: TidyAttrId ) -> TidyAttr? {
- 
-    return CLibTidy.tidyAttrGetById( tnod, attId )
+public func tidyAttrGetById(_ tnod: TidyNode, _ attId: TidyAttrId) -> TidyAttr? {
+
+    CLibTidy.tidyAttrGetById(tnod, attId)
 }
 
- 
+
 //-----------------------------------------------------------------------------
 // MARK: Additional Node Interrogation
 //-----------------------------------------------------------------------------
@@ -2273,12 +2273,12 @@ public func tidyAttrGetById( _ tnod: TidyNode, _ attId: TidyAttrId ) -> TidyAttr
  *  - returns:
  *      Returns the type of node as TidyNodeType.
  */
-public func tidyNodeGetType( _ tnod: TidyNode ) -> TidyNodeType {
- 
-    return CLibTidy.tidyNodeGetType( tnod )
+public func tidyNodeGetType(_ tnod: TidyNode) -> TidyNodeType {
+
+    CLibTidy.tidyNodeGetType(tnod)
 }
 
- 
+
 /**
  *  Get the name of the node.
  *
@@ -2287,15 +2287,15 @@ public func tidyNodeGetType( _ tnod: TidyNode ) -> TidyNodeType {
  *  - returns:
  *      Returns a string indicating the name of the node.
  */
-public func tidyNodeGetName( _ tnod: TidyNode ) -> String {
+public func tidyNodeGetName(_ tnod: TidyNode) -> String {
 
-    if let result = CLibTidy.tidyNodeGetName( tnod ) {
-        return String( cString: result )
+    if let result = CLibTidy.tidyNodeGetName(tnod) {
+        return String(cString: result)
     }
     return ""
 }
 
- 
+
 /**
  *  Indicates whether or not a node is a text node.
  *
@@ -2304,12 +2304,12 @@ public func tidyNodeGetName( _ tnod: TidyNode ) -> String {
  *  - returns:
  *      Returns a bool indicating whether or not the node is a text node.
  */
-public func tidyNodeIsText( _ tnod: TidyNode ) -> Swift.Bool {
- 
-    return CLibTidy.tidyNodeIsText( tnod ) == yes ? true : false
+public func tidyNodeIsText(_ tnod: TidyNode) -> Swift.Bool {
+
+    CLibTidy.tidyNodeIsText(tnod) == yes ? true : false
 }
 
- 
+
 /**
  *  Indicates whether or not the node is a propriety type.
  *
@@ -2319,12 +2319,12 @@ public func tidyNodeIsText( _ tnod: TidyNode ) -> Swift.Bool {
  *  - returns:
  *      Returns a bool indicating whether or not the node is a proprietary type.
  */
-public func tidyNodeIsProp( _ tdoc: TidyDoc, _ tnod: TidyNode ) -> Swift.Bool {
- 
-    return CLibTidy.tidyNodeIsProp( tdoc, tnod ) == yes ? true : false
+public func tidyNodeIsProp(_ tdoc: TidyDoc, _ tnod: TidyNode) -> Swift.Bool {
+
+    CLibTidy.tidyNodeIsProp(tdoc, tnod) == yes ? true : false
 }
 
- 
+
 /**
  *  Indicates whether or not a node represents an HTML header element, such
  *  as h1, h2, etc.
@@ -2334,12 +2334,12 @@ public func tidyNodeIsProp( _ tdoc: TidyDoc, _ tnod: TidyNode ) -> Swift.Bool {
  *  - returns:
  *      Returns a bool indicating whether or not the node is an HTML header.
  */
-public func tidyNodeIsHeader( _ tnod: TidyNode ) -> Swift.Bool {
- 
-    return CLibTidy.tidyNodeIsHeader( tnod ) == yes ? true : false
+public func tidyNodeIsHeader(_ tnod: TidyNode) -> Swift.Bool {
+
+    CLibTidy.tidyNodeIsHeader(tnod) == yes ? true : false
 }
 
- 
+
 /**
  *  Indicates whether or not the node has text.
  *
@@ -2349,12 +2349,12 @@ public func tidyNodeIsHeader( _ tnod: TidyNode ) -> Swift.Bool {
  *  - returns:
  *      Returns the type of node as TidyNodeType.
  */
-public func tidyNodeHasText( _ tdoc: TidyDoc, _ tnod: TidyNode ) -> Swift.Bool {
- 
-    return CLibTidy.tidyNodeHasText( tdoc, tnod ) == yes ? true : false
+public func tidyNodeHasText(_ tdoc: TidyDoc, _ tnod: TidyNode) -> Swift.Bool {
+
+    CLibTidy.tidyNodeHasText(tdoc, tnod) == yes ? true : false
 }
 
- 
+
 /**
  *  Gets the text of a node and places it into the given TidyBuffer.
  *
@@ -2365,9 +2365,9 @@ public func tidyNodeHasText( _ tdoc: TidyDoc, _ tnod: TidyNode ) -> Swift.Bool {
  *  - returns:
  *      Returns a bool indicating success or not.
  */
-public func tidyNodeGetText( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: SwLibTidyBufferProtocol ) -> Swift.Bool {
- 
-    return CLibTidy.tidyNodeGetText( tdoc, tnod, buf.tidyBuffer ) == yes ? true : false
+public func tidyNodeGetText(_ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: SwLibTidyBufferProtocol) -> Swift.Bool {
+
+    CLibTidy.tidyNodeGetText(tdoc, tnod, buf.tidyBuffer) == yes ? true : false
 }
 
 
@@ -2383,10 +2383,10 @@ public func tidyNodeGetText( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: SwLibTidy
  *  - returns:
  *      Returns a string with the node's text.
  */
-public func tidyNodeGetText( _ tdoc: TidyDoc, _ tnod: TidyNode ) -> String {
+public func tidyNodeGetText(_ tdoc: TidyDoc, _ tnod: TidyNode) -> String {
 
     let buffer = SwLibTidyBuffer()
-    if CLibTidy.tidyNodeGetText( tdoc, tnod, buffer.tidyBuffer ) == yes {
+    if CLibTidy.tidyNodeGetText(tdoc, tnod, buffer.tidyBuffer) == yes {
         if let result = buffer.StringValue() {
             return result
         }
@@ -2394,7 +2394,7 @@ public func tidyNodeGetText( _ tdoc: TidyDoc, _ tnod: TidyNode ) -> String {
     return ""
 }
 
- 
+
 /**
  *  Get the value of the node. This copies the unescaped value of this node into
  *  the given TidyBuffer as UTF-8.
@@ -2406,9 +2406,9 @@ public func tidyNodeGetText( _ tdoc: TidyDoc, _ tnod: TidyNode ) -> String {
  *  - returns:
  *      Returns a bool indicating success or not.
  */
-public func tidyNodeGetValue( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: SwLibTidyBufferProtocol ) -> Swift.Bool {
- 
-    return CLibTidy.tidyNodeGetValue( tdoc, tnod, buf.tidyBuffer ) == yes ? true : false
+public func tidyNodeGetValue(_ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: SwLibTidyBufferProtocol) -> Swift.Bool {
+
+    CLibTidy.tidyNodeGetValue(tdoc, tnod, buf.tidyBuffer) == yes ? true : false
 }
 
 
@@ -2426,10 +2426,10 @@ public func tidyNodeGetValue( _ tdoc: TidyDoc, _ tnod: TidyNode, _ buf: SwLibTid
  *      Returns a string with the node's value, on nil if the node type doesn't
  *      have a value.
  */
-public func tidyNodeGetValue( _ tdoc: TidyDoc, _ tnod: TidyNode ) -> String? {
+public func tidyNodeGetValue(_ tdoc: TidyDoc, _ tnod: TidyNode) -> String? {
 
     let buffer = SwLibTidyBuffer()
-    if CLibTidy.tidyNodeGetValue( tdoc, tnod, buffer.tidyBuffer ) == yes {
+    if CLibTidy.tidyNodeGetValue(tdoc, tnod, buffer.tidyBuffer) == yes {
         if let result = buffer.StringValue() {
             return result
         } else {
@@ -2439,7 +2439,7 @@ public func tidyNodeGetValue( _ tdoc: TidyDoc, _ tnod: TidyNode ) -> String? {
     return nil /* This node can't have a value. */
 }
 
- 
+
 /**
  *  Get the tag ID of the node.
  *
@@ -2448,12 +2448,12 @@ public func tidyNodeGetValue( _ tdoc: TidyDoc, _ tnod: TidyNode ) -> String? {
  *  - returns:
  *      Returns the tag ID of the node as TidyTagId.
  */
-public func tidyNodeGetId( _ tnod: TidyNode ) -> TidyTagId {
- 
-    return CLibTidy.tidyNodeGetId( tnod )
+public func tidyNodeGetId(_ tnod: TidyNode) -> TidyTagId {
+
+    CLibTidy.tidyNodeGetId(tnod)
 }
 
- 
+
 /**
  *  Get the line number where the node occurs.
  *
@@ -2462,12 +2462,12 @@ public func tidyNodeGetId( _ tnod: TidyNode ) -> TidyTagId {
  *  - returns:
  *      Returns the line number.
  */
-public func tidyNodeLine( _ tnod: TidyNode ) -> UInt {
- 
-    return UInt( CLibTidy.tidyNodeLine( tnod ) )
+public func tidyNodeLine(_ tnod: TidyNode) -> UInt {
+
+    UInt(CLibTidy.tidyNodeLine(tnod))
 }
 
- 
+
 /**
  *  Get the column location of the node.
  *
@@ -2476,12 +2476,12 @@ public func tidyNodeLine( _ tnod: TidyNode ) -> UInt {
  *  - returns:
  *      Returns the column location of the node.
  */
-public func tidyNodeColumn( _ tnod: TidyNode ) -> UInt {
- 
-    return UInt( CLibTidy.tidyNodeColumn( tnod ) )
+public func tidyNodeColumn(_ tnod: TidyNode) -> UInt {
+
+    UInt(CLibTidy.tidyNodeColumn(tnod))
 }
 
- 
+
 //*****************************************************************************
 // MARK: - Message Key Management
 //  These functions serve to manage message codes, i.e., codes that are used
@@ -2508,12 +2508,12 @@ public func tidyNodeColumn( _ tnod: TidyNode ) -> UInt {
  *  - returns:
  *      The string representing the error code.
  */
-public func tidyErrorCodeAsKey( _ code: UInt32 ) -> String {
- 
-    return String( cString: CLibTidy.tidyErrorCodeAsKey( uint(code) ) )
+public func tidyErrorCodeAsKey(_ code: UInt32) -> String {
+
+    String(cString: CLibTidy.tidyErrorCodeAsKey(uint(code)))
 }
 
- 
+
 /**
  *  Given a text key representing a message code, return the UInt that
  *  represents it.
@@ -2530,9 +2530,9 @@ public func tidyErrorCodeAsKey( _ code: UInt32 ) -> String {
  *      used to lookup Tidy's built-in strings. If the provided string does
  *      not have a matching message code, then UINT_MAX will be returned.
  */
-public func tidyErrorCodeFromKey( _ code: String ) -> UInt32 {
- 
-    return UInt32( CLibTidy.tidyErrorCodeFromKey( code ) )
+public func tidyErrorCodeFromKey(_ code: String) -> UInt32 {
+
+    UInt32(CLibTidy.tidyErrorCodeFromKey(code))
 }
 
 /**
@@ -2550,15 +2550,15 @@ public func tidyErrorCodeFromKey( _ code: String ) -> UInt32 {
  *      An array of `UInt`, if any.
  */
 public func getErrorCodeList() -> [UInt] {
-    
+
     var it: TidyIterator? = CLibTidy.getErrorCodeList()
-    
-    var result : [UInt] = []
-    
-    while ( it != nil ) {
-        result.append( UInt( CLibTidy.getNextErrorCode( &it ) ) )
+
+    var result: [UInt] = []
+
+    while it != nil {
+        result.append(UInt(CLibTidy.getNextErrorCode(&it)))
     }
-    
+
     return result
 }
 
@@ -2590,12 +2590,12 @@ public func getErrorCodeList() -> [UInt] {
  *      is not true; if `es` is requested but not present, Tidy will not try to
  *      select from the `es_XX` variants.
  */
-public func tidySetLanguage( _ languageCode: String ) -> Swift.Bool {
+public func tidySetLanguage(_ languageCode: String) -> Swift.Bool {
 
-    return CLibTidy.tidySetLanguage( languageCode ) == yes ? true : false
+    CLibTidy.tidySetLanguage(languageCode) == yes ? true : false
 }
 
- 
+
 /**
  *  Gets the current language used by Tidy.
  *
@@ -2604,7 +2604,7 @@ public func tidySetLanguage( _ languageCode: String ) -> Swift.Bool {
  */
 public func tidyGetLanguage() -> String {
 
-    return String( cString: CLibTidy.tidyGetLanguage() )
+    String(cString: CLibTidy.tidyGetLanguage())
 }
 
 
@@ -2622,15 +2622,15 @@ public func tidyGetLanguage() -> String {
  *      relationship may be many to one, in that multiple Windows locale names
  *      refer to the same POSIX mapping.
  */
-public func getWindowsLanguageList() -> [ String : String ] {
+public func getWindowsLanguageList() -> [String: String] {
 
     var it: TidyIterator? = CLibTidy.getWindowsLanguageList()
-    var result = [ String : String ]()
+    var result = [String: String]()
 
-    while ( it != nil ) {
-        if let mapItem = CLibTidy.getNextWindowsLanguage( &it ) {
-            let winName = String( cString: CLibTidy.TidyLangWindowsName( mapItem ) )
-            let nixName = String( cString: CLibTidy.TidyLangPosixName( mapItem ) )
+    while it != nil {
+        if let mapItem = CLibTidy.getNextWindowsLanguage(&it) {
+            let winName = String(cString: CLibTidy.TidyLangWindowsName(mapItem))
+            let nixName = String(cString: CLibTidy.TidyLangPosixName(mapItem))
             result[winName] = nixName
         }
     }
@@ -2644,7 +2644,7 @@ public func getWindowsLanguageList() -> [ String : String ] {
 //-----------------------------------------------------------------------------
 
 
-/** 
+/**
  *  Provides a string given `messageType` in the current localization for
  *  `quantity`. Some strings have one or more plural forms, and this function
  *  will ensure that the correct singular or plural form is returned for the
@@ -2656,13 +2656,13 @@ public func getWindowsLanguageList() -> [ String : String ] {
  *  - returns:
  *      Returns the desired string.
  */
-public func tidyLocalizedStringN( _ messageType: tidyStrings, _ quantity: UInt ) -> String {
+public func tidyLocalizedStringN(_ messageType: tidyStrings, _ quantity: UInt) -> String {
 
     /* The actual method doesn't take this type, but a uint. */
-    return String( cString: CLibTidy.tidyLocalizedStringN( uint(messageType.rawValue), uint(quantity) ) )
+    String(cString: CLibTidy.tidyLocalizedStringN(uint(messageType.rawValue), uint(quantity)))
 }
 
- 
+
 /**
  *  Provides a string given `messageType` in the current localization for the
  *  single case.
@@ -2672,14 +2672,14 @@ public func tidyLocalizedStringN( _ messageType: tidyStrings, _ quantity: UInt )
  *  - returns:
  *      Returns the desired string.
  */
-public func tidyLocalizedString( _ messageType: tidyStrings ) -> String {
+public func tidyLocalizedString(_ messageType: tidyStrings) -> String {
 
     /* The actual method doesn't take this type, but a uint. */
-    return String( cString: CLibTidy.tidyLocalizedString( uint(messageType.rawValue) ) )
+    String(cString: CLibTidy.tidyLocalizedString(uint(messageType.rawValue)))
 }
 
- 
-/** 
+
+/**
  *  Provides a string given `messageType` in the default localization (which
  *  is `en`).
  *
@@ -2688,12 +2688,12 @@ public func tidyLocalizedString( _ messageType: tidyStrings ) -> String {
  *  - returns:
  *      Returns the desired string.
  */
-public func tidyDefaultString( _ messageType: tidyStrings ) -> String {
- 
-    return String( cString: CLibTidy.tidyDefaultString( uint(messageType.rawValue) ) )
+public func tidyDefaultString(_ messageType: tidyStrings) -> String {
+
+    String(cString: CLibTidy.tidyDefaultString(uint(messageType.rawValue)))
 }
 
- 
+
 /**
  *  Returns an array of `UInt`, each of which serves as a key to a CLibTidy string.
  *
@@ -2711,15 +2711,15 @@ public func tidyDefaultString( _ messageType: tidyStrings ) -> String {
  *      Returns an array of `UInt`.
  */
 public func getStringKeyList() -> [UInt] {
-    
+
     var it: TidyIterator? = CLibTidy.getStringKeyList()
-    
-    var result : [UInt] = []
-    
-    while ( it != nil ) {
-        result.append( UInt( CLibTidy.getNextStringKey( &it ) ) )
+
+    var result: [UInt] = []
+
+    while it != nil {
+        result.append(UInt(CLibTidy.getNextStringKey(&it)))
     }
-    
+
     return result
 }
 
@@ -2741,18 +2741,18 @@ public func getStringKeyList() -> [UInt] {
  *      Returns an array of `String`.
  */
 public func getInstalledLanguageList() -> [String] {
-    
+
     var it: TidyIterator? = CLibTidy.getInstalledLanguageList()
-    
-    var result : [String] = []
-    
-    while ( it != nil ) {
-        
-        if let opt = CLibTidy.getNextInstalledLanguage( &it ) {
-            result.append( String( cString: opt ) )
+
+    var result: [String] = []
+
+    while it != nil {
+
+        if let opt = CLibTidy.getNextInstalledLanguage(&it) {
+            result.append(String(cString: opt))
         }
     }
-    
+
     return result
 }
 
@@ -2765,18 +2765,17 @@ public func getInstalledLanguageList() -> [String] {
 /**
  *  Set the delegate for an instance of TidyDoc.
  */
-public func tidySetDelegate( anObject: SwLibTidyDelegateProtocol, forTidyDoc: TidyDoc ) {
+public func tidySetDelegate(anObject: SwLibTidyDelegateProtocol, forTidyDoc: TidyDoc) {
 
     guard
-        let ptrStorage = CLibTidy.tidyGetAppData( forTidyDoc )
-        else { return }
+        let ptrStorage = CLibTidy.tidyGetAppData(forTidyDoc)
+    else { return }
 
     let storage = Unmanaged<ApplicationData>
         .fromOpaque(ptrStorage)
         .takeUnretainedValue()
 
     storage.delegate = anObject
-
 }
 
 /**
@@ -2792,12 +2791,12 @@ public func tidySetDelegate( anObject: SwLibTidyDelegateProtocol, forTidyDoc: Ti
  *      by default, of type TidyConfigReport. You can instruct SwLibTidy to use
  *      a different class via setTidyConfigRecords(toClass:forTidyDoc:).
  */
-public func tidyConfigRecords( forTidyDoc: TidyDoc ) -> [SwLibTidyConfigReportProtocol] {
-    
+public func tidyConfigRecords(forTidyDoc: TidyDoc) -> [SwLibTidyConfigReportProtocol] {
+
     guard
-        let ptrStorage = CLibTidy.tidyGetAppData( forTidyDoc )
+        let ptrStorage = CLibTidy.tidyGetAppData(forTidyDoc)
     else { return [] }
-    
+
     let storage = Unmanaged<ApplicationData>
         .fromOpaque(ptrStorage)
         .takeUnretainedValue()
@@ -2818,11 +2817,11 @@ public func tidyConfigRecords( forTidyDoc: TidyDoc ) -> [SwLibTidyConfigReportPr
  *  - returns:
  *      Returns true or false indicating whether or not the class could be set.
  */
-public func setTidyConfigRecords( toClass: SwLibTidyConfigReportProtocol.Type, forTidyDoc: TidyDoc ) -> Swift.Bool {
+public func setTidyConfigRecords(toClass: SwLibTidyConfigReportProtocol.Type, forTidyDoc: TidyDoc) -> Swift.Bool {
 
     guard
-        let ptrStorage = CLibTidy.tidyGetAppData( forTidyDoc )
-        else { return false }
+        let ptrStorage = CLibTidy.tidyGetAppData(forTidyDoc)
+    else { return false }
 
     let storage = Unmanaged<ApplicationData>
         .fromOpaque(ptrStorage)
@@ -2845,10 +2844,10 @@ public func setTidyConfigRecords( toClass: SwLibTidyConfigReportProtocol.Type, f
  *      default, of type TidyMessageContainer. You can instruct SwLibTidy to use
  *      a different class via setTidyMessageRecords(toClass:forTidyDoc:).
  */
-public func tidyMessageRecords( forTidyDoc: TidyDoc ) -> [SwLibTidyMessageProtocol] {
+public func tidyMessageRecords(forTidyDoc: TidyDoc) -> [SwLibTidyMessageProtocol] {
 
     guard
-        let ptrStorage = CLibTidy.tidyGetAppData( forTidyDoc )
+        let ptrStorage = CLibTidy.tidyGetAppData(forTidyDoc)
     else { return [] }
 
     let storage = Unmanaged<ApplicationData>
@@ -2870,11 +2869,11 @@ public func tidyMessageRecords( forTidyDoc: TidyDoc ) -> [SwLibTidyMessageProtoc
  *  - returns:
  *      Returns true or false indicating whether or not the class could be set.
  */
-public func setTidyMessageRecords( toClass: SwLibTidyMessageProtocol.Type, forTidyDoc: TidyDoc ) -> Swift.Bool {
+public func setTidyMessageRecords(toClass: SwLibTidyMessageProtocol.Type, forTidyDoc: TidyDoc) -> Swift.Bool {
 
     guard
-        let ptrStorage = CLibTidy.tidyGetAppData( forTidyDoc )
-        else { return false }
+        let ptrStorage = CLibTidy.tidyGetAppData(forTidyDoc)
+    else { return false }
 
     let storage = Unmanaged<ApplicationData>
         .fromOpaque(ptrStorage)
@@ -2897,10 +2896,10 @@ public func setTidyMessageRecords( toClass: SwLibTidyMessageProtocol.Type, forTi
  *      default, of type TidyPPProgressReport. You can instruct SwLibTidy to use
  *      a different class via setTidyPPProgressRecords(toClass:forTidyDoc:).
  */
-public func tidyPPProgressRecords( forTidyDoc: TidyDoc ) -> [SwLibTidyPPProgressProtocol] {
+public func tidyPPProgressRecords(forTidyDoc: TidyDoc) -> [SwLibTidyPPProgressProtocol] {
 
     guard
-        let ptrStorage = CLibTidy.tidyGetAppData( forTidyDoc )
+        let ptrStorage = CLibTidy.tidyGetAppData(forTidyDoc)
     else { return [] }
 
     let storage = Unmanaged<ApplicationData>
@@ -2922,11 +2921,11 @@ public func tidyPPProgressRecords( forTidyDoc: TidyDoc ) -> [SwLibTidyPPProgress
  *  - returns:
  *      Returns true or false indicating whether or not the class could be set.
  */
-public func setTidyPPProgressRecords( toClass: SwLibTidyPPProgressProtocol.Type, forTidyDoc: TidyDoc ) -> Swift.Bool {
+public func setTidyPPProgressRecords(toClass: SwLibTidyPPProgressProtocol.Type, forTidyDoc: TidyDoc) -> Swift.Bool {
 
     guard
-        let ptrStorage = CLibTidy.tidyGetAppData( forTidyDoc )
-        else { return false }
+        let ptrStorage = CLibTidy.tidyGetAppData(forTidyDoc)
+    else { return false }
 
     let storage = Unmanaged<ApplicationData>
         .fromOpaque(ptrStorage)

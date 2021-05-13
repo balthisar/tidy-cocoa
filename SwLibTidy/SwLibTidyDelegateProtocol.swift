@@ -37,7 +37,7 @@ public protocol SwLibTidyDelegateProtocol {
      *      Your delegate should return `true` if it successfully handled the
      *      unknown option; return `false` to let Tidy output an error message.
      */
-    func tidyReports( unknownOption: SwLibTidyConfigReportProtocol ) -> Bool
+    func tidyReports(unknownOption: SwLibTidyConfigReportProtocol) -> Bool
 
     /**
      *  This delegate method is called whenever an option value is changed.
@@ -46,7 +46,7 @@ public protocol SwLibTidyDelegateProtocol {
      *    - optionChanged: The option that was changed.
      *    - forTidyDoc: The `TidyDoc` whose option was changed.
      */
-    func tidyReports( optionChanged: TidyOption, forTidyDoc: TidyDoc )
+    func tidyReports(optionChanged: TidyOption, forTidyDoc: TidyDoc)
 
     /**
      *  This delegate method is called any time Tidy is about to emit a message
@@ -58,7 +58,7 @@ public protocol SwLibTidyDelegateProtocol {
      *      Your delegate should return `false` to indicate that Tidy should not
      *      further process the message itself.
      */
-    func tidyReports( message: SwLibTidyMessageProtocol ) -> Bool
+    func tidyReports(message: SwLibTidyMessageProtocol) -> Bool
 
     /**
      *  This delegate method is called during the pretty printing process in order
@@ -69,7 +69,7 @@ public protocol SwLibTidyDelegateProtocol {
      *    - pprint: An instance of `TidyPProgressProtocol` containing the
      *        progress report.
      */
-    func tidyReports( pprint: SwLibTidyPPProgressProtocol )
+    func tidyReports(pprint: SwLibTidyPPProgressProtocol)
 }
 
 
@@ -79,13 +79,12 @@ public protocol SwLibTidyDelegateProtocol {
 public extension SwLibTidyDelegateProtocol {
 
     /* The default results in CLibTidy handling the unknown option. */
-	func tidyReports( unknownOption: SwLibTidyConfigReportProtocol ) -> Bool { return false }
+    func tidyReports(unknownOption _: SwLibTidyConfigReportProtocol) -> Bool { false }
 
-	func tidyReports( optionChanged: TidyOption, forTidyDoc: TidyDoc ) {}
+    func tidyReports(optionChanged _: TidyOption, forTidyDoc _: TidyDoc) {}
 
     /* The default results in CLibTidy not filtering the message. */
-	func tidyReports( message: SwLibTidyMessageProtocol ) -> Bool { return false }
+    func tidyReports(message _: SwLibTidyMessageProtocol) -> Bool { false }
 
-	func tidyReports( pprint: SwLibTidyPPProgressProtocol ) {}
-	
+    func tidyReports(pprint _: SwLibTidyPPProgressProtocol) {}
 }

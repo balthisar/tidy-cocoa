@@ -43,8 +43,7 @@ public protocol SwLibTidyPPProgressProtocol {
     var destLine: UInt32 { get }
 
     /** Create an instance with these data. */
-    init( withLine: UInt32, column: UInt32, destLine: UInt32, forDocument: TidyDoc )
-
+    init(withLine: UInt32, column: UInt32, destLine: UInt32, forDocument: TidyDoc)
 }
 
 
@@ -58,7 +57,7 @@ public class SwLibTidyPPProgressReport: SwLibTidyPPProgressProtocol {
     public var sourceColumn: UInt32 = 0
     public var destLine: UInt32 = 0
 
-    public required init( withLine: UInt32, column: UInt32, destLine: UInt32, forDocument: TidyDoc ) {
+    public required init(withLine: UInt32, column: UInt32, destLine: UInt32, forDocument: TidyDoc) {
 
         self.document = forDocument
         self.sourceLine = withLine

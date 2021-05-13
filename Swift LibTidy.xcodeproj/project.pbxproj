@@ -253,6 +253,7 @@
 		D0C3BD121F3CB3690007BB54 /* Swift LibTidy Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Swift LibTidy Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0CC0340264D62DD000F4427 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		D0CC0343264D69E4000F4427 /* TidyKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TidyKit.h; sourceTree = "<group>"; };
+		D0CC0347264D9C9C000F4427 /* .swiftformat */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftformat; sourceTree = "<group>"; };
 		D0D06E671F8AE7AC00370E9D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
 		D0D06E8B1F8AE7CE00370E9D /* tidy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tidy.h; sourceTree = "<group>"; };
 		D0D06E8C1F8AE7CE00370E9D /* tidybuffio.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tidybuffio.h; sourceTree = "<group>"; };
@@ -496,6 +497,7 @@
 			children = (
 				D043B72F1F92DAA3009A61BE /* README.md */,
 				D06D947F1F98EBB000A0E300 /* README-Linking.md */,
+				D0CC0347264D9C9C000F4427 /* .swiftformat */,
 				D06D94CA1F9A41FF00A0E300 /* Config */,
 				D0A5C6AD1F92B71900CABB67 /* Apps */,
 				D02B4C501FE475F500EDACA8 /* TidyKit */,

@@ -126,7 +126,7 @@ public protocol SwLibTidyMessageProtocol {
     /**
      *  Creates a new instance of this class and sets the values.
      */
-    init( withMessage: CLibTidy.TidyMessage )
+    init(withMessage: CLibTidy.TidyMessage)
 }
 
 
@@ -169,7 +169,7 @@ public protocol SwLibTidyMessageArgumentProtocol {
      *  Creates a new instance of this class populating the fields
      *  from the given `TidyMessage` and argument
      */
-    init( withArg: TidyMessageArgument, fromMessage: TidyMessage )
+    init(withArg: TidyMessageArgument, fromMessage: TidyMessage)
 }
 
 
@@ -197,32 +197,32 @@ public class SwLibTidyMessage: SwLibTidyMessageProtocol {
     public var messageOutput: String
     public var messageArguments: [SwLibTidyMessageArgumentProtocol]
 
-    public required init( withMessage: TidyMessage ) {
+    public required init(withMessage: TidyMessage) {
 
-        self.document = CLibTidy.tidyGetMessageDoc( withMessage )
-        self.messageCode = UInt( CLibTidy.tidyGetMessageCode( withMessage ) )
-        self.messageKey = String( cString: CLibTidy.tidyGetMessageKey( withMessage ))
-        self.line = Int( CLibTidy.tidyGetMessageLine( withMessage) )
-        self.column = Int( CLibTidy.tidyGetMessageColumn( withMessage ) )
-        self.level = CLibTidy.tidyGetMessageLevel( withMessage )
-        self.muted = CLibTidy.tidyGetMessageIsMuted( withMessage ) == yes ? true : false
-        self.formatDefault = String( cString: CLibTidy.tidyGetMessageFormatDefault( withMessage ) )
-        self.format = String( cString: CLibTidy.tidyGetMessageFormat( withMessage ) )
-        self.messageDefault = String( cString: CLibTidy.tidyGetMessageDefault( withMessage ) )
-        self.message = String( cString: CLibTidy.tidyGetMessage( withMessage ) )
-        self.posDefault = String( cString: CLibTidy.tidyGetMessagePosDefault( withMessage ) )
-        self.pos = String( cString: CLibTidy.tidyGetMessagePos( withMessage ) )
-        self.prefixDefault = String( cString: CLibTidy.tidyGetMessagePrefixDefault( withMessage ) )
-        self.prefix = String( cString: CLibTidy.tidyGetMessagePrefix( withMessage ) )
-        self.messageOutputDefault = String( cString: CLibTidy.tidyGetMessageOutputDefault( withMessage ) )
-        self.messageOutput = String( cString: CLibTidy.tidyGetMessageOutput( withMessage ) )
+        self.document = CLibTidy.tidyGetMessageDoc(withMessage)
+        self.messageCode = UInt(CLibTidy.tidyGetMessageCode(withMessage))
+        self.messageKey = String(cString: CLibTidy.tidyGetMessageKey(withMessage))
+        self.line = Int(CLibTidy.tidyGetMessageLine(withMessage))
+        self.column = Int(CLibTidy.tidyGetMessageColumn(withMessage))
+        self.level = CLibTidy.tidyGetMessageLevel(withMessage)
+        self.muted = CLibTidy.tidyGetMessageIsMuted(withMessage) == yes ? true : false
+        self.formatDefault = String(cString: CLibTidy.tidyGetMessageFormatDefault(withMessage))
+        self.format = String(cString: CLibTidy.tidyGetMessageFormat(withMessage))
+        self.messageDefault = String(cString: CLibTidy.tidyGetMessageDefault(withMessage))
+        self.message = String(cString: CLibTidy.tidyGetMessage(withMessage))
+        self.posDefault = String(cString: CLibTidy.tidyGetMessagePosDefault(withMessage))
+        self.pos = String(cString: CLibTidy.tidyGetMessagePos(withMessage))
+        self.prefixDefault = String(cString: CLibTidy.tidyGetMessagePrefixDefault(withMessage))
+        self.prefix = String(cString: CLibTidy.tidyGetMessagePrefix(withMessage))
+        self.messageOutputDefault = String(cString: CLibTidy.tidyGetMessageOutputDefault(withMessage))
+        self.messageOutput = String(cString: CLibTidy.tidyGetMessageOutput(withMessage))
 
         self.messageArguments = []
-        var it: TidyIterator? = CLibTidy.tidyGetMessageArguments( withMessage )
+        var it: TidyIterator? = CLibTidy.tidyGetMessageArguments(withMessage)
 
-        while ( it != nil ) {
-            if let arg = CLibTidy.tidyGetNextMessageArgument( withMessage, &it ) {
-                self.messageArguments.append( SwLibTidyMessageArgument( withArg: arg, fromMessage: withMessage ) )
+        while it != nil {
+            if let arg = CLibTidy.tidyGetNextMessageArgument(withMessage, &it) {
+                self.messageArguments.append(SwLibTidyMessageArgument(withArg: arg, fromMessage: withMessage))
             }
         }
     }
@@ -242,12 +242,12 @@ public class SwLibTidyMessageArgument: SwLibTidyMessageArgumentProtocol {
     public var valueDouble: Double
 
 
-    public required init( withArg: TidyMessageArgument, fromMessage: TidyMessage ) {
+    public required init(withArg: TidyMessageArgument, fromMessage: TidyMessage) {
 
         var ptrArg: TidyMessageArgument? = withArg
 
-        self.type = CLibTidy.tidyGetArgType( fromMessage, &ptrArg )
-        self.format = String( cString: CLibTidy.tidyGetArgFormat( fromMessage, &ptrArg ) )
+        self.type = CLibTidy.tidyGetArgType(fromMessage, &ptrArg)
+        self.format = String(cString: CLibTidy.tidyGetArgFormat(fromMessage, &ptrArg))
         self.valueString = ""
         self.valueUInt = 0
         self.valueInt = 0
@@ -255,16 +255,15 @@ public class SwLibTidyMessageArgument: SwLibTidyMessageArgumentProtocol {
 
         switch self.type {
 
-        case tidyFormatType_INT:    self.valueInt = Int( CLibTidy.tidyGetArgValueInt( fromMessage, &ptrArg ) )
+        case tidyFormatType_INT: self.valueInt = Int(CLibTidy.tidyGetArgValueInt(fromMessage, &ptrArg))
 
-        case tidyFormatType_UINT:   self.valueUInt = UInt( CLibTidy.tidyGetArgValueUInt( fromMessage, &ptrArg ) )
+        case tidyFormatType_UINT: self.valueUInt = UInt(CLibTidy.tidyGetArgValueUInt(fromMessage, &ptrArg))
 
-        case tidyFormatType_STRING: self.valueString = String( cString: CLibTidy.tidyGetArgValueString( fromMessage, &ptrArg ) )
+        case tidyFormatType_STRING: self.valueString = String(cString: CLibTidy.tidyGetArgValueString(fromMessage, &ptrArg))
 
-        case tidyFormatType_DOUBLE: self.valueDouble = Double( CLibTidy.tidyGetArgValueDouble( fromMessage, &ptrArg ) )
+        case tidyFormatType_DOUBLE: self.valueDouble = Double(CLibTidy.tidyGetArgValueDouble(fromMessage, &ptrArg))
 
         default: break
         }
     }
-
 }

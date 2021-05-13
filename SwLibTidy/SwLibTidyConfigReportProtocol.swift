@@ -42,7 +42,6 @@ public protocol SwLibTidyConfigReportProtocol {
      *  Create an instance with this value for the given option.
      */
     init(withValue: String, forOption: String, ofDocument: TidyDoc)
-
 }
 
 
@@ -50,7 +49,7 @@ public protocol SwLibTidyConfigReportProtocol {
  *  A default implementation of the `SwLibTidyConfigReportProtocol`.
  */
 public class SwLibTidyConfigReport: SwLibTidyConfigReportProtocol {
-    
+
     public var document: TidyDoc
     public var option: String = ""
     public var value: String = ""
