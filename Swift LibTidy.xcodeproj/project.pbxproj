@@ -68,6 +68,7 @@
 		D0CC0344264D69E4000F4427 /* TidyKit.h in Headers */ = {isa = PBXBuildFile; fileRef = D0CC0343264D69E4000F4427 /* TidyKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0CC0345264D6AE3000F4427 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CC0340264D62DD000F4427 /* File.swift */; };
 		D0CC0346264D6FBC000F4427 /* TidyKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D09014CB1F8BFB3F00B56A62 /* TidyKitTests.m */; };
+		D0CC0349264DB08A000F4427 /* TidyDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CC0348264DB08A000F4427 /* TidyDocument.swift */; };
 		D0D7C17E1F8F9BF80091FFCE /* SwLibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; };
 		D0D7C18A1F8FA5130091FFCE /* SwLibTidy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F640CC1F8F998A005A945B /* SwLibTidy.framework */; };
 		D0DBB59A1F9CEC66001F2021 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06AD6A21F3CED5A00199B88 /* main.swift */; };
@@ -254,6 +255,7 @@
 		D0CC0340264D62DD000F4427 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		D0CC0343264D69E4000F4427 /* TidyKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TidyKit.h; sourceTree = "<group>"; };
 		D0CC0347264D9C9C000F4427 /* .swiftformat */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftformat; sourceTree = "<group>"; };
+		D0CC0348264DB08A000F4427 /* TidyDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidyDocument.swift; sourceTree = "<group>"; };
 		D0D06E671F8AE7AC00370E9D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
 		D0D06E8B1F8AE7CE00370E9D /* tidy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tidy.h; sourceTree = "<group>"; };
 		D0D06E8C1F8AE7CE00370E9D /* tidybuffio.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tidybuffio.h; sourceTree = "<group>"; };
@@ -410,6 +412,7 @@
 			children = (
 				D0CC0343264D69E4000F4427 /* TidyKit.h */,
 				D02B4C551FE4785700EDACA8 /* README.md */,
+				D0CC0348264DB08A000F4427 /* TidyDocument.swift */,
 				D0F640D61F8F9AC6005A945B /* TidyDocumentProtocol.swift */,
 				D05A5E1C1FE1B37D00CBBDD4 /* TidyOptionProtocol.swift */,
 				D02B4C571FE5626600EDACA8 /* TidyConfigReportProtocol.swift */,
@@ -974,6 +977,7 @@
 				D0CC0336264CB4A8000F4427 /* TidyOptionProtocol.swift in Sources */,
 				D0CC0337264CB4AC000F4427 /* TidyConfigReportProtocol.swift in Sources */,
 				D0CC0338264CB4AF000F4427 /* TidyDelegateProtocol.swift in Sources */,
+				D0CC0349264DB08A000F4427 /* TidyDocument.swift in Sources */,
 				D0CC0339264CB4B4000F4427 /* TidyMessageProtocol.swift in Sources */,
 				D0CC033A264CB4B9000F4427 /* TidyPPProgressProtocol.swift in Sources */,
 				D0CC033B264CB510000F4427 /* SwLibTidyBufferProtocol.swift in Sources */,

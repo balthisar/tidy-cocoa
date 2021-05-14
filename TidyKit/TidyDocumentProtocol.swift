@@ -9,11 +9,11 @@
  *   https://www.w3.org/Consortium/Legal/2002/copyright-software-20021231
  *
  *   Purpose
- *     Defines a protocol and default implementation for an object wrapper
- *     around SwLibTidy, and includes compatibility for Objective-C. The
- *     protocol describes an interface for using SwLibTidy as a class in Swift
- *     and Objective-C, abstracting some of the lower-level functions as well
- *     as providing a more Swift-like experience.
+ *     Defines a protocol for an object wrapper around SwLibTidy, and includes
+ *     compatibility for Objective-C. The protocol describes an interface for
+ *     using SwLibTidy as a class in Swift and Objective-C, abstracting some
+ *     of the lower-level functions as well as providing a more Swift-like
+ *     experience.
  *
  *   General
  *     CLibTidy's TidyDoc is re-described as a set of protocols, and many of the
@@ -81,13 +81,13 @@ public typealias NSStringEncoding = UInt
  *  up a TidyDocument.
  */
 
-@objc public protocol TidyDocumentProtocol: TidyDocumentTidyingProtocol,
-                                            TidyDocumentTypePropertiesProtocol,
-                                            TidyDocumentCallbackProtocol,
-                                            TidyDocumentOptionsProtocol,
-                                            TidyNodeProtocol,
-                                            TidyLocaleProtocol,
-                                            TidyRecordsProtocol {}
+@objc public protocol TidyDocumentProtocol: TidyDocumentTidyingProtocol {} //,
+//                                            TidyDocumentTypePropertiesProtocol,
+//                                            TidyDocumentCallbackProtocol,
+//                                            TidyDocumentOptionsProtocol,
+//                                            TidyNodeProtocol,
+//                                            TidyLocaleProtocol,
+//                                            TidyRecordsProtocol {}
 
 
 //*****************************************************************************
@@ -993,6 +993,11 @@ public typealias NSStringEncoding = UInt
 
 
 }
+
+
+//*****************************************************************************
+// MARK: - TEST
+//*****************************************************************************
 
 
 public protocol JimProtocol {

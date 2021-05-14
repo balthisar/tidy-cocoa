@@ -1,30 +1,52 @@
-//
-//  TidyKitTests.m
-//  CocoaTests
-//
-//  Created by Jim Derry on 10/9/17.
-//  Copyright © 2017 Jim Derry. All rights reserved.
-//
+/**
+ *  TidyKitTests.m
+ *   Part of the SwLibTidy wrapper library for tidy-html5 ("CLibTidy").
+ *   See https://github.com/htacg/tidy-html5
+ *
+ *   Copyright © 2017-2021 by HTACG. All rights reserved.
+ *   Created by Jim Derry 2017; copyright assigned to HTACG. Permission to use
+ *   this source code per the W3C Software Notice and License:
+ *   https://www.w3.org/Consortium/Legal/2002/copyright-software-20021231
+ *
+ *   Purpose
+ *     Provide test cases for the SwLibTidy, which also effectively tests 100%
+ *     of the HTML Tidy public API.
+ */
 
 #import <XCTest/XCTest.h>
 @import TidyKit;
-@import CLibTidy;
+//@import CLibTidy;
 
+
+//*****************************************************************************
+// MARK: - INTERFACE
+//*****************************************************************************
+
+/**
+ *  Test cases for SwLibTidy.
+ */
 @interface TidyKitTests_Objective_C : XCTestCase
 
 @end
 
+
+//*****************************************************************************
+// MARK: - IMPLEMENTATION
+//*****************************************************************************
+
 @implementation TidyKitTests_Objective_C
 
-//TidyDocument *mydoc;
-
+/**
+ *  setUp at the beginning of every test.
+ */
 - (void)setUp
 {
     [super setUp];
-
-//    mydoc = [[TidyDocument alloc] init];
 }
 
+/**
+ *  Teardown at the end of every test.
+ */
 - (void)tearDown
 {
 //    mydoc = nil;
@@ -32,6 +54,22 @@
     [super tearDown];
 }
 
+
+/**
+ *  Here we will test that `TidyDocumentTidyingProtocol` function in instances of
+ *  `TidyDocument` work as intended.
+ */
+- (void)testTidyDocumentTidying
+{
+    TidyDocument *tidyDoc = [[TidyDocument alloc] init];
+    
+    XCTAssert([tidyDoc.tidyText isEqualToString:@"tidyText"], @"tidyText is NOT equal to tidyText!");
+}
+
+
+/**
+ *  Test
+ */
 - (void)testExample
 {
 	NSString *someString = nil;
