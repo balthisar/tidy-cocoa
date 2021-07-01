@@ -37,6 +37,11 @@
                BlueprintName = "Swift LibTidy Tests"
                ReferencedContainer = "container:Swift LibTidy.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "TidyKitTests_Objective_C">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>

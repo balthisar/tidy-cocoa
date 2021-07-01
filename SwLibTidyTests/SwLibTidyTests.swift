@@ -849,12 +849,6 @@ class SwLibTidyTests: XCTestCase {
             }
 
 
-            /* Special case: TidyCSSPrefix: */
-            if optId == TidyCSSPrefix {
-                valueIn = valueIn + "-"
-            }
-
-
             /* Remember it. */
             results.append( valueIn )
 
@@ -887,7 +881,7 @@ class SwLibTidyTests: XCTestCase {
                 let opt = tidyGetOption( tdoc, optId )
             else { XCTFail( "Could not get option for optId \(optId)." ); return }
 
-            let optType = tidyOptGetType( opt );
+            let optType = tidyOptGetType( opt )
             let valueIn = results[index]
             let valueOut: String
 
@@ -908,16 +902,16 @@ class SwLibTidyTests: XCTestCase {
             XCTAssert( valueIn == valueOut, outp )
         }
 
-        /* During the main Tidying operations, CLibTidy changes the
-           configuration for internal use, but does _not_ restore it until
-           the buffer is saved (although you can manually restore it). This
-           bit below goes through a typical Tidy cycle, and saves the buffer,
-           which should ensure that our options are exactly how we set them.
+        /* Go through the tidying process to ensure that the act of tidying a document
+           doesn't fiddle with the configuration settings. Actually, we know that it
+           *does* fiddle with the configuration settings; using tidyOptResetToSnapshot()
+           when we're done with our tdoc will set things right. THIS IS A TIDY BUG.
          */
         let outpBuffer = SwLibTidyBuffer()
         _ = tidyParseString( tdoc, "<h1>How now, brown cow?</h1>")
         _ = tidyCleanAndRepair( tdoc )
-        _ = tidySaveBuffer( tdoc, outpBuffer ) /* needed to restore snapshot */
+        _ = tidySaveBuffer( tdoc, outpBuffer )
+        _ = tidyOptResetToSnapshot( tdoc )     /* needed to restore user option values! */
 
 
         /* Now ensure that the act of Tidying a document doesn't fiddle with
